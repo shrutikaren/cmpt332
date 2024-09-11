@@ -13,7 +13,7 @@ BIN_DIR = bin
 
 LIB_DIRS = -L$(BUILD_DIR) #-L directives 
 
-EXECUTABLES = virtual_linux virtual_arm_arch virtual_power_pc
+EXECUTABLES = myOperating
 
 OBJ_FILES = $(BUILD_DIR)/sample-linux.o $(BUILD_DIR)/linux-lib.o
 
