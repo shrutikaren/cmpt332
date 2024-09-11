@@ -38,7 +38,7 @@ int main(int argc, char *argv[]){
     if (sortType == DOUBLE) comparing = compareDouble;
     if (sortType == COMPLEX) comparing = compareComplex;
 
-    if ((nlines = readlines(lineptr, MAXLINES)) >=0){
+    if ((nlines = *readlines(lineptr, MAXLINES)) >=0){
         printf("UNSORTED ORDER\n");
         writelines(lineptr, nlines);
 
