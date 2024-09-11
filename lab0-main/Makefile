@@ -1,4 +1,4 @@
-CPPFLAGS = -I 		# Look at header files in the current directory 
+CPPFLAGS = -I. 		# Look at header files in the current directory 
 CC = gcc
 CFLAGS = -Wall -std=c99 -pedantic -g	# Wall -> All Warnings
 										# -std=c99: C99 is used.
@@ -41,7 +41,7 @@ $(BUILD_DIR)/doubleComp.o: doubleComp.c qsort.h | $(BUILD_DIR)
 $(BUILD_DIR)/complexComp.o: complexComp.c qsort.h | $(BUILD_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) complexComp.c -o $(BUILD_DIR)/complexComp.o
 
-$(BUILD_DIR)/input-rouqsorttines.o: input-routines.c qsort.h | $(BUILD_DIR)
+$(BUILD_DIR)/input-routines.o: input-routines.c qsort.h | $(BUILD_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) input-routines.c -o $(BUILD_DIR)/input-routines.o
 
 $(BUILD_DIR)/swap.o: swap.c qsort.h | $(BUILD_DIR)
