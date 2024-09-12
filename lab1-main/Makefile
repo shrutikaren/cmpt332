@@ -21,7 +21,8 @@ LIB_DIRS = -L$(BUILD_DIR)
 
 EXECUTABLES = sample-linux sample-linux-ppc sample-linux-arm
 
-OBJ_FILES = $(BUILD_DIR)/sample-linux.o $(BUILD_DIR)/linux-lib.o $(BUILD_DIR)/sample-raspi.o
+OBJ_FILES = $(BUILD_DIR)/sample-linux.o $(BUILD_DIR)/linux-lib.o $(BUILD_DIR)/sample-raspi.o \
+	    $(BUILD_DIR)/raspi-lib.o $(BUILD_DIR)/sample-ppc.o $(BUILD_DIR)/ppc-lib.o
 
 .PHONY: all clean
 all: $(BIN_DIR)/sample-linux sample-linux-ppc sample-linux-arm
