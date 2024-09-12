@@ -1,0 +1,51 @@
+<head>
+<title> Process Management</title>
+</head>
+<body>
+<h2><a name="SECTION0001100000000000000"></a> Process Management</h2>
+<p>A Pthreads application begins execution at the first statement of the routine <a href="pthreads.foot.html">mainp()</a>. <em> Mainp()</em> is passed the environment arguments argc and argv. <em> Mainp()</em> is not a Pthreads process and therefore most kernel calls which would be appropriate when called by Pthreads processes are not appropriate when called from <em> mainp()</em>. The normal function of the <em> mainp()</em> routine is the creation of some initialization processes.</p>
+<p>Processes are created using the following call:</p>
+<pre><tt>PID Create(void(*addr)(), int stksize, char *name, void *arg, PPRIO prio, 
+	   int level)</tt></pre>
+<p>On success, <em> Create()</em> returns the process identifier of
+  the newly created ready process. Failure, for any reason, results in
+  a return value of PNUL. The first parameter, <em> addr</em>, is a
+  pointer to the routine which acts as the entry point for the created
+  process. The <em> stksize</em> parameter is the size, in bytes, of
+  the new process' stack. The stack requirements vary according to the
+  number and size of local variables and parameters, and well as the
+  depth of subroutine calls. A minimum requirement is generally about
+  3K bytes, though some processes require as much as 10K bytes or
+  more. The third parameter, <em> name</em>, points to a text string
+  which acts as a user supplied process identifier. This string must
+  be null terminated and currently has a length restriction of 32
+  bytes including the null-terminator. Any number of processes may be
+  identified by the same name. The name is copied by the Create()
+  routine and therefore the memory containing this routine may be
+  released by the caller on return from Create(). The fourth
+  parameter, <em> arg</em>, is an argument (parameter) for the created
+  process. This argument is passed transparently to the process and
+  may be of any (word-size (4 or 8 byte or smaller) type, although it should be cast
+  to a <em> void *</em> on call. <b>This size is
+  architecture-dependent</b>. The entry routine for the new process  
+  receives this argument as a parameter, or may instead not declare
+  any parameters if no creation-time arguments are required. The fifth
+  argument (<em> prio</em>) indicates the priority of the created
+  process. The possible process priorities are HIGH, NORM and LOW. The
+  final argument indicates whether the created process is a system
+  process (SYS), or an application (USR) process. The only difference
+  between the two is that Pthreads will exit when there are no more
+  USR level processes. Therefore, perpetual server processes should be
+  created with level SYS.</p> 
+<p>Processes leave the system in one of three ways. The first possibility is for the process to ``fall of the end of'' (i.e. return from) the entry subroutine. The second possibility is for the process to call the Pexit() routine which causes the process to leave the system at that point. The final possibility is for a process to be killed by some other process through a call to Kill(). Pexit() requires no parameters and returns no results. Kill() requires the process identifier as the argument and returns the same identifier on success or the value PNUL if the process to be killed cannot be found. The headers for Pexit() and Kill() are as follows:</p>
+<pre><tt>PID Kill (PID pid)</tt></pre>
+<p>void Pexit()</p>
+<p>Processes can be suspended and resumed using calls to Suspend() and Resume(). A process can only suspend itself, and is suspended until resumed by some other process. Suspend requires no parameters and returns no value. The headers for <em> Suspend()</em> and <em> Resume()</em> are as follows:</p>
+<pre><tt>void Suspend()</tt></pre>
+<p>int Resume( PID pid )</p>
+<p>Pthreads provides three routines to help in identifying processes. These are <em> MyPid()</em>, <em> NameToPid()</em>, and <em> PExists()</em>. MyPid() requires no parameters and returns the process identifier of the calling process. NameToPid() requires a null-terminated string as its single argument, and searches the system for any process whose name (see Create() arguments) matches the given string. If such a process is found, its process identifier is returned, otherwise PNUL is returned. If more than one process exists with the same name, the process identifier returned is arbitrarily selected from the set of appropriate choices. PExists() takes a process identifier as its only argument and returns true or false (1 or 0) depending on whether there exists a process with the given identifier. The headers for these three routines are as follows:</p>
+<pre><tt>PID MyPid()</tt></pre>
+<p>PID NameToPid (char *name)</p>
+<p>int PExists( PID pid )</p>
+<hr />
+</body>
