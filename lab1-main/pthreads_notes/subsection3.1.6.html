@@ -1,0 +1,60 @@
+﻿<HEAD>
+<TITLE> Timers</TITLE>
+</HEAD>
+<BODY><P>
+ <BR>
+
+<H2><A NAME=SECTION0001600000000000000> Timers</A></H2>
+<P>
+Pthreads provides a timer service to time the interval between events. These
+timers (called elapsed timers) are manipulated using four routines whose
+headers are as follows:
+<P>
+<PRE><TT>int ResetETimer(int timer)
+<P>
+int StartETimer( int timer )
+<P>
+int GetETimer( int timer )
+<P>
+int StopETimer( int timer )</TT></PRE>
+<P>
+Each of these routines requires the timer identifier as the single argument.
+Timers are numbered starting at zero. The number of timers available is
+configurable (currently set at 32).
+<P>
+<em> ResetETimer()</em> stops the timer (if it was running), and resets
+the elapsed time to zero. This is to be called before the timer is used.
+ResetETimer() returns 0 on success, or -1 if the timer number is out of
+range.
+<P>
+<em> StartETimer()</em> starts the timer running. If the timer is already
+running when StartETimer() is called, the elapsed time is reset to begin
+counting again from zero. StartETimer() returns 0 on success, or -1 if the
+timer number is out of range.
+<P>
+<em> GetETimer()</em> returns the amount of time that has elapsed (in terms of
+system clock ticks - see Sleep()) over the most recent timed interval. If the
+timer is running, the value returned is the number of clock ticks that have
+occurred during the interval between the most recent call to StartETimer() and 
+this call to GetETimer(). If the timer is not currently running, the value
+returned is the number of clock ticks that have occurred during the interval 
+between the most recent call to StartETimer() and the most (though later) call 
+to StopETimer(). The call to GetETimer() does not change the state of the timer
+(i.e. does not alter the time value, start the timer, or stop the timer). If the
+timer argument is out of range, a -1 is returned.
+<P>
+<em> StopETimer()</em> stops the timer and returns the number of clock ticks
+during the interval between this call and the most recent call to StartETimer().
+This value may be retrieved again using subsequent calls to GetETimer(). If
+the timer argument is out of range, or the timer is not currently running, a -1
+is returned.
+<P>
+A process may also obtain the current value of the system clock using 
+<em> Time()</em>. Time returns the number of clock ticks since system startup.
+The header is as follows:
+<P>
+<PRE><TT>long Time()</TT></PRE>
+<HR>
+
+</BODY>
+

@@ -1,0 +1,17 @@
+<head>
+<title> Interprocess Communication</title>
+</head>
+<body>
+<p><br /></p>
+<h2><a name="SECTION0001300000000000000"></a> Interprocess Communication</h2>
+<p>Pthreads provides blocking Send()/Receive()/Reply() style interprocess communication primitives. A sending process is blocked until the message has been received and a reply has been made. A receiving process is blocked until some other process sends it a message. Reply() is a non-blocking operation. There is also a non-blocking routine that allows a process to test whether it has a message waiting for it to receive. The subroutine headers are as follows:</p>
+<pre><tt>void *Send ( PID to, void *msg, int *len )</tt></pre>
+<p>void *Receive( PID *pid, int *len )</p>
+<p>int Reply(PID sndr, void *msg, int len)</p>
+<p>int MsgWaits()</p>
+<p><em> Send()</em> has three parameters. The first one, <em> to</em> is the process identifier of the intended recipient. The second parameter, <em> msg</em>, is a pointer to the message (any contiguous buffer). The final parameter, <em> len</em> is the length, in bytes, of the message. This parameter is a value/result parameter. On call, this parameter contains the length of the sent message. On return, the parameter contains the length of the replied message. Send() returns a pointer to the reply message on success, or the value NOSUCHPROC on failure.</p>
+<p><em> Receive()</em> requires two result parameters. On return, the first parameter will contain the process identifier of the originator of the message. The second parameter (again, on return) contains the length of the sent message. Receive() returns a pointer to the sent message.</p>
+<p><em> Reply()</em> requires three parameters. The first, <em> sndr</em> is the process identifier of the reply destination (i.e. the original sender). The second parameter, <em> msg</em> is a pointer to the reply message. The final parameter is the length of the reply message. Reply() returns 0 on success or -1 on failure.</p>
+<p><em> MsgWaits()</em> requires no parameters and returns 1 if there are messages waiting to be received by the calling process, or 0 if no such messages currently exist.</p>
+<p><br /></p>
+</body>

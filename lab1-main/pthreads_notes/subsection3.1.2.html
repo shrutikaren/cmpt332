@@ -1,0 +1,33 @@
+﻿<HEAD>
+<TITLE> Process Synchronization</TITLE>
+</HEAD>
+<BODY><P>
+
+
+<H2><A NAME=SECTION0001200000000000000> Process Synchronization</A></H2>
+<P>
+Pthreads provides four semaphore operations <em> NewSem()</em>, <em> FreeSem()</em>,
+<em> P()</em>, and <em> V()</em>. The headers for these routines are as follows:
+<P>
+<PRE><TT>int NewSem( int value )
+<P>
+void FreeSem( int semNo )
+<P>
+int P( int semNo )
+<P>
+int V( int semNo )</TT></PRE>
+<P>
+NewSem() requires the argument <em> value</em>, and returns the
+identifier of the allocated semaphore (or -1 if no more semaphores are 
+available). <em> Value</em> is the value to which the new semaphore is to be 
+initialized.
+<P>
+FreeSem() returns  previously allocated semaphore to the system. Its single
+argument <em> semNo</em> is the identifier of the semaphore to be returned.
+<P>
+P() and V() implement the conventional semaphore primitives. Each require
+the single parameter <em> semNo</em> to identify the synchronization semaphore.
+Both routines return 0 on success or -1 on failure.
+<P>
+
+</BODY>

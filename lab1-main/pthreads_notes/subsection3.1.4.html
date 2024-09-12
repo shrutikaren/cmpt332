@@ -1,0 +1,122 @@
+﻿<HEAD>
+<TITLE> Memory Allocation</TITLE>
+</HEAD>
+<BODY><P>
+ <BR>
+
+<H2><A NAME=SECTION0001400000000000000> Memory Allocation</A></H2>
+<P>
+Pthreads provides two memory allocation systems. These are the <em> temporary</em>
+and <em> permanent</em> systems.
+<P>
+The permanent system allocates memory with calls to Malloc(), Realloc(), and
+Free(). Memory allocated in this way is permanent is the sense that the memory 
+can exist beyond the lifetime of the allocating process. Such memory remains 
+allocated until it is explicitly released with a call to Free(). Pthreads uses 
+a very fast (near O(1)) memory allocation scheme. The headers for Malloc() and
+Free() are as follows:
+<P>
+<PRE><TT>void *Malloc(int size)
+<P>
+void *Realloc( void *ptr, int size )
+<P>
+void Free( void *mem )</TT></PRE>
+<P>
+<em> Malloc()</em> requires as its single parameter the size, in bytes, of the
+requested contiguous memory segment. On success, Malloc() returns the address of
+the allocated segment. On failure, NULL is returned.
+<P>
+<em> Realloc()</em> expands or contracts a previously allocated memory segment by
+freeing the initial segment and allocating a new one. It requires two 
+parameters. The first is a pointer to the existing memory segment.  The second 
+is the size of the desired segment. Realloc() copies the contents of the 
+existing segment to the new segment to the extent of the smaller of the two.
+Realloc() returns a pointer to the new segment.
+<P>
+<em> Free()</em> returns a previously allocated segment to the system. The single
+parameter to Free() is the address of the first byte of the segment to be
+returned. Free() returns no values.
+<P>
+The temporary memory allocation system is designed for the management of complex
+data structures. These data structures are often composed of many individual
+segments. The temporary memory facility allows these individual segments
+to be managed and freed as a group. This facility also avoids the potential
+internal fragmentation and overhead problems associated with allocating a large 
+number of very small (1+ byte) segments.
+<P>
+Each Pthreads process has its own stack of <em> memory frames</em>. Each memory
+frame groups a set of associated memory segments. A frame can be transferred
+from one process to another, or freed as a unit. Typically, all the segments
+that comprise a single data structure would be allocated on one frame. This
+entire data structure could then be transferred to another process or freed 
+with single library calls. When a process leaves the system, all the memory
+on its frame stack is returned to the system. The headers of the subroutines 
+which operate on temporary memory are as follows:
+<P>
+<PRE><TT>void NewFrame()
+<P>
+void FreeFrame()
+<P>
+void SwapFrame()
+<P>
+void *PopFrame()
+<P>
+void PushFrame( void *frame )
+<P>
+int TransferTempMem( PID topid )
+<P>
+void *TempMalloc( int size )
+<P>
+void FreeTempMem()</TT></PRE>
+<P>
+NewFrame() requires no parameters and returns no result. It creates a new 
+memory frame and pushes it onto the calling thread's memory frame stack.
+<P>
+FreeFrame() also requires no parameters and returns no result. It 
+frees all memory associated with the calling process' top memory frame, pops 
+the frame and discards it.
+<P>
+SwapFrame()
+swaps the top two memory frames of the calling process. If zero or one
+frames exist for this process then SwapFrame() has no effect.
+<P>
+PopFrame()
+pops and returns a pointer to the top memory frame of the calling process.
+This routine should be used with caution, generally in conjunction with
+PushFrame(). The reason for caution is that a memory frame which is not
+currently on any process' memory stack is essentially an orphan. This memory
+will not be returned to the system should its creator or owner exit.
+<P>
+PushFrame() takes a pointer to a frame and pushes it on the calling
+thread's memory stack. The PopFrame() / PushFrame() pair can be used to transfer
+per-process memory from one process to another, or to perform stack
+rearrangement functions. Note that a stack frame which does not currently
+reside on any process' stack is in danger of becoming uncollectable garbage.
+Note that a memory frame cannot exist on more than one memory
+stack at a time. If an application wishes to move the top memory frame from
+one process to another, this may be done using PopFrame(), PushFrame() and
+inter-process communication, but it is preferable to use TransferTempMem()
+instead.
+<P>
+TransferTempMem() requires the single argument <em> topid</em>. This
+operation transfers the top memory frame of the calling process to the top of
+the memory stack of process <em> topid</em>. This routine avoids the time interval
+between a PopFrame() and a PushFrame() when a memory frame does not belong to
+any process. TransferTempMem() returns 0 on success, or -1 on failure( eg. if
+an invalid argument is encountered).
+<P>
+TempMalloc() takes an integer parameter <em> size</em>. This routine allocates
+memory from the top memory frame of the calling process. This memory cannot
+be released using Free(). Temporary memory is returned to the system
+using FreeFrame() (discussed previously) or FreeTempMem(). An important feature
+of TempMalloc() is that if no memory frame currently exists on the calling
+process' memory stack, a new one is created and pushed automatically. In this 
+case, the allocated memory is taken from the new frame.
+<P>
+FreeTempMem() returns no values and requires no parameters. It returns the 
+calling process' temporary memory (from all frames) to the system. This routine 
+also pops all memory frames from the calling process leaving it with none.
+<P>
+<HR>
+
+</BODY>
