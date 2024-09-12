@@ -1,5 +1,7 @@
 #executable file names not provided by assignment
-#hence, they were named 
+#hence, they were named in accordance to the architectures of 
+#linux, arm, power pc
+
 
 CC = gcc
 CFLAGS = -g
@@ -41,7 +43,7 @@ $(BUILD_DIR)/sample-linux.o: sample-linux.c lab1.h | $(BUILD_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) sample-linux.c -o $(BUILD_DIR)/sample-linux.o
 
 $(BUILD_DIR)/linux-lib.o: linux-lib.c lab1.h | $(BUILD_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) linux-lab.c -o $(BUILD_DIR)/linux-lab.of
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) linux-lib.c -o $(BUILD_DIR)/linux-lab.of
 
 #archive linux-lib.o into a libraray .a file
 $(LIB_DIR)/liblinux.a: $(BUILD_DIR)/linux-lib.o | $(LIB_DIR)
@@ -54,6 +56,7 @@ $(BIN_DIR)/sample-linux: $(BUILD_DIR)/sample-linux.o $(LIB_DIR)/libthreads.a | $
 #target for each of those architectures
 
 #creating a symbolic link
-#meaning that myOperating is pointing to the bin directory where my myOperating binary file is located
-myOperating: $(BIN_DIR)/sample-linux
-	ln -sf $(BIN_DIR)/sample-linux sample-linux
+virtual_linux: $(BIN_DIR)/virtual_linux
+	ln -sf $(BIN_DIR)/virtual_linux virtual_linux
+
+

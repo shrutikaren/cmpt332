@@ -1,6 +1,9 @@
+#executable file names not provided by assignment
+#hence, they were named 
+
 CC = gcc
-CFLAGS = -std=gnu90 -Wall -pedantic -g
-CPPFLAGS = -I. #I directives for header
+CFLAGS = -g
+CPPFLAGS = -I. -std=gnu90 -Wall -pedantic #I directives for header
 
 BUILD_DIR = build/obj/cmpt332-linux build/lib/cmpt332-linux \
 			build/bin/cmpt332-linux build/obj/cmpt332-arm \
@@ -18,7 +21,7 @@ EXECUTABLES = virtual_linux virtual_arm_arch virtual_power_pc
 OBJ_FILES = $(BUILD_DIR)/sample-linux.o $(BUILD_DIR)/linux-lib.o
 
 .PHONY: all clean
-all: $(BIN_DIR)/sample-linux
+all: $(BIN_DIR)/virtual_linux virtual_arm_arch virtual_power_pc
 
 clean:
 	rm -rf $(BUILD_DIR) $(BIN_DIR) $(LIB_DIR)
@@ -41,7 +44,7 @@ $(BUILD_DIR)/linux-lib.o: linux-lib.c lab1.h | $(BUILD_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) linux-lab.c -o $(BUILD_DIR)/linux-lab.of
 
 #archive linux-lib.o into a libraray .a file
-$(LIB_DIR)/libthreads.a: $(BUILD_DIR)/linux-lib.o | $(LIB_DIR)
+$(LIB_DIR)/liblinux.a: $(BUILD_DIR)/linux-lib.o | $(LIB_DIR)
 	ar rcs $(LIB_DIR)/libthreads.a 
 
 #linking object files to the executable
