@@ -17,7 +17,7 @@ BUILD_DIR = build/obj/cmpt332-linux build/lib/cmpt332-linux \
 LIB_DIR = lib
 BIN_DIR = bin
 
-LIB_DIRS = -L$(BUILD_DIR) #-L directives 
+LIB_DIRS = -L$(BUILD_DIR) 
 
 EXECUTABLES = sample-linux sample-linux-ppc sample-linux-arm
 

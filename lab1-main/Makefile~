@@ -90,9 +90,9 @@ virtual_linux: $(BIN_DIR)/virtual_linux
 	ln -sf $(BIN_DIR)/virtual_linux virtual_linux
 
 virtual_arm_arch: $(BIN_DIR)/virtual_arm_arch
-	ln -sf $(BIN_DIR)/virtual_arm_arch
+	ln -sf $(BIN_DIR)/virtual_arm_arch virtual_arm_arch
 
 virtual_power_pc: $(BIN_DIR)/virtual_power_pc
-	ln -sf $(BIN_DIR)/virtual_power_pc
+	ln -sf $(BIN_DIR)/virtual_power_pc virtual_power_pc
 
 
