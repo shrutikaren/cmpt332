@@ -1,6 +1,6 @@
-#executable file names not provided by assignment
-#hence, they were named in accordance to the architectures of 
-#linux, arm, power pc
+#Name: 
+#Student Number:
+#NSID:
 
 
 CC = gcc
@@ -24,7 +24,7 @@ EXECUTABLES = sample-linux sample-linux-ppc sample-linux-arm
 OBJ_FILES = $(BUILD_DIR)/sample-linux.o $(BUILD_DIR)/linux-lib.o $(BUILD_DIR)/sample-raspi.o
 
 .PHONY: all clean
-all: $(BIN_DIR)/virtual_linux virtual_arm_arch virtual_power_pc
+all: $(BIN_DIR)/sample-linux sample-linux-ppc sample-linux-arm
 
 clean:
 	rm -rf $(BUILD_DIR) $(BIN_DIR) $(LIB_DIR)
@@ -52,6 +52,12 @@ $(BUILD_DIR)/sample-raspi.o: sample-raspi.c | $(BUILD_DIR)
 $(BUILD-DIR)/raspi-lib.o: raspi-lib.c | $(BUILD_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) raspi-lib.c -o $(BUILD_DIR)/raspi-lib.o
 
+$(BUILD_DIR)/sample-ppc.o: sample-ppc.c | $(BUILD_DIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) sample-ppc.c -o $(BUILD_DIR)/sample-ppc.o
+
+$(BUILD_DIR)/ppc-lib.o: ppc-lib.c | $(BUILD_DIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) ppc-lib.c -o $(BUILD_DIR)/ppc-lib.o
+
 #archive linux-lib.o into a libraray .a file --> called library lib_library.a
 $(LIB_DIR)/lib_linux.a: $(BUILD_DIR)/linux-lib.o | $(LIB_DIR)
 	ar rcs -L -l $(LIB_DIR)/lib_linux.a 
@@ -60,9 +66,22 @@ $(LIB_DIR)/lib_linux.a: $(BUILD_DIR)/linux-lib.o | $(LIB_DIR)
 $(LIB_DIR)/lib_raspi.a: $(BUILD_DIR)/raspi-lib.o | $(LIB_DIR)
 	ar rcs -L -l $(LIB_DIR)/lib_raspi.a
 
-#linking object files to the executable
+#doing the same for ppc into a library .a file
+$(LIB_DIR)/lib_ppc.a: $(BUILD_DIR)/ppc-lib.o |$(LIB_DIR)
+	ar rcs -L -l $(LIB_DIR)/lib_ppc.a
+
+#linking object files to the executable - LINUX
 $(BIN_DIR)/sample-linux: $(BUILD_DIR)/sample-linux.o $(LIB_DIR)/libpthreads.a $(LIB_DIR)/lib_linux.a | $(BIN_DIR)
 	$(CC) $(CPPFLAGS) $(BUILD_DIR)/sample-linux.o -o $(BIN_DIR)/sample-linux
+
+#linking object files to the executable - RPi
+#how to link this to the local library?
+$(BIN_DIR)/sample-linux-arm: $(BUILD_DIR)/sample-raspi.o $(LIB_DIR)/libpthreads.a | $(BIN_DIR)
+	$(CC) $(CPPFLAGS) $(BUILD_DIR)/sample-raspi.o -o $(BIN_DIR)/sample-raspi
+
+#linking object files to the executable - PowerPC
+$(BIN_DIR)/sample-linux-ppc: $(BUILD_DIR)/sample-ppc.o $(LIB_DIR)/libpthreads.a | $(BIN_DIR)
+	$(CC) $(CPPFLAGS) $(BUILD_DIR)/sample-ppc.o -o $(BIN_DIR)/sample-ppc
 
 #target for each of those architectures - not sure what that means?
 
