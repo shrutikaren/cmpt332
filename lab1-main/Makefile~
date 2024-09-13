@@ -87,13 +87,13 @@ $(BIN_DIR)/sample-linux-ppc: $(BUILD_DIR)/sample-ppc.o $(LIB_DIR)/libpthreads.a 
 #target for each of those architectures - not sure what that means?
 
 #creating a symbolic link
-virtual_linux: $(BIN_DIR)/virtual_linux
-	ln -sf $(BIN_DIR)/virtual_linux virtual_linux
+sample-linux: $(BIN_DIR)/sample-linux
+	ln -sf $(BIN_DIR)/sample-linux sample-linux
 
-virtual_arm_arch: $(BIN_DIR)/virtual_arm_arch
-	ln -sf $(BIN_DIR)/virtual_arm_arch virtual_arm_arch
+sample-linux-ppc: $(BIN_DIR)/sample-linux-ppc
+	ln -sf $(BIN_DIR)/sample-linux-ppc sample-linux-ppc
 
-virtual_power_pc: $(BIN_DIR)/virtual_power_pc
-	ln -sf $(BIN_DIR)/virtual_power_pc virtual_power_pc
+sample-linux-arm: $(BIN_DIR)/sample-linux-arm
+	ln -sf $(BIN_DIR)/sample-linux-arm sample-linux-arm
 
 

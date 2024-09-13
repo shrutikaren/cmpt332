@@ -1,0 +1,5 @@
+//Name: KAUR Shruti
+//NSID:
+//Student Number:
+
+Linux k 5.4.0-195-generic #215-Ubuntu SMP Fri Aug 2 10:28:05 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux
