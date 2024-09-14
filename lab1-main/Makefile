@@ -51,6 +51,22 @@ clean:
 $(BUILD_DIR) $(BIN_DIR) $(LIB_DIR):
 	mkdir -p $@ 
 
+# Additional rule to make sure build/bin exists
+$(BUILD_DIR_LINUX_BIN):
+	mkdir -p $(BUILD_DIR_LINUX_BIN)
+
+$(BUILD_DIR_ARM_BIN):
+	mkdir -p $(BUILD_DIR_ARM_BIN)
+
+$(BUILD_DIR_PPC_BIN):
+	mkdir -p $(BUILD_DIR_PPC_BIN)
+
+$(BIN_DIR):
+	mkdir -p $(BIN_DIR)
+
+$(LIB_DIR):
+	mkdir -p $(LIB_DIR)
+
 
 # Compiling the object files for Linux
 $(BUILD_DIR_LINUX_OBJ)/sample-linux.o: sample-linux.c lab1.h | $(BUILD_DIR_LINUX_OBJ)
