@@ -40,13 +40,6 @@ OBJ_FILES = $(BUILD_DIR)/sample-linux.o $(BUILD_DIR)/linux-lib.o \
 			$(BUILD_DIR)/sample-raspi.o $(BUILD_DIR)/raspi-lib.o \
 			$(BUILD_DIR)/sample-ppc.o $(BUILD_DIR)/ppc-lib.o
 
-.PHONY: all clean
-
-all: $(EXECUTABLES) 
-
-clean:
-	rm -rf $(BUILD_DIR) $(BIN_DIR) $(LIB_DIR)
-
 #make the directories
 $(BUILD_DIR) $(BIN_DIR) $(LIB_DIR):
 	mkdir -p $@ 
@@ -67,6 +60,12 @@ $(BIN_DIR):
 $(LIB_DIR):
 	mkdir -p $(LIB_DIR)
 
+.PHONY: all clean
+
+all: $(EXECUTABLES) 
+
+clean:
+	rm -rf $(BUILD_DIR) $(BIN_DIR) $(LIB_DIR)
 
 # Compiling the object files for Linux
 $(BUILD_DIR_LINUX_OBJ)/sample-linux.o: sample-linux.c lab1.h | $(BUILD_DIR_LINUX_OBJ)
