@@ -2,6 +2,8 @@
 #Student Number:
 #NSID:
 
+OS := linux
+
 CC = gcc
 CFLAGS = -g
 CPPFLAGS = -I. -std=gnu90 -Wall -pedantic #I directives for header
@@ -28,7 +30,7 @@ OBJ_FILES = $(BUILD_DIR)/sample-linux.o $(BUILD_DIR)/linux-lib.o \
 
 .PHONY: all clean
 
-all: $(BIN_DIR)/sample-linux sample-linux-ppc sample-linux-arm
+all: $(EXECUTABLES) 
 
 clean:
 	rm -rf $(BUILD_DIR) $(BIN_DIR) $(LIB_DIR)
