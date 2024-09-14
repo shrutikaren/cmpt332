@@ -29,7 +29,6 @@ BUILD_DIR_PPC_OBJ = build/obj/cmpt332-ppc
 BUILD_DIR_PPC_LIB = build/lib/cmpt332-ppc
 BUILD_DIR_PPC_BIN = build/bin/cmpt332-ppc
 
-			
 LIB_DIR = lib
 BIN_DIR = bin
 
