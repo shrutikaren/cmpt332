@@ -2,11 +2,12 @@
 #Student Number:
 #NSID:
 
-
 CC = gcc
 CFLAGS = -g
 CPPFLAGS = -I. -std=gnu90 -Wall -pedantic #I directives for header
-CROSS_COMPILE = arm-linux-gnueabihf-
+
+CROSS_COMPILE_ARM = arm-linux-gnueabihf-
+CROSS_COMPILE_PPC = powerpc-linux-gnu-
 
 BUILD_DIR = build/obj/cmpt332-linux build/lib/cmpt332-linux \
 			build/bin/cmpt332-linux build/obj/cmpt332-arm \
@@ -21,10 +22,12 @@ LIB_DIRS = -L$(BUILD_DIR)
 
 EXECUTABLES = sample-linux sample-linux-ppc sample-linux-arm
 
-OBJ_FILES = $(BUILD_DIR)/sample-linux.o $(BUILD_DIR)/linux-lib.o $(BUILD_DIR)/sample-raspi.o \
-	    $(BUILD_DIR)/raspi-lib.o $(BUILD_DIR)/sample-ppc.o $(BUILD_DIR)/ppc-lib.o
+OBJ_FILES = $(BUILD_DIR)/sample-linux.o $(BUILD_DIR)/linux-lib.o \
+			$(BUILD_DIR)/sample-raspi.o $(BUILD_DIR)/raspi-lib.o \
+			$(BUILD_DIR)/sample-ppc.o $(BUILD_DIR)/ppc-lib.o
 
 .PHONY: all clean
+
 all: $(BIN_DIR)/sample-linux sample-linux-ppc sample-linux-arm
 
 clean:
