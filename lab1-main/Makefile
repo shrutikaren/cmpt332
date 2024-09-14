@@ -55,26 +55,26 @@ $(BUILD_DIR) $(BIN_DIR) $(LIB_DIR):
 	mkdir -p $@ 
 
 
-# Compiling the object files for linux.
+# Compiling the object files for Linux
 $(BUILD_DIR_LINUX_OBJ)/sample-linux.o: sample-linux.c lab1.h | $(BUILD_DIR_LINUX_OBJ)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) sample-linux.c -o $(BUILD_DIR)/sample-linux.o
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) sample-linux.c -o $(BUILD_DIR_LINUX_OBJ)/sample-linux.o
 
-$(BUILD_DIR)/linux-lib.o: linux-lib.c lab1.h | $(BUILD_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) linux-lib.c -o $(BUILD_DIR)/linux-lab.o
+$(BUILD_DIR_LINUX_OBJ)/linux-lib.o: linux-lib.c lab1.h | $(BUILD_DIR_LINUX_OBJ)
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) linux-lib.c -o $(BUILD_DIR_LINUX_OBJ)/linux-lib.o
 
-# Compiling the object files for ARM.
-$(BUILD_DIR)/sample-raspi.o: sample-raspi.c | $(BUILD_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) sample-raspi.c -o $(BUILD_DIR)/sample-raspi.o
+# Compiling the object files for ARM
+$(BUILD_DIR_ARM_OBJ)/sample-raspi.o: sample-raspi.c | $(BUILD_DIR_ARM_OBJ)
+	$(CROSS_COMPILE_ARM)gcc -c $(CPPFLAGS) $(CFLAGS) sample-raspi.c -o $(BUILD_DIR_ARM_OBJ)/sample-raspi.o
 
-$(BUILD-DIR)/raspi-lib.o: raspi-lib.c | $(BUILD_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) raspi-lib.c -o $(BUILD_DIR)/raspi-lib.o
+$(BUILD_DIR_ARM_OBJ)/raspi-lib.o: raspi-lib.c | $(BUILD_DIR_ARM_OBJ)
+	$(CROSS_COMPILE_ARM)gcc -c $(CPPFLAGS) $(CFLAGS) raspi-lib.c -o $(BUILD_DIR_ARM_OBJ)/raspi-lib.o
 
 # Compiling the object files for PowerPC
-$(BUILD_DIR)/sample-ppc.o: sample-ppc.c | $(BUILD_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) sample-ppc.c -o $(BUILD_DIR)/sample-ppc.o
+$(BUILD_DIR_PPC_OBJ)/sample-ppc.o: sample-ppc.c | $(BUILD_DIR_PPC_OBJ)
+	$(CROSS_COMPILE_PPC)gcc -c $(CPPFLAGS) $(CFLAGS) sample-ppc.c -o $(BUILD_DIR_PPC_OBJ)/sample-ppc.o
 
-$(BUILD_DIR)/ppc-lib.o: ppc-lib.c | $(BUILD_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) ppc-lib.c -o $(BUILD_DIR)/ppc-lib.o
+$(BUILD_DIR_PPC_OBJ)/ppc-lib.o: ppc-lib.c | $(BUILD_DIR_PPC_OBJ)
+	$(CROSS_COMPILE_PPC)gcc -c $(CPPFLAGS) $(CFLAGS) ppc-lib.c -o $(BUILD_DIR_PPC_OBJ)/ppc-lib.o
 
 
 #archive linux-lib.o into a libraray .a file --> called library lib_library.a
