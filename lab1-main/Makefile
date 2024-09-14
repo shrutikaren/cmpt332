@@ -19,7 +19,7 @@ BUILD_DIR = build/obj/cmpt332-linux build/lib/cmpt332-linux \
 
 BUILD_DIR_LINUX_OBJ = build/obj/cmpt332-linux
 BUILD_DIR_LINUX_LIB = build/lib/cmpt332-linux
-BUILD_DIR_LINUX_BIN = build/bin	/cmpt332-linux
+BUILD_DIR_LINUX_BIN = build/bin/cmpt332-linux
 
 BUILD_DIR_ARM_OBJ = build/obj/cmpt332-arm
 BUILD_DIR_ARM_LIB = build/lib/cmpt332-arm
