@@ -54,7 +54,7 @@ directories:
 
 # Clean target removes all build and output directories
 clean:
-	rm -rf build bin lib
+	rm -rf build bin 
 
 # Compiling the object files for Linux
 $(BUILD_DIR_LINUX_OBJ)/sample-linux.o: sample-linux.c lab1.h
