@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+</head>
+<body>
+<br />
+<title>Context Switches</title>
+<h1>Context Switches</h1>
+<ul>
+<li>A <i>context switch</i> is when the CPU is switched from one process to another.</li>
+<li>For the process being suspended, all of the following must be taken care of:
+<ul>
+<li>We need to record enough info regarding the process, so that we can resume its execution at some later time.</li>
+<li>Where is this info when the program is running? In the process control block for that process, of course.</li>
+<li>The main memory occupied by the process (code and data) must either not be altered while the program is suspended, or must be saved (to disc).</li>
+<li>The process' stack, including local variables, return addresses, subroutine parameters, and other saved registers, must not be touched, or saved.</li>
+<li>The stack pointer register (the current location in the process' stack), and the program counter "register" must be saved in the process' PCB.</li>
+</ul>
+</li>
+<li>To reactivate a process, these saved values are reloaded, with the program counter being loaded last of all. (For somewhat obvious reasons, given that most computers only have one PC!)
+<p><img src="../Scheduling/CTXT1.GIF" alt="nice pic of a context switch here." /></p>
+</li>
+<li>The time required to perform a context switch is PURE OVERHEAD; no constructive work is getting done during a context switch - no processes are running.</li>
+</ul>
+</body>
+</html>
