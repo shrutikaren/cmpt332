@@ -17,7 +17,6 @@ BUILD_DIR = build/obj/cmpt332-linux build/lib/cmpt332-linux \
 			build/obj/cmpt332-ppc build/lib/cmpt332-ppc \
 			build/bin/cmpt332-ppc
 
-
 BUILD_DIR_LINUX_OBJ = build/obj/cmpt332-linux
 BUILD_DIR_LINUX_LIB = build/lib/cmpt332-linux
 BUILD_DIR_LINUX_BIN = build/bin	/cmpt332-linux
@@ -29,7 +28,6 @@ BUILD_DIR_ARM_BIN = build/bin/cmpt332-arm
 BUILD_DIR_PPC_OBJ = build/obj/cmpt332-ppc
 BUILD_DIR_PPC_LIB = build/lib/cmpt332-ppc
 BUILD_DIR_PPC_BIN = build/bin/cmpt332-ppc
-
 
 			
 LIB_DIR = lib
@@ -100,7 +98,6 @@ $(BIN_DIR)/sample-linux-arm: $(BUILD_DIR_ARM_OBJ)/sample-raspi.o $(BUILD_DIR_ARM
 # PowerPC Executable
 $(BIN_DIR)/sample-linux-ppc: $(BUILD_DIR_PPC_OBJ)/sample-ppc.o $(BUILD_DIR_PPC_LIB)/lib_ppc.a $(LIB_DIR)/libpthreads.a | $(BUILD_DIR_PPC_BIN)
 	$(CROSS_COMPILE_PPC)gcc $(CPPFLAGS) $(CFLAGS) -o $(BIN_DIR)/sample-linux-ppc $(BUILD_DIR_PPC_OBJ)/sample-ppc.o $(BUILD_DIR_PPC_LIB)/lib_ppc.a -lpthreads
-#target for each of those architectures - not sure what that means?
 
 #creating a symbolic link
 sample-linux: $(BIN_DIR)/sample-linux
