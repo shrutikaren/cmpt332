@@ -107,5 +107,3 @@ sample-linux-ppc: $(BIN_DIR)/sample-linux-ppc
 
 sample-linux-arm: $(BIN_DIR)/sample-linux-arm
 	ln -sf $(BIN_DIR)/sample-linux-arm sample-linux-arm
-
-
