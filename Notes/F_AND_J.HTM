@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+</head>
+<body>
+<br />
+<title>Fork and Join</title>
+<h1>Fork and Join</h1>
+<ul>
+<li>Fork and Join has two functions, being <b>fork(label L)</b>, and <b>join(int x)</b>.</li>
+<li>Fork(label L) produces two concurrent executions. One starts immediately after the fork statement, and one starts at label L. This has the effect of splitting a single process execution into two concurrent processes.</li>
+<li>Join(int x) recombines x processes into 1, effectively throwing away the first x-1 processes that reach it, and continuing execution after the Join statement, when the xth process reaches it.</li>
+<li>Consider the third and fourth examples of process flow graphs, as given in the flow graph section:
+<p><img src="FLOW_GR3.GIF" alt="nice picture of FLOW_GR3.GIF,
+that you can't see" /> <img src="FLOW_GR4.GIF" alt="nice picture of FLOW_GR4.GIF,
+that you can't see" /></p>
+</li>
+<li>The fork and join code for these two graphs is as follows:
+<p><img src="F_AND_J.GIF" alt="Sorry, your display won't let you see an GIF." /></p>
+</li>
+<li>Note that fork and join was capable of handling the case of the non-properly nested graph quite nicely, making it suitable for handling general process concurrency.</li>
+</ul>
+</body>
+</html>
