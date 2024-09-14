@@ -77,31 +77,29 @@ $(BUILD_DIR_PPC_OBJ)/ppc-lib.o: ppc-lib.c | $(BUILD_DIR_PPC_OBJ)
 	$(CROSS_COMPILE_PPC)gcc -c $(CPPFLAGS) $(CFLAGS) ppc-lib.c -o $(BUILD_DIR_PPC_OBJ)/ppc-lib.o
 
 
-#archive linux-lib.o into a libraray .a file --> called library lib_library.a
-$(LIB_DIR)/lib_linux.a: $(BUILD_DIR)/linux-lib.o | $(LIB_DIR)
-	ar rcs -L -l $(LIB_DIR)/lib_linux.a 
+# Archiving object files into libraries
+$(BUILD_DIR_LINUX_LIB)/lib_linux.a: $(BUILD_DIR_LINUX_OBJ)/linux-lib.o | $(BUILD_DIR_LINUX_LIB)
+	ar rcs $(BUILD_DIR_LINUX_LIB)/lib_linux.a $(BUILD_DIR_LINUX_OBJ)/linux-lib.o
 
-#trying to convert raspi-lib.o into a library .a file
-$(LIB_DIR)/lib_raspi.a: $(BUILD_DIR)/raspi-lib.o | $(LIB_DIR)
-	ar rcs -L -l $(LIB_DIR)/lib_raspi.a
+$(BUILD_DIR_ARM_LIB)/lib_raspi.a: $(BUILD_DIR_ARM_OBJ)/raspi-lib.o | $(BUILD_DIR_ARM_LIB)
+	$(CROSS_COMPILE_ARM)ar rcs $(BUILD_DIR_ARM_LIB)/lib_raspi.a $(BUILD_DIR_ARM_OBJ)/raspi-lib.o
 
-#doing the same for ppc into a library .a file
-$(LIB_DIR)/lib_ppc.a: $(BUILD_DIR)/ppc-lib.o |$(LIB_DIR)
-	ar rcs -L -l $(LIB_DIR)/lib_ppc.a
+$(BUILD_DIR_PPC_LIB)/lib_ppc.a: $(BUILD_DIR_PPC_OBJ)/ppc-lib.o | $(BUILD_DIR_PPC_LIB)
+	$(CROSS_COMPILE_PPC)ar rcs $(BUILD_DIR_PPC_LIB)/lib_ppc.a $(BUILD_DIR_PPC_OBJ)/ppc-lib.o
 
-#linking object files to the executable - LINUX
-$(BIN_DIR)/sample-linux: $(BUILD_DIR)/sample-linux.o $(LIB_DIR)/libpthreads.a $(LIB_DIR)/lib_linux.a | $(BIN_DIR)
-	$(CC) $(CPPFLAGS) $(BUILD_DIR)/sample-linux.o -o $(BIN_DIR)/sample-linux
+# Linking executables
 
-#linking object files to the executable - RPi
-#how to link this to the local library?
-$(BIN_DIR)/sample-linux-arm: $(BUILD_DIR)/sample-raspi.o $(LIB_DIR)/libpthreads.a | $(BIN_DIR)
-	$(CC) $(CPPFLAGS) $(BUILD_DIR)/sample-raspi.o -o $(BIN_DIR)/sample-raspi
+# Linux Executable
+$(BIN_DIR)/sample-linux: $(BUILD_DIR_LINUX_OBJ)/sample-linux.o $(BUILD_DIR_LINUX_LIB)/lib_linux.a $(LIB_DIR)/libpthreads.a | $(BUILD_DIR_LINUX_BIN)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $(BIN_DIR)/sample-linux $(BUILD_DIR_LINUX_OBJ)/sample-linux.o $(BUILD_DIR_LINUX_LIB)/lib_linux.a -lpthreads
 
-#linking object files to the executable - PowerPC
-$(BIN_DIR)/sample-linux-ppc: $(BUILD_DIR)/sample-ppc.o $(LIB_DIR)/libpthreads.a | $(BIN_DIR)
-	$(CC) $(CPPFLAGS) $(BUILD_DIR)/sample-ppc.o -o $(BIN_DIR)/sample-ppc
+# ARM Executable
+$(BIN_DIR)/sample-linux-arm: $(BUILD_DIR_ARM_OBJ)/sample-raspi.o $(BUILD_DIR_ARM_LIB)/lib_raspi.a $(LIB_DIR)/libpthreads.a | $(BUILD_DIR_ARM_BIN)
+	$(CROSS_COMPILE_ARM)gcc $(CPPFLAGS) $(CFLAGS) -o $(BIN_DIR)/sample-linux-arm $(BUILD_DIR_ARM_OBJ)/sample-raspi.o $(BUILD_DIR_ARM_LIB)/lib_raspi.a -lpthreads
 
+# PowerPC Executable
+$(BIN_DIR)/sample-linux-ppc: $(BUILD_DIR_PPC_OBJ)/sample-ppc.o $(BUILD_DIR_PPC_LIB)/lib_ppc.a $(LIB_DIR)/libpthreads.a | $(BUILD_DIR_PPC_BIN)
+	$(CROSS_COMPILE_PPC)gcc $(CPPFLAGS) $(CFLAGS) -o $(BIN_DIR)/sample-linux-ppc $(BUILD_DIR_PPC_OBJ)/sample-ppc.o $(BUILD_DIR_PPC_LIB)/lib_ppc.a -lpthreads
 #target for each of those architectures - not sure what that means?
 
 #creating a symbolic link
