@@ -39,11 +39,11 @@ if [ -p /dev/stdin ]; then
 else
     while $keepRunning; do
         echo "Select an option:"
-        echo "1. Execute Part A.1"
-        echo "2. Execute Part A.2"
-        echo "3. Execute Part A.3"
-        echo "4. Execute Part A.4 (Bonus)"
-        echo "5. Quit"
+        echo "  1. Part A.1"
+        echo "  2. Part A.2"
+        echo "  3. Part A.3"
+        echo "  4. Part A.4"
+        echo "  5. Quit"
         read -p "Enter your choice [1-5]: " choice
 
         case $choice in
