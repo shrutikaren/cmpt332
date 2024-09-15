@@ -21,4 +21,5 @@ header files included:
 	4. time.h --> provides functions to work with the time 
 	5. sqaure.h --> the header file containing square.c function prototype
 
-
+Since this is a Windows program, the API needs to be consistent. Hence, instead
+of using void* for instance, we make use of LPVOID.
