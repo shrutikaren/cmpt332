@@ -1,6 +1,6 @@
 #ifndef SQUARE_H
 #define SQUARE_H
 
-int square(N);
+int square(int N);
 
 #endif //SQUARE_H
