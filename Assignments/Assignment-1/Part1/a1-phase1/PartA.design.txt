@@ -7,3 +7,18 @@ The reason why keepRunning was not mentioned inside the headerfile and
 initalized was because if the header file is later used with other files that
 may have the same variable name, it could lead to errors in the code. Hence,
 the global variable keepRunning is limited to inside the partA1.c file only.  
+
+In the header file,we will incorporate: 
+	1. Function prototypes 
+	2. New structure definitions if needed
+These header files will also have header guards since it is a header file. 
+
+Inside our partA1.c which consists of the main program will have the following
+header files included: 
+	1. stdio.h --> for input/ output library functions
+	2. stdlib.h --> memory management library functions 
+	3. windows.h --> consists of the Windows system calls 
+	4. time.h --> provides functions to work with the time 
+	5. sqaure.h --> the header file containing square.c function prototype
+
+
