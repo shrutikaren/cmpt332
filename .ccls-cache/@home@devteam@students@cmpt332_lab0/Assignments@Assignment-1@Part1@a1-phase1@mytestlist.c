@@ -11,19 +11,6 @@ int main() {
         return 1;
     }
 
-    int item1 = 10;
-    int item2 = 20;
-
-    if (ListAdd(myList, &item1) != 0) {
-        printf("Error: ListAdd failed\n");
-    }
-
-    if (ListInsert(myList, &item2) != 0) {
-        printf("Error: ListInsert failed\n");
-    }
-
-    ListFree(myList, NULL);
-
     return 0;
 
 }
