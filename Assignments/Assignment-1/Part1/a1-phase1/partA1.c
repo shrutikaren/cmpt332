@@ -1,61 +1,78 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "square.h"
 #include <windows.h>
-#include <time.h> 
+#include "square.h"
 
-//thread structure to store thread information  
-typedef struct{
-	int idnum;
-	int numSquare;	
-}Thread_Info;
+// Global flag to control thread execution
+volatile BOOL keepRunning = TRUE;
 
-DWORD WINAPI ThreadFunction(LPVOID t){
-	(Thread_Info *) thread_data = (Thread_Info *) t;
-	int idnum = thread_data->idnum;
-	int numSquare = thread_data->numSquare;
-
-	clock_t start_time = clock(); 
+// Thread function skeleton
+DWORD WINAPI ThreadFunc(LPVOID param) {
 	
-	int counter = 0; 
+    int threadId = *(int*)param;
+    
+	printf("Got to procedure ThreadFunc for thread %d\n", threadId);
 
-	for (int i = 0; (i <= numSquare) && keepRunning; i++){
-		Square (i); //perform the square function
-		counter ++;
-	}
-	
-	clock_t end_time = clock();
-	clock_t time = (start_time - end_time) / CLOCKS_PER_SECOND;
-	
-	return 0;
-
+    return 0;
 }
 
-int main(int argc, char * argv[]){
-	int num_of_threads = atoi(argv[1]);
-	int deadlines = atoi(argv[2]);
-	int size = atoi(argv[3]);
+int main(int argc, char *argv[]) {
+    printf("Got to procedure main\n");
 
-	HANDLE * threads = (HANDLE *)malloc(num_of_threads * sizeof(HANDLE));
-	Thread_Info * thread_data = (Thread_Info *)malloc 
-					(num_of_threads * sizeof(ThreadData));
+    // Check if the correct number of arguments are passed
+    if (argc != 4) {
+        printf("Error in procedure main: Invalid number of parameters\n");
+        return -1;
+    }
 
-	//creating the threads
-	for (int i = 0; i < num_of_threads; i++){
-		thread_data[i].idnum = i;
-		thread_data[i].numSquare = size;
-		threads[i] = CreateThread(NULL, 0, ThreadFunction, 
-				&thread_data[i], 0, NULL);
-	}
+    // Parse arguments
+    int threads = atoi(argv[1]);
+    int deadline = atoi(argv[2]);
+    int size = atoi(argv[3]);
 
-	Sleep(deadlines*1000); 
+    // Validate arguments
+    if (threads <= 0) {
+        printf("Error in procedure main: Invalid # of threads\n");
+        return -1;
+    }
+    if (deadline <= 0) {
+        printf("Error in procedure main: Invalid # of deadline\n");
+        return -1;
+    }
+    if (size <= 0) {
+        printf("Error in procedure main: Invalid # of size\n");
+        return -1;
+    }
 
-	keepRunning = 0;
+    // Allocate memory for thread handles and IDs
+    HANDLE *threadHandles = (HANDLE*)malloc(sizeof(HANDLE) * threads);
+    int *threadIds = (int*)malloc(sizeof(int) * threads);
+    if (!threadHandles || !threadIds) {
+        printf("Error in procedure main: Memory allocation failed\n");
+        return -1;
+    }
 
-	WaitForMultipleObjects(num_of_threads, threads,true, INFINITE);
+    // Create threads
+    for (int i = 0; i < threads; i++) {
+        threadIds[i] = i;
+        threadHandles[i] = CreateThread(NULL, 0, ThreadFunc, &threadIds[i], 0, NULL);
+        if (threadHandles[i] == NULL) {
+            printf("Error in procedure CreateThread: Failed to create thread %d\n", i);
+            return -1;
+        }
+    }
 
-	free(threads);
-	free(malloc);
+    // Sleep for the deadline (in milliseconds)
+    Sleep(deadline * 1000);
 
-	return 0;
+    // Cleanup
+    for (int i = 0; i < threads; i++) {
+        CloseHandle(threadHandles[i]);
+    }
+
+    free(threadHandles);
+    free(threadIds);
+
+    printf("Got to procedure main: Terminating successfully\n");
+    return 0;
 }
