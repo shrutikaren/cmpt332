@@ -4,4 +4,8 @@
 #include <windows.h>
 #include <time.h> 
 
-
+//create the thread structure 
+typedef struct{
+	int idnum;
+	
+}Thread_Info;

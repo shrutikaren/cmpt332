@@ -8,11 +8,22 @@ initalized was because if the header file is later used with other files that
 may have the same variable name, it could lead to errors in the code. Hence,
 the global variable keepRunning is limited to inside the partA1.c file only.  
 
+FOR SQUARE.H: 
+******************************* PHASE ONE ************************************
 In the header file,we will incorporate: 
 	1. Function prototypes 
 	2. New structure definitions if needed
 These header files will also have header guards since it is a header file. 
 
+
+FOR SQUARE.C:
+******************************** PHASE ONE ***********************************
+The function int Square (int N) mainly does a recursive function to help us 
+calculate the square of the number passed into the function.
+
+
+FOR PARA1.C:
+******************************* PHASE ONE ************************************  
 Inside our partA1.c which consists of the main program will have the following
 header files included: 
 	1. stdio.h --> for input/ output library functions
@@ -23,3 +34,7 @@ header files included:
 
 Since this is a Windows program, the API needs to be consistent. Hence, instead
 of using void* for instance, we make use of LPVOID.
+
+
+
+
