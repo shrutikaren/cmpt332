@@ -1,58 +1,38 @@
-Style Guidelines
-------------------------------------------------------------------------------
-
-1. 80 characters per line. 
-2. Use CamelCase for building functions (unless otherwise stated).
-3. No dangling pointers. Make sure to initalize pointers to NULL. 
-4. Always use braces for if, for, while statements.
-5. Test as you go. 
-6. Include only the necessary headers to avoid unnecessary dependencies.
-7. Write modular code with well-defined functions.
-8. Use UPPERCASE for #define, constants, macros.
-9. (C++) Postfix internal private variables with _ to differentiate from local 
-   variables.
-10. Use 4 spaces for indentation 
-11. Only include the required headers.
-12. Use header gaurds in header files to prevent multiple inclusions of the 
-    same file. 
-13. Precompute values outside a loop whenever possible. 
-14. Initialize all values to default. 
-15. Avoid unless otherwise stated Macros for Functions. 
-16. Whenever possible use error codes to show if the program was SUCCESS or  
-    FAILURE. 
-17. Check function return values (fopen, malloc). Make sure the memory is 
-    allocated before moving on.
-18. For every Malloc we need a free to avoid memory leaks.
-19. Whenever possible check for NULL before dereferencing. 
-20. All C code must be written in plain C (conforming to the C90 standard, in
-    particualr -std=gnu90). Warnings must be set to -Wall-pedantic-Wextra.
-21. Add -Werror to force all the warnings to become errors.
-22. Do not hardcode variables (unless otherwise stated).
-23. If variables have the same type declare them on the same line whenever
-    possible.
-24. Leave one black space between operators (i.e, y = 3 * 8;). 
-25. When dealing with pointers use p->example instead of (*p).example. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
++------------------------------------------------------------------------------+
+|                                Style Guidelines                              |
++------------------------------------------------------------------------------+
+| 1. Maintain a maximum line width of 80 characters.                           |
+| 2. Use CamelCase for function names, unless otherwise specified.             |
+| 3. Ensure no dangling pointers; initialize pointers to NULL.                 |
+| 4. Always use braces `{}` with `if`, `for`, and `while` statements, even     |
+|    for single statements.                                                    |
+| 5. Implement continuous testing as you develop.                              |
+| 6. Include only the necessary headers to minimize dependencies.              |
+| 7. Write modular code, with clear, well-defined functions.                   |
+| 8. Use UPPERCASE for `#define` directives, constants, and macros.            |
+| 9. (C++) Postfix internal private variables with an underscore (`_`) to      |
+|    differentiate them from local variables.                                  |
+| 10. Use 4 spaces for indentation, no tabs.                                   |
+| 11. Include only required headers, avoiding redundant inclusions.            |
+| 12. Use header guards in `.h` files to prevent multiple inclusions.          |
+| 13. Precompute values outside of loops whenever possible to enhance          |
+|     performance.                                                             |
+| 14. Initialize all variables with default values to prevent undefined        |
+|     behavior.                                                                |
+| 15. Avoid using macros for functions unless otherwise specified.             |
+| 16. Use error codes to indicate program status: `SUCCESS` or `FAILURE`.      |
+| 17. Always check the return values of functions (e.g., `fopen`, `malloc`),   |
+|     ensuring proper memory allocation before proceeding.                     |
+| 18. For every `malloc` call, ensure a corresponding `free` to prevent        |
+|     memory leaks.                                                            |
+| 19. Always check for `NULL` before dereferencing pointers.                   |
+| 20. Write all C code in plain C, conforming to the C90 standard              |
+|     (`-std=gnu90`), with warnings enabled: `-Wall -pedantic -Wextra`.        |
+| 21. Add `-Werror` to treat all warnings as errors.                           |
+| 22. Avoid hardcoding variables, unless explicitly required.                  |
+| 23. Group variable declarations of the same type on the same line when       |
+|     feasible.                                                                |
+| 24. Ensure a single space between operators (e.g., `y = 3 * 8;`).            |
+| 25. When dealing with pointers, use the `p->example` syntax rather than      |
+|     `(*p).example`.                                                          |
++------------------------------------------------------------------------------+
