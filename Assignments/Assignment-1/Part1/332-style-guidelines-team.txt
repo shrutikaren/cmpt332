@@ -1,0 +1,22 @@
+Style Guidelines
+
+1. 80 characters per line. 
+2. Use CamelCase for building functions (unless otherwise stated).
+3. No dangling pointers. Make sure to initalize pointers to NULL. 
+4. Always use braces for if, for, while statements.
+5. Test as you go. 
+6. Include only the necessary headers to avoid unnecessary dependencies.
+7. Write modular code with well-defined functions.
+8. Use UPPERCASE for #define, constants, macros.
+9. Postfix internal private variables with _ to differentiate from local variables.
+10. Use 4 spaces for indentation 
+11. Only include the required headers.
+12. Use Header gaurds in header files to prevent multiple inclusions of the same file. 
+13. precompute values outside a loop whenever possible. 
+14. Initialize all values to default. 
+15. Avoid unless otherwise stated Macros for Functions. 
+16. Whenever possible use error codes to show if the program was SUCCESS or FAILURE. 
+17. Check function return values (fopen, malloc). Make sure the memory is allocated before moving on.
+18. For every Malloc we need a free to avoid memory leaks.
+19. Whenever possible check for NULL before dereferencing. 
+
