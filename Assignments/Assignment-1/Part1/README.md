@@ -4,8 +4,9 @@
 ## TODO LISTS
 
 ### Tasks 
- - [ ] Start Part F: Programming Style Guide (10 Points)
+ - [X] Start Part F: Programming Style Guide (10 Points)
     - [ ] Find the number for the style guidelines.
+    - [X] Email the professor. 
  - [ ]
 
 ### Before submission
