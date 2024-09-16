@@ -1,9 +1,3 @@
-commit 91fc18fab8e55700b4e4de52e2ce666c77df1a59
-Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
-Date:   Sun Sep 15 18:32:35 2024 -0400
-
-    Update partB.bash
-
 commit 3e7c849136a484b969114b18bb928a7d62a066a8
 Author: Shruti Kaur <ich524@usask.ca>
 Date:   Sun Sep 15 13:29:20 2024 -0600
