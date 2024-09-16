@@ -1,0 +1,270 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>CMPT 332 - Lab 2 - Fall 2024</title>
+</head>
+<body>
+<img src="./splashBanner.gif" align="middle">
+<h1>
+    Computer Science 332 - Fall 2024<br>
+    University of Saskatchewan<br>
+    Lab 2: more gdb, more git, intro to xv6, and Project management<br>
+</h1>
+
+<b>Instructor:</b> Dwight Makaroff <br>
+<b>Out: </b>September 17, 2024<br>
+<b>Due: </b>9:00 p.m.  Thursday, September 20, 2024 (final deadline). <br>
+<b>TOTAL MARKS: 6</b>
+
+<h2 id="preface">Preface</h2>
+<p>
+    You will use a Linux machine in <code>bash</code> for this
+    lab.
+</p>
+
+<h2>Lab Description</h2>
+
+<h2 id="xv6"><code>xv6</code></h2>
+<p>To build and debug xv6, we need to use the compiler and debugger for riscv.
+    The department has pre-built the toolchain. To build xv6, we will need to use
+    the toolchain compiler to cross-compile xv6. </p>
+  
+<p>    Steps to install and run xv6:</p>
+<ul>
+  <li>Import xv6 git repo into your group repo (<b>WARNING</b>: only one of the
+    group members should complete this step).<br><br>
+      You can find the repository at <br>
+    https://git.cs.usask.ca/cmpt332/xv6-2024.git or <br>
+    git@git.cs.usask.ca:cmpt332/xv6-2024.git <br>
+    <br>
+    Depending on your current git repo set up, use one of the previous git
+    links in the following command(s):
+    <br>
+    <br>
+
+    <b><code>
+        git clone https://git.cs.usask.ca/cmpt332/cmpt-332-fall-2024/cmpt332-2024-groupXX.git <br>
+        cd cmpt332-2024-groupXX <br>
+        git remote add xv6-origin https://git.cs.usask.ca/cmpt332/xv6-2024.git <br>
+	      git fetch xv6-origin <br>
+        git merge -s ours --no-commit --allow-unrelated-histories xv6-origin/syscall <br>
+        git read-tree --prefix=xv6/ -u xv6-origin/syscall <br>
+        git commit -m "add xv6" <br>
+        git push <br>
+    </code></b>
+    <br>
+
+    <b> NOTE </b>: <i> cloning your group respository is only necessary if you
+      haven't done so already </i> <br> <br>
+
+    This will merge our xv6 repository's history to your group repository
+    history. Now you have your own private copy of xv6 inside your group
+    repo.
+    <br><br>
+
+  </li>
+  <li><code>cd</code> to your local copy of xv6</li>
+  <li><code>make qemu</code> will run xv6 in qemu,<br>
+  </li><li><code>ctrl+a</code> release, then press <code>x</code> to exit from xv6,
+         in otherwords: <code>(ctrl+a)+x</code>.
+</li></ul>
+<p> Take a screenshot of xv6 running and save it as <code>xv6-qemu.png</code>.</p>
+
+
+<h2 id="resources">System Call Reference Material</h2>
+Please read through 
+<a href="https://timothya.com/learning/xv6-book/#chapter-4-traps--system-calls">
+    this reference on xv6 system calls</a> in your own time, and come to the lab 
+    or helpdesk with any questions you have. Reading will not be graded, however, 
+    it will help you with understanding and completing Assignment 1 - Part D.
+
+<h2> Part A: GDB Enhanced</h2>
+</p>
+<i>A handy resource for GDB is this GDB reference card: <a href="http://users.ece.utexas.edu/~adnan/gdb-refcard.pdf" target="_blank">http://users.ece.utexas.edu/~adnan/gdb-refcard.pdf</a></i></br>
+<p>
+There is 1 executable file, <code>program</code>,   that you can
+compile through the provided Makefile 
+(<code>student.makefile</code>, modify as you need to), and its
+associated source file,  
+<code>program.c</code>
+    Please have a look through them.
+
+<p>
+This code is "silently buggy" in that it executes without any error on
+the tuxworld machines, despite performing
+a <a href="https://en.wikipedia.org/wiki/Buffer_overflow">buffer
+    overflow</a>. We will use GDB to debug this code. 
+
+<ul>
+    <li>Start GDB by typing <code>gdb ./program</code>
+
+    <li>From here, create a breakpoint at line 39, using <code>break
+        39</code>.  Run the program to the breakpoint by typing <code>run</code>. </li> 
+
+    <li>Display the local variables where the code breaks, using <code>info locals</code>. 
+        Copy/Paste these results to <b>lab2-gdbout.txt</b> under the header A1. </li>
+
+    <li>Note the array size and the starting addresses of the "numbers" and
+        "heapNeighbour" arrays. Use the command: <code>print numbers + (arrSize-1) </code> 
+        to get the end address of the "numbers" array. Do either of iPtr1 or
+        iPtr2 access outside of this array (are they smaller than numbers or larger
+        than <code>numbers + (arrSize-1)</code>? If so, write which one in the file
+        <b>lab2-gdbout.txt</b> under A2</b>.
+</ul>
+
+<b>Hint:</b> if you have trouble comparing hexadecimal values, cast the values
+to int using "(int)". For example: 
+    <blockquote><code>(int)(numbers + (arrSize-1))</code></blockquote>
+
+<p> Set a breakpoint on the line of the code where you think the program is
+    accessing memory outside of array bounds. Make the breakpoint conditional
+    on an expression, using 
+    <blockquote><code>breakpoint &lt;line-#&gt; if &lt;conditional-expr&gt;</code></blockquote>
+
+This will cause gdb to run until the conditional expression is met. Choose an 
+expression so that GDB stops when there is an out-of-bounds memory access. </p>
+
+An example of a conditional breakpoint might be:
+    <blockquote><code>break foo.c:7 if bar &gt; bat</code></blockquote>
+which would create a breakpoint in the file foo.c at line 7. Here, GDB would 
+stop when the variable bar is greater than bat. <br>
+
+<ul>
+    <li> Run the code. If GDB stops at your breakpoint, paste the local variables into
+    <b>lab2-gdbout.txt</b> under A3</b>. If GDB runs to the end of the program, 
+    then your conditional expression was never met. Talk to a TA to see if you are 
+    on the right track.</li> 
+
+    <li> One of the pointers will be pointing into the "heapNeighbour" array.
+    print the value being pointed to by the pointer. Print the address of the 
+    affected index of the "heapNeighbour" array as well. Paste these values into 
+    <b>lab2-gdbout.txt</b> under A4. <br><b>NOTE</b>: <i>You may have to advance through
+    the code line-by-line using </i><code> next </code> <i>until the overflow
+    actually occurs, depending on where your breakpoint is set.</i></li>
+</ul>
+
+<b>Hint:</b> print array contents using <code>print *array@length</code><br>
+<b>Hint:</b> variables can be referenced and dereferenced just like in C!<br>
+
+<h2 id="xv6">Part B: Debugging xv6</h2>
+<h3 id="setup">Setup Environment</h3>
+<p>Steps to setup qemu-gdb to run on tuxworld:</p>
+<ul>
+    <li> Open two terminals and navigate both to your xv6
+    directory. Alternatively, use tmux to setup two windows.</li>
+    <li> Build and run xv6 in by entering the following commands:<br/><br/>
+        Terminal 1:<blockquote>
+            <code>make qemu-gdb</code><br/><br/>
+            Note the socket address. It looks something like
+            tcp::&lt;port&gt;. This shows that there are actually two
+            processes running and that they need to talk to each other.
+        </blockquote><br/>
+        Terminal 2: <blockquote>
+            <code> /student/cmpt332/xv6-2024/riscv/bin/riscv64-unknown-linux-gnu-gdb
+                kernel/kernel<br/><br/>continue</code><br><br>
+                       <br>
+            You may want to export the path to the riscv gdb debugger to an
+            environment variable, or create a handy script to avoid typing that
+            entire path to gdb every time.
+            </blockquote>
+    </li>
+    <li> You will likely see an error message in the GDB startup log: 
+      <blockquote><code>
+        warning: File "/student/NSID/path/to/xv6/.gdbinit" auto-loading has been <br/>
+        declined by your `auto-load safe-path' set to<br/>
+        "$debugdir:$datadir/auto-load".<br/>
+        To enable execution of this file add<br/>
+        add-auto-load-safe-path /path/to/xv6/.gdbinit<br/>
+        line to your configuration file "/student/NSID/.gdbinit".</code> <br><br>
+        <i>We have found that skipping the filename works better. That is "/path/to/xv6".</i> 
+      </blockquote></li>
+      <li> Follow these instructions, editing or creating the file
+      .gdbinit in your home directory. Add the line <code>
+      add-auto-load-safe-path </code> followed by the path to your xv6
+      directory.</li>  
+</ul>
+<h3 id="breakXv6">Break xv6</h3>
+<ul>
+    <li> Exit GDB by typing <code>quit</code> and qemu-gdb by typing (<code>(ctrl+a)+x</code>). Open the file ./kernel/proc.c.</li>
+    <li> Navigate to line 323 (in Vim, this can be done using <code>:323</code>, from command mode). This should take you to the second-to-last line in the fork function. </li>
+    <li> Comment out the line: <code>release(&amp;np->lock);</code>
+		<li> Rebuild and run using <code>make qemu-gdb</code>
+</ul>
+<h3 id="panic">Don't Panic!</h3>
+At this point, both your terminal 1 and terminal 2 should hang. This is because the kernel has "panicked". You will see an error message:
+
+<blockquote><code>panic: acquire</code></blockquote>
+
+Use <code>ctrl-c</code> within gdb to halt the kernel and inspect the state of the program.
+
+<h3 id="bt">Backtrace</h3>
+<ul>
+	<li> use <code>backtrace</code> to inspect the stack frames.</li>
+	<li> use <code>backtrace full</code> and take notice of the additional information. These commands will be very helpful when debugging your code.</li>
+    <li> open TUI mode with <code>(ctrl+x)+a</code> (you can also open this by typing <code>layout src</code> ).</li>
+	<li> use <code>frame 2</code> to navigate to the second stack frame. Notice how the TUI view shows you the line of code that corresponds to the stack frame you specify.</li>
+
+	<li> copy the file, line-number, and code contents of frame 2 to <b>lab2-gdbout.txt</b>
+ under the header B1. Use the following format:
+		<blockquote>&lt;file-name&gt;:&lt;line-number&gt; &lt;code&gt;</blockquote></li>
+	<li> to view an item in the process table run: <code>print proc[0]</code> (where the integer is the index in the array)</li>
+	<li> if you aren't sure what each fields are in this proc struct, we can easily find out by entering: <code>ptype proc</code></li>
+</ul>
+<h3 id="bt">Fix it</h3>
+Make sure to undo your change to proc.c:323 before you quit!
+
+
+
+<h2 id="grpMgmt">Part C: Group Management Skills</h2>
+<p> The truth is not many students like group work, however, in industry you're
+    guaranteed to be working on a team, thus it is an extremely valuable skill
+    to have that employers look for. </p>
+<p> When working in a group it's important to set clear expectations with your
+    partner of what you both want to get out of the course. It is often
+    recommended that you have scheduled a regular meeting time (yes, even for
+    groups of two) as this can help you sync with your partner and talk about
+    progress/procrastination that has been made.
+    <i>The above is not required of you but it will help you succeed in 
+    communicating with your partner, who you may or may not have previously been    
+    acquainted, for this class and any future group work.</i>
+</p>
+<p> Dividing work for multiple people is a skill that takes practice and is
+    often aided with the use of a task board. There are many programs out there
+    that you can use as a task board, I'd recommend
+    <a href="https://bubbl.us/">bubbl</a>, or something similar. Bubbl allows you
+    to create tasks that can be completed in parallel along with mapping task
+    dependencies, <i>task b requires the function from task a to completed
+    beforehand</i>. See <code>Chat.png</code> as an example.
+    In your case, the Design Document you will have to create will be
+    helpful when assigning work.
+</p>
+<p> Create a simple task tree with a minimum of two tasks that can be done in
+    parallel where each of those nodes has at least two children. This doesn't
+    have to be limited to computer science jobs, it can be something like
+    cleaning the house, baking, yard work, etc. Download it as a PNG file and
+    save it as <code>tasks.png</code>. </p>
+
+<h2>Deliverables</h2>
+
+<p> A single tar file containing your <code>xv6-qemu.png</code>, 
+<code>lab2-gdbout.txt</code>,
+  <code>tasks.png</code>
+    and <code>git-log.txt</code>. </p> 
+
+<h2>Submission</h2>
+
+Create a .tar file with the requested files in the previous section (no directories) and
+submit to Lab 2.
+
+<h2>Grading Scheme</h2>
+
+
+Total: 6 marks.
+<ul>
+    <li><code>xv6-qemu.png</code>: 1 mark </li>
+    <li><code>gdb info locals #1</code>: 1 mark </li>
+    <li><code>gdb Print/cast</code>: 1 mark </li>
+    <li><code>gdb info locals #2</code>: 1 mark </li>
+    <li><code>xv6 frame output</code>: 1 mark </li>
+    <li><code>tasks.png</code>: 1 mark
+    <li><code>git-log.txt</code>: 1 mark</li>
+<ul>
+</ul></ul></body></html>
