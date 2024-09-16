@@ -12,14 +12,14 @@ These functions are provided to us:
 	6. void *ListPrev(list)
 	7. void *ListCurr(list)
 	8. int ListAdd(list,item)
-  9. int ListInsert(list, item)
-  10. int ListAppend(list, item)
-  11. int ListPrepend(list, item)
-  12. void *ListRemove(list)
-  13. void *ListConcat(list1, list2)
-  14. void ListFree(list, itemFree)
-  15. void *ListTrim(list)
-  16. void *ListSearch(list, comparator, comparisonArg)
+ 	9. int ListInsert(list, item)
+  	10. int ListAppend(list, item)
+  	11. int ListPrepend(list, item)
+  	12. void *ListRemove(list)
+  	13. void *ListConcat(list1, list2)
+  	14. void ListFree(list, itemFree)
+  	15. void *ListTrim(list)
+  	16. void *ListSearch(list, comparator, comparisonArg)
 
 We will have the following file names with these functions inside them: 
   1. list_adders.c
@@ -34,6 +34,13 @@ We will have the following file names with these functions inside them:
       -  void *ListNext(LIST *list)
       -  void *ListPrev(LIST *list)
       -  void *ListCurr(LIST *list)
+  3. list_removers.c
+      -  void *ListRemove(LIST *list)
+      -  void ListConcat(LIST *list1, LIST *list2)
+      -  void ListFree(LIST *list, void (*itemFree)(void *))
+      -  void *ListTrim(LIST *list)
+      -  void *ListSearch(LIST *list, int (*comparator)(void *, void *), void *comparisonArg)
+  4. 
 During the design of these functions, no use of malloc() has been used as there
 cannot be any use of dynamic memory allocation on a per-list or per-node basis. For
 this part of the milestone of the assignment, our goal is only to have these 
