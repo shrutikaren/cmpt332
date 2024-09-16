@@ -1,20 +1,8 @@
-commit b5a2e3a26761e26255807d8daf78d6bbe1fa2c6b
-Author: fldev <devteam@fldev.orl>
-Date:   Sun Sep 15 18:34:08 2024 -0400
-
-    Update Repo
-
 commit 91fc18fab8e55700b4e4de52e2ce666c77df1a59
 Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
 Date:   Sun Sep 15 18:32:35 2024 -0400
 
     Update partB.bash
-
-commit 029a2cd057b6711fc8cde568866fdfc0e01c848b
-Author: fldev <devteam@fldev.orl>
-Date:   Sun Sep 15 18:30:59 2024 -0400
-
-    Update Repo
 
 commit 3e7c849136a484b969114b18bb928a7d62a066a8
 Author: Shruti Kaur <ich524@usask.ca>
@@ -94,48 +82,6 @@ Date:   Sun Sep 15 11:11:15 2024 -0600
 
     added the makefile
 
-commit f0bed8dd645742432c815d8e9d2a71c0ae4718f2
-Author: fldev <devteam@fldev.orl>
-Date:   Sun Sep 15 12:23:47 2024 -0400
-
-    Update Repo
-
-commit b89fe1263db7ea4d734eae7188ca02f7650538c2
-Author: fldev <devteam@fldev.orl>
-Date:   Sun Sep 15 12:22:44 2024 -0400
-
-    Update Repo
-
-commit b4c9498b2a025369562ac3a043f148682a30f22c
-Author: fldev <devteam@fldev.orl>
-Date:   Sun Sep 15 12:01:41 2024 -0400
-
-    Update Repo
-
-commit ec62b7e262f552530626593173c97e533fb9d773
-Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
-Date:   Sun Sep 15 11:50:21 2024 -0400
-
-    Update 332-style-guidelines-team.txt
-
-commit a8f2054b6213efced1d088bcf06fe1c5fa5c4f7a
-Author: fldev <devteam@fldev.orl>
-Date:   Sun Sep 15 11:47:46 2024 -0400
-
-    Update Repo
-
-commit 2cb78a50626708b25b9d509e43d2e52f13ea6c08
-Author: fldev <devteam@fldev.orl>
-Date:   Sat Sep 14 20:29:25 2024 -0400
-
-    Update Readme
-
-commit aeac6cf63e33b4e98a9e2cb0f1d6f8e6fc2eef4f
-Author: fldev <devteam@fldev.orl>
-Date:   Sat Sep 14 20:28:30 2024 -0400
-
-    Update Repo
-
 commit c7d7b3d7b12488ccdae533e1305e041ec8be5f20
 Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
 Date:   Sat Sep 14 17:32:12 2024 -0600
@@ -148,35 +94,17 @@ Date:   Sat Sep 14 17:31:15 2024 -0600
 
     Add files via upload
 
-commit 2c2b4ac88ce816b2a0eb08de58cd577730f46649
-Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
-Date:   Sat Sep 14 19:28:34 2024 -0400
-
-    Rename CMPT332.a1.fall2024 (1).html to CMPT332.a1.fall2024.html
-
 commit cf560ce5a28f3d2c1ad88f8cbab80ee55e2f97de
 Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
 Date:   Sat Sep 14 17:28:26 2024 -0600
 
     Add files via upload
 
-commit 2df9d33a48d3503040211ffa8c148f8bb9f01099
-Author: fldev <devteam@fldev.orl>
-Date:   Sat Sep 14 19:27:52 2024 -0400
-
-    Update Repo
-
 commit 54c501bb23e75e634ad01e36b0f91bf0fa014854
 Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
 Date:   Sat Sep 14 17:26:35 2024 -0600
 
     Add files via upload
-
-commit 3d69281de2f3609ef5d4fb40454fef820875de28
-Author: fldev <devteam@fldev.orl>
-Date:   Sat Sep 14 19:25:34 2024 -0400
-
-    Update Repo
 
 commit dce6d36a87900525274c323df83f57b5d1cb5943
 Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
@@ -222,24 +150,6 @@ Date:   Sat Sep 14 05:50:33 2024 +0000
 
     added completed bash file and Makefile
 
-commit 4d8403ff6f516b24c1a5a7ae6f0cbb1629be7177
-Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
-Date:   Sat Sep 14 00:56:22 2024 -0400
-
-    Update Makefile
-
-commit 8999b19bef385492cfa8e623c02ba071ceed7b0d
-Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
-Date:   Sat Sep 14 00:49:21 2024 -0400
-
-    Update Makefile
-
-commit 056c459ab7b6159967c79e18b0f8b55846848bfc
-Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
-Date:   Sat Sep 14 00:46:23 2024 -0400
-
-    Update Makefile
-
 commit eca8cb8652b14460249235f2cd8d90a64dc4cf15
 Author: Virtual-Karen <no@no.no>
 Date:   Sat Sep 14 04:47:47 2024 +0000
@@ -263,54 +173,6 @@ Author: Shruti Kaur <ich524@usask.ca>
 Date:   Fri Sep 13 22:32:21 2024 -0600
 
     added standards.h and os.h
-
-commit 741dd067d0d6c12426dc19a49d90f3f3a1935421
-Author: fldev <devteam@fldev.orl>
-Date:   Sat Sep 14 00:00:34 2024 -0400
-
-    Update repo
-
-commit adaad13737a9223ad5c93bde7dac5872dfbd7aeb
-Author: fldev <devteam@fldev.orl>
-Date:   Fri Sep 13 23:58:07 2024 -0400
-
-    Update Repo
-
-commit ffd2746a58027700f6763803d27a23a52c9971d8
-Author: fldev <devteam@fldev.orl>
-Date:   Fri Sep 13 23:57:47 2024 -0400
-
-    Update repo
-
-commit c827fbbb1c4e8b1208c1779c1dbb02244d0d6468
-Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
-Date:   Fri Sep 13 23:57:16 2024 -0400
-
-    Update Makefile
-
-commit 0c55f339413b85cfc3958a7a3d0256cbc1490bd6
-Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
-Date:   Fri Sep 13 23:52:29 2024 -0400
-
-    Update Makefile
-
-commit 1600423b7a641053c1673f1bcebe62e279e3969c
-Author: fldev <devteam@fldev.orl>
-Date:   Fri Sep 13 23:51:26 2024 -0400
-
-    Update Repo
-
-commit fd82fd164d0d37686efdabb4555ed0d2ecfc950a
-Author: fldev <devteam@fldev.orl>
-Date:   Fri Sep 13 23:40:28 2024 -0400
-
-    Upate Repo
-
-commit 3757840ce2602cf83ff58f8dfd7a55f11a99961d
-Author: fldev <devteam@fldev.orl>
-Date:   Fri Sep 13 23:36:42 2024 -0400
-
-    Update Repo
 
 commit 724dc664257db927abae1589b35a778d3d003422
 Author: Virtual-Karen <no@no.no>
@@ -468,30 +330,6 @@ Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
 Date:   Wed Sep 11 02:00:52 2024 -0600
 
     lab1 file pdf
-
-commit fd4b514428af9a8bb25f0b51dc96275854e03a7e
-Author: fldev <devteam@fldev.orl>
-Date:   Tue Sep 10 23:28:09 2024 -0400
-
-    Update MakeFile
-
-commit bfc8e36ff2c15c817597898b48af86fa2f6859d2
-Author: fldev <devteam@fldev.orl>
-Date:   Tue Sep 10 23:24:42 2024 -0400
-
-    Update Code
-
-commit 8e1f867f8f4628028b91e40ae43e659062e23b0b
-Author: fldev <devteam@fldev.orl>
-Date:   Tue Sep 10 22:44:38 2024 -0400
-
-    Update Repo
-
-commit 994e91382c8fe835cd415785a656dd9ad3ccb01b
-Author: fldev <devteam@fldev.orl>
-Date:   Tue Sep 10 21:17:37 2024 -0400
-
-    Update Repo
 
 commit ccf5b0ee6e9b08cc4c4618917e9e05f3818f1133
 Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
