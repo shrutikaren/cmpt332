@@ -33,8 +33,25 @@ header files included:
 	5. sqaure.h --> the header file containing square.c function prototype
 
 Since this is a Windows program, the API needs to be consistent. Hence, instead
-of using void* for instance, we make use of LPVOID.
+of using void* for instance, we make use of LPVOID. The return data type will 
+be DWORD and WINAPI is used to indicate that we are making use of the Windows
+API. A structure may or may not be created but if it is created, it could 
+incorporate int threadid and numSquares. 
 
+The main function takes in the number of arguments and the argument vector to 
+check if there are the right number of arguments. The strings in the argument
+vector performs parsing to turn them into integers. We make use of the HANDLE
+data type array values and double check to ensure that memory were correctly 
+allocated for those. Towards the very end, we make sure to sleep those threads
+and free the space that was used. 
+******************************** PHASE TWO ************************************
+The code will then be specific to the UBC threads. We will kill() the children
+threads when needed. 
+
+******************************* PHASE THREE **********************************
+In this phase our code functions are the same, the only difference will be the 
+syntax that will cater to the Posix threads specifically and we are free to
+exit the threads in any way as we want. 
 
 
 
