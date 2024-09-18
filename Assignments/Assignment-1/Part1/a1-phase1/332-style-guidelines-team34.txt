@@ -1,0 +1,23 @@
+Style Guidelines:
+
+ 1. Use CamelCase for function names, unless otherwise specified.
+ 2. Ensure no dangling pointers; initialize pointers to NULL.
+ 3. Always use braces `{}` with `if`, `for`, and `while` statements, even
+    for single statements.
+ 4. Implement continuous testing as you develop.
+ 5. Include only the necessary headers to minimize dependencies.
+ 6. Write modular code, with clear, well-defined functions.
+ 7. Use UPPERCASE for `#define` directives, constants, and macros.
+ 8. Use 4 spaces for indentation, no tabs.
+ 9. Precompute values outside of loops whenever possible to enhance
+    performance.
+10. Initialize all variables with default values to prevent undefined
+    behavior.
+11. Avoid hardcoding variables, unless explicitly required.
+12. Group variable declarations of the same type on the same line when
+    feasible.
+13. Ensure a single space between operators (e.g., `y = 3 * 8;`).
+14. When dealing with pointers, use the `p->example` syntax rather than
+    `(*p).example`.
+15. Do not use // for comments, always use /* */ pairs.
+
