@@ -1,0 +1,58 @@
+Overview:
+    We are attempting to implement a List Library. A list is made up of nodes, 
+nodes store one non-typed item. The List Library will allow us to create,
+read, manipulate, and destroy these lists. 
+
+Definitions:
+    - List: contains a head node, tail node, count value, and a cursor 
+    "current item". The head and tail node must connect and cannot loop.
+    - Node: contains a non-typed (void pointer) item, next node and previous
+    node.
+
+Functions:
+    *Note*: All functions (with the exception of ListSearch and ListFree) 
+    should run in constant O(1) time.
+
+    Legend: (L = List, I = Item, f = Function)
+
+    ListCreate(): Creates a new empty list.
+    ListCount(L): Returns the number of nodes within the list.
+    ListFirst(L): Returns a pointer to the first item, moves cursor to first.
+    ListLast(L): Ditto, except last.
+    ListNext(L): Ditto, except item next of cursor.
+    ListPrev(L): Ditto, except item previous of cursor.
+    ListCurr(L): Returns a pointer to the cursor's item.
+    ListAdd(L,I): Prepends an item to the cursor's item.
+    ListInsert(L,I): Appends an item to the cursor's item.
+    ListAppend(L,I): Appends an item to the end of the list.
+    ListPrepend(L,I): Prepends an item to the start of the list.
+    ListRemove(L): Pops the current item, returns current item.
+    ListConcat(L,L): Appends the second list to the first, deletes the second.
+    ListFree(L,f): Deletes list, uses function to delete each item.
+    ListTrim(L): Pops the last item of the list.
+    ListSearch(L,f,I): Searches list using comparator function. Returns 
+        pointer to item if found and sets cursor, else returns NULL and
+        sets cursor to last item.
+
+Implementation:
+    A good number of these functions are nearly identical, so I will group similar
+functions when describing their implementation.
+
+ListCreate: Retrieve an unused list item and zero out all values.
+ListCount: return list->count;
+ListFirst/Last/Next/Prev: 
+    list->cursor = list->(head/tail/cursor->next/cursor->prev); 
+    return list->cursor; 
+ListCurr: return list->cursor;
+ListAdd/Insert/Append/Prepend:
+    Retrieve an unused node, zero out values, set item. Connect it to the
+    head, tail, next item, or prev item and ensure all connections are
+    properly maintained.
+ListRemove/Trim: Designate node as unused, stitch together now broken
+    connections. Return item pointer of node.
+ListConcat: list1->tail->next = list2->head; delete list2.
+ListFree: use itemFree on every item, designate List as unused.
+ListSearch: use comparator on every item. Leave cursor on item if comparator
+    is true and return pointer to item.
+
+

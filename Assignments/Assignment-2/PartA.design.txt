@@ -1,1 +1,56 @@
+iFor Part A, this can be achieved by having three main files namely as follows: 
+1. square.h (Header File)
+2. square.c (Source File containing the Square Function)
+3. partA1.c (The program consisting of multithreading)
+
+The reason why keepRunning was not mentioned inside the headerfile and
+initalized was because if the header file is later used with other files that
+may have the same variable name, it could lead to errors in the code. Hence,
+the global variable keepRunning is limited to inside the partA1.c file only.  
+
+FOR SQUARE.H: 
+******************************* PHASE ONE ************************************
+In the header file,we will incorporate: 
+	1. Function prototypes 
+	2. New structure definitions if needed
+These header files will also have header guards since it is a header file. 
+
+
+FOR SQUARE.C:
+******************************** PHASE ONE ***********************************
+The function int Square (int N) mainly does a recursive function to help us 
+calculate the square of the number passed into the function.
+
+
+FOR PARA1.C:
+******************************* PHASE ONE ************************************  
+Inside our partA1.c which consists of the main program will have the following
+header files included: 
+	1. stdio.h --> for input/ output library functions
+	2. stdlib.h --> memory management library functions 
+	3. windows.h --> consists of the Windows system calls 
+	4. time.h --> provides functions to work with the time 
+	5. sqaure.h --> the header file containing square.c function prototype
+
+Since this is a Windows program, the API needs to be consistent. Hence, instead
+of using void* for instance, we make use of LPVOID. The return data type will 
+be DWORD and WINAPI is used to indicate that we are making use of the Windows
+API. A structure may or may not be created but if it is created, it could 
+incorporate int threadid and numSquares. 
+
+The main function takes in the number of arguments and the argument vector to 
+check if there are the right number of arguments. The strings in the argument
+vector performs parsing to turn them into integers. We make use of the HANDLE
+data type array values and double check to ensure that memory were correctly 
+allocated for those. Towards the very end, we make sure to sleep those threads
+and free the space that was used. 
+******************************** PHASE TWO ************************************
+The code will then be specific to the UBC threads. We will kill() the children
+threads when needed. 
+
+******************************* PHASE THREE **********************************
+In this phase our code functions are the same, the only difference will be the 
+syntax that will cater to the Posix threads specifically and we are free to
+exit the threads in any way as we want. 
+
 
