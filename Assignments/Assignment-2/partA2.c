@@ -7,48 +7,49 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "square.h"
-#include <windows.h>
-#include <time.h> 
+#include <pthread.h>
+#include <signal.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <stdbool.h>
 
 /* Thread structure to store thread information */
 typedef struct {
 	int idnum;
-	int numSquare;	
+	int numSquare;
+	struct timeval startTime, endTime; /*in-built structure*/
+	bool finished;	
 } Thread_Info;
-
-
-volatile bool keepRunning = true ; 
 
 /*
  * Purpose: To help us work with the threads to go into the square functions
  */
-DWORD WINAPI ThreadFunction(LPVOID param){
-<<<<<<< HEAD
-	int threadId = *(int*)param;
-	printf("Got to procedure ThreadFunc for the thread %d\n", threadId);
-=======
+void* ThreadFunction(void* param){
 	Thread_Info *thread_id = (Thread_Info*) param;
 	int count = 0, i;
-    double elapsedTime;
+    	double elapsedTime;
 
-	SYSTEMTIME startTime, endTime;
-	GetSystemTime(&startTime);
+	gettimeofday(&thread_id->startTime, NULL);
 
-	for (i=0; i<= thread_id->numSquare && keepRunning; i++){
+	for (i=1; i< thread_id->numSquare; i++){
 		square(i);
 		count++;
 	}
 
-	GetSystemTime(&endTime);
-	elapsedTime = (endTime.wSecond - startTime.wSecond) * 1000 + 
-			(endTime.wMilliseconds - startTime.wMilliseconds);
+	gettimeofday(&thread_id->endTime, NULL);
+	thread_id->finished = true;
 
-	printf("Got to procedure ThreadFunc for the thread %d\n", thread_id->idnum);
+	elapsedTime = (thread_id->endTime.tv_sec - 
+			thread_id->startTime.tv_sec) * 1000 + 
+			(thread_id->endTime.tv_usec - 
+			thread_id->startTime.tv_usec) * 1000;
+
+	printf("Got to procedure ThreadFunc for the thread %d\n", 
+		thread_id->idnum);
 	printf("Thread %d: Elapsed time is %f milliseconds, "
             "number of innovations are %d\n", 
             thread_id->idnum, elapsedTime, count);
->>>>>>> refs/remotes/origin/a1
-	return 0;
+	return NULL;
 }
 
 /*
@@ -56,7 +57,7 @@ DWORD WINAPI ThreadFunction(LPVOID param){
  */
 int main(int argc, char * argv[]) {
 	
-	HANDLE * threads;
+	pthread_t * threads;
 	int num_of_threads, deadline, size, i;
 	Thread_Info * thread_data;
 	
@@ -87,7 +88,7 @@ int main(int argc, char * argv[]) {
 		return -1;
 	}
 	
-	threads = (HANDLE *)malloc(num_of_threads * sizeof(HANDLE));
+	threads = (pthread_t *)malloc(num_of_threads * sizeof(pthread_t));
 	thread_data = (Thread_Info *) malloc(
 			num_of_threads * sizeof(Thread_Info));
 
@@ -98,24 +99,27 @@ int main(int argc, char * argv[]) {
 
 	/* creating the threads */
 	for (i = 0; i < num_of_threads; i++){
-		threads[i] = CreateThread(NULL, 0, ThreadFunction, 
-				&thread_data[i], 0, NULL);
-		if (threads[i] == NULL){
+		thread_data[i].idnum = i + 1;
+		thread_data[i].numSquare = size;
+		thread_data[i].finished = false;
+		if (pthread_create (&threads[i], NULL, ThreadFunction, 
+		&thread_data[i])!=0){
 			printf("Error in procedure CreateThread: Failed to" 
 			"create thread %d\n", i);
 			return -1;
 		}
 	}
 
-	Sleep(deadline*1000);
-<<<<<<< HEAD
-=======
+	sleep(deadline*1000);
 	
-	keepRunning=FALSE;	
->>>>>>> refs/remotes/origin/a1
-
-	WaitForMultipleObjects(num_of_threads, threads, true, INFINITE);
-
+ 	for (i = 0; i < num_of_threads; i++){
+		if (thread_data[i].finished){
+			pthread_join(threads[i], NULL);
+		} 
+		else if (!thread_data[i].finished){
+			pthread_cancel(threads[i]);
+		}
+	}
 	free(threads);
 	free(thread_data);
 
