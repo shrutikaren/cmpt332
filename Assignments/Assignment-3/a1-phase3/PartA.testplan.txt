@@ -1,0 +1,355 @@
+# Jack Donegan, Shruti Kaur
+# lvf165, ich524
+# 11357744, 11339265
+
+This document incorporates the plans and strategies that will be taken when 
+testing the implementation of a multi-threaded program that calculates the 
+sqaure in parallel.
+
+Overview of what each part does:
+partA1 = Windows program running on Intel with Windows API
+partA2 = Linux program using the POSIX thread API
+partA3 = Linux program using the POSIX thread API but more flexible approach
+partA4 = UNIX program using separate processes 
+
+******************************** PART A1 *************************************
+PLEASE NOTE: During the test, I have included this statement "This is [NUMBER]
+iteration" to test if the specific number of iterations were performed. This 
+line is commented out to ensure that the results are specific to the assignment
+specification. But I have included this result inside my PartA.testresult.txt
+file so it proves to you that there is a right amount of iteration being
+performed. 
+
+1. partA1.exe 5 50 20
+Test: Check to see if 5 threads were accurately created. For each thread, we 
+want to be able to ensure that we get the statement "Got to procedure
+ThreadFunc for the thread [NUMBER]" and following this, we should have a 
+statement "Thread [NUMBER]: Elapsed time is [NUMBER] milliseconds, number of
+innovations are [NUMBER]."
+
+2. partA1.exe 0 2 3
+Test: Check if the error message "Error in procedure main: Invalid # of 
+threads" was produced
+
+3. partA1.exe 0 3 4 7
+Test: Check if you get the following statement "Error in procedure main:
+Invalid number of parameters."
+
+4. partA1.exe -9 3 7
+Test: Check if the following statement is obtained "Error in procedure main:
+Invalid # of threads."
+
+5. partA1.exe 9 -8 4
+Test: Check if the following statement is obtained "Error in procedure main:
+Invalid # of deadline." 
+
+6. partA1.exe 9 6 0
+Test: Check if the following statement is obtained "Error in procedure main: 
+Invalid # of size."
+
+7. partA1.exe 
+Test: Repeat of Test 3 situation but with different possible case. Check if the
+following statement is received "Error in procedure main: Invalid number of
+parameters."
+
+8. partA1.exe 0 0 0
+Test: Although all of them are 0, it will first check to see the number of 
+threads so it will produce the following statement "Error in procedure main:
+Invalid # of threads."
+
+9. partA1.exe 3 8
+Test:Check if the following statement is obtained "Error in procedure main: 
+Invalid number of parameters" 
+
+10. partA1.exe -2 -3 8
+Test: Although 2 command line arguments are incorrect here, only the first one
+will be looked at first because that is the first incorrect argument that was
+produced here. We will have the following statements "Error in procedure main:
+Invalid # of threads."
+
+11. partA1.exe 3 -2 -1
+Test: Although 2 command line arguments are incorrect here, the second one is 
+the first command line agrument that was incorrect.In that case, we will obtain
+the following statement "Error in procedure main: Invalid # of deadline."
+
+12. partA1.exe 1 1 -1
+Test: Similar to test case number 6 but here we are putting in a negative value.
+Checking to see if we get the following statement "Error in procedure main:
+Invalid # of size."
+
+13. partA1.exe -3 4 5
+Test: Similar to test case number 2. Previously, we used the 0 but now we are 
+making use of -3. Check if the error statement "Error in procedure main: Invalid
+# of threads." was produced. 
+
+14. partA1.exe 9 0 4
+Test: Similar to case 5 but the only difference is now we are trying the 
+parameter with 0. Check if the following statement is obtained "Error in 
+procedure main: Invalid # of deadline."
+
+15. partA1.exe 8 5 -2 
+Test: Similar to test case 6 but this time, we are now checking with it with 
+a negative value. Check if the following statement is obtained "Error in
+procedure main: Invalid # of tests."
+
+******************************* PART A2 **************************************
+1. ./partA2 3 2 4
+Test: Checking if it was able to generate 3 threads. Each of the thread should 
+be able to produce the following message for its respective thread number based
+on its thread_id, elapsed time and the number of iterations. The message 
+generated should be as follows "Thread [NUMBER] finished at the elapsed time 
+milliseconds of [DEADLINE NUMBER]."
+
+2. ./partA2 9
+Test: Check to see if the statement obtained is "Error in procedure main: 
+Invalid number of parameters."
+
+3. ./partA2 8 8 8 1
+Test: Check to see if the statement obtained is "Error in procedure main: 
+Invalid number of parameters."
+
+4. ./partA2 0 2 2 
+Test: Check to see if the statement obtained is "Error in procedure main:
+Invalid # of threads." 
+
+5. ./partA2 -9 2 3
+Test: Check to see if the statement obtained is "Error in procedure main: 
+Invalid # of threads." Similar to case 4 but the difference is that now we are
+having negative numbers with us.
+
+6. ./partA2 8 0 8 
+Test: Check to see if the statement obtained is "Error in procedure main:
+Invalid # of deadlines" 
+
+7. ./partA2 7 -8 1
+Test: Similar to case 7 but the only difference here is that we are testing with
+a negative number instead of a positive number. Check to see if the statement
+obtained is "Error in procedure main: Invalid # of deadlines."
+
+8. ./partA2 1 1 -1                                                           
+Test: Check to see if we get the following statement "Error in procedure main:
+Invalid # of size."
+
+9. ./partA2 8 8 0
+Test: Similar to case 9. Check to see if we get the following statement "Error
+in procedure main: Invalid # of size"
+
+10. ./partA2 -1 -1 8
+Test: Similar to case 5 but the difference here is that now, we are considering
+what happens when there are 2 incorrect command-line arguments given that 
+the first one is one of the incorrect ones. In that case, when it sees the 
+first one, it will halt and should produce the statement "Errpr in procedure
+main: Invalid # of threads." 
+
+11. ./partA2 8 -7 -8
+Test: Similar to case 8 but again, there are two incorrect command-line 
+arguments. Given that the second one is one of the incorrect arguments, it 
+should produce "Error in procedure main: Invalid # of deadlines." 
+
+12. ./partA2 11 10 3 
+Test: Checking if it was able to generate 11 threads. Each of the thread should 
+be able to produce the following message for its respective thread number based
+on its thread_id, elapsed time and the number of iterations. The message 
+generated should be as follows "Thread [NUMBER] finished at the elapsed time
+milliseconds of [DEADLINE NUMBER]."
+
+13. ./partA2 5 5 1
+Test: Checking if it was able to generate 5 threads. Each of the thread should 
+be able to produce the following message for its respective thread number based
+on its thread_id, elapsed time and the number of iterations. The message 
+generated should be as follows "Thread [NUMBER] finished at the elapsed time
+milliseconds of [DEADLINE NUMBER]."
+
+14. ./partA2 4 2 4
+Test: Checking if it was able to generate 4 threads. Each of the thread should 
+be able to produce the following message for its respective thread number based
+on its thread_id, elapsed time and the number of iterations. The message 
+generated should be as follows "Thread [NUMBER] finished at the elapsed time
+milliseconds of [DEADLINE NUMBER]."
+
+15. ./partA2 10 1 10
+Test: Checking if it was able to generate 10 threads. Each of the thread should 
+be able to produce the following message for its respective thread number based
+on its thread_id, elapsed time and the number of iterations. The message 
+generated should be as follows "Thread [NUMBER] finished at the elapsed time
+milliseconds of [DEADLINE NUMBER]."
+
+Note: Test cases 1, 11-15 is to show that the program works under various
+possibilities in terms of its deadline, size and the number of threads.
+******************************* PART A3 **************************************
+1. ./partA3 5 2 100
+Test: Checking if it was able to generate 5 threads. Each of the thread should 
+be able to produce the following message for its respective thread number based
+on its thread_id, elapsed time and the number of iterations. The message 
+generated should be as follows "Thread [NUMBER] finished at the elapsed time 
+milliseconds of [DEADLINE NUMBER]."
+
+2. ./partA3 10
+Test: Check to see if the statement obtained is "Error in procedure main: 
+Invalid number of parameters."
+
+3. ./partA3 7 6 2 3
+Test: Check to see if the statement obtained is "Error in procedure main: 
+Invalid number of parameters."
+
+4. ./partA3 0 4 1 
+Test: Check to see if the statement obtained is "Error in procedure main:
+Invalid # of threads." 
+
+5. ./partA3 -5 2 4
+Test: Check to see if the statement obtained is "Error in procedure main: 
+Invalid # of threads." Similar to case 4 but the difference is that now we are
+having negative numbers with us.
+
+6. ./partA3 7 0 9
+Test: Check to see if the statement obtained is "Error in procedure main:
+Invalid # of deadlines" 
+
+7. ./partA3 3 -8 2
+Test: Similar to case 7 but the only difference here is that we are testing with
+a negative number instead of a positive number. Check to see if the statement
+obtained is "Error in procedure main: Invalid # of deadlines."
+
+8. ./partA3 4 4 -3                                                           
+Test: Check to see if we get the following statement "Error in procedure main:
+Invalid # of size."
+
+9. ./partA3 4 3 0
+Test: Similar to case 9. Check to see if we get the following statement "Error
+in procedure main: Invalid # of size"
+
+10. ./partA3 -4 -5 2
+Test: Similar to case 5 but the difference here is that now, we are considering
+what happens when there are 2 incorrect command-line arguments given that 
+the first one is one of the incorrect ones. In that case, when it sees the 
+first one, it will halt and should produce the statement "Errpr in procedure
+main: Invalid # of threads." 
+
+11. ./partA3 4 -4 -2
+Test: Similar to case 8 but again, there are two incorrect command-line 
+arguments. Given that the second one is one of the incorrect arguments, it 
+should produce "Error in procedure main: Invalid # of deadlines." 
+
+12. ./partA3 1 1 1 
+Test: Checking if it was able to generate 1 threads. Each of the thread should 
+be able to produce the following message for its respective thread number based
+on its thread_id, elapsed time and the number of iterations. The message 
+generated should be as follows "Thread [NUMBER] finished at the elapsed time
+milliseconds of [DEADLINE NUMBER]."
+
+13. ./partA3 10 100 2
+Test: Checking if it was able to generate 10 threads. Each of the thread should 
+be able to produce the following message for its respective thread number based
+on its thread_id, elapsed time and the number of iterations. The message 
+generated should be as follows "Thread [NUMBER] finished at the elapsed time
+milliseconds of [DEADLINE NUMBER]."
+
+14. ./partA3 2 10 100
+Test: Checking if it was able to generate 2 threads. Each of the thread should 
+be able to produce the following message for its respective thread number based
+on its thread_id, elapsed time and the number of iterations. The message 
+generated should be as follows "Thread [NUMBER] finished at the elapsed time
+milliseconds of [DEADLINE NUMBER]."
+
+15. ./partA3 4 3 2
+Test: Checking if it was able to generate 4 threads. Each of the thread should 
+be able to produce the following message for its respective thread number based
+on its thread_id, elapsed time and the number of iterations. The message 
+generated should be as follows "Thread [NUMBER] finished at the elapsed time
+milliseconds of [DEADLINE NUMBER]."
+
+Note: Test cases 1, 11-15 is to show that the program works under various
+possibilities in terms of its deadline, size and the number of threads.
+
+******************************* PART A4 ***************************************
+PLEASE NOTE: During the test, I have NOT included this statement "This
+is [NUMBER] iteration" since the number of threads that I added as an argument
+were high numbers to see if they were eventually stopped by the signal. 
+
+1. ./partA4 9 1 90
+Test: Checking if it was able to generate 9 threads. Each of the thread should 
+be able to produce the following message for its respective thread number based
+on its thread_id, elapsed time and the number of iterations. The message 
+generated should be as follows "Thread [NUMBER] finished at the elapsed time 
+milliseconds of [DEADLINE NUMBER]."
+
+2. ./partA4 2
+Test: Check to see if the statement obtained is "Error in procedure main: 
+Invalid number of parameters."
+
+3. ./partA4 4 2 5 1
+Test: Check to see if the statement obtained is "Error in procedure main: 
+Invalid number of parameters."
+
+4. ./partA4 0 8 9 
+Test: Check to see if the statement obtained is "Error in procedure main:
+Invalid # of threads." 
+
+5. ./partA4 -5 2 2
+Test: Check to see if the statement obtained is "Error in procedure main: 
+Invalid # of threads." Similar to case 4 but the difference is that now we are
+having negative numbers with us.
+
+6. ./partA4 10 0 2
+Test: Check to see if the statement obtained is "Error in procedure main:
+Invalid # of deadlines" 
+
+7. ./partA4 4 -2 1
+Test: Similar to case 7 but the only difference here is that we are testing with
+a negative number instead of a positive number. Check to see if the statement
+obtained is "Error in procedure main: Invalid # of deadlines."
+
+8. ./partA4 2 4 -3                                                           
+Test: Check to see if we get the following statement "Error in procedure main: 
+Invalid # of size."
+
+9. ./partA4 2 1 0
+Test: Similar to case 9. Check to see if we get the following statement "Error
+in procedure main: Invalid # of size"
+
+10. ./partA4 -100 -5 2
+Test: Similar to case 5 but the difference here is that now, we are considering
+what happens when there are 2 incorrect command-line arguments given that 
+the first one is one of the incorrect ones. In that case, when it sees the 
+first one, it will halt and should produce the statement "Errpr in procedure
+main: Invalid # of threads." 
+
+11. ./partA4 2 -10 -2
+Test: Similar to case 8 but again, there are two incorrect command-line 
+arguments. Given that the second one is one of the incorrect arguments, it 
+should produce "Error in procedure main: Invalid # of deadlines." 
+
+12. ./partA4 5 4 2
+Test: Checking if it was able to generate 5 threads. Each of the thread 
+should be able to produce the following message for its respective thread number
+based on its thread_id, elapsed time and the number of iterations. The message 
+generated should be as follows "Thread [NUMBER] finished at the elapsed time
+milliseconds of [DEADLINE NUMBER]."
+
+13. ./partA4 5 2 5
+**FOR THIS ONE SPECIFICALLY, I ADDED THE PRINT STATEMENT IN THE FILE TO PROVE
+THAT THE ITERATIONS FOR EACH THREAD DOES OCCUR. IN THIS CASE, IT WILL BE 5
+ITERATION FOR THE THREAD. THE REASON WHY I DID IT HERE IS BECAUSE THE NUMBER
+OF THREADS ARE SMALLER SO IT IS EASIER TO DISPLAY.
+Test: Checking if it was able to generate 5 threads. Each of the thread should 
+be able to produce the following message for its respective thread number based
+on its thread_id, elapsed time and the number of iterations. The message 
+generated should be as follows "Thread [NUMBER] finished at the elapsed time
+milliseconds of [DEADLINE NUMBER]."
+
+14. ./partA4 2 10 100
+Test: Checking if it was able to generate 2 threads. Each of the thread should 
+be able to produce the following message for its respective thread number based
+on its thread_id, elapsed time and the number of iterations. The message 
+generated should be as follows "Thread [NUMBER] finished at the elapsed time
+milliseconds of [DEADLINE NUMBER]."
+
+15. ./partA4 400 3 2000
+Test: Checking if it was able to generate 400  threads. Each of the thread
+should be able to produce the following message for its respective thread
+number based on its thread_id, elapsed time and the number of iterations. 
+The message generated should be as follows "Thread [NUMBER] finished at the 
+elapsed time milliseconds of [DEADLINE NUMBER]."
+
+
+

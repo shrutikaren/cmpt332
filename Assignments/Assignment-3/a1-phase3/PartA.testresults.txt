@@ -1,0 +1,2655 @@
+# Jack Donegan, Shruti Kaur
+# lvf165, ich524
+# 11357744, 11339265
+
+***************************** PART ONE *************************
+TEST CASES: 
+1.
+partA1.exe 5 50 20
+This is the 1 iteration
+This is the 1 iteration
+This is the 2 iteration
+This is the 3 iteration
+This is the 4 iteration
+This is the 5 iteration
+This is the 6 iteration
+This is the 7 iteration
+This is the 8 iteration
+This is the 9 iteration
+This is the 10 iteration
+This is the 11 iteration
+This is the 12 iteration
+This is the 13 iteration
+This is the 14 iteration
+This is the 15 iteration
+This is the 16 iteration
+This is the 17 iteration
+This is the 1 iteration
+This is the 2 iteration
+This is the 3 iteration
+This is the 4 iteration
+This is the 5 iteration
+This is the 6 iteration
+This is the 7 iteration
+This is the 8 iteration
+This is the 9 iteration
+This is the 10 iteration
+This is the 11 iteration
+This is the 12 iteration
+This is the 13 iteration
+This is the 14 iteration
+This is the 15 iteration
+This is the 16 iteration
+This is the 17 iteration
+This is the 18 iteration
+This is the 19 iteration
+This is the 20 iteration
+Got to procedure ThreadFunc for the thread 5
+Thread 5: Elapsed time is 3.000000 milliseconds, number of innovations are 20
+This is the 1 iteration
+This is the 2 iteration
+This is the 3 iteration
+This is the 4 iteration
+This is the 5 iteration
+This is the 6 iteration
+This is the 7 iteration
+This is the 8 iteration
+This is the 9 iteration
+This is the 10 iteration
+This is the 11 iteration
+This is the 12 iteration
+This is the 13 iteration
+This is the 14 iteration
+This is the 15 iteration
+This is the 16 iteration
+This is the 17 iteration
+This is the 18 iteration
+This is the 19 iteration
+This is the 20 iteration
+Got to procedure ThreadFunc for the thread 2
+Thread 2: Elapsed time is 4.000000 milliseconds, number of innovations are 20
+This is the 1 iteration
+This is the 2 iteration
+This is the 3 iteration
+This is the 4 iteration
+This is the 5 iteration
+This is the 6 iteration
+This is the 7 iteration
+This is the 8 iteration
+This is the 9 iteration
+This is the 10 iteration
+This is the 11 iteration
+This is the 12 iteration
+This is the 13 iteration
+This is the 14 iteration
+This is the 15 iteration
+This is the 16 iteration
+This is the 17 iteration
+This is the 18 iteration
+This is the 19 iteration
+This is the 20 iteration
+Got to procedure ThreadFunc for the thread 4
+Thread 4: Elapsed time is 5.000000 milliseconds, number of innovations are 20
+This is the 18 iteration
+This is the 19 iteration
+This is the 20 iteration
+Got to procedure ThreadFunc for the thread 3
+Thread 3: Elapsed time is 5.000000 milliseconds, number of innovations are 20
+This is the 2 iteration
+This is the 3 iteration
+This is the 4 iteration
+This is the 5 iteration
+This is the 6 iteration
+This is the 7 iteration
+This is the 8 iteration
+This is the 9 iteration
+This is the 10 iteration
+This is the 11 iteration
+This is the 12 iteration
+This is the 13 iteration
+This is the 14 iteration
+This is the 15 iteration
+This is the 16 iteration
+This is the 17 iteration
+This is the 18 iteration
+This is the 19 iteration
+This is the 20 iteration
+Got to procedure ThreadFunc for the thread 1
+
+2. 
+partA1.exe 0 2 3
+Error in procedure main: Invalid # of threads
+
+3. 
+partA1.exe 0 3 4 7
+Error in procedure main: Invalid number of parameters
+
+4. 
+partA1.exe -9 3 7
+Error in procedure main: Invalid # of threads
+
+5.
+partA1.exe 9 -8 4
+Error in procedure main: Invalid # of deadline
+
+6.
+partA1.exe 9 6 0
+Error in procedure main: Invalid # of size
+
+7. 
+partA1.exe
+Error in procedure main: Invalid number of parameters
+
+8. 
+partA1.exe 0 0 0
+Error in procedure main: Invalid # of threads
+
+9. 
+partA1.exe 3 8
+Error in procedure main: Invalid number of parameters
+
+10. 
+partA1.exe -2 -3 8
+Error in procedure main: Invalid # of threads
+
+11. 
+partA1.exe 3 -2 -1
+Error in procedure main: Invalid # of deadline
+
+12. 
+partA1.exe 1 1 -1
+Error in procedure main: Invalid # of size
+
+13. 
+partA1.exe -3 4 5
+Error in procedure main: Invalid # of threads
+
+14.
+partA1.exe 9 0 4
+Error in procedure main: Invalid # of deadline
+
+15.
+partA1.exe 8 5 -2
+Error in procedure main: Invalid # of size
+
+***************************** PART TWO *************************
+***PLEASE
+
+1. ./partA2 3 2 4
+./partA2 3 2 4
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+Got to procedure ThreadFunc for the thread 1
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+Got to procedure ThreadFunc for the thread 2
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+Got to procedure ThreadFunc for the thread 3
+Thread 1 finished at the elapsed time milliseconds of 2000
+Thread 2 finished at the elapsed time milliseconds of 2000
+Thread 3 finished at the elapsed time milliseconds of 2000
+
+2. ./partA2 9
+Error in procedure main: Invalid number of parameters
+
+3. ./partA2 8 8 8 1
+Error in procedure main: Invalid number of parameters
+
+4. ./partA2 0 2 2
+Error in procedure main: Invalid # of threads
+
+5. ./partA2 -9 2 3
+Error in procedure main: Invalid # of threads
+
+6. ./partA2 8 0 8
+Error in procedure main: Invalid # of deadline
+
+7. ./partA2 7 -8 1
+Error in procedure main: Invalid # of deadline
+
+8. ./partA2 1 1 -1
+Error in procedure main: Invalid # of size
+
+9. ./partA2 8 8 0
+Error in procedure main: Invalid # of size
+
+10. ./partA2 -1 -1 8
+Error in procedure main: Invalid # of threads
+
+11. ./partA2 8 -7 -8
+Error in procedure main: Invalid # of deadline
+
+12. ./partA2 11 10 3
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 1
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 4
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 5
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 3
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 2
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 6
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 8
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 7
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 9
+This is iteration number 1
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 11
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 10
+Thread 1 finished at the elapsed time milliseconds of 10000
+Thread 2 finished at the elapsed time milliseconds of 10000
+Thread 3 finished at the elapsed time milliseconds of 10000
+Thread 4 finished at the elapsed time milliseconds of 10000
+Thread 5 finished at the elapsed time milliseconds of 10000
+Thread 6 finished at the elapsed time milliseconds of 10000
+Thread 7 finished at the elapsed time milliseconds of 10000
+Thread 8 finished at the elapsed time milliseconds of 10000
+Thread 9 finished at the elapsed time milliseconds of 10000
+Thread 10 finished at the elapsed time milliseconds of 10000
+Thread 11 finished at the elapsed time milliseconds of 10000
+
+13. ./partA2 5 5 1
+This is iteration number 1
+Got to procedure ThreadFunc for the thread 2
+This is iteration number 1
+This is iteration number 1
+This is iteration number 1
+Got to procedure ThreadFunc for the thread 3
+Got to procedure ThreadFunc for the thread 1
+Got to procedure ThreadFunc for the thread 5
+This is iteration number 1
+Got to procedure ThreadFunc for the thread 4
+Thread 1 finished at the elapsed time milliseconds of 5000
+Thread 2 finished at the elapsed time milliseconds of 5000
+Thread 3 finished at the elapsed time milliseconds of 5000
+Thread 4 finished at the elapsed time milliseconds of 5000
+Thread 5 finished at the elapsed time milliseconds of 5000
+
+14. ./partA2 4 2 4
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+Got to procedure ThreadFunc for the thread 1
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+Got to procedure ThreadFunc for the thread 2
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+Got to procedure ThreadFunc for the thread 3
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+Got to procedure ThreadFunc for the thread 4
+Thread 1 finished at the elapsed time milliseconds of 2000
+Thread 2 finished at the elapsed time milliseconds of 2000
+Thread 3 finished at the elapsed time milliseconds of 2000
+Thread 4 finished at the elapsed time milliseconds of 2000
+
+15. This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+Got to procedure ThreadFunc for the thread 5
+This is iteration number 1
+This is iteration number 2
+This is iteration number 1
+This is iteration number 7
+This is iteration number 8
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 9
+This is iteration number 10
+Got to procedure ThreadFunc for the thread 3
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+Got to procedure ThreadFunc for the thread 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 10
+This is iteration number 3
+This is iteration number 1
+This is iteration number 2
+This is iteration number 9
+This is iteration number 10
+This is iteration number 5
+This is iteration number 6
+This is iteration number 4
+This is iteration number 5
+Got to procedure ThreadFunc for the thread 1
+This is iteration number 4
+This is iteration number 5
+This is iteration number 1
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 8
+This is iteration number 7
+This is iteration number 6
+This is iteration number 7
+This is iteration number 2
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+Got to procedure ThreadFunc for the thread 10
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+Got to procedure ThreadFunc for the thread 9
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+Got to procedure ThreadFunc for the thread 2
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+Got to procedure ThreadFunc for the thread 7
+Got to procedure ThreadFunc for the thread 6
+Thread 1 finished at the elapsed time milliseconds of 1000
+Thread 2 finished at the elapsed time milliseconds of 1000
+Thread 3 finished at the elapsed time milliseconds of 1000
+Thread 4 finished at the elapsed time milliseconds of 1000
+Thread 5 finished at the elapsed time milliseconds of 1000
+Thread 6 finished at the elapsed time milliseconds of 1000
+Thread 7 finished at the elapsed time milliseconds of 1000
+Thread 8 finished at the elapsed time milliseconds of 1000
+Thread 9 finished at the elapsed time milliseconds of 1000
+Thread 10 finished at the elapsed time milliseconds of 1000
+
+******************************* PART THREE ***********************************
+1. ./partA3 5 2 100
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+This is iteration number 11
+This is iteration number 12
+This is iteration number 13
+This is iteration number 14
+This is iteration number 15
+This is iteration number 16
+This is iteration number 17
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+This is iteration number 11
+This is iteration number 12
+This is iteration number 13
+This is iteration number 14
+This is iteration number 15
+This is iteration number 16
+This is iteration number 17
+This is iteration number 18
+This is iteration number 19
+This is iteration number 20
+This is iteration number 21
+This is iteration number 22
+This is iteration number 23
+This is iteration number 24
+This is iteration number 25
+This is iteration number 26
+This is iteration number 27
+This is iteration number 28
+This is iteration number 29
+This is iteration number 30
+This is iteration number 31
+This is iteration number 32
+This is iteration number 33
+This is iteration number 34
+This is iteration number 35
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+This is iteration number 11
+This is iteration number 12
+This is iteration number 13
+This is iteration number 14
+This is iteration number 15
+This is iteration number 16
+This is iteration number 17
+This is iteration number 18
+This is iteration number 19
+This is iteration number 9
+This is iteration number 10
+This is iteration number 36
+This is iteration number 37
+This is iteration number 38
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+This is iteration number 11
+This is iteration number 12
+This is iteration number 13
+This is iteration number 14
+This is iteration number 15
+This is iteration number 16
+This is iteration number 17
+This is iteration number 18
+This is iteration number 19
+This is iteration number 20
+This is iteration number 21
+This is iteration number 22
+This is iteration number 23
+This is iteration number 11
+This is iteration number 12
+This is iteration number 13
+This is iteration number 14
+This is iteration number 15
+This is iteration number 24
+This is iteration number 25
+This is iteration number 26
+This is iteration number 27
+This is iteration number 28
+This is iteration number 16
+This is iteration number 17
+This is iteration number 18
+This is iteration number 19
+This is iteration number 20
+This is iteration number 21
+This is iteration number 22
+This is iteration number 23
+This is iteration number 24
+This is iteration number 25
+This is iteration number 29
+This is iteration number 30
+This is iteration number 31
+This is iteration number 32
+This is iteration number 26
+This is iteration number 27
+This is iteration number 28
+This is iteration number 29
+This is iteration number 33
+This is iteration number 34
+This is iteration number 35
+This is iteration number 36
+This is iteration number 37
+This is iteration number 38
+This is iteration number 39
+This is iteration number 20
+This is iteration number 39
+This is iteration number 40
+This is iteration number 41
+This is iteration number 42
+This is iteration number 43
+This is iteration number 44
+This is iteration number 45
+This is iteration number 30
+This is iteration number 31
+This is iteration number 18
+This is iteration number 19
+This is iteration number 40
+This is iteration number 21
+This is iteration number 46
+This is iteration number 47
+This is iteration number 48
+This is iteration number 49
+This is iteration number 50
+This is iteration number 22
+This is iteration number 23
+This is iteration number 24
+This is iteration number 25
+This is iteration number 41
+This is iteration number 51
+This is iteration number 52
+This is iteration number 53
+This is iteration number 26
+This is iteration number 27
+This is iteration number 28
+This is iteration number 29
+This is iteration number 30
+This is iteration number 31
+This is iteration number 54
+This is iteration number 42
+This is iteration number 32
+This is iteration number 20
+This is iteration number 32
+This is iteration number 55
+This is iteration number 56
+This is iteration number 33
+This is iteration number 34
+This is iteration number 35
+This is iteration number 36
+This is iteration number 57
+This is iteration number 58
+This is iteration number 59
+This is iteration number 33
+This is iteration number 34
+This is iteration number 35
+This is iteration number 36
+This is iteration number 37
+This is iteration number 60
+This is iteration number 61
+This is iteration number 37
+This is iteration number 38
+This is iteration number 21
+This is iteration number 38
+This is iteration number 43
+This is iteration number 62
+This is iteration number 63
+This is iteration number 22
+This is iteration number 39
+This is iteration number 44
+This is iteration number 45
+This is iteration number 46
+This is iteration number 23
+This is iteration number 24
+This is iteration number 25
+This is iteration number 26
+This is iteration number 39
+This is iteration number 40
+This is iteration number 41
+This is iteration number 47
+This is iteration number 40
+This is iteration number 27
+This is iteration number 64
+This is iteration number 42
+This is iteration number 48
+This is iteration number 49
+This is iteration number 28
+This is iteration number 29
+This is iteration number 65
+This is iteration number 43
+This is iteration number 44
+This is iteration number 45
+This is iteration number 30
+This is iteration number 31
+This is iteration number 66
+This is iteration number 41
+This is iteration number 50
+This is iteration number 46
+This is iteration number 32
+This is iteration number 67
+This is iteration number 68
+This is iteration number 51
+This is iteration number 52
+This is iteration number 47
+This is iteration number 48
+This is iteration number 49
+This is iteration number 50
+This is iteration number 51
+This is iteration number 53
+This is iteration number 54
+This is iteration number 33
+This is iteration number 34
+This is iteration number 42
+This is iteration number 43
+This is iteration number 44
+This is iteration number 45
+This is iteration number 52
+This is iteration number 55
+This is iteration number 35
+This is iteration number 69
+This is iteration number 46
+This is iteration number 53
+This is iteration number 54
+This is iteration number 36
+This is iteration number 37
+This is iteration number 38
+This is iteration number 39
+This is iteration number 40
+This is iteration number 41
+This is iteration number 42
+This is iteration number 55
+This is iteration number 56
+This is iteration number 70
+This is iteration number 71
+This is iteration number 47
+This is iteration number 48
+This is iteration number 49
+This is iteration number 43
+This is iteration number 44
+This is iteration number 45
+This is iteration number 46
+This is iteration number 72
+This is iteration number 73
+This is iteration number 56
+This is iteration number 57
+This is iteration number 58
+This is iteration number 59
+This is iteration number 47
+This is iteration number 74
+This is iteration number 50
+This is iteration number 57
+This is iteration number 58
+This is iteration number 48
+This is iteration number 49
+This is iteration number 75
+This is iteration number 51
+This is iteration number 60
+This is iteration number 61
+This is iteration number 50
+This is iteration number 51
+This is iteration number 76
+This is iteration number 52
+This is iteration number 59
+This is iteration number 60
+This is iteration number 52
+This is iteration number 77
+This is iteration number 53
+This is iteration number 54
+This is iteration number 55
+This is iteration number 53
+This is iteration number 54
+This is iteration number 78
+This is iteration number 62
+This is iteration number 63
+This is iteration number 64
+This is iteration number 55
+This is iteration number 56
+This is iteration number 57
+This is iteration number 61
+This is iteration number 62
+This is iteration number 63
+This is iteration number 64
+This is iteration number 79
+This is iteration number 58
+This is iteration number 56
+This is iteration number 65
+This is iteration number 66
+This is iteration number 80
+This is iteration number 59
+This is iteration number 57
+This is iteration number 65
+This is iteration number 67
+This is iteration number 81
+This is iteration number 82
+This is iteration number 58
+This is iteration number 59
+This is iteration number 60
+This is iteration number 68
+This is iteration number 69
+This is iteration number 60
+This is iteration number 61
+This is iteration number 62
+This is iteration number 66
+This is iteration number 67
+This is iteration number 68
+This is iteration number 69
+This is iteration number 83
+This is iteration number 84
+This is iteration number 85
+This is iteration number 61
+This is iteration number 62
+This is iteration number 63
+This is iteration number 64
+This is iteration number 65
+This is iteration number 66
+This is iteration number 86
+This is iteration number 87
+This is iteration number 88
+This is iteration number 70
+This is iteration number 71
+This is iteration number 72
+This is iteration number 73
+This is iteration number 74
+This is iteration number 89
+This is iteration number 63
+This is iteration number 67
+This is iteration number 68
+This is iteration number 69
+This is iteration number 90
+This is iteration number 91
+This is iteration number 92
+This is iteration number 70
+This is iteration number 71
+This is iteration number 72
+This is iteration number 70
+This is iteration number 71
+This is iteration number 72
+This is iteration number 73
+This is iteration number 74
+This is iteration number 75
+This is iteration number 76
+This is iteration number 64
+This is iteration number 65
+This is iteration number 66
+This is iteration number 75
+This is iteration number 76
+This is iteration number 77
+This is iteration number 78
+This is iteration number 79
+This is iteration number 80
+This is iteration number 67
+This is iteration number 73
+This is iteration number 77
+This is iteration number 93
+This is iteration number 94
+This is iteration number 95
+This is iteration number 74
+This is iteration number 75
+This is iteration number 76
+This is iteration number 77
+This is iteration number 68
+This is iteration number 69
+This is iteration number 78
+This is iteration number 79
+This is iteration number 80
+This is iteration number 81
+This is iteration number 96
+This is iteration number 70
+This is iteration number 81
+This is iteration number 78
+This is iteration number 82
+This is iteration number 97
+This is iteration number 71
+This is iteration number 82
+This is iteration number 79
+This is iteration number 80
+This is iteration number 98
+This is iteration number 99
+This is iteration number 72
+This is iteration number 83
+This is iteration number 84
+This is iteration number 85
+This is iteration number 100
+This is iteration number 73
+Got to procedure ThreadFunc for the thread 2
+This is iteration number 81
+This is iteration number 86
+This is iteration number 87
+This is iteration number 74
+This is iteration number 75
+This is iteration number 83
+This is iteration number 84
+This is iteration number 85
+This is iteration number 86
+This is iteration number 76
+This is iteration number 77
+This is iteration number 88
+This is iteration number 89
+This is iteration number 90
+This is iteration number 91
+This is iteration number 78
+This is iteration number 79
+This is iteration number 82
+This is iteration number 87
+This is iteration number 88
+This is iteration number 89
+This is iteration number 90
+This is iteration number 91
+This is iteration number 92
+This is iteration number 93
+This is iteration number 94
+This is iteration number 80
+This is iteration number 81
+This is iteration number 83
+This is iteration number 84
+This is iteration number 85
+This is iteration number 95
+This is iteration number 96
+This is iteration number 82
+This is iteration number 92
+This is iteration number 86
+This is iteration number 97
+This is iteration number 83
+This is iteration number 93
+This is iteration number 87
+This is iteration number 98
+This is iteration number 84
+This is iteration number 85
+This is iteration number 88
+This is iteration number 89
+This is iteration number 90
+This is iteration number 91
+This is iteration number 86
+This is iteration number 87
+This is iteration number 94
+This is iteration number 95
+This is iteration number 96
+This is iteration number 97
+This is iteration number 88
+This is iteration number 89
+This is iteration number 99
+This is iteration number 100
+Got to procedure ThreadFunc for the thread 3
+This is iteration number 92
+This is iteration number 93
+This is iteration number 90
+This is iteration number 98
+This is iteration number 94
+This is iteration number 95
+This is iteration number 96
+This is iteration number 91
+This is iteration number 92
+This is iteration number 97
+This is iteration number 98
+This is iteration number 99
+This is iteration number 93
+This is iteration number 94
+This is iteration number 100
+Got to procedure ThreadFunc for the thread 5
+This is iteration number 95
+This is iteration number 96
+This is iteration number 99
+This is iteration number 100
+Got to procedure ThreadFunc for the thread 4
+This is iteration number 97
+This is iteration number 98
+This is iteration number 99
+This is iteration number 100
+Got to procedure ThreadFunc for the thread 1
+Thread 1 finished at the elapsed time milliseconds of 2000
+Thread 2 finished at the elapsed time milliseconds of 2000
+Thread 3 finished at the elapsed time milliseconds of 2000
+Thread 4 finished at the elapsed time milliseconds of 2000
+Thread 5 finished at the elapsed time milliseconds of 2000
+
+2. ./partA3 10
+Error in procedure main: Invalid number of parameters
+
+3. ./partA3 7 6 2 3
+Error in procedure main: Invalid number of parameters
+
+4. ./partA3 0 4 1
+Error in procedure main: Invalid # of threads
+
+5. ./partA3 -5 2 4
+Error in procedure main: Invalid # of threads
+
+6. ./partA3 7 0 9
+Error in procedure main: Invalid # of deadline
+
+7. ./partA3 3 -8 2
+Error in procedure main: Invalid # of deadline
+
+8. ./partA3 4 4 -3
+Error in procedure main: Invalid # of size
+
+9. ./partA3 4 3 0
+Error in procedure main: Invalid # of size
+
+10. ./partA3 4 -5 2
+Error in procedure main: Invalid # of deadline
+
+11. ./partA3 4 -4 2
+Error in procedure main: Invalid # of deadline
+
+12. ./partA3 1 1 1
+This is iteration number 1
+Got to procedure ThreadFunc for the thread 1
+Thread 1 finished at the elapsed time milliseconds of 1000
+
+13. ./partA3 10 100 2
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 1
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 4
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 3
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 5
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 2
+This is iteration number 1
+This is iteration number 2
+This is iteration number 1
+This is iteration number 2
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 6
+Got to procedure ThreadFunc for the thread 7
+Got to procedure ThreadFunc for the thread 8
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 9
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 10
+Thread 1 finished at the elapsed time milliseconds of 100000
+Thread 2 finished at the elapsed time milliseconds of 100000
+Thread 3 finished at the elapsed time milliseconds of 100000
+Thread 4 finished at the elapsed time milliseconds of 100000
+Thread 5 finished at the elapsed time milliseconds of 100000
+Thread 6 finished at the elapsed time milliseconds of 100000
+Thread 7 finished at the elapsed time milliseconds of 100000
+Thread 8 finished at the elapsed time milliseconds of 100000
+Thread 9 finished at the elapsed time milliseconds of 100000
+Thread 10 finished at the elapsed time milliseconds of 100000
+
+14. ./partA3 2 10 10
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+Got to procedure ThreadFunc for the thread 1
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+Got to procedure ThreadFunc for the thread 2
+Thread 1 finished at the elapsed time milliseconds of 10000
+Thread 2 finished at the elapsed time milliseconds of 10000
+
+15. ./partA3 4 3 2
+This is iteration number 1
+This is iteration number 2
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 2
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 4
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 3
+Got to procedure ThreadFunc for the thread 1
+Thread 1 finished at the elapsed time milliseconds of 3000
+Thread 2 finished at the elapsed time milliseconds of 3000
+Thread 3 finished at the elapsed time milliseconds of 3000
+Thread 4 finished at the elapsed time milliseconds of 3000
+
+******************************** PART FOUR ************************************
+=======
+# Jack Donegan, Shruti Kaur
+# lvf165, ich524
+# 11357744, 11339265
+
+***************************** PART ONE *************************
+TEST CASES: 
+1.
+partA1.exe 5 50 20
+This is the 1 iteration
+This is the 1 iteration
+This is the 2 iteration
+This is the 3 iteration
+This is the 4 iteration
+This is the 5 iteration
+This is the 6 iteration
+This is the 7 iteration
+This is the 8 iteration
+This is the 9 iteration
+This is the 10 iteration
+This is the 11 iteration
+This is the 12 iteration
+This is the 13 iteration
+This is the 14 iteration
+This is the 15 iteration
+This is the 16 iteration
+This is the 17 iteration
+This is the 1 iteration
+This is the 2 iteration
+This is the 3 iteration
+This is the 4 iteration
+This is the 5 iteration
+This is the 6 iteration
+This is the 7 iteration
+This is the 8 iteration
+This is the 9 iteration
+This is the 10 iteration
+This is the 11 iteration
+This is the 12 iteration
+This is the 13 iteration
+This is the 14 iteration
+This is the 15 iteration
+This is the 16 iteration
+This is the 17 iteration
+This is the 18 iteration
+This is the 19 iteration
+This is the 20 iteration
+Got to procedure ThreadFunc for the thread 5
+Thread 5: Elapsed time is 3.000000 milliseconds, number of innovations are 20
+This is the 1 iteration
+This is the 2 iteration
+This is the 3 iteration
+This is the 4 iteration
+This is the 5 iteration
+This is the 6 iteration
+This is the 7 iteration
+This is the 8 iteration
+This is the 9 iteration
+This is the 10 iteration
+This is the 11 iteration
+This is the 12 iteration
+This is the 13 iteration
+This is the 14 iteration
+This is the 15 iteration
+This is the 16 iteration
+This is the 17 iteration
+This is the 18 iteration
+This is the 19 iteration
+This is the 20 iteration
+Got to procedure ThreadFunc for the thread 2
+Thread 2: Elapsed time is 4.000000 milliseconds, number of innovations are 20
+This is the 1 iteration
+This is the 2 iteration
+This is the 3 iteration
+This is the 4 iteration
+This is the 5 iteration
+This is the 6 iteration
+This is the 7 iteration
+This is the 8 iteration
+This is the 9 iteration
+This is the 10 iteration
+This is the 11 iteration
+This is the 12 iteration
+This is the 13 iteration
+This is the 14 iteration
+This is the 15 iteration
+This is the 16 iteration
+This is the 17 iteration
+This is the 18 iteration
+This is the 19 iteration
+This is the 20 iteration
+Got to procedure ThreadFunc for the thread 4
+Thread 4: Elapsed time is 5.000000 milliseconds, number of innovations are 20
+This is the 18 iteration
+This is the 19 iteration
+This is the 20 iteration
+Got to procedure ThreadFunc for the thread 3
+Thread 3: Elapsed time is 5.000000 milliseconds, number of innovations are 20
+This is the 2 iteration
+This is the 3 iteration
+This is the 4 iteration
+This is the 5 iteration
+This is the 6 iteration
+This is the 7 iteration
+This is the 8 iteration
+This is the 9 iteration
+This is the 10 iteration
+This is the 11 iteration
+This is the 12 iteration
+This is the 13 iteration
+This is the 14 iteration
+This is the 15 iteration
+This is the 16 iteration
+This is the 17 iteration
+This is the 18 iteration
+This is the 19 iteration
+This is the 20 iteration
+Got to procedure ThreadFunc for the thread 1
+
+2. 
+partA1.exe 0 2 3
+Error in procedure main: Invalid # of threads
+
+3. 
+partA1.exe 0 3 4 7
+Error in procedure main: Invalid number of parameters
+
+4. 
+partA1.exe -9 3 7
+Error in procedure main: Invalid # of threads
+
+5.
+partA1.exe 9 -8 4
+Error in procedure main: Invalid # of deadline
+
+6.
+partA1.exe 9 6 0
+Error in procedure main: Invalid # of size
+
+7. 
+partA1.exe
+Error in procedure main: Invalid number of parameters
+
+8. 
+partA1.exe 0 0 0
+Error in procedure main: Invalid # of threads
+
+9. 
+partA1.exe 3 8
+Error in procedure main: Invalid number of parameters
+
+10. 
+partA1.exe -2 -3 8
+Error in procedure main: Invalid # of threads
+
+11. 
+partA1.exe 3 -2 -1
+Error in procedure main: Invalid # of deadline
+
+12. 
+partA1.exe 1 1 -1
+Error in procedure main: Invalid # of size
+
+13. 
+partA1.exe -3 4 5
+Error in procedure main: Invalid # of threads
+
+14.
+partA1.exe 9 0 4
+Error in procedure main: Invalid # of deadline
+
+15.
+partA1.exe 8 5 -2
+Error in procedure main: Invalid # of size
+
+***************************** PART TWO *************************
+***PLEASE
+
+1. ./partA2 3 2 4
+./partA2 3 2 4
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+Got to procedure ThreadFunc for the thread 1
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+Got to procedure ThreadFunc for the thread 2
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+Got to procedure ThreadFunc for the thread 3
+Thread 1 finished at the elapsed time milliseconds of 2000
+Thread 2 finished at the elapsed time milliseconds of 2000
+Thread 3 finished at the elapsed time milliseconds of 2000
+
+2. ./partA2 9
+Error in procedure main: Invalid number of parameters
+
+3. ./partA2 8 8 8 1
+Error in procedure main: Invalid number of parameters
+
+4. ./partA2 0 2 2
+Error in procedure main: Invalid # of threads
+
+5. ./partA2 -9 2 3
+Error in procedure main: Invalid # of threads
+
+6. ./partA2 8 0 8
+Error in procedure main: Invalid # of deadline
+
+7. ./partA2 7 -8 1
+Error in procedure main: Invalid # of deadline
+
+8. ./partA2 1 1 -1
+Error in procedure main: Invalid # of size
+
+9. ./partA2 8 8 0
+Error in procedure main: Invalid # of size
+
+10. ./partA2 -1 -1 8
+Error in procedure main: Invalid # of threads
+
+11. ./partA2 8 -7 -8
+Error in procedure main: Invalid # of deadline
+
+12. ./partA2 11 10 3
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 1
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 4
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 5
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 3
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 2
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 6
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 8
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 7
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 9
+This is iteration number 1
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 11
+This is iteration number 2
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 10
+Thread 1 finished at the elapsed time milliseconds of 10000
+Thread 2 finished at the elapsed time milliseconds of 10000
+Thread 3 finished at the elapsed time milliseconds of 10000
+Thread 4 finished at the elapsed time milliseconds of 10000
+Thread 5 finished at the elapsed time milliseconds of 10000
+Thread 6 finished at the elapsed time milliseconds of 10000
+Thread 7 finished at the elapsed time milliseconds of 10000
+Thread 8 finished at the elapsed time milliseconds of 10000
+Thread 9 finished at the elapsed time milliseconds of 10000
+Thread 10 finished at the elapsed time milliseconds of 10000
+Thread 11 finished at the elapsed time milliseconds of 10000
+
+13. ./partA2 5 5 1
+This is iteration number 1
+Got to procedure ThreadFunc for the thread 2
+This is iteration number 1
+This is iteration number 1
+This is iteration number 1
+Got to procedure ThreadFunc for the thread 3
+Got to procedure ThreadFunc for the thread 1
+Got to procedure ThreadFunc for the thread 5
+This is iteration number 1
+Got to procedure ThreadFunc for the thread 4
+Thread 1 finished at the elapsed time milliseconds of 5000
+Thread 2 finished at the elapsed time milliseconds of 5000
+Thread 3 finished at the elapsed time milliseconds of 5000
+Thread 4 finished at the elapsed time milliseconds of 5000
+Thread 5 finished at the elapsed time milliseconds of 5000
+
+14. ./partA2 4 2 4
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+Got to procedure ThreadFunc for the thread 1
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+Got to procedure ThreadFunc for the thread 2
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+Got to procedure ThreadFunc for the thread 3
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+Got to procedure ThreadFunc for the thread 4
+Thread 1 finished at the elapsed time milliseconds of 2000
+Thread 2 finished at the elapsed time milliseconds of 2000
+Thread 3 finished at the elapsed time milliseconds of 2000
+Thread 4 finished at the elapsed time milliseconds of 2000
+
+15. This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+Got to procedure ThreadFunc for the thread 5
+This is iteration number 1
+This is iteration number 2
+This is iteration number 1
+This is iteration number 7
+This is iteration number 8
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 9
+This is iteration number 10
+Got to procedure ThreadFunc for the thread 3
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+Got to procedure ThreadFunc for the thread 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 10
+This is iteration number 3
+This is iteration number 1
+This is iteration number 2
+This is iteration number 9
+This is iteration number 10
+This is iteration number 5
+This is iteration number 6
+This is iteration number 4
+This is iteration number 5
+Got to procedure ThreadFunc for the thread 1
+This is iteration number 4
+This is iteration number 5
+This is iteration number 1
+This is iteration number 3
+Got to procedure ThreadFunc for the thread 8
+This is iteration number 7
+This is iteration number 6
+This is iteration number 7
+This is iteration number 2
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+Got to procedure ThreadFunc for the thread 10
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+Got to procedure ThreadFunc for the thread 9
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+Got to procedure ThreadFunc for the thread 2
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+Got to procedure ThreadFunc for the thread 7
+Got to procedure ThreadFunc for the thread 6
+Thread 1 finished at the elapsed time milliseconds of 1000
+Thread 2 finished at the elapsed time milliseconds of 1000
+Thread 3 finished at the elapsed time milliseconds of 1000
+Thread 4 finished at the elapsed time milliseconds of 1000
+Thread 5 finished at the elapsed time milliseconds of 1000
+Thread 6 finished at the elapsed time milliseconds of 1000
+Thread 7 finished at the elapsed time milliseconds of 1000
+Thread 8 finished at the elapsed time milliseconds of 1000
+Thread 9 finished at the elapsed time milliseconds of 1000
+Thread 10 finished at the elapsed time milliseconds of 1000
+
+******************************* PART THREE ***********************************
+1. ./partA3 5 2 100
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+This is iteration number 11
+This is iteration number 12
+This is iteration number 13
+This is iteration number 14
+This is iteration number 15
+This is iteration number 16
+This is iteration number 17
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+This is iteration number 11
+This is iteration number 12
+This is iteration number 13
+This is iteration number 14
+This is iteration number 15
+This is iteration number 16
+This is iteration number 17
+This is iteration number 18
+This is iteration number 19
+This is iteration number 20
+This is iteration number 21
+This is iteration number 22
+This is iteration number 23
+This is iteration number 24
+This is iteration number 25
+This is iteration number 26
+This is iteration number 27
+This is iteration number 28
+This is iteration number 29
+This is iteration number 30
+This is iteration number 31
+This is iteration number 32
+This is iteration number 33
+This is iteration number 34
+This is iteration number 35
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+This is iteration number 11
+This is iteration number 12
+This is iteration number 13
+This is iteration number 14
+This is iteration number 15
+This is iteration number 16
+This is iteration number 17
+This is iteration number 18
+This is iteration number 19
+This is iteration number 9
+This is iteration number 10
+This is iteration number 36
+This is iteration number 37
+This is iteration number 38
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+This is iteration number 11
+This is iteration number 12
+This is iteration number 13
+This is iteration number 14
+This is iteration number 15
+This is iteration number 16
+This is iteration number 17
+This is iteration number 18
+This is iteration number 19
+This is iteration number 20
+This is iteration number 21
+This is iteration number 22
+This is iteration number 23
+This is iteration number 11
+This is iteration number 12
+This is iteration number 13
+This is iteration number 14
+This is iteration number 15
+This is iteration number 24
+This is iteration number 25
+This is iteration number 26
+This is iteration number 27
+This is iteration number 28
+This is iteration number 16
+This is iteration number 17
+This is iteration number 18
+This is iteration number 19
+This is iteration number 20
+This is iteration number 21
+This is iteration number 22
+This is iteration number 23
+This is iteration number 24
+This is iteration number 25
+This is iteration number 29
+This is iteration number 30
+This is iteration number 31
+This is iteration number 32
+This is iteration number 26
+This is iteration number 27
+This is iteration number 28
+This is iteration number 29
+This is iteration number 33
+This is iteration number 34
+This is iteration number 35
+This is iteration number 36
+This is iteration number 37
+This is iteration number 38
+This is iteration number 39
+This is iteration number 20
+This is iteration number 39
+This is iteration number 40
+This is iteration number 41
+This is iteration number 42
+This is iteration number 43
+This is iteration number 44
+This is iteration number 45
+This is iteration number 30
+This is iteration number 31
+This is iteration number 18
+This is iteration number 19
+This is iteration number 40
+This is iteration number 21
+This is iteration number 46
+This is iteration number 47
+This is iteration number 48
+This is iteration number 49
+This is iteration number 50
+This is iteration number 22
+This is iteration number 23
+This is iteration number 24
+This is iteration number 25
+This is iteration number 41
+This is iteration number 51
+This is iteration number 52
+This is iteration number 53
+This is iteration number 26
+This is iteration number 27
+This is iteration number 28
+This is iteration number 29
+This is iteration number 30
+This is iteration number 31
+This is iteration number 54
+This is iteration number 42
+This is iteration number 32
+This is iteration number 20
+This is iteration number 32
+This is iteration number 55
+This is iteration number 56
+This is iteration number 33
+This is iteration number 34
+This is iteration number 35
+This is iteration number 36
+This is iteration number 57
+This is iteration number 58
+This is iteration number 59
+This is iteration number 33
+This is iteration number 34
+This is iteration number 35
+This is iteration number 36
+This is iteration number 37
+This is iteration number 60
+This is iteration number 61
+This is iteration number 37
+This is iteration number 38
+This is iteration number 21
+This is iteration number 38
+This is iteration number 43
+This is iteration number 62
+This is iteration number 63
+This is iteration number 22
+This is iteration number 39
+This is iteration number 44
+This is iteration number 45
+This is iteration number 46
+This is iteration number 23
+This is iteration number 24
+This is iteration number 25
+This is iteration number 26
+This is iteration number 39
+This is iteration number 40
+This is iteration number 41
+This is iteration number 47
+This is iteration number 40
+This is iteration number 27
+This is iteration number 64
+This is iteration number 42
+This is iteration number 48
+This is iteration number 49
+This is iteration number 28
+This is iteration number 29
+This is iteration number 65
+This is iteration number 43
+This is iteration number 44
+This is iteration number 45
+This is iteration number 30
+This is iteration number 31
+This is iteration number 66
+This is iteration number 41
+This is iteration number 50
+This is iteration number 46
+This is iteration number 32
+This is iteration number 67
+This is iteration number 68
+This is iteration number 51
+This is iteration number 52
+This is iteration number 47
+This is iteration number 48
+This is iteration number 49
+This is iteration number 50
+This is iteration number 51
+This is iteration number 53
+This is iteration number 54
+This is iteration number 33
+This is iteration number 34
+This is iteration number 42
+This is iteration number 43
+This is iteration number 44
+This is iteration number 45
+This is iteration number 52
+This is iteration number 55
+This is iteration number 35
+This is iteration number 69
+This is iteration number 46
+This is iteration number 53
+This is iteration number 54
+This is iteration number 36
+This is iteration number 37
+This is iteration number 38
+This is iteration number 39
+This is iteration number 40
+This is iteration number 41
+This is iteration number 42
+This is iteration number 55
+This is iteration number 56
+This is iteration number 70
+This is iteration number 71
+This is iteration number 47
+This is iteration number 48
+This is iteration number 49
+This is iteration number 43
+This is iteration number 44
+This is iteration number 45
+This is iteration number 46
+This is iteration number 72
+This is iteration number 73
+This is iteration number 56
+This is iteration number 57
+This is iteration number 58
+This is iteration number 59
+This is iteration number 47
+This is iteration number 74
+This is iteration number 50
+This is iteration number 57
+This is iteration number 58
+This is iteration number 48
+This is iteration number 49
+This is iteration number 75
+This is iteration number 51
+This is iteration number 60
+This is iteration number 61
+This is iteration number 50
+This is iteration number 51
+This is iteration number 76
+This is iteration number 52
+This is iteration number 59
+This is iteration number 60
+This is iteration number 52
+This is iteration number 77
+This is iteration number 53
+This is iteration number 54
+This is iteration number 55
+This is iteration number 53
+This is iteration number 54
+This is iteration number 78
+This is iteration number 62
+This is iteration number 63
+This is iteration number 64
+This is iteration number 55
+This is iteration number 56
+This is iteration number 57
+This is iteration number 61
+This is iteration number 62
+This is iteration number 63
+This is iteration number 64
+This is iteration number 79
+This is iteration number 58
+This is iteration number 56
+This is iteration number 65
+This is iteration number 66
+This is iteration number 80
+This is iteration number 59
+This is iteration number 57
+This is iteration number 65
+This is iteration number 67
+This is iteration number 81
+This is iteration number 82
+This is iteration number 58
+This is iteration number 59
+This is iteration number 60
+This is iteration number 68
+This is iteration number 69
+This is iteration number 60
+This is iteration number 61
+This is iteration number 62
+This is iteration number 66
+This is iteration number 67
+This is iteration number 68
+This is iteration number 69
+This is iteration number 83
+This is iteration number 84
+This is iteration number 85
+This is iteration number 61
+This is iteration number 62
+This is iteration number 63
+This is iteration number 64
+This is iteration number 65
+This is iteration number 66
+This is iteration number 86
+This is iteration number 87
+This is iteration number 88
+This is iteration number 70
+This is iteration number 71
+This is iteration number 72
+This is iteration number 73
+This is iteration number 74
+This is iteration number 89
+This is iteration number 63
+This is iteration number 67
+This is iteration number 68
+This is iteration number 69
+This is iteration number 90
+This is iteration number 91
+This is iteration number 92
+This is iteration number 70
+This is iteration number 71
+This is iteration number 72
+This is iteration number 70
+This is iteration number 71
+This is iteration number 72
+This is iteration number 73
+This is iteration number 74
+This is iteration number 75
+This is iteration number 76
+This is iteration number 64
+This is iteration number 65
+This is iteration number 66
+This is iteration number 75
+This is iteration number 76
+This is iteration number 77
+This is iteration number 78
+This is iteration number 79
+This is iteration number 80
+This is iteration number 67
+This is iteration number 73
+This is iteration number 77
+This is iteration number 93
+This is iteration number 94
+This is iteration number 95
+This is iteration number 74
+This is iteration number 75
+This is iteration number 76
+This is iteration number 77
+This is iteration number 68
+This is iteration number 69
+This is iteration number 78
+This is iteration number 79
+This is iteration number 80
+This is iteration number 81
+This is iteration number 96
+This is iteration number 70
+This is iteration number 81
+This is iteration number 78
+This is iteration number 82
+This is iteration number 97
+This is iteration number 71
+This is iteration number 82
+This is iteration number 79
+This is iteration number 80
+This is iteration number 98
+This is iteration number 99
+This is iteration number 72
+This is iteration number 83
+This is iteration number 84
+This is iteration number 85
+This is iteration number 100
+This is iteration number 73
+Got to procedure ThreadFunc for the thread 2
+This is iteration number 81
+This is iteration number 86
+This is iteration number 87
+This is iteration number 74
+This is iteration number 75
+This is iteration number 83
+This is iteration number 84
+This is iteration number 85
+This is iteration number 86
+This is iteration number 76
+This is iteration number 77
+This is iteration number 88
+This is iteration number 89
+This is iteration number 90
+This is iteration number 91
+This is iteration number 78
+This is iteration number 79
+This is iteration number 82
+This is iteration number 87
+This is iteration number 88
+This is iteration number 89
+This is iteration number 90
+This is iteration number 91
+This is iteration number 92
+This is iteration number 93
+This is iteration number 94
+This is iteration number 80
+This is iteration number 81
+This is iteration number 83
+This is iteration number 84
+This is iteration number 85
+This is iteration number 95
+This is iteration number 96
+This is iteration number 82
+This is iteration number 92
+This is iteration number 86
+This is iteration number 97
+This is iteration number 83
+This is iteration number 93
+This is iteration number 87
+This is iteration number 98
+This is iteration number 84
+This is iteration number 85
+This is iteration number 88
+This is iteration number 89
+This is iteration number 90
+This is iteration number 91
+This is iteration number 86
+This is iteration number 87
+This is iteration number 94
+This is iteration number 95
+This is iteration number 96
+This is iteration number 97
+This is iteration number 88
+This is iteration number 89
+This is iteration number 99
+This is iteration number 100
+Got to procedure ThreadFunc for the thread 3
+This is iteration number 92
+This is iteration number 93
+This is iteration number 90
+This is iteration number 98
+This is iteration number 94
+This is iteration number 95
+This is iteration number 96
+This is iteration number 91
+This is iteration number 92
+This is iteration number 97
+This is iteration number 98
+This is iteration number 99
+This is iteration number 93
+This is iteration number 94
+This is iteration number 100
+Got to procedure ThreadFunc for the thread 5
+This is iteration number 95
+This is iteration number 96
+This is iteration number 99
+This is iteration number 100
+Got to procedure ThreadFunc for the thread 4
+This is iteration number 97
+This is iteration number 98
+This is iteration number 99
+This is iteration number 100
+Got to procedure ThreadFunc for the thread 1
+Thread 1 finished at the elapsed time milliseconds of 2000
+Thread 2 finished at the elapsed time milliseconds of 2000
+Thread 3 finished at the elapsed time milliseconds of 2000
+Thread 4 finished at the elapsed time milliseconds of 2000
+Thread 5 finished at the elapsed time milliseconds of 2000
+
+2. ./partA3 10
+Error in procedure main: Invalid number of parameters
+
+3. ./partA3 7 6 2 3
+Error in procedure main: Invalid number of parameters
+
+4. ./partA3 0 4 1
+Error in procedure main: Invalid # of threads
+
+5. ./partA3 -5 2 4
+Error in procedure main: Invalid # of threads
+
+6. ./partA3 7 0 9
+Error in procedure main: Invalid # of deadline
+
+7. ./partA3 3 -8 2
+Error in procedure main: Invalid # of deadline
+
+8. ./partA3 4 4 -3
+Error in procedure main: Invalid # of size
+
+9. ./partA3 4 3 0
+Error in procedure main: Invalid # of size
+
+10. ./partA3 4 -5 2
+Error in procedure main: Invalid # of deadline
+
+11. ./partA3 4 -4 2
+Error in procedure main: Invalid # of deadline
+
+12. ./partA3 1 1 1
+This is iteration number 1
+Got to procedure ThreadFunc for the thread 1
+Thread 1 finished at the elapsed time milliseconds of 1000
+
+13. ./partA3 10 100 2
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 1
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 4
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 3
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 5
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 2
+This is iteration number 1
+This is iteration number 2
+This is iteration number 1
+This is iteration number 2
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 6
+Got to procedure ThreadFunc for the thread 7
+Got to procedure ThreadFunc for the thread 8
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 9
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 10
+Thread 1 finished at the elapsed time milliseconds of 100000
+Thread 2 finished at the elapsed time milliseconds of 100000
+Thread 3 finished at the elapsed time milliseconds of 100000
+Thread 4 finished at the elapsed time milliseconds of 100000
+Thread 5 finished at the elapsed time milliseconds of 100000
+Thread 6 finished at the elapsed time milliseconds of 100000
+Thread 7 finished at the elapsed time milliseconds of 100000
+Thread 8 finished at the elapsed time milliseconds of 100000
+Thread 9 finished at the elapsed time milliseconds of 100000
+Thread 10 finished at the elapsed time milliseconds of 100000
+
+14. ./partA3 2 10 10
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+Got to procedure ThreadFunc for the thread 1
+This is iteration number 6
+This is iteration number 7
+This is iteration number 8
+This is iteration number 9
+This is iteration number 10
+Got to procedure ThreadFunc for the thread 2
+Thread 1 finished at the elapsed time milliseconds of 10000
+Thread 2 finished at the elapsed time milliseconds of 10000
+
+15. ./partA3 4 3 2
+This is iteration number 1
+This is iteration number 2
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 2
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 4
+This is iteration number 1
+This is iteration number 2
+Got to procedure ThreadFunc for the thread 3
+Got to procedure ThreadFunc for the thread 1
+Thread 1 finished at the elapsed time milliseconds of 3000
+Thread 2 finished at the elapsed time milliseconds of 3000
+Thread 3 finished at the elapsed time milliseconds of 3000
+Thread 4 finished at the elapsed time milliseconds of 3000
+
+******************************** PART FOUR ************************************
+1. /partA4 9 1 90
+Thread 1 finished at the elapsed time milliseconds of 0
+Thread 2 finished at the elapsed time milliseconds of 0
+Thread 3 finished at the elapsed time milliseconds of 0
+Thread 4 finished at the elapsed time milliseconds of 0
+Thread 5 finished at the elapsed time milliseconds of 0
+Thread 6 finished at the elapsed time milliseconds of 0
+Thread 7 finished at the elapsed time milliseconds of 0
+Thread 8 finished at the elapsed time milliseconds of 0
+Thread 9 finished at the elapsed time milliseconds of 0
+
+2. ./partA4 2
+Error in procedure main: Invalid number of parameters
+
+3.  ./partA4 4 2 5 1
+Error in procedure main: Invalid number of parameters
+
+4. ./partA4 0 8 9
+Error in procedure main: Invalid # of threads
+
+5. ./partA4 -5 2 2
+Error in procedure main: Invalid # of threads
+
+6. ./partA4 10 0 2
+Error in procedure main: Invalid # of deadline
+
+7. ./partA4 4 -2 1
+Error in procedure main: Invalid # of deadline
+
+8.  ./partA4 2 4 -3
+Error in procedure main: Invalid # of size
+
+9. ./partA4 2 1 0
+Error in procedure main: Invalid # of size
+
+10. ./partA4 -100 -5 2
+Error in procedure main: Invalid # of threads
+
+11. /partA4 2 -10 -2
+Error in procedure main: Invalid # of deadline
+
+12. ./partA4 5 4 2
+Thread 1 finished at the elapsed time milliseconds of 0
+Thread 2 finished at the elapsed time milliseconds of 0
+Thread 3 finished at the elapsed time milliseconds of 0
+Thread 4 finished at the elapsed time milliseconds of 0
+Thread 5 finished at the elapsed time milliseconds of 0
+
+13../partA4 5 2 5
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 4
+This is iteration number 5
+This is iteration number 1
+This is iteration number 2
+This is iteration number 3
+This is iteration number 4
+This is iteration number 1
+This is iteration number 2
+This is iteration number 5
+Thread 1 finished at the elapsed time milliseconds of 0
+This is iteration number 1
+This is iteration number 2
+Thread 2 finished at the elapsed time milliseconds of 0
+Thread 3 finished at the elapsed time milliseconds of 0
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+This is iteration number 3
+This is iteration number 4
+This is iteration number 5
+Thread 4 finished at the elapsed time milliseconds of 0
+Thread 5 finished at the elapsed time milliseconds of 0 
+
+14. ./partA4 2 10 100
+Thread 1 finished at the elapsed time milliseconds of 0
+Thread 2 finished at the elapsed time milliseconds of 0
+
+15. ./partA4 400 3 2000
+Thread 1 finished at the elapsed time milliseconds of 89
+Thread 2 finished at the elapsed time milliseconds of 89
+Thread 3 finished at the elapsed time milliseconds of 89
+Thread 4 finished at the elapsed time milliseconds of 89
+Thread 5 finished at the elapsed time milliseconds of 89
+Thread 6 finished at the elapsed time milliseconds of 89
+Thread 7 finished at the elapsed time milliseconds of 89
+Thread 8 finished at the elapsed time milliseconds of 89
+Thread 9 finished at the elapsed time milliseconds of 89
+Thread 10 finished at the elapsed time milliseconds of 89
+Thread 11 finished at the elapsed time milliseconds of 89
+Thread 12 finished at the elapsed time milliseconds of 89
+Thread 13 finished at the elapsed time milliseconds of 89
+Thread 14 finished at the elapsed time milliseconds of 89
+Thread 15 finished at the elapsed time milliseconds of 89
+Thread 16 finished at the elapsed time milliseconds of 89
+Thread 17 finished at the elapsed time milliseconds of 89
+Thread 18 finished at the elapsed time milliseconds of 89
+Thread 19 finished at the elapsed time milliseconds of 89
+Thread 20 finished at the elapsed time milliseconds of 89
+Thread 21 finished at the elapsed time milliseconds of 89
+Thread 22 finished at the elapsed time milliseconds of 89
+Thread 23 finished at the elapsed time milliseconds of 89
+Thread 24 finished at the elapsed time milliseconds of 89
+Thread 25 finished at the elapsed time milliseconds of 89
+Thread 26 finished at the elapsed time milliseconds of 89
+Thread 27 finished at the elapsed time milliseconds of 89
+Thread 28 finished at the elapsed time milliseconds of 89
+Thread 29 finished at the elapsed time milliseconds of 89
+Thread 30 finished at the elapsed time milliseconds of 89
+Thread 31 finished at the elapsed time milliseconds of 89
+Thread 32 finished at the elapsed time milliseconds of 89
+Thread 33 finished at the elapsed time milliseconds of 89
+Thread 34 finished at the elapsed time milliseconds of 89
+Thread 35 finished at the elapsed time milliseconds of 89
+Thread 36 finished at the elapsed time milliseconds of 89
+Thread 37 finished at the elapsed time milliseconds of 89
+Thread 38 finished at the elapsed time milliseconds of 89
+Thread 39 finished at the elapsed time milliseconds of 89
+Thread 40 finished at the elapsed time milliseconds of 89
+Thread 41 finished at the elapsed time milliseconds of 89
+Thread 42 finished at the elapsed time milliseconds of 89
+Thread 43 finished at the elapsed time milliseconds of 89
+Thread 44 finished at the elapsed time milliseconds of 89
+Thread 45 finished at the elapsed time milliseconds of 89
+Thread 46 finished at the elapsed time milliseconds of 88
+Thread 47 finished at the elapsed time milliseconds of 88
+Thread 48 finished at the elapsed time milliseconds of 85
+Thread 49 finished at the elapsed time milliseconds of 81
+Thread 50 finished at the elapsed time milliseconds of 88
+Thread 51 finished at the elapsed time milliseconds of 86
+Thread 52 finished at the elapsed time milliseconds of 85
+Thread 53 finished at the elapsed time milliseconds of 86
+Thread 54 finished at the elapsed time milliseconds of 86
+Thread 55 finished at the elapsed time milliseconds of 85
+Thread 56 finished at the elapsed time milliseconds of 79
+Thread 57 finished at the elapsed time milliseconds of 79
+Thread 58 finished at the elapsed time milliseconds of 77
+Thread 59 finished at the elapsed time milliseconds of 79
+Thread 60 finished at the elapsed time milliseconds of 79
+Thread 61 finished at the elapsed time milliseconds of 77
+Thread 62 finished at the elapsed time milliseconds of 78
+Thread 63 finished at the elapsed time milliseconds of 79
+Thread 64 finished at the elapsed time milliseconds of 78
+Thread 65 finished at the elapsed time milliseconds of 79
+Thread 66 finished at the elapsed time milliseconds of 77
+Thread 67 finished at the elapsed time milliseconds of 77
+Thread 68 finished at the elapsed time milliseconds of 79
+Thread 69 finished at the elapsed time milliseconds of 79
+Thread 70 finished at the elapsed time milliseconds of 76
+Thread 71 finished at the elapsed time milliseconds of 76
+Thread 72 finished at the elapsed time milliseconds of 75
+Thread 73 finished at the elapsed time milliseconds of 75
+Thread 74 finished at the elapsed time milliseconds of 75
+Thread 75 finished at the elapsed time milliseconds of 75
+Thread 76 finished at the elapsed time milliseconds of 75
+Thread 77 finished at the elapsed time milliseconds of 75
+Thread 78 finished at the elapsed time milliseconds of 75
+Thread 79 finished at the elapsed time milliseconds of 75
+Thread 80 finished at the elapsed time milliseconds of 75
+Thread 81 finished at the elapsed time milliseconds of 75
+Thread 82 finished at the elapsed time milliseconds of 75
+Thread 83 finished at the elapsed time milliseconds of 75
+Thread 84 finished at the elapsed time milliseconds of 75
+Thread 85 finished at the elapsed time milliseconds of 75
+Thread 86 finished at the elapsed time milliseconds of 75
+Thread 87 finished at the elapsed time milliseconds of 75
+Thread 88 finished at the elapsed time milliseconds of 75
+Thread 89 finished at the elapsed time milliseconds of 75
+Thread 90 finished at the elapsed time milliseconds of 74
+Thread 91 finished at the elapsed time milliseconds of 74
+Thread 92 finished at the elapsed time milliseconds of 71
+Thread 93 finished at the elapsed time milliseconds of 74
+Thread 94 finished at the elapsed time milliseconds of 73
+Thread 95 finished at the elapsed time milliseconds of 73
+Thread 96 finished at the elapsed time milliseconds of 73
+Thread 97 finished at the elapsed time milliseconds of 73
+Thread 98 finished at the elapsed time milliseconds of 73
+Thread 99 finished at the elapsed time milliseconds of 72
+Thread 100 finished at the elapsed time milliseconds of 73
+Thread 101 finished at the elapsed time milliseconds of 75
+Thread 102 finished at the elapsed time milliseconds of 72
+Thread 103 finished at the elapsed time milliseconds of 72
+Thread 104 finished at the elapsed time milliseconds of 75
+Thread 105 finished at the elapsed time milliseconds of 73
+Thread 106 finished at the elapsed time milliseconds of 70
+Thread 107 finished at the elapsed time milliseconds of 74
+Thread 108 finished at the elapsed time milliseconds of 73
+Thread 109 finished at the elapsed time milliseconds of 75
+Thread 110 finished at the elapsed time milliseconds of 74
+Thread 111 finished at the elapsed time milliseconds of 74
+Thread 112 finished at the elapsed time milliseconds of 73
+Thread 113 finished at the elapsed time milliseconds of 74
+Thread 114 finished at the elapsed time milliseconds of 71
+Thread 115 finished at the elapsed time milliseconds of 68
+Thread 116 finished at the elapsed time milliseconds of 73
+Thread 117 finished at the elapsed time milliseconds of 74
+Thread 118 finished at the elapsed time milliseconds of 73
+Thread 119 finished at the elapsed time milliseconds of 75
+Thread 120 finished at the elapsed time milliseconds of 70
+Thread 121 finished at the elapsed time milliseconds of 74
+Thread 122 finished at the elapsed time milliseconds of 75
+Thread 123 finished at the elapsed time milliseconds of 72
+Thread 124 finished at the elapsed time milliseconds of 70
+Thread 125 finished at the elapsed time milliseconds of 70
+Thread 126 finished at the elapsed time milliseconds of 70
+Thread 127 finished at the elapsed time milliseconds of 73
+Thread 128 finished at the elapsed time milliseconds of 72
+Thread 129 finished at the elapsed time milliseconds of 68
+Thread 130 finished at the elapsed time milliseconds of 70
+Thread 131 finished at the elapsed time milliseconds of 69
+Thread 132 finished at the elapsed time milliseconds of 68
+Thread 133 finished at the elapsed time milliseconds of 66
+Thread 134 finished at the elapsed time milliseconds of 63
+Thread 135 finished at the elapsed time milliseconds of 62
+Thread 136 finished at the elapsed time milliseconds of 62
+Thread 137 finished at the elapsed time milliseconds of 60
+Thread 138 finished at the elapsed time milliseconds of 60
+Thread 139 finished at the elapsed time milliseconds of 60
+Thread 140 finished at the elapsed time milliseconds of 60
+Thread 141 finished at the elapsed time milliseconds of 60
+Thread 142 finished at the elapsed time milliseconds of 60
+Thread 143 finished at the elapsed time milliseconds of 60
+Thread 144 finished at the elapsed time milliseconds of 60
+Thread 145 finished at the elapsed time milliseconds of 60
+Thread 146 finished at the elapsed time milliseconds of 60
+Thread 147 finished at the elapsed time milliseconds of 60
+Thread 148 finished at the elapsed time milliseconds of 60
+Thread 149 finished at the elapsed time milliseconds of 60
+Thread 150 finished at the elapsed time milliseconds of 60
+Thread 151 finished at the elapsed time milliseconds of 60
+Thread 152 finished at the elapsed time milliseconds of 59
+Thread 153 finished at the elapsed time milliseconds of 59
+Thread 154 finished at the elapsed time milliseconds of 59
+Thread 155 finished at the elapsed time milliseconds of 59
+Thread 156 finished at the elapsed time milliseconds of 59
+Thread 157 finished at the elapsed time milliseconds of 59
+Thread 158 finished at the elapsed time milliseconds of 59
+Thread 159 finished at the elapsed time milliseconds of 59
+Thread 160 finished at the elapsed time milliseconds of 59
+Thread 161 finished at the elapsed time milliseconds of 59
+Thread 162 finished at the elapsed time milliseconds of 59
+Thread 163 finished at the elapsed time milliseconds of 59
+Thread 164 finished at the elapsed time milliseconds of 59
+Thread 165 finished at the elapsed time milliseconds of 59
+Thread 166 finished at the elapsed time milliseconds of 59
+Thread 167 finished at the elapsed time milliseconds of 59
+Thread 168 finished at the elapsed time milliseconds of 59
+Thread 169 finished at the elapsed time milliseconds of 59
+Thread 170 finished at the elapsed time milliseconds of 59
+Thread 171 finished at the elapsed time milliseconds of 59
+Thread 172 finished at the elapsed time milliseconds of 59
+Thread 173 finished at the elapsed time milliseconds of 58
+Thread 174 finished at the elapsed time milliseconds of 58
+Thread 175 finished at the elapsed time milliseconds of 55
+Thread 176 finished at the elapsed time milliseconds of 57
+Thread 177 finished at the elapsed time milliseconds of 56
+Thread 178 finished at the elapsed time milliseconds of 59
+Thread 179 finished at the elapsed time milliseconds of 58
+Thread 180 finished at the elapsed time milliseconds of 57
+Thread 181 finished at the elapsed time milliseconds of 57
+Thread 182 finished at the elapsed time milliseconds of 56
+Thread 183 finished at the elapsed time milliseconds of 57
+Thread 184 finished at the elapsed time milliseconds of 58
+Thread 185 finished at the elapsed time milliseconds of 57
+Thread 186 finished at the elapsed time milliseconds of 58
+Thread 187 finished at the elapsed time milliseconds of 58
+Thread 188 finished at the elapsed time milliseconds of 56
+Thread 189 finished at the elapsed time milliseconds of 58
+Thread 190 finished at the elapsed time milliseconds of 57
+Thread 191 finished at the elapsed time milliseconds of 57
+Thread 192 finished at the elapsed time milliseconds of 51
+Thread 193 finished at the elapsed time milliseconds of 48
+Thread 194 finished at the elapsed time milliseconds of 48
+Thread 195 finished at the elapsed time milliseconds of 48
+Thread 196 finished at the elapsed time milliseconds of 48
+Thread 197 finished at the elapsed time milliseconds of 48
+Thread 198 finished at the elapsed time milliseconds of 48
+Thread 199 finished at the elapsed time milliseconds of 48
+Thread 200 finished at the elapsed time milliseconds of 48
+Thread 201 finished at the elapsed time milliseconds of 48
+Thread 202 finished at the elapsed time milliseconds of 48
+Thread 203 finished at the elapsed time milliseconds of 48
+Thread 204 finished at the elapsed time milliseconds of 48
+Thread 205 finished at the elapsed time milliseconds of 48
+Thread 206 finished at the elapsed time milliseconds of 48
+Thread 207 finished at the elapsed time milliseconds of 48
+Thread 208 finished at the elapsed time milliseconds of 48
+Thread 209 finished at the elapsed time milliseconds of 48
+Thread 210 finished at the elapsed time milliseconds of 48
+Thread 211 finished at the elapsed time milliseconds of 48
+Thread 212 finished at the elapsed time milliseconds of 48
+Thread 213 finished at the elapsed time milliseconds of 48
+Thread 214 finished at the elapsed time milliseconds of 48
+Thread 215 finished at the elapsed time milliseconds of 48
+Thread 216 finished at the elapsed time milliseconds of 48
+Thread 217 finished at the elapsed time milliseconds of 47
+Thread 218 finished at the elapsed time milliseconds of 47
+Thread 219 finished at the elapsed time milliseconds of 47
+Thread 220 finished at the elapsed time milliseconds of 47
+Thread 221 finished at the elapsed time milliseconds of 47
+Thread 222 finished at the elapsed time milliseconds of 47
+Thread 223 finished at the elapsed time milliseconds of 47
+Thread 224 finished at the elapsed time milliseconds of 47
+Thread 225 finished at the elapsed time milliseconds of 47
+Thread 226 finished at the elapsed time milliseconds of 47
+Thread 227 finished at the elapsed time milliseconds of 47
+Thread 228 finished at the elapsed time milliseconds of 46
+Thread 229 finished at the elapsed time milliseconds of 47
+Thread 230 finished at the elapsed time milliseconds of 44
+Thread 231 finished at the elapsed time milliseconds of 44
+Thread 232 finished at the elapsed time milliseconds of 44
+Thread 233 finished at the elapsed time milliseconds of 44
+Thread 234 finished at the elapsed time milliseconds of 44
+Thread 235 finished at the elapsed time milliseconds of 44
+Thread 236 finished at the elapsed time milliseconds of 41
+Thread 237 finished at the elapsed time milliseconds of 44
+Thread 238 finished at the elapsed time milliseconds of 40
+Thread 239 finished at the elapsed time milliseconds of 34
+Thread 240 finished at the elapsed time milliseconds of 41
+Thread 241 finished at the elapsed time milliseconds of 40
+Thread 242 finished at the elapsed time milliseconds of 44
+Thread 243 finished at the elapsed time milliseconds of 41
+Thread 244 finished at the elapsed time milliseconds of 41
+Thread 245 finished at the elapsed time milliseconds of 41
+Thread 246 finished at the elapsed time milliseconds of 41
+Thread 247 finished at the elapsed time milliseconds of 43
+Thread 248 finished at the elapsed time milliseconds of 42
+Thread 249 finished at the elapsed time milliseconds of 36
+Thread 250 finished at the elapsed time milliseconds of 41
+Thread 251 finished at the elapsed time milliseconds of 38
+Thread 252 finished at the elapsed time milliseconds of 38
+Thread 253 finished at the elapsed time milliseconds of 42
+Thread 254 finished at the elapsed time milliseconds of 42
+Thread 255 finished at the elapsed time milliseconds of 33
+Thread 256 finished at the elapsed time milliseconds of 37
+Thread 257 finished at the elapsed time milliseconds of 42
+Thread 258 finished at the elapsed time milliseconds of 42
+Thread 259 finished at the elapsed time milliseconds of 42
+Thread 260 finished at the elapsed time milliseconds of 42
+Thread 261 finished at the elapsed time milliseconds of 43
+Thread 262 finished at the elapsed time milliseconds of 41
+Thread 263 finished at the elapsed time milliseconds of 42
+Thread 264 finished at the elapsed time milliseconds of 33
+Thread 265 finished at the elapsed time milliseconds of 42
+Thread 266 finished at the elapsed time milliseconds of 38
+Thread 267 finished at the elapsed time milliseconds of 38
+Thread 268 finished at the elapsed time milliseconds of 42
+Thread 269 finished at the elapsed time milliseconds of 41
+Thread 270 finished at the elapsed time milliseconds of 38
+Thread 271 finished at the elapsed time milliseconds of 44
+Thread 272 finished at the elapsed time milliseconds of 34
+Thread 273 finished at the elapsed time milliseconds of 39
+Thread 274 finished at the elapsed time milliseconds of 40
+Thread 275 finished at the elapsed time milliseconds of 43
+Thread 276 finished at the elapsed time milliseconds of 43
+Thread 277 finished at the elapsed time milliseconds of 39
+Thread 278 finished at the elapsed time milliseconds of 38
+Thread 279 finished at the elapsed time milliseconds of 34
+Thread 280 finished at the elapsed time milliseconds of 38
+Thread 281 finished at the elapsed time milliseconds of 39
+Thread 282 finished at the elapsed time milliseconds of 32
+Thread 283 finished at the elapsed time milliseconds of 43
+Thread 284 finished at the elapsed time milliseconds of 42
+Thread 285 finished at the elapsed time milliseconds of 44
+Thread 286 finished at the elapsed time milliseconds of 42
+Thread 287 finished at the elapsed time milliseconds of 43
+Thread 288 finished at the elapsed time milliseconds of 44
+Thread 289 finished at the elapsed time milliseconds of 43
+Thread 290 finished at the elapsed time milliseconds of 44
+Thread 291 finished at the elapsed time milliseconds of 44
+Thread 292 finished at the elapsed time milliseconds of 44
+Thread 293 finished at the elapsed time milliseconds of 41
+Thread 294 finished at the elapsed time milliseconds of 44
+Thread 295 finished at the elapsed time milliseconds of 42
+Thread 296 finished at the elapsed time milliseconds of 38
+Thread 297 finished at the elapsed time milliseconds of 40
+Thread 298 finished at the elapsed time milliseconds of 40
+Thread 299 finished at the elapsed time milliseconds of 37
+Thread 300 finished at the elapsed time milliseconds of 40
+Thread 301 finished at the elapsed time milliseconds of 40
+Thread 302 finished at the elapsed time milliseconds of 41
+Thread 303 finished at the elapsed time milliseconds of 38
+Thread 304 finished at the elapsed time milliseconds of 37
+Thread 305 finished at the elapsed time milliseconds of 32
+Thread 306 finished at the elapsed time milliseconds of 29
+Thread 307 finished at the elapsed time milliseconds of 33
+Thread 308 finished at the elapsed time milliseconds of 25
+Thread 309 finished at the elapsed time milliseconds of 21
+Thread 310 finished at the elapsed time milliseconds of 32
+Thread 311 finished at the elapsed time milliseconds of 30
+Thread 312 finished at the elapsed time milliseconds of 30
+Thread 313 finished at the elapsed time milliseconds of 32
+Thread 314 finished at the elapsed time milliseconds of 32
+Thread 315 finished at the elapsed time milliseconds of 31
+Thread 316 finished at the elapsed time milliseconds of 32
+Thread 317 finished at the elapsed time milliseconds of 32
+Thread 318 finished at the elapsed time milliseconds of 30
+Thread 319 finished at the elapsed time milliseconds of 30
+Thread 320 finished at the elapsed time milliseconds of 26
+Thread 321 finished at the elapsed time milliseconds of 26
+Thread 322 finished at the elapsed time milliseconds of 27
+Thread 323 finished at the elapsed time milliseconds of 29
+Thread 324 finished at the elapsed time milliseconds of 28
+Thread 325 finished at the elapsed time milliseconds of 22
+Thread 326 finished at the elapsed time milliseconds of 29
+Thread 327 finished at the elapsed time milliseconds of 28
+Thread 328 finished at the elapsed time milliseconds of 31
+Thread 329 finished at the elapsed time milliseconds of 32
+Thread 330 finished at the elapsed time milliseconds of 31
+Thread 331 finished at the elapsed time milliseconds of 26
+Thread 332 finished at the elapsed time milliseconds of 22
+Thread 333 finished at the elapsed time milliseconds of 25
+Thread 334 finished at the elapsed time milliseconds of 27
+Thread 335 finished at the elapsed time milliseconds of 30
+Thread 336 finished at the elapsed time milliseconds of 28
+Thread 337 finished at the elapsed time milliseconds of 31
+Thread 338 finished at the elapsed time milliseconds of 22
+Thread 339 finished at the elapsed time milliseconds of 25
+Thread 340 finished at the elapsed time milliseconds of 26
+Thread 341 finished at the elapsed time milliseconds of 25
+Thread 342 finished at the elapsed time milliseconds of 31
+Thread 343 finished at the elapsed time milliseconds of 32
+Thread 344 finished at the elapsed time milliseconds of 30
+Thread 345 finished at the elapsed time milliseconds of 27
+Thread 346 finished at the elapsed time milliseconds of 32
+Thread 347 finished at the elapsed time milliseconds of 30
+Thread 348 finished at the elapsed time milliseconds of 29
+Thread 349 finished at the elapsed time milliseconds of 26
+Thread 350 finished at the elapsed time milliseconds of 22
+Thread 351 finished at the elapsed time milliseconds of 23
+Thread 352 finished at the elapsed time milliseconds of 27
+Thread 353 finished at the elapsed time milliseconds of 24
+Thread 354 finished at the elapsed time milliseconds of 24
+Thread 355 finished at the elapsed time milliseconds of 27
+Thread 356 finished at the elapsed time milliseconds of 26
+Thread 357 finished at the elapsed time milliseconds of 26
+Thread 358 finished at the elapsed time milliseconds of 17
+Thread 359 finished at the elapsed time milliseconds of 14
+Thread 360 finished at the elapsed time milliseconds of 14
+Thread 361 finished at the elapsed time milliseconds of 14
+Thread 362 finished at the elapsed time milliseconds of 14
+Thread 363 finished at the elapsed time milliseconds of 14
+Thread 364 finished at the elapsed time milliseconds of 14
+Thread 365 finished at the elapsed time milliseconds of 13
+Thread 366 finished at the elapsed time milliseconds of 13
+Thread 367 finished at the elapsed time milliseconds of 13
+Thread 368 finished at the elapsed time milliseconds of 13
+Thread 369 finished at the elapsed time milliseconds of 13
+Thread 370 finished at the elapsed time milliseconds of 13
+Thread 371 finished at the elapsed time milliseconds of 14
+Thread 372 finished at the elapsed time milliseconds of 13
+Thread 373 finished at the elapsed time milliseconds of 13
+Thread 374 finished at the elapsed time milliseconds of 13
+Thread 375 finished at the elapsed time milliseconds of 13
+Thread 376 finished at the elapsed time milliseconds of 13
+Thread 377 finished at the elapsed time milliseconds of 13
+Thread 378 finished at the elapsed time milliseconds of 13
+Thread 379 finished at the elapsed time milliseconds of 13
+Thread 380 finished at the elapsed time milliseconds of 13
+Thread 381 finished at the elapsed time milliseconds of 13
+Thread 382 finished at the elapsed time milliseconds of 13
+Thread 383 finished at the elapsed time milliseconds of 13
+Thread 384 finished at the elapsed time milliseconds of 13
+Thread 385 finished at the elapsed time milliseconds of 13
+Thread 386 finished at the elapsed time milliseconds of 13
+Thread 387 finished at the elapsed time milliseconds of 13
+Thread 388 finished at the elapsed time milliseconds of 13
+Thread 389 finished at the elapsed time milliseconds of 13
+Thread 390 finished at the elapsed time milliseconds of 13
+Thread 391 finished at the elapsed time milliseconds of 12
+Thread 392 finished at the elapsed time milliseconds of 12
+Thread 393 finished at the elapsed time milliseconds of 13
+Thread 394 finished at the elapsed time milliseconds of 13
+Thread 395 finished at the elapsed time milliseconds of 12
+Thread 396 finished at the elapsed time milliseconds of 12
+Thread 397 finished at the elapsed time milliseconds of 12
+Thread 398 finished at the elapsed time milliseconds of 12
+Thread 399 finished at the elapsed time milliseconds of 12
+Thread 400 finished at the elapsed time milliseconds of 11
+

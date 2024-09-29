@@ -1,0 +1,91 @@
+# Jack Donegan, Shruti Kaur
+# lvf165, ich524
+# 11357744, 11339265
+
+# Even if the handles do not match up identically, it's fine as long as 
+# handle 0 < handle 1 < handle 2 < handle 3 it's a success
+
+ListCreate:
+
+Test1/2: success
+list1 = 0, *{list_space+list1} = {UNUSED, UNUSED, UNUSED, 0}
+list2 = 1, *{list_space+list2} = {UNUSED, UNUSED, UNUSED, 0}
+list3 = 2, *{list_space+list3} = {UNUSED, UNUSED, UNUSED, 0}
+
+ListPrepend:
+
+Test1: success
+list1 = 0, *{list_space+list1} = {0, 0, 0, 1}
+node = 0, *{node_space+0} = {UNUSED, UNUSED, 42}
+
+Test2: success
+list1 = 0, *{list_space+list1} = {1, 0, 1, 2}
+node1 = 0, *{node_space+0} = {1, UNUSED, 42}
+node2 = 1, *{node_space+1} = {UNUSED, 0, 96}
+
+ListAppend:
+
+Test1: success
+list2 = 1, *{list_space+list2} = {2, 2, 2, 1}
+node = 2, *{node_space+2} = {UNUSED, UNUSED, 42}
+
+Test2: success
+list2 = 1, *{list_space+list2} = {2, 3, 3, 2}
+node = 2, *{node_space+2} = {UNUSED, 3, 42}
+node = 3, *{node_space+3} = {2, UNUSED, 96}
+
+ListAdd:
+
+Test1:
+list3 = 2, *{list_space+list3} = {4, 4, 4, 1}
+node = 4, *{node_space+4} = {UNUSED, UNUSED, 42}
+
+Test2:
+list3 = 2, *{list_space+list3} = {5, 4, 5, 2}
+node1 = 4, *{node_space+4} = {5, UNUSED, 42}
+node2 = 5, *{node_space+5} = {UNUSED, 4, 96}
+
+Test3:
+list2 = 1, *{list_space+list2} = {2, 3, 6, 3}
+node1 = 2, *{node_space+2} = {UNUSED, 6, 42}
+node2 = 3, *{node_space+3} = {6, UNUSED, 96}
+node3 = 6, *{node_space+6} = {2, 3, 216}
+
+ListInsert:
+
+Test1:
+list4 = 3, *{list_space+list4} = {7, 7, 7, 1}
+node = 7, *{node_space+7} = {UNUSED, UNUSED, 42}
+
+Test2:
+list4 = 3, *{list_space+list4} = {7, 8, 8, 2}
+node1 = 7, *{node_space+7} = {UNUSED, 8, 42}
+node2 = 8, *{node_space+8} = {7, UNUSED, 96}
+
+Test3:
+list1 = 0, *{list_space+list1} = {1, 0, 9, 3}
+node1 = 0, *{node_space+0} = {9, UNUSED, 42}
+node2 = 1, *{node_space+1} = {UNUSED, 9, 96}
+node3 = 9, *{node_space+9} = {1, 0, 216}
+
+ListConcat:
+
+Test1: success
+list5 = 4, *{list_space+list5} = {UNUSED, UNUSED, UNUSED, 0}
+list6 = 5, *{list_space+list6} = {UNUSED, UNUSED, UNUSED, UNUSED}
+
+Test2: success
+list5 = 4, *{list_space+list5} = {10, 10, 10, 1}
+list6 = 5, *{list_space+list6} = {10, 10, 10, UNUSED}
+node = 10, *{node_space+10} = {UNUSED, UNUSED, 42}
+
+Test3: success
+list5 = 4, *{list_space+list5} = {10, 10, 10, 1}
+list6 = 5, *{list_space+list6} = {UNUSED, UNUSED, UNUSED, UNUSED}
+node = 10, *{node_space+10} = {UNUSED, UNUSED, 42}
+
+Test4: success
+list5 = 4, *{list_space+list5} = {10, 11, 10, 2}
+list6 = 5, *{list_space+list6} = {11, 11, 11, UNUSED}
+node1 = 10, *{node_space+10} = {UNUSED, 11, 42}
+node2 = 11, *{node_space+11} = {10, UNUSED, 96}

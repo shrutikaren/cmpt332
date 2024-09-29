@@ -1,0 +1,237 @@
+# Jack Donegan, Shruti Kaur
+# lvf165, ich524
+# 11357744, 11339265
+
+Overview:
+    Our goal is to verify that the list library will function properly with as 
+few tests as possible. This means each procedure will be run through one or two
+"basic" tests (normal expected uses) and then be subjected to every edge case
+that we can possibly devise.
+
+Legend:
+    Lists are shown in the format: 
+    {NODE_HANDLE head, NODE_HANDLE tail, 
+    NODE_HANDLE cursor, unsigned int count}
+    
+    Nodes are shown in a similar format:
+    {NODE_HANDLE prev, NODE_HANDLE, next, void * item}
+    
+    If the count value of a list is equal to UNUSED (2^32-1) then it is
+    considered to be "deleted" and can be used to make a new list.
+    
+    Similarly if the item value of a node is NULL, it is considered "deleted"
+    and can be used to make a new node.
+    
+    The head, tail, cursor, prev, and next fields are left intact when either
+    datatype is deleted, and cleared once it's used to make a new list/node.
+
+Testing:
+    The expected results should look nearly identical (minus the handle
+    offsets) to the actual results. 
+
+    I must stress that the expected results were written WITHOUT testing the 
+    program first. I did not retroactively copy and paste the real output of 
+    the test program into this file.
+
+    Note: MIN_LISTS and MIN_NODES have each been reduced to two. This makes it
+    easy to test if code implementing the bonus challenge is functioning.
+
+ListCreate:
+    Test1: normal use case
+        LIST_HANDLE list1 = ListCreate();
+        expected result:
+            list1 = 0, *(list_space+list1) = {UNUSED, UNUSED, UNUSED, 0}
+    Test2: testing memory expansion
+        LIST_HANDLE list1 = ListCreate();
+        LIST_HANDLE list2 = ListCreate();
+        LIST_HANDLE list3 = ListCreate();
+        expected result:
+            list1 = 0, *(list_space+list1) = {UNUSED, UNUSED, UNUSED, 0}
+            list2 = 1, *(list_space+list2) = {UNUSED, UNUSED, UNUSED, 0}
+            list3 = 2, *(list_space+list3) = {UNUSED, UNUSED, UNUSED, 0}
+    Test3: test if deleted list is reused (phase3)
+        LIST_HANDLE list1 = ListCreate();
+        ListFree(list1, NULL);
+        LIST_HANDLE list2 = ListCreate();
+        expected result:
+            list2 = 0, *(list_space+list2) = {UNUSED, UNUSED, UNUSED, 0}
+
+
+ListAdd:
+    Test1: empty list
+        int i = 42;
+        LIST_HANDLE list1 = ListCreate();
+        ListAdd(list1, &i);
+        expected result:
+            *(list_space+list1) = {0, 0, 0, 1},
+            *(node_space+0) = {UNUSED, UNUSED, &i}
+
+    Test2: full list, add at head node
+        int i = 42;
+        int j = 96;
+        LIST_HANDLE list1 = ListCreate();
+        ListAdd(list1, &i);
+        ListAdd(list1, &j);
+        expected result:
+            *(list_space+list1) = {1, 0, 1, 2}
+            *(node_space+0) = {1, UNUSED, &i}
+            *(node_space+1) = {UNUSED, 0, &j}
+
+    Test3: full list, add on non-head node
+        int i = 42;
+        int j = 96;
+        int k = 216;
+        LIST_HANDLE list1 = ListCreate();
+        ListAppend(list1, &i);
+        ListAppend(list1, &j);
+        ListAdd(list1, &k);
+        expected result:
+            *(list_space+list1) = {0, 1, 2, 3}
+            *(node_space+0) = {UNUSED, 2 &i}
+            *(node_space+1) = {2, UNUSED, &j}
+            *(node_space+2) = {1, 0, &k}
+
+ListInsert:
+    Test1: empty list
+        int i = 42;
+        LIST_HANDLE list1 = ListCreate();
+        ListInsert(list1, &i);
+        expected result:
+            *(list_space+list1) = {0, 0, 0, 0},
+            *(node_space+0) = {UNUSED, UNUSED, &i}
+    
+    Test2: full list, insert at tail node
+        int i = 42;
+        int j = 96;
+        LIST_HANDLE list1 = ListCreate();
+        ListInsert(list1, &i);
+        ListInsert(list1, &j);
+        expected result:
+           *(list_space+list1) = {0, 1, 1, 2}
+            *(node_space+0) = {UNUSED, 1, &i}
+            *(node_space+1) = {0, UNUSED, &j}
+
+    Test3: full list, insert at non-tail node
+        int i = 42;
+        int j = 96;
+        int k = 216;
+        LIST_HANDLE list1 = ListCreate();
+        ListPrepend(list1, &i);
+        ListPrepend(list1, &j);
+        ListInsert(list1, &k);
+        expected result:
+            *(list_space+list1) = {1, 0, 2, 3}
+            *(node_space+0) = {2, UNUSED, &i}
+            *(node_space+1) = {UNUSED, 2, &j}
+            *(node_space+2) = {0, 1, &k}
+
+ListPrepend:
+    Test1: empty list
+        int i = 42;
+        LIST_HANDLE list1 = ListCreate();
+        ListPrepend(list1, &i);
+        expected result:
+            *(list_space+list1) = {0, 0, 0, 1},
+            *(node_space+0) = {UNUSED, UNUSED, &i}
+
+    Test2: full list
+        int i = 42;
+        int j = 96;
+        LIST_HANDLE list1 = ListCreate();
+        ListPrepend(list1, &i);
+        ListPrepend(list1, &j);
+        expected result:
+           *(list_space+list1) = {1, 0, 1, 2}
+            *(node_space+0) = {1, UNUSED, &i}
+            *(node_space+1) = {UNUSED, 0, &j}
+
+ListAppend:
+    Test1: empty list
+        int i = 42;
+        LIST_HANDLE list1 = ListCreate();
+        ListAppend(list1, &i);
+        expected result:
+            *(list_space+list1) = {0, 0, 0, 1},
+            *(node_space+0) = {UNUSED, UNUSED, &i}
+
+    Test2: full list
+        int i = 42;
+        int j = 96;
+        LIST_HANDLE list1 = ListCreate();
+        ListAppend(list1, &i);
+        ListAppend(list1, &j);
+        expected result:
+           *(list_space+list1) = {0, 1, 1, 2}
+            *(node_space+0) = {UNUSED, 1, &i}
+            *(node_space+1) = {0, UNUSED, &j}
+
+ListConcat:
+    Test1: two empty lists
+        LIST_HANDLE list1 = ListCreate();
+        LIST_HANDLE list2 = ListCreate();
+        ListConcat(list1, list2);
+        expected result:
+           *(list_space+list1) = {UNUSED, UNUSED, UNUSED, 0}
+           *(list_space+list2) = {UNUSED, UNUSED, UNUSED, UNUSED}
+    
+    Test2: list1 empty, list2 full
+        int i = 42;
+        LIST_HANDLE list1 = ListCreate();
+        LIST_HANDLE list2 = ListCreate();
+        ListAppend(list2, &i);
+        ListConcat(list1, list2);
+        expected result:
+            *(list_space+list1) = {0, 0, 0, 1}
+            *(list_space+list2) = {0, 0, 0, UNUSED}
+            *(node_space+0) = {UNUSED, UNUSED, &i}
+    
+    Test3: list1 full, list2 empty
+        int i = 42;
+        LIST_HANDLE list1 = ListCreate();
+        ListAppend(list1, &i);
+        LIST_HANDLE list2 = ListCreate();
+        ListConcat(list1, list2);
+        expected result:
+            *(list_space+list1) = {0, 0, 0, 1}
+            *(list_space+list2) = {UNUSED, UNUSED, UNUSED, UNUSED}
+            *(node_space+0) = {UNUSED, UNUSED, &i}
+    
+    Test4: list1 full, list2 full 
+        int i = 42;
+        int j = 96;
+        LIST_HANDLE list1 = ListCreate();
+        ListAppend(list1, &i);
+        LIST_HANDLE list2 = ListCreate();
+        ListAppend(list2, &j);
+        ListConcat(list1, list2);
+        expected result:
+            *(list_space+list1) = {0, 1, 0, 2}
+            *(list_space+list2) = {1, 1, 1, UNUSED}
+            *(node_space+0) = {UNUSED, 1, &i}
+            *(node_space+1) = {0, UNUSED, &j}
+
+
+(work in progress Phase 3 tests)
+ListCount: 
+    Test1: empty list
+        LIST_HANDLE list1 = ListCreate();
+        unsigned int count = ListCount(list1);
+        expected result:
+            count = 0,
+    Test2: full list
+        int i = 42;
+        LIST_HANDLE list1 = ListCreate();
+        ListAdd(list1, &i);
+        unsigned int count = ListCount(list1);
+        expected result:
+            count = 1,
+
+ListCurr:
+ListFirst:
+ListLast:
+ListNext:
+ListPrev:
+ListRemove:
+ListFree:
+ListTrim:
+ListSearch:

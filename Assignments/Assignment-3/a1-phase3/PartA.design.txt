@@ -1,0 +1,74 @@
+Jack Donegan, Shruti Kaur
+lvf165, ich524
+11357744, 11339265
+
+For Part A, this can be achieved by having three main files namely as follows: 
+1. square.h (Header File)
+2. square.c (Source File containing the Square Function)
+3. partA1.c (The program consisting of multithreading)
+
+The reason why keepRunning was not mentioned inside the headerfile and
+initalized was because if the header file is later used with other files that
+may have the same variable name, it could lead to errors in the code. Hence,
+the global variable keepRunning is limited to inside the partA1.c file only.  
+
+FOR SQUARE.H: 
+***************************PARTS A1, A2, A3, AND A4****************************
+In the header file,we will incorporate: 
+	1. Function prototypes 
+	2. New structure definitions if needed
+These header files will also have header guards since it is a header file. 
+The header file stays as it is and there is no change made to it as it is being
+used across Part A1, A2, A3 and A4.
+
+FOR SQUARE.C:
+***************************PARTS A1, A2, A3, AND A4****************************
+The function int Square (int N) mainly does a recursive function to help us 
+calculate the square of the number passed into the function.
+
+The square file also stays the same for all the parts. 
+
+FOR PARA1.C:
+***************************PARTS A1, A2, A3, AND A4****************************
+Inside our partA1.c which consists of the main program will have the following
+header files included: 
+	1. stdio.h --> for input/ output library functions
+	2. stdlib.h --> memory management library functions 
+	3. windows.h --> consists of the Windows system calls 
+	4. time.h --> provides functions to work with the time 
+	5. sqaure.h --> the header file containing square.c function prototype
+
+The main function takes in the number of arguments and the argument vector to 
+check if there are the right number of arguments. The strings in the argument
+vector performs parsing to turn them into integers. We make use of the HANDLE
+data type array values and double check to ensure that memory were correctly 
+allocated for those. Towards the very end, we make sure to sleep those threads
+and free the space that was used. 
+
+For partA2, the code will then be specific to the UBC threads. In this part, we
+will make use of the pthreads library in our make file. We also make use of the 
+functions provided to us such as gettimeofday function and the in-built 
+structure function. My plan here is to have a for-loop that checks if the 
+boolean value finished for the thread is either true or false and then respond
+accordingly. For example, if the value is true, then it will do a pthread_join
+function where it will take 2 parameters threads[i] and NULL. If the value of
+finished is false then we will do a pthread_cancel. The first if-statement will
+be pthread_cancel scenarios and then next if statement will be the pthread_join
+scenario. At the very end, we will make sure that we free the malloc spaces that
+we took for threads and thread_data by doing free(). 
+
+For partA3, we can't use pthread_join so I made use of mutexes here to have a
+critical section where only one thread can access at a time. At the end, there
+is a while loop that will keep running (always be true) until it hits a break. 
+This break will be achieved when the number of the threads equals to the
+num_of_threads command line argument. 
+
+For partA4, this involves having signals and their signal_handler. We will have
+a signal handler function that will make our boolean value true if this 
+function is processed during the thread. I used sigaction here and gave it the
+value of SIGALRM and the function. Everytime the thread hasn't finished 
+processing and the timer runs out, we will interrupt the process and ask it to
+handle it according to our function and in our case, our function will put the 
+boolean value as true. Later, a for loop is done to loop through our threads to
+see if any of the thread came across a true boolean value. If they did, we will
+print that the thread was hit by a signal and was interrupted.

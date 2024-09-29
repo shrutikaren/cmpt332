@@ -1,0 +1,828 @@
+#Jack Donegan, Shruti Kaur
+#lvf165, ich524
+#11357744, 11339265
+
+commit 864893164364acdc3f45e9b92cef701493290c20
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Mon Sep 23 03:00:55 2024 -0600
+
+    ensured no lines exceeded 80 characters
+
+commit 4e825d331fb0abc4e68a424a11e2db9ba9e238c6
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Mon Sep 23 02:46:06 2024 -0600
+
+    added explicit Linux check to partB
+
+commit 0b5f4d3fefd49a2be60abcfae48965d6603ae4a4
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Mon Sep 23 02:39:39 2024 -0600
+
+    fixed bugs discovered during testing, updated placeholder functions to fully use handles
+
+commit 5007c2fcd49d6987f23a7f8833494180379ceb30
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Mon Sep 23 02:38:56 2024 -0600
+
+    completed PartC testing
+
+commit d2cac557a5680f72e0d6c26bec525cc46fb70efc
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Mon Sep 23 00:26:28 2024 -0600
+
+    updated design and completed phase2 test plan
+
+commit 2d43825fbc369304f0d29ee2a7361f14de2f4078
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Mon Sep 16 14:03:36 2024 -0600
+
+    removed tar for technical reasons
+
+commit f6fc13b42639af15e8f47b6807ae6070e352a35d
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Mon Sep 16 12:42:12 2024 -0600
+
+    updated git-log for submission
+
+commit 17574820d1062b41c350bad22755163d7e5770dc
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Mon Sep 16 12:41:28 2024 -0600
+
+    reduced line in PartC to less than 80 characters
+
+commit 803ae43ddb9dbd02d22bc5b8c001b02d6dff5082
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 18:57:20 2024 -0600
+
+    part A design done
+
+commit 0b517c02799a6bd2c3d888f2d59875d76f9be2eb
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 18:33:54 2024 -0600
+
+    removed all info where i talked about api because in the comments from a1 phase it mentioned that api has nothing to do with design
+
+commit e6e7a0fae52784d15d7433c453e48a5fb6f6d1f9
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 18:31:31 2024 -0600
+
+    donetest plan
+
+commit 98c940979d92d01899bd0762fd96ac70a36c97c5
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 18:29:55 2024 -0600
+
+    added all test results for fulll part a
+
+commit 6443605ebedd244f81772b5d1e1adfff31fc29ed
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 18:08:11 2024 -0600
+
+    ok
+
+commit 87b1050a7affb5551e3cf5719fe531ef491e8c0e
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 18:07:43 2024 -0600
+
+    adding things into part a test results file again
+
+commit f7f37c02d41c3120c32b3c242463c893256356db
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 18:06:00 2024 -0600
+
+    deleted part A test results
+
+commit ebc4d2fab068983f0b2b347ce0e534b8f6ab6859
+Merge: eab48ef ca4bc03
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 17:55:54 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/a1' into a1
+
+commit eab48ef5bbc98eeecf869516beae12cde6b1824b
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 17:55:35 2024 -0600
+
+    original test results file
+
+commit ca4bc038181ebe2591668136bc0955fb4b1fc039
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 17:51:25 2024 -0600
+
+    adding output.txt content to testresults.txt
+
+commit 9ef2b2bf54c917a3ecca7b8d5d9c5d893bd475e2
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 17:41:26 2024 -0600
+
+    Adding full test plan for partA again
+
+commit 3c7250a7ad72dd2827e3ad29b41f9d3d2309cd4e
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 17:39:37 2024 -0600
+
+    reverted partA test plan to last one
+
+commit 736c47a794e0ba1f77c1f26f9d77075806de45a1
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 17:32:59 2024 -0600
+
+    finished adding test cases for partA1 partA2 partA3 and partA4
+
+commit 1b58af7c5c191a2612e64f94190b36b5fe4b2751
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 17:05:57 2024 -0600
+
+    finally found a case where when the numbr of threads are super large, the output will have threads stopped by signal. added the output to output.txt and will add to test results planA after. yay!
+
+commit 2c7a063ce6306f682e94ae4d8b794bfd17387159
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 16:45:16 2024 -0600
+
+    adding current changes
+
+commit b7462eb2bcfc68331bd7cd548637c8540b05f961
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 16:15:10 2024 -0600
+
+    don't want sighandler for each child. we want one for parenet only - so no for loop
+
+commit c2c02d50b877fe6f1583e8cb0bf2cc86edbd0bc8
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 16:08:47 2024 -0600
+
+    partA4 now compiles, will have to check for errors tho. make a silly mistake typing .c instead of .o in the object files compilation
+
+commit 2e0b84bd5b9033295f7f6dadf07ab0558bd6d244
+Merge: ea31c07 05214ef
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 16:01:09 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/a1' into a1
+
+commit ea31c07ab5b07e91a1fabf53858c5014aca49e05
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 16:00:45 2024 -0600
+
+    made changes to partA4 code - added sigaction function and added SIGALRM as parameter
+
+commit 05214effa306831e7c398e9f5f981b7da1648f90
+Author: karen <you@example.com>
+Date:   Sun Sep 22 15:38:26 2024 -0600
+
+    partA1 was breaking because there seemed to be added lines - not sure why? anyway, it is fixed now
+
+commit 394e0c6e83f01dd7ee28e183ce47bc35713b808d
+Author: karen <you@example.com>
+Date:   Sun Sep 22 15:28:42 2024 -0600
+
+    Adding current filees
+
+commit b1d28c8865df8d002bf3c5823ed2cfc0b11e9841
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 15:12:44 2024 -0600
+
+    adding the signal.h and considering to work with sigaction() function - making increment progress towards this
+
+commit 8a75fb09144adc3ca02620b2d2ecd7ad27cbaf87
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 22 12:52:51 2024 -0600
+
+    adding anything i might have missed
+
+commit c5410e569f66a3c679c1fa597ca0bed0cb9163f2
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Sun Sep 22 00:58:38 2024 -0600
+
+    decided to add list_concat anyways
+
+commit d13a13de2d7f666d47c64f4b8edcbba28b2d9122
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Sun Sep 22 00:38:12 2024 -0600
+
+    moved implemented list_concat to it's own file, do not submit, fixed ListCreate to recognize unused lists
+
+commit 941d82b2df7453f1c9d80f99b3525a2fa26104c5
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Sun Sep 22 00:09:07 2024 -0600
+
+    realloc works properly, value is stored in temp value to avoid overwriting the original pointer with a failed NULL pointer
+
+commit e2d6d0d169d5ec1cee40e192ac07e93e94b7baaf
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Sat Sep 21 23:21:53 2024 -0600
+
+    replaced list_adders functions with LIST_HANDLE and NODE_HANDLE
+
+commit e9cc173dec5bfcb1f3aa5f3eb7cba6ec3da914eb
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Sat Sep 21 22:59:35 2024 -0600
+
+    half-way through replacing functions with LIST_HANDLE and NODE_HANDLE, commiting so I can find and replace list-> and node-> with (list_space+list)-> and (node_space+node)-> respectively
+
+commit 9a3e4578b6e74a2fede159e8ac9bbb433882f526
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Sat Sep 21 22:07:33 2024 -0600
+
+    reworked calloc calls into malloc, (still need to init mem) and removed additional malloc calls
+
+commit 7d540ee59fcdf963219b941aa7cc604cd99a6d55
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Sat Sep 21 22:04:30 2024 -0600
+
+    reworked list.h to use LIST_HANDLES and NODE_HANDLES instead of pointers
+
+commit 553ad0235e3293939dccbddd656713cf101cbc73
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 22:01:42 2024 -0600
+
+    added all the test results inside Part A
+
+commit ebc4f8fb9cc5410e20cf660eedf77472ad10766b
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 21:59:52 2024 -0600
+
+    .
+
+commit 02e819cbda514d946d7aaf21833cbf448f0a8ad3
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 21:57:42 2024 -0600
+
+    fixed one test case deadline from 1000 to 100 because 1000 is too long of a wait
+
+commit 1d61e259b705a57ce02b75492fcb6825bbb13260
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 21:40:02 2024 -0600
+
+    added the test cases for partA3 - very similar to partA2 and partA1 with changes in numbers only
+
+commit 0cfe729e4b7dbea5c22c0fef986338519cb1a961
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 21:28:30 2024 -0600
+
+    problem fixed - had to to gettimeofday func after the else if statement
+
+commit a328c573b7b6dd02566e9f0ae64a61813ca283a9
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 21:24:18 2024 -0600
+
+    added the printf statements for the time milliseconds - will have to go back and fix the spacings
+
+commit 60fd18c35a61b844f516e3a4178450945af91894
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 21:06:47 2024 -0600
+
+    the partA3 compiles now, small error on symbolic link is fixed. for partA3, considering to put a variable count inside the struct itself so that i can call that in my while loop and easily print out the statistics statements that it needs.
+
+commit 5b4e844b3df864f3a3474a3e09c43035a4577396
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 21:00:33 2024 -0600
+
+    just adding everything
+
+commit 6ae97a4ca160a7b38af7bc696c257a73661dfcaf
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 20:16:18 2024 -0600
+
+    adding partA3 but yet to fix makefile for this part to ensure that it compiles
+
+commit 43d7a987fdf4347dab86ebd25b0585f72f1f2701
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 20:15:19 2024 -0600
+
+    accidentally deleted, added back
+
+commit 89c83d40d3e48bce5f1f4d1af5f3aae347cc6c6c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 19:05:51 2024 -0600
+
+    finished adding the test cases into this file
+
+commit 28a93254d69f5afee268787498698fd3b82d3ee1
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 18:31:57 2024 -0600
+
+    finished typing the 4 more test cases for partA2 -> will add results to testresults.txt
+
+commit cd2c61985a63b3cd27fbc07a6a9329b9cf71f2fa
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 18:30:18 2024 -0600
+
+    adding more test cases in the partA.testplan.txt
+
+commit 673f502c5a98c6804311b1f1984792f0fa783fd9
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 18:24:45 2024 -0600
+
+    fixed some changes in testplan
+
+commit ae455269365d6ab73e12a752dcd7932f03497333
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 18:23:42 2024 -0600
+
+    finished adding results for partA2
+
+commit b1ebe3e64e34b93d44f338211000a6b6b4f47027
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 18:17:31 2024 -0600
+
+    partA2 works now perfecto. the issue was found where the for loop was accessing out of bounds mem areas
+
+commit 05673368a3f73a14842e4fce7e5cba546a0a76b3
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 17:23:47 2024 -0600
+
+    it is better now because we can at least see the program have results that at least don't keep running for a prolonged time. issue now is segmentation fault - might be related to mem allocation or mem freeing
+
+commit ca6e6c8185d781e50db6a7925b978437006337d4
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 17:01:41 2024 -0600
+
+    added some iteration statements - found the problem, issue lying in the part where  we are terminating the unfinished threads becasue no print statements are being generated from that for-loop.
+
+commit 6e7c55ae6bfe9f78b18fa529d95478ac51d664db
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 15:24:10 2024 -0600
+
+    fixed Makefile so partA2 works. partA2 compiles but it keeps stopping at thread 2 - need to look over my code again
+
+commit 4d4309d2a34deb4816fa03131d7d5e57fc8679d6
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 01:46:06 2024 -0600
+
+    some lines in partA2 were going out of 80 characters - now i cleaned and fixed it
+
+commit 5084f8308469b77611aebfd390b5b074f2ad4486
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 01:44:05 2024 -0600
+
+    working on partA3 - since we can't use pthreads_join, considering to use mutexes - ill need to think about this - lil food break then we shall continue
+
+commit f54c2642b90cccec7f336f4a0d6d15e15c0ecca1
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 01:38:06 2024 -0600
+
+    added the testplan for partA2, will test this after figuring out why it isn't linking on the Makefile
+
+commit 19592a363e63e444d889cd3283d83207936c17e8
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 01:05:43 2024 -0600
+
+    cleaned all code errors and yet to solve 'undefined reference to 'square' error when being compiled on the make
+
+commit ba30ffba02ecbdca78124e0710cbe4f4606da351
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 00:47:57 2024 -0600
+
+    added my code for partA2
+
+commit f4ae52ed9c2afdca350353b42f6fa5b994f00afa
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Sep 20 23:43:14 2024 -0600
+
+    adding object file code and linking code for partA2 into makefile
+
+commit 9f607b6fb1f17599e2a33300a4d03a29f01f2691
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Sep 20 23:38:36 2024 -0600
+
+    copying partA1.c for partA2.c
+
+commit b68d81b4d044682c0dbddd8b6276e86ad4a5121c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Sep 20 23:25:38 2024 -0600
+
+    finished the test results for partA1
+
+commit 86fafd6ada347b68124f88fcc6d40a5346018816
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Sep 20 23:07:06 2024 -0600
+
+    finished the test plan cases for part A1
+
+commit 9de652a3bb071b09e1ea8ab2195f0c4503c4dc06
+Merge: 1535ef8 ed7126b
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Sep 20 22:49:42 2024 -0600
+
+    adding test cases
+
+commit 1535ef8ad27b7b6f6244e33c48407b304aa57700
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Sep 20 22:48:11 2024 -0600
+
+    adding test plan cases into parta.testplan.txt
+
+commit ed7126b5edeab7af1af965937a3f84aa1aee6106
+Author: karen <you@example.com>
+Date:   Fri Sep 20 21:16:13 2024 -0600
+
+    added partA2 partA3 partA4 in the else part since it will run on Linux
+
+commit 3c350f7401a04a71b2d0d77a8084487411d5220c
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Fri Sep 20 20:27:54 2024 -0600
+
+    removed mklink, compile exe directly in folder
+
+commit 0ade2ac17ca837cd5161d9152870b71a86dd1cd1
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Fri Sep 20 18:20:52 2024 -0600
+
+    list_reserve & node_reserve should now both properly increase when LIST_MIN or NODE_MIN is reached
+
+commit 6548ef44c0611b29bfc4d5e09d4d52e03424e253
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Fri Sep 20 18:03:36 2024 -0600
+
+    updated PartC design
+
+commit beb013d8097cf90254b0bc217677a33652e6bfda
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Fri Sep 20 17:41:44 2024 -0600
+
+    added (untested) insertion functions to PartC
+
+commit 4cd1096c219b48793f2d388c8209b52d87338ff6
+Author: karen <you@example.com>
+Date:   Fri Sep 20 20:22:22 2024 -0600
+
+    compiles partA1 but not showing print statements - will come back to this
+
+commit a11298e0e9d3b09405dc70d0d80ed3e69be834b9
+Author: karen <you@example.com>
+Date:   Fri Sep 20 18:57:24 2024 -0600
+
+    fixed some bugs
+
+commit f787d721b0524c25e4f65a9f7568e2556d8c93dc
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Sep 20 18:04:52 2024 -0600
+
+    added keepRunning variable as FALSE once the child threads are done in the Windows code
+
+commit 6dd2fc1d6048f5e8acb766103d5cdb582bba6ae4
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Sep 20 18:03:08 2024 -0600
+
+    compelted the ThreadfUNCTION for Windows - to be compiled
+
+commit 4a003905afe6111ab3549a5b984f1c3f196dbf79
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Fri Sep 20 17:11:35 2024 -0600
+
+    updated styleguides to be awesome
+
+commit c1d681274adbda85972790764e923fdca323f3a1
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Fri Sep 20 16:35:59 2024 -0600
+
+    fixed parts of Makefile that lowered grade
+
+commit 58cc82e568f04e0a93209f6db5e8b73283506cae
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Fri Sep 20 16:20:34 2024 -0600
+
+    reworked helper functions into macros
+
+commit 638d528e4165387601e53ee1d0c54395d1b58a28
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Fri Sep 20 14:18:58 2024 -0600
+
+    inline expanded GetBit & SetBit, added NodeCreate function
+
+commit 2c34ca9d34874156818a858f69fa02aabba7eb73
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Fri Sep 20 13:58:17 2024 -0600
+
+    changed count to unsigned int
+
+commit b0c173e70335cf3b14841bb564afef7591db4b09
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Fri Sep 20 12:38:23 2024 -0600
+
+    fixed SetBit overriding bit array when setting bit to zero
+
+commit 5adad7605cb184485573f8755aac1d204dbb1879
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Thu Sep 19 14:40:41 2024 -0600
+
+    added used list tracking using bit array, ListCreate now functions
+
+commit de544fdca5a8798cd222bef6a4030a5f9bd53f84
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Thu Sep 19 13:38:21 2024 -0600
+
+    added bonus marks memory reallocation, changed malloc calls to calloc and reallocarray for initialization
+
+commit 5640158065f62b48c4a9579436fbf69138e03175
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Thu Sep 19 13:10:10 2024 -0600
+
+    ListCreate mallocs list and node
+
+commit 69bc8c30f96b7ca3a148cbc9843ba6fe2432e0a3
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Thu Sep 19 13:09:35 2024 -0600
+
+    added check to return value of ListCreate
+
+commit cc5c56ef3492b759aa5bac3fa53623849a69e9ea
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Sep 19 20:24:45 2024 -0600
+
+    added test plan for partA1
+
+commit ee6d379d019bbca99add6372d13eca950b26b19e
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Sep 19 19:08:25 2024 -0600
+
+    going over makefile
+
+commit 408b87b2693359ea83d36bb674030c0df046645b
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Sep 19 18:25:01 2024 -0600
+
+    adding files for test results and test plan text files
+
+commit ee050bf0ab1695a4ce581163da939a99f326409e
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Thu Sep 19 12:45:10 2024 -0600
+
+    duplicated phase 1 as basis for phase 2
+
+commit 7a8262a4569a6e8c3eb3d11290fd2c5caebd3b78
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Mon Sep 16 00:42:40 2024 -0600
+
+    added mklink to Makefile for partA1 Windows compilation
+
+commit 292041a7b24485f1c92125ff043386f988aed93e
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Mon Sep 16 00:40:52 2024 -0600
+
+    ignore .exe in .gitignore
+
+commit eeb5542b26995106a43987ecc1631484b4ce6ed4
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Mon Sep 16 00:24:01 2024 -0600
+
+    fixed compilation time bugs in partA1
+
+commit b29b5bfdf099873ac62ed21186b9342886becfd9
+Author: Jack Donegan <lvf165@usask.ca>
+Date:   Sun Sep 15 23:58:48 2024 -0600
+
+    began implementing partA1 into Makefile
+
+commit 6f5ee9521b599a37c54d19c8df76e293a229d979
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Sun Sep 15 23:35:04 2024 -0600
+
+    removed redundent guidelines
+
+commit 532a7a8802740ecb0736f0bc40a29f9bcddcbd88
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Sun Sep 15 22:42:24 2024 -0600
+
+    made partA1.c, square.h comply to style guide
+
+commit a62fcde57c3e479b383e44ba4aff3067456b4ea0
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Sun Sep 15 22:34:40 2024 -0600
+
+    wrote PartC design doc.
+
+commit 2e87ce4f6674706d50afe64b1de85f280b787084
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Sun Sep 15 21:48:33 2024 -0600
+
+    reduced max character count below 80 characters in Makefile
+
+commit e10d7309164d32575a93e2f4b6f3d67ad2335945
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Sun Sep 15 21:47:52 2024 -0600
+
+    added names, nsid, student #s to square.c and partA1.c
+
+commit 7cc67afd719221487082c84ea5bd25ecd031a861
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Sun Sep 15 21:47:06 2024 -0600
+
+    added comments to each list function
+
+commit 5d49dc00827b862857572c43a9fdbcb0068ecf0f
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Sun Sep 15 21:14:37 2024 -0600
+
+    removed unnecessary formatting from style guidelines
+
+commit 55644789cb19ba2bdc0d34749aa50b94cbe29cb2
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Sun Sep 15 21:09:13 2024 -0600
+
+    added a function call for every function in the list library to mytestlist.c
+
+commit 71fc4f16be38c29d6edbb4124e8faf2205b565e7
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Sun Sep 15 21:00:43 2024 -0600
+
+    added argument checks to each list function
+
+commit e39a68901c2b25623cd4fd1c2dba8478a1063ae4
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Sun Sep 15 20:37:40 2024 -0600
+
+    added comments to Makefile
+
+commit 7cbdab74791ae26c04ad5e28c95568f7ff2d6577
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Sun Sep 15 20:20:02 2024 -0600
+
+    fixed list library to properly compile
+
+commit f57efbaf11d9d57a77b22cca9a545c8a98943a28
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Sun Sep 15 20:12:32 2024 -0600
+
+    Makefile attempts to compile list, list needs debugging
+
+commit 293bb8ce5978dfb132b9bb664e3570059cf697fc
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Sun Sep 15 19:26:31 2024 -0600
+
+    added skeleton functions to list_adders, list_movers, list_removers
+
+commit f486fcca11dd594d9043cdbf703dcfe44dc768da
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Sun Sep 15 18:59:18 2024 -0600
+
+    updated partB to comply with guidelines
+
+commit 68562803e04893a02539824c70feb8e3fe695ceb
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 18:48:26 2024 -0600
+
+    finished with the designing and now it's jackie's time to takeover
+
+commit bc827c897f9d1f364fa75a2e23f152120eb311f4
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Sun Sep 15 18:31:18 2024 -0600
+
+    implemented partB.bash for all 4 executables, checks the OS
+
+commit 0c14c2e4a9f4ea3587c93b29f3ec6213d9120d99
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 18:31:22 2024 -0600
+
+    had some time so did a bit of c too
+
+commit dacc5f757c033b6dbbdf3f736b7ac82bc5aa4c8b
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 18:27:41 2024 -0600
+
+    redesigned the stylesguidelines and made it prettier
+
+commit 500f5d61a93719a2a107c07ddd3a4b64cf1bb497
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 18:26:31 2024 -0600
+
+    deleted off cross compile tags
+
+commit 71cffc4c6c74ed84c68061aad36ed943d893729a
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 18:25:29 2024 -0600
+
+    cleaned off partA1 and added those error messages in accordingly
+
+commit 70d5c1b840955aa86a83d6d5c0c03153166456ce
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 18:13:01 2024 -0600
+
+    changed the ThreadFUNC because I realized that they didn't want us to code the entire function which I did but instead, they wanted a skeleton program
+
+commit f986a24b5372259959a9fde22e3548b037c300f3
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 16:39:07 2024 -0600
+
+    made some comments on design docs for jackie
+
+commit 31cd4c1de867205a12031898f2c09be0a04cb78c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 16:23:37 2024 -0600
+
+    adding list.h file with our names
+
+commit 7da9c6458f340aa5a295bd19ab7b9022214e4644
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 16:22:23 2024 -0600
+
+    adding the design doc for the Part A designing parts of it
+
+commit 2d7f0e671b53e852e9936dbba06d9a2e8785a6e5
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 13:30:47 2024 -0600
+
+    finished partA1.c
+
+commit 2adb19cb33314be02d7d8346dcaa4679fb0b9d7f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 12:23:36 2024 -0600
+
+    finished square.c and square.h files
+
+commit 6625b8cf498127e8e576f13025947ea659ee3790
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 11:18:40 2024 -0600
+
+    changing the name of the file
+
+commit 7a995a8cdbb5beb16a21ea45ee16ad44b86695bc
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 11:04:14 2024 -0600
+
+    finished first draft of the Makefile
+
+commit 9b589fb1b469ea467d9f08a93a2047ec5b8dcf85
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 10:51:49 2024 -0600
+
+    having executable for mytestlist
+
+commit 12d277a01f345d72763adaff565e7f679ce54b20
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 10:37:52 2024 -0600
+
+    realized that i haven't created a commit for a long time and currently,im on the makefile working about the compiling objects section
+
+commit b29c1b0fdbb80fbed568e06eebaecbb5451fc24f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 10:12:39 2024 -0600
+
+    working on the Makefile to have the executables and targets in place
+
+commit 7cb554d85f2f1f611d9b80a3e1c334464e6232d0
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 09:42:07 2024 -0600
+
+    adding the square c and header file and the partA1 c file as well
+
+commit 3a087fcdc0baa8f3b7005da20be062eb76d65dd0
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 09:39:11 2024 -0600
+
+    adding a header file for the square function
+
+commit 64a24d78e5b724689180e36eff268187b17cf47e
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 09:27:31 2024 -0600
+
+    working on the makefile and added -Wextra condition as mentioned by the assignment
+
+commit ed7a5356e7eda0495d8a03f475a6fc05a9c83d4d
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 09:21:15 2024 -0600
+
+    added names into our git-log.txt
+
+commit 47e307d2c8a97e177d959b8ff39a5670d66a88d0
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 14 19:13:32 2024 -0600
+
+    added a few more pointers into this style-guidelines text file to indicate some of the issues that I ran into while styling for some of my files. we can keep adding more as we go along. - a lil coffee break before i continue
+
+commit c53a00a318e14df8176f0b34ff47258f3a092c7b
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 14 19:06:13 2024 -0600
+
+    adding the style guidelines file but added 4 points for now
+
+commit 280aef895c2efd38c68ed29e47967870a5bcce9b
+Author: Shruti Kaur (ich524) <ich524@mail.usask.ca>
+Date:   Sat Sep 14 19:05:02 2024 -0600
+
+    Update .gitignore
+
+commit 454243cf10595a9f81c1efa986b3e3d89ba7453c
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Fri Sep 13 14:18:42 2024 -0600
+
+    moved phase 1 files to phase 1 folder, unignoring folders in .gitignore
+
+commit b3e5c2934d3c1cb1509eb5bbc3a1551088855434
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Fri Sep 13 13:55:45 2024 -0600
+
+    created (most of) phase 1 starter files
+
+commit 1f09d33470a9950447f05f717149be8d901d6406
+Author: Jack Donegan (lvf165) <lvf165@usask.ca>
+Date:   Mon Sep 9 16:34:18 2024 -0600
+
+    removed README.md, added .gitignore
+
+commit 9cc6cde3c7109cf55d5aac8f5cb1f2b91b1a3137
+Author: Dwight Makaroff (dwm138) <makaroff@cs.usask.ca>
+Date:   Sat Sep 7 17:41:37 2024 -0600
+
+    Initial commit

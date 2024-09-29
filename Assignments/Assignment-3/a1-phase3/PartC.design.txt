@@ -1,0 +1,159 @@
+Jack Donegan, Shruti Kaur
+lvf165, ich524
+11357744, 11339265
+
+-----------------------------------------------------------------------------
+
+Overview:
+    We are attempting to implement a List Library. A list is made up of nodes, 
+nodes store one non-typed item. The List Library will allow us to create,
+read, manipulate, and destroy these lists. 
+
+Definitions:
+    - List: contains a head node, tail node, count value, and a cursor 
+    "current item". The head and tail node must connect and cannot loop.
+    - Node: contains a non-typed (void pointer) item, next node and previous
+    node.
+
+Functions:
+    *Note*: All functions (with the exception of ListSearch and ListFree) 
+    should run in constant O(1) time.
+
+    Legend: (L = List, I = Item, f = Function)
+
+    ListCreate(): Creates a new empty list.
+    ListCount(L): Returns the number of nodes within the list.
+    ListFirst(L): Returns a pointer to the first item, moves cursor to first.
+    ListLast(L): Ditto, except last.
+    ListNext(L): Ditto, except item next of cursor.
+    ListPrev(L): Ditto, except item previous of cursor.
+    ListCurr(L): Returns a pointer to the cursor's item.
+    ListAdd(L,I): Prepends an item to the cursor's item.
+    ListInsert(L,I): Appends an item to the cursor's item.
+    ListAppend(L,I): Appends an item to the end of the list.
+    ListPrepend(L,I): Prepends an item to the start of the list.
+    ListRemove(L): Pops the current item, returns current item.
+    ListConcat(L,L): Appends the second list to the first, deletes the second.
+    ListFree(L,f): Deletes list, uses function to delete each item.
+    ListTrim(L): Pops the last item of the list.
+    ListSearch(L,f,I): Searches list using comparator function. Returns 
+        pointer to item if found and sets cursor, else returns NULL and
+        sets cursor to last item.
+
+Implementation:
+    
+Functions:
+-- UPDATE P3--
+Now that we've moved onto the final phase of the assignment and now have to
+shrink the memory space used for Lists and Nodes, handles just don't cut it
+anymore. They have the same problem that just using pointers did, if we move
+memory then they stop pointing at the right thing. If we move indiviual
+entries within the space which is required if we want to shrink the memory
+used the handles don't point to the right place anymore.
+
+Another solution I previously considered was using a double-pointer array to
+allow us to shrink the memory space, update the pointers, and nothing is left
+dangling. Pointers suck though for reasons previously mentioned so it'd be
+better to use a "double-handled" array. One handle that points to the other
+handle within the List or Node memory. But now we have come full circle to the
+original problem, we can't shrink that array without leaving the handles
+pointing at it dangling.
+
+So at this point we are left needing to find a dictionary-like data-structure
+that does not care about position no matter how many times we resize it. Hash
+tables fufill every requirement needed, and are blazing fast. For the key
+value we need to use something unique so I figure using a 4-byte counter 
+variable would suffice and we would realistically not have to worry about 
+overflow because for most use cases I doubt one would make 2^32 nodes in one 
+session without restarting the program at some point.
+
+As I was writing this, I realised something. Why use a second array? Why not
+just organize the memory for the List and Node space as a hash table? After
+giving it some more thought it would probably just be best to use a second
+array. Why? Collisions. As a hash table fills up it becomes more likely that
+when inserting a new item there will already be an item at an any particular
+index. Because of this hash tables are kept to be some multiple times larger 
+than the actual data it stores to minimize collisions. Having an additional 
+double sized 8 byte (4 bytes for key, 4 bytes for handle) array is about 25% 
+cheaper than adding 4 bytes to the existing 16 byte data structures and
+doubling that.
+-- /UPDATE --
+-- UPDATE P2--
+I've decided to switch to using LIST_HANDLEs and NODE_HANDLEs instead of 
+direct pointers to LISTs and NODEs. The handles themselves are just the index
+of the LIST or NODE in the allocated space. The reason being is that using 
+realloc for the bonus challenge may cause the allocated pointer to move 
+somewhere else in memory immediately turning all of our list and node pointers
+into useless and potentially dangerous dangling pointers.
+
+This may not be the method used in the final implementation. At the moment I
+cannot figure out a way to effectively shrink the memory. There could be
+massive gaps in the currently used memory of free lists that could otherwise
+be condensed into half the memory. But moving the existing lists would break
+the current indexes.
+-- /UPDATE --
+    A good number of these functions are nearly identical, so I will group 
+similar functions when describing their implementation. 
+
+ListCreate: Retrieve an unused list item and zero out all values.
+    -- UPDATE --
+    The memory used Lists and Nodes are allocated if not already, then we
+    check if we have the maximum allowed of lists allocated and reallocate if
+    so.
+    We then check for an available list in the memory space by checking an
+    array of bits which indicate whether a particular index is already used or
+    not. Once we find one we zero it out and return the new empty list.
+    -- /UPDATE--
+ListCount: return list->count;
+ListFirst/Last/Next/Prev: 
+    list->cursor = list->(head/tail/cursor->next/cursor->prev); 
+    return list->cursor; 
+ListCurr: return list->cursor;
+ListAdd/Insert/Append/Prepend:
+    Retrieve an unused node, zero out values, set item. Connect it to the
+    head, tail, next item, or prev item and ensure all connections are
+    properly maintained.
+    -- UPDATE --
+    We need to check if we are at the maximum allowed nodes and increase
+    reallocate the memory if we are.
+    There are special case(s) for each function. A universal special case is
+    an empty list which has the same outcome: head, tail, and cursor all
+    become the new node. Otherwise the Add and Insert functions need to have
+    cases to handle when the cursor is currently the tail or head.
+    -- /UPDATE --
+ListRemove/Trim: Designate node as unused, stitch together now broken
+    connections. Return item pointer of node.
+ListConcat: list1->tail->next = list2->head; delete list2.
+ListFree: use itemFree on every item, designate List as unused.
+ListSearch: use comparator on every item. Leave cursor on item if comparator
+    is true and return pointer to item.
+
+Additional Information:
+    
+    -- OUTDATED --
+    GETBIT(array, index), SETBITT(array, index), and SETBITF(array, index)
+    are macros that allow for easy manipulation and reading of individual bits
+    in an array of integers. They are used to indicate if a matching index
+    List or Node is being used. I did consider using either an additional
+    field in List or Nodes to indicate if they are being used but that could
+    cost up to 4* bytes per instance of a struct which could add up very 
+    quickly. In addition, having such a small compact array is good for
+    caching.
+
+    * worst case, best case is it could cost zero if the struct if the struct
+      is already 1-3 bytes over
+    -- /OUTDATED --
+    
+    Reasoning: Did not read assignment closely enough, only one malloc allowed
+    per memory structure. As a solution I decided for Nodes to check if item
+    is NULL or not to decide if it is being used. And for lists to sacrifice
+    one value from list->count to be the flag that indicates if the list is
+    free or not. There is absolutely no reason somebody should be using one
+    list to store over 4 billion values so using the maximum unsigned int
+    value of 0xffffffff is my solution.
+
+    NODECREATE() is similar to ListCreate but is a macro instead of a 
+    function. This avoids the overhead that would comes with otherwise having
+    to use a function but as a consequence increases the size of the binary by
+    a neglible amount.
+    

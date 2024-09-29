@@ -1,0 +1,31 @@
+Jack Donegan, Shruti Kaur
+lvf165, ich524
+11357744, 11339265
+
+Style Guidelines:
+
+ 1. Use 4 spaces for indentation, no tabs.
+ 2. Use CamelCase for function names.
+ 3. Functions should have a docstring in the following format (omit any field
+    if inapplicable):
+    /*
+     *  Purpose: <description>
+     *  Preconditions: <requirements for function to... function>
+     *  Postconditions: <what changes>
+     *  Return: <expected value and error value>
+     */
+ 4. Always use braces `{}` with `if`, `for`, and `while` statements, even
+    for single statements.
+ 5. Add comments to complex or confusing sections of code, your future self / 
+    your partner will be very grateful.
+ 6. Do not use // for comments, always use /* */ pairs unless there is a one
+    line comment made.
+ 7. Ensure no dangling pointers; initialize pointers to NULL.
+ 8. Include only the necessary headers to minimize dependencies.
+ 9. Use UPPERCASE for `#define` directives, constants, and macros.
+10. Group variable declarations of the same type on the same line when
+    feasible.
+11. For structs and the like use 'pointer->value' and not '(*pointer).value'.
+12. Free your mallocs.
+13. Precompute static variables outside of loops. (e.g., do not call sqrt(2);
+    every loop)
