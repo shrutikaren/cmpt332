@@ -1,0 +1,67 @@
+PART A: Children and Parent Threads    1/9 marks
+
+PARTA::: Design Doc:  0.5/2 marks  
+
+	Windows:	0.5/1.5
+  Linux: 0/0.5
+
+  Windows:
+	[-1]very verbose but no details
+	how will square() be counted correctly?
+
+  UBC/POSIX:
+           [-.5] not the details I was looking for, and it defiently is the
+  wrong apporach you can't use synchronization. The difference between windows
+  and linux is that the parent is now responsible for killing the children
+           this causing new challenges that you have to address
+
+
+PARTA::: Implementation: -1/5 marks
+
+
+	Windows:  	0/3   
+	UBC:		-1/1  
+	POSIX:		0/1
+
+  Windows:
+  	[-1.5]The design spec says not use any synchronization
+	WaitForMultipleObjects() is an excellent choice, but violates the
+	requirements
+
+	Unofficial common convention on windows to exit with the error
+	value from why you are exiting (i.e. return GetLastError();
+	or return ERROR_INVALID_DATA;, etc...)
+	https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-
+	https://learn.microsoft.com/en-us/windows/win32/debug/system-error-code-lookup-tool
+
+	GetSystemTime() is there a better way to do this?
+	hint:
+	https://learn.microsoft.com/en-us/windows/win32/sysinfo/time-functions
+
+	[-1]How will the parent thread access count?
+
+	[-.5]no quotes with #include
+
+	[-1]You are not couonting how many times square()
+	is run inside square! This is a maditory design feature.
+
+  UBC comments:
+              [-.5] no executable called partA2
+              [-.1] don't use "" to include local headers
+              - don't need signal.h
+              [-5] YOU NEED UBC NOT POSIX
+
+  POSIX comments:
+                [-.5] no executable called partA3
+                [-.1] don't use "" to include local headers
+                [-.5] SHOULD NOT BE USING MUTEX, this is synchronization
+                - https://man7.org/linux/man-pages/man3/pthread_cancel.3.html
+                  make sure you're setting up cancel correctly
+                  , but cancel is a terrible choice, use kill
+
+PARTA:::: Testing/Test Plan:	1.5/2 marks 
+  Plan:
+	[-.5]Testing too focused on parsing behaviour
+	not runtime behaviour
+  Test:
+	Evidence of threads
