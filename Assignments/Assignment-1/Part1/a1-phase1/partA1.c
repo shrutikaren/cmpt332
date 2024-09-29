@@ -3,9 +3,6 @@
 #include <windows.h>
 #include "square.h"
 
-// Global flag to control thread execution
-volatile BOOL keepRunning = TRUE;
-
 // Thread function skeleton
 DWORD WINAPI ThreadFunc(LPVOID param) {
 	
@@ -17,6 +14,7 @@ DWORD WINAPI ThreadFunc(LPVOID param) {
 }
 
 int main(int argc, char *argv[]) {
+
     printf("Got to procedure main\n");
 
     // Check if the correct number of arguments are passed
@@ -54,12 +52,21 @@ int main(int argc, char *argv[]) {
 
     // Create threads
     for (int i = 0; i < threads; i++) {
+        
         threadIds[i] = i;
-        threadHandles[i] = CreateThread(NULL, 0, ThreadFunc, &threadIds[i], 0, NULL);
+        
+        threadHandles[i] = CreateThread(NULL, 
+                                        0, 
+                                        ThreadFunc, 
+                                        &threadIds[i], 
+                                        0, 
+                                        NULL);
+
         if (threadHandles[i] == NULL) {
             printf("Error in procedure CreateThread: Failed to create thread %d\n", i);
             return -1;
         }
+
     }
 
     // Sleep for the deadline (in milliseconds)
@@ -73,6 +80,5 @@ int main(int argc, char *argv[]) {
     free(threadHandles);
     free(threadIds);
 
-    printf("Got to procedure main: Terminating successfully\n");
     return 0;
 }
