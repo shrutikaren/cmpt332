@@ -1,5 +1,5 @@
 -----------------------------------------
-+ 	Update: kernel/syscall.h 	+
++ 	    Update: kernel/syscall.h 	    +
 -----------------------------------------
 
 /* Assignment 1E update */
@@ -9,9 +9,10 @@
 
 
 -----------------------------------------
-+ 	Update: kernel/syscall.h 	+
++       Update: user/user.h  	        +
 -----------------------------------------
 
-#define SYS_trace  22
+/* Assignment 1E update */
+int trace(int);
 
 -----------------------------------------
