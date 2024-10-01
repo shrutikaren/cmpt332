@@ -32,7 +32,7 @@ int trace(int);
 +        Update: kernal/sysproc.c  	    +
 -----------------------------------------
 
-# Assignment 1E update 
+/* Assignment 1E update */
 uint64
 sys_trace(void)
 {
@@ -48,3 +48,40 @@ sys_trace(void)
 }
 
 -----------------------------------------
+
+
+-----------------------------------------
++       Update: kernal/syscall.c  	    +
+-----------------------------------------
+
+/* Assignment 1E update */
+extern uint64 sys_trace(void);
+
+...
+...
+...
+
+/* Assignment 1E update */
+[SYS_trace]   sys_trace,
+
+-----------------------------------------
+
+
+
+-----------------------------------------
++       Update: kernal/proc.c  	        +
+-----------------------------------------
+
+
+/* Assignment 1E update */
+p->trace_mask = 0;
+
+...
+...
+...
+
+/* Assignment 1E update */
+np->trace_mask = p->trace_mask;
+
+-----------------------------------------
+
