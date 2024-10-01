@@ -38,11 +38,9 @@ sys_trace(void)
 {
     int mask;
     
-    if(argint(0, &mask) < 0){
-        return -1;
-    }
+    argint(0, &mask);
     
-    proc->trace_mask = mask;
+    myproc()->trace_mask = mask;
     
     return 0;  /* not reached */
 }
@@ -103,7 +101,7 @@ if((p->trace_mask & (1 << num)) != 0){
     int checkPoint = (num < NELEM(syscalls_names));
     char* name = (checkPoint) ? syscalls_names[num] : "unknown"; 
 
-    printf("%d: syscall %s -> %d\n", p->pid, name, p->trapframe->a0);
+    printf("%d: syscall %s -> %ld\n", p->pid, name, p->trapframe->a0);
 }
 
 -----------------------------------------

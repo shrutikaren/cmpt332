@@ -162,8 +162,6 @@ static char *syscalls_names[] = {
 [SYS_trace]   "trace",
 };
 
-
-
 void
 syscall(void)
 {
