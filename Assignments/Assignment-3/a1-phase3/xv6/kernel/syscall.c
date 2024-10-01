@@ -181,7 +181,7 @@ syscall(void)
             int checkPoint = (num < NELEM(syscalls_names));
             char* name = (checkPoint) ? syscalls_names[num] : "unknown"; 
 
-            printf("%d: syscall %s -> %d\n", p->pid, name, p->trapframe->a0);
+            printf("%d: syscall %s -> %ld\n", p->pid, name, p->trapframe->a0);
         }
     
     } else {
