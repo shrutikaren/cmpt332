@@ -1,25 +1,25 @@
 #include "kernel/types.h"
 #include "kernel/stat.h"
 #include "user/user.h"
-#include <stdio.h>
 
 int
 main(int argc, char *argv[])
 {
     if(argc < 3){
-        printf(2, "Usage: trace <mask> <command> [args...]\n");
+        fprintf(2, "Usage: trace <mask> <command> [args...]\n");
+	exit(-1);
     }
 
     int mask = atoi(argv[1]);
 
     if(trace(mask) < 0){
-        printf(2, "trac: failed to set trace mask!\n");
-        exit();
+        fprintf(2, "trac: failed to set trace mask!\n");
+        exit(-1);
     }
 
-    exec(argv[2], &argc[2]);
+    exec(argv[2], &argv[2]);
 
-    printf(2, "trace: exec failed\n");
-    exit();
+    fprintf(2, "trace: exec failed\n");
+    exit(0);
 
 }

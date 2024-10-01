@@ -1,12 +1,6 @@
-/*
- * Jack Donegan, Shruti Kaur
- * lvf165, ich524
- * 11357744, 11339265
- */
-
 #include <stdio.h>
 #include <stdlib.h>
-#include "square.h"
+#include <square.h>
 #include <pthread.h>
 #include <sys/time.h>
 #include <unistd.h>

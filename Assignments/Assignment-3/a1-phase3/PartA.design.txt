@@ -1,6 +1,3 @@
-Jack Donegan, Shruti Kaur
-lvf165, ich524
-11357744, 11339265
 
 For Part A, this can be achieved by having three main files namely as follows: 
 1. square.h (Header File)
