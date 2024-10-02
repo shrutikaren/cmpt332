@@ -21,9 +21,10 @@ int square(int N){
     for(i = 0; i < num_of_threads && running; i++){
         if(thread_ids[i] == currentId){
             running = false;
-            i--;
         }
     }
+
+    i--;
 
     if(i < num_of_threads){
         squareCounts[i]++;
