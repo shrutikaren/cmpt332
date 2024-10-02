@@ -8,6 +8,7 @@
 typedef struct {
     int idnum;
     int numSquare;    
+    int squareCount;
 } Thread_Info;
 
 
@@ -35,7 +36,7 @@ DWORD WINAPI ThreadFunction(LPVOID param){
     QueryPerformanceCounter(&startCount);
     
     for (int i=0; i< thread_id->numSquare && keepRunning; i++){
-        square(i);
+        square(i, &thread_id->squareCount);
         count++;
         printf("This is the %d iteration\n", count);
     }
@@ -44,13 +45,11 @@ DWORD WINAPI ThreadFunction(LPVOID param){
     elapsedTime = (double)(endCount.QuadPart - startCount.QuadPart); 
     elapsedTime *= (1000.0 / frequency); 
 
-    printf("Got to procedure ThreadFunc for the thread %d\n", 
-            thread_id->idnum);
     printf("Thread %d: Elapsed time is %f milliseconds, "
             "number of innovations are %d\n", 
-            thread_id->idnum, elapsedTime, count);
-    count = 0; /*place it back to zero*/
-    return 0;
+            thread_id->idnum, elapsedTime, thread_id->squareCount);
+
+    return ERROR_SUCCESS;
 }
 
 /*
@@ -104,12 +103,24 @@ int main(int argc, char * argv[]) {
     for (i = 0; i < num_of_threads; i++){
         thread_data[i].numSquare = size;
         thread_data[i].idnum=i+1;
-        threads[i] = CreateThread(NULL, 0, ThreadFunction, 
-                &thread_data[i], 0, NULL);
+        thread_data[i].squareCount=0;
+        threads[i] = CreateThread(
+            NULL, 
+            0, 
+            ThreadFunction, 
+            &thread_data[i], 
+            0, 
+            NULL
+        );
         
         if (threads[i] == NULL){
             printf("Error in procedure CreateThread: Failed to" 
             "create thread %d\n", i);
+            
+            CloseHandle(threads[j]);
+
+            free(threads);
+            free(thread_data);
             return GetLastError();
         }
     }
@@ -123,5 +134,5 @@ int main(int argc, char * argv[]) {
     free(threads);
     free(thread_data);
 
-    return 0;
+    return ERROR_SUCCESS;
 }

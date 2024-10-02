@@ -10,12 +10,18 @@
 /*
  * Purpose: Calculate the square of the number provided in the function
  */
-int square(int N){
+int square(int N, int* count){
 
-    // int counter -> (*counter)++
+    if(!keepRunning){
+        return 0;
+    }
+
+    (*count)++;
 
 	if (N == 0) {
  		return 0;
 	}
-	return square(N - 1) + N + N - 1; 
+
+	return square(N - 1, count) + N + N - 1; 
+
 }

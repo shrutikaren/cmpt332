@@ -11,6 +11,6 @@
 
 extern volatile bool keepRunning ; 
 
-int square(int N);
+int square(int N, int* count);
 
 #endif
