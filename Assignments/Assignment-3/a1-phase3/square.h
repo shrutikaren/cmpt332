@@ -13,6 +13,10 @@
 #ifdef _WIN32
     #include <windows.h>  
     typedef DWORD thread_id_t;  
+#elif defined (USE_UBC_THREADS)
+    #include <standards.h>
+    #include <os.h>
+    typedef PID thread_id_t;
 #else
     #include <pthread.h>  
     #include <sys/time.h>  
