@@ -27,7 +27,7 @@ DWORD WINAPI ThreadFunction(LPVOID param){
     int i;
     double elapsedTime;
     LARGE_INTEGER frequency, startCount, endCount;
-    DWORD current_thread_id = GetCurrentThreadId()
+    DWORD current_thread_id = GetCurrentThreadId();
 
     thread_ids[threadId] = current_thread_id;
     
