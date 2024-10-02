@@ -24,6 +24,7 @@ LIB_DIR = lib/$(OS)
 BIN_DIR = bin/$(OS)
 
 UBC_PTHREAD_DIR = /student/cmpt332/pthreads/lib/$(OS)$(ARCH)
+UBC_COMPILER_FLAG = -DUSE_UBC_THREADS
 
 .PHONY: all clean
 
