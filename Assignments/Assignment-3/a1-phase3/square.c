@@ -5,8 +5,6 @@
  */
 
 #include <square.h>
-#include <stdio.h>
-#include <windows.h>
 
 /*
  * Purpose: Calculate the square of the number provided in the function
