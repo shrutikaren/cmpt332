@@ -8,13 +8,24 @@
 #define SQUARE_H
 
 #include <stdbool.h>
-#include <windows.h>
 
-extern volatile bool keepRunning ; 
+/* Check if compiling for Windows or Linux */
+#ifdef _WIN32
+    #include <windows.h>  
+    typedef DWORD thread_id_t;  
+#else
+    #include <pthread.h>  
+    #include <sys/time.h>  
+    typedef pthread_t thread_id_t;
+#endif
+
+/* Global variables declared as extern */
+extern volatile bool keepRunning;
 extern volatile int *squareCounts;
-extern volatile DWORD *thread_ids;
+extern volatile thread_id_t *thread_ids;
 extern int num_of_threads;
 
+/* Function declaration for the square function */
 int square(int N);
 
 #endif
