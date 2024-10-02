@@ -65,7 +65,7 @@ int main(int argc, char * argv[]) {
     if (argc != 4) {
         printf("Error in procedure main: Invalid number of"
             " parameters\n");
-        return -1;
+        return ERROR_INVALID_DATA;
     }
 
     /* Parsing the arguments */
@@ -76,17 +76,17 @@ int main(int argc, char * argv[]) {
 
     if (num_of_threads <= 0){
         printf("Error in procedure main: Invalid # of threads\n");
-        return -1;
+        return ERROR_INVALID_DATA;
      }
 
     if (deadline <= 0){
         printf("Error in procedure main: Invalid # of deadline\n");
-        return -1;
+        return ERROR_INVALID_DATA;
     }
 
     if (size <= 0){
         printf("Error in procedure main: Invalid # of size\n");
-        return -1;
+        return ERROR_INVALID_DATA;
     }
     
     threads = (HANDLE *)malloc(num_of_threads * sizeof(HANDLE));
@@ -95,7 +95,9 @@ int main(int argc, char * argv[]) {
 
     if (!threads || !thread_data) {
         printf("Error in procedure main: Main allocation failed\n");
-        return -1;
+        free(threads);
+        free(thread_data);
+        return ERROR_OUTOFMEMORY;
     }
 
     /* creating the threads */
@@ -108,7 +110,7 @@ int main(int argc, char * argv[]) {
         if (threads[i] == NULL){
             printf("Error in procedure CreateThread: Failed to" 
             "create thread %d\n", i);
-            return -1;
+            return GetLastError();
         }
     }
 
