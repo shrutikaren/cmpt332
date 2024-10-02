@@ -8,10 +8,6 @@
 #include <stdio.h>
 #include <windows.h>
 
-volatile int *squareCounts = NULL;
-volatile DWORD *thread_ids = NULL;
-int num_of_threads = 0;
-
 /*
  * Purpose: Calculate the square of the number provided in the function
  */
