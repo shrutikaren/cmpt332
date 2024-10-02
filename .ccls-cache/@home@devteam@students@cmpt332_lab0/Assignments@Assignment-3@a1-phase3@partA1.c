@@ -47,7 +47,7 @@ DWORD WINAPI ThreadFunction(LPVOID param){
     elapsedTime *= (1000.0 / frequency.QuadPart); 
 
     printf("Thread %d: Elapsed time is %f milliseconds, "
-            "number of innovations are %d\n", 
+            "number of interations are %d\n", 
             thread_id->idnum, elapsedTime, thread_id->squareCount);
 
     thread_id->finished = true;
