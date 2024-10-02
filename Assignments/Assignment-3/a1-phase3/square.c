@@ -4,7 +4,7 @@
  * 11357744, 11339265
  */
 
-#include "square.h"
+#include <square.h>
 #include <stdio.h>
 #include <windows.h>
 
@@ -13,7 +13,7 @@
  */
 int square(int N){
 
-    int i;
+    int i, currentIndex; 
     bool running = true;
 
     DWORD currentId = GetCurrentThreadId();
@@ -21,12 +21,11 @@ int square(int N){
     for(i = 0; i < num_of_threads && running; i++){
         if(thread_ids[i] == currentId){
             running = false;
+            currentIndex = i;
         }
     }
 
-    i--;
-
-    if(i < num_of_threads){
+    if(currentIndex < num_of_threads){
         squareCounts[i]++;
     }
 
