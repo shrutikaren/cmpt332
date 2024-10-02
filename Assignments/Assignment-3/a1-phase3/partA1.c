@@ -20,7 +20,7 @@ DWORD WINAPI ThreadFunction(LPVOID param){
     int threadId = *(int*)param;
 
     Thread_Info *thread_id = (Thread_Info*) param;
-    int count = 0, i;
+    int count = 0;
     double elapsedTime;
     LARGE_INTEGER frequency, startCount, endCount;
     
@@ -34,7 +34,7 @@ DWORD WINAPI ThreadFunction(LPVOID param){
     QueryPerformanceFrequency(&frequency);
     QueryPerformanceCounter(&startCount);
     
-    for (i=0; i< thread_id->numSquare && keepRunning; i++){
+    for (int i=0; i< thread_id->numSquare && keepRunning; i++){
         square(i);
         count++;
         printf("This is the %d iteration\n", count);
