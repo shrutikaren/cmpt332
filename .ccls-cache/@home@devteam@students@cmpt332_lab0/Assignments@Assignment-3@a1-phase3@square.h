@@ -8,6 +8,7 @@
 #define SQUARE_H
 
 #include <stdbool.h>
+#include <windows.h>
 
 extern volatile bool keepRunning ; 
 extern volatile int *squareCounts;

@@ -6,6 +6,7 @@
 
 #include "square.h"
 #include <stdio.h>
+#include <windows.h>
 
 volatile int *squareCounts = NULL;
 volatile DWORD *thread_ids = NULL;
