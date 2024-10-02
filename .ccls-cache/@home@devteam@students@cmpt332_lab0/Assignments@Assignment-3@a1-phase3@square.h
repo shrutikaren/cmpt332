@@ -10,7 +10,10 @@
 #include <stdbool.h>
 
 extern volatile bool keepRunning ; 
+extern volatile int *squareCounts;
+extern volatile DWORD *thread_ids;
+extern int num_of_threads;
 
-int square(int N, int* count);
+int square(int N);
 
 #endif

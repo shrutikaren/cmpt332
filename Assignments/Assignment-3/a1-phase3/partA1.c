@@ -8,12 +8,14 @@
 typedef struct {
     int idnum;
     int numSquare;    
-    int squareCount;
     volatile bool finished;
 } Thread_Info;
 
 
 volatile bool keepRunning = true ; 
+volatile int *squareCounts = NULL;
+volatile DWORD *thread_ids = NULL;
+int num_of_threads = 0;
 
 /*
  * Purpose: To help us work with the threads to go into the square functions
@@ -21,10 +23,13 @@ volatile bool keepRunning = true ;
 DWORD WINAPI ThreadFunction(LPVOID param){
 
     Thread_Info *thread_id = (Thread_Info*) param;
-    int threadId = thread_id->idnum;
-    int count = 0, i;
+    int threadId = thread_id->idnum - 1;
+    int i;
     double elapsedTime;
     LARGE_INTEGER frequency, startCount, endCount;
+    DWORD current_thread_id = GetCurrentThreadId()
+
+    thread_ids[threadId] = current_thread_id;
     
     printf("Got to procedure ThreadFunc for the thread %d\n", threadId);
 
@@ -37,9 +42,8 @@ DWORD WINAPI ThreadFunction(LPVOID param){
     QueryPerformanceCounter(&startCount);
     
     for (i=0; i< thread_id->numSquare && keepRunning; i++){
-        square(i, &thread_id->squareCount);
-        count++;
-        printf("This is the %d iteration\n", count);
+        square(i);
+        printf("Thread %d: Iteration %d\n", thread_id->idnum, i +1);
     }
 
     QueryPerformanceCounter(&endCount);
@@ -48,7 +52,7 @@ DWORD WINAPI ThreadFunction(LPVOID param){
 
     printf("Thread %d: Elapsed time is %f milliseconds, "
             "number of interations are %d\n", 
-            thread_id->idnum, elapsedTime, thread_id->squareCount);
+            thread_id->idnum, elapsedTime, squareCounts[threadId]);
 
     thread_id->finished = true;
 
@@ -61,7 +65,7 @@ DWORD WINAPI ThreadFunction(LPVOID param){
 int main(int argc, char * argv[]) {
     
     HANDLE * threads;
-    int num_of_threads, deadline, size, i, j;
+    int deadline, size, i, j;
     bool allThreadsFinished;
     Thread_Info * thread_data;
     
@@ -95,6 +99,8 @@ int main(int argc, char * argv[]) {
     threads = (HANDLE *)malloc(num_of_threads * sizeof(HANDLE));
     thread_data = (Thread_Info *) malloc(
             num_of_threads * sizeof(Thread_Info));
+    squareCounts = (volatile int*)malloc(num_of_threads * sizeof(int));
+    thread_ids = (volatile DWORD*)malloc(num_of_threads * sizeof(DWORD));
 
     if (!threads || !thread_data) {
         printf("Error in procedure main: Main allocation failed\n");
@@ -106,8 +112,9 @@ int main(int argc, char * argv[]) {
     for(i = 0; i < num_of_threads; i++){
         thread_data[i].numSquare = size;
         thread_data[i].idnum=i+1;
-        thread_data[i].squareCount=0;
         thread_data[i].finished = false;
+        thread_ids[i] = 0;
+        squareCounts[i] = 0;
     }
 
     /* creating the threads */
@@ -131,6 +138,8 @@ int main(int argc, char * argv[]) {
 
             free(threads);
             free(thread_data);
+            free((void*)squareCounts);
+            free((void*)thread_ids);
             return GetLastError();
         }
     }
@@ -158,11 +167,13 @@ int main(int argc, char * argv[]) {
 
     for(i = 0; i < num_of_threads; i++){
         printf("Thread %d: square() was called %d times inside square.\n",
-               thread_data[i].idnum, thread_data[i].squareCount);
+               thread_data[i].idnum, squareCounts[i]);
     }
 
     free(threads);
     free(thread_data);
+    free((void*)squareCounts);
+    free((void*)thread_ids);
 
     return ERROR_SUCCESS;
 }

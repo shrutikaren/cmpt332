@@ -7,21 +7,34 @@
 #include "square.h"
 #include <stdio.h>
 
+volatile int *squareCounts = NULL;
+volatile DWORD *thread_ids = NULL;
+int num_of_threads = 0;
+
 /*
  * Purpose: Calculate the square of the number provided in the function
  */
-int square(int N, int* count){
+int square(int N){
 
-    if(!keepRunning){
-        return 0;
+    int i;
+    bool running = true;
+
+    DWORD currentId = GetCurrentThreadId();
+
+    for(i = 0; i < num_of_threads && running; i++){
+        if(thread_ids[i] == currentId){
+            running = false;
+        }
     }
 
-    (*count)++;
+    if(i < num_of_threads){
+        squareCounts[i]++;
+    }
 
 	if (N == 0) {
  		return 0;
 	}
 
-	return square(N - 1, count) + N + N - 1; 
+	return square(N - 1) + N + N - 1; 
 
 }
