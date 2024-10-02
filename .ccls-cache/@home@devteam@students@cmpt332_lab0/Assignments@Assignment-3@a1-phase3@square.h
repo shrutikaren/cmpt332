@@ -9,7 +9,7 @@
 
 #include <stdbool.h>
 
-/* Check if compiling for Windows or Linux */
+/* Check if compiling for Windows, UBC threads, or POSIX threads */
 #ifdef _WIN32
     #include <windows.h>  
     typedef DWORD thread_id_t;  

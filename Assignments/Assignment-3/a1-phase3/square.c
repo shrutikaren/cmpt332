@@ -18,6 +18,8 @@ int square(int N) {
 
 #ifdef _WIN32
     currentId = GetCurrentThreadId();
+#elif defined (USE_UBC_THREADS)
+    currentId = MyPid();
 #else
     currentId = pthread_self();
 #endif
@@ -42,4 +44,5 @@ int square(int N) {
 
     /* Recursive step to calculate the square */
     return square(N - 1) + N + N - 1;
+
 }
