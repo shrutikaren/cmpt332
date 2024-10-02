@@ -31,7 +31,7 @@ DWORD WINAPI ThreadFunction(LPVOID param){
 
     thread_ids[threadId] = current_thread_id;
     
-    printf("Got to procedure ThreadFunc for the thread %d\n", threadId);
+    printf("Got to procedure ThreadFunc for the thread %d\n", threadId + 1);
 
     /* 
      * Alternative way to GetSystemTime()
