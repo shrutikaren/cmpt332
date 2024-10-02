@@ -12,7 +12,6 @@
 /* Check if compiling for Windows, UBC threads, or POSIX threads */
 #ifdef _WIN32
     #include <windows.h>  
-    #include <time.h> 
     typedef DWORD thread_id_t;  
 #elif defined (USE_UBC_THREADS)
     #include <standards.h>
@@ -20,7 +19,6 @@
     typedef PID thread_id_t;
 #else
     #include <pthread.h>  
-    #include <sys/time.h>  
     typedef pthread_t thread_id_t;
 #endif
 
