@@ -159,7 +159,7 @@ int main(int argc, char * argv[]) {
     }
 
     for(i = 0; i < num_of_threads; i++){
-        printf("Thread %d: square() was called %d times inside square.\n"
+        printf("Thread %d: square() was called %d times inside square.\n",
                thread_data[i].idnum, thread_data[i].squareCount);
     }
 
