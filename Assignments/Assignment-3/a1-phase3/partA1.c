@@ -61,7 +61,8 @@ DWORD WINAPI ThreadFunction(LPVOID param){
 int main(int argc, char * argv[]) {
     
     HANDLE * threads;
-    int num_of_threads, deadline, size, i;
+    int num_of_threads, deadline, size, i, j;
+    bool allThreadsFinished;
     Thread_Info * thread_data;
     
     if (argc != 4) {
@@ -124,8 +125,6 @@ int main(int argc, char * argv[]) {
             printf("Error in procedure CreateThread: Failed to" 
             "create thread %d\n", i);
             
-            int j;
-
             for(j = 0; j < i; j++){
                 CloseHandle(threads[j]);
             }
@@ -140,7 +139,6 @@ int main(int argc, char * argv[]) {
     
     keepRunning=false;    
 
-    bool allThreadsFinished;
     do{
         allThreadsFinished = true;
         for(i = 0; i < num_of_threads; i++){
@@ -155,7 +153,7 @@ int main(int argc, char * argv[]) {
     }while(!allThreadsFinished);
 
     for(i = 0; i < num_of_threads; i++){
-        CloseHandle(threadss[i]);
+        CloseHandle(threads[i]);
     }
 
     for(i = 0; i < num_of_threads; i++){
