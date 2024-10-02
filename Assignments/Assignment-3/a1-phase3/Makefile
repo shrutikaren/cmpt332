@@ -6,6 +6,8 @@ CC = gcc
 CFLAGS = -g
 CPPFLAGS = -Wall -pedantic -I. -std=gnu90 -Wextra  
 
+ARCH = $(shell uname -m)
+
 # Checks if the OS is on Windows, compiles partA1 if so
 # otherwise compiles everything else.
 ifeq ($(OS),Windows_NT)
@@ -21,7 +23,7 @@ OBJ_DIR = obj/$(OS)
 LIB_DIR = lib/$(OS)
 BIN_DIR = bin/$(OS)
 
-PTHREAD_DIR = /student/cmpt332/pthreads/lib/Linuxx86_64
+UBC_PTHREAD_DIR = /student/cmpt332/pthreads/lib/$(OS)$(ARCH)
 
 .PHONY: all clean
 
