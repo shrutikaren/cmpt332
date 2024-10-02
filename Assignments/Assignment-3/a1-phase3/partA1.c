@@ -9,6 +9,7 @@ typedef struct {
     int idnum;
     int numSquare;    
     int squareCount;
+    volatile bool finished;
 } Thread_Info;
 
 
@@ -18,10 +19,10 @@ volatile bool keepRunning = true ;
  * Purpose: To help us work with the threads to go into the square functions
  */
 DWORD WINAPI ThreadFunction(LPVOID param){
-    int threadId = *(int*)param;
 
     Thread_Info *thread_id = (Thread_Info*) param;
-    int count = 0;
+    int threadId = thread_id->idnum;
+    int count = 0, i;
     double elapsedTime;
     LARGE_INTEGER frequency, startCount, endCount;
     
@@ -35,7 +36,7 @@ DWORD WINAPI ThreadFunction(LPVOID param){
     QueryPerformanceFrequency(&frequency);
     QueryPerformanceCounter(&startCount);
     
-    for (int i=0; i< thread_id->numSquare && keepRunning; i++){
+    for (i=0; i< thread_id->numSquare && keepRunning; i++){
         square(i, &thread_id->squareCount);
         count++;
         printf("This is the %d iteration\n", count);
@@ -43,11 +44,13 @@ DWORD WINAPI ThreadFunction(LPVOID param){
 
     QueryPerformanceCounter(&endCount);
     elapsedTime = (double)(endCount.QuadPart - startCount.QuadPart); 
-    elapsedTime *= (1000.0 / frequency); 
+    elapsedTime *= (1000.0 / frequency.QuadPart); 
 
     printf("Thread %d: Elapsed time is %f milliseconds, "
             "number of innovations are %d\n", 
             thread_id->idnum, elapsedTime, thread_id->squareCount);
+
+    thread_id->finished = true;
 
     return ERROR_SUCCESS;
 }
@@ -94,16 +97,20 @@ int main(int argc, char * argv[]) {
 
     if (!threads || !thread_data) {
         printf("Error in procedure main: Main allocation failed\n");
-        free(threads);
-        free(thread_data);
+        if(threads) { free(threads); }
+        if(thread_data) { free(thread_data); }
         return ERROR_OUTOFMEMORY;
+    }
+
+    for(i = 0; i < num_of_threads; i++){
+        thread_data[i].numSquare = size;
+        thread_data[i].idnum=i+1;
+        thread_data[i].squareCount=0;
+        thread_data[i].finished = false;
     }
 
     /* creating the threads */
     for (i = 0; i < num_of_threads; i++){
-        thread_data[i].numSquare = size;
-        thread_data[i].idnum=i+1;
-        thread_data[i].squareCount=0;
         threads[i] = CreateThread(
             NULL, 
             0, 
@@ -117,7 +124,11 @@ int main(int argc, char * argv[]) {
             printf("Error in procedure CreateThread: Failed to" 
             "create thread %d\n", i);
             
-            CloseHandle(threads[j]);
+            int j;
+
+            for(j = 0; j < i; j++){
+                CloseHandle(threads[j]);
+            }
 
             free(threads);
             free(thread_data);
@@ -127,9 +138,30 @@ int main(int argc, char * argv[]) {
 
     Sleep(deadline*1000);
     
-    keepRunning=FALSE;    
+    keepRunning=false;    
 
-    WaitForMultipleObjects(num_of_threads, threads, true, INFINITE);
+    bool allThreadsFinished;
+    do{
+        allThreadsFinished = true;
+        for(i = 0; i < num_of_threads; i++){
+            if(!thread_data[i].finished){
+                allThreadsFinished = false;
+                break;
+            }
+        }
+        if(!allThreadsFinished){
+            Sleep(100);
+        }
+    }while(!allThreadsFinished);
+
+    for(i = 0; i < num_of_threads; i++){
+        CloseHandle(threadss[i]);
+    }
+
+    for(i = 0; i < num_of_threads; i++){
+        printf("Thread %d: square() was called %d times inside square.\n"
+               thread_data[i].idnum, thread_data[i].squareCount);
+    }
 
     free(threads);
     free(thread_data);
