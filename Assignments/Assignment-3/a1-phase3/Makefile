@@ -108,13 +108,13 @@ $(BIN_DIR)/partA2: $(OBJ_DIR)/partA2.o $(OBJ_DIR)/square.o \
 $(BIN_DIR)/partA3: $(OBJ_DIR)/partA3.o $(OBJ_DIR)/square.o \
 		| $(BIN_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/partA3.o $(OBJ_DIR)/square.o \
-	-pthreads -o $(BIN_DIR)/partA3
+	-pthread -o $(BIN_DIR)/partA3
 
 #executable for partA4
 $(BIN_DIR)/partA4: $(OBJ_DIR)/partA4.o $(OBJ_DIR)/square.o \
 		$(PTHREAD_DIR)/libpthreads.a | $(BIN_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/partA4.o $(OBJ_DIR)/square.o \
-	-pthreads -o $(BIN_DIR)/partA4
+	-pthread -o $(BIN_DIR)/partA4
 
 # linking executable to root folder
 mytestlist : $(BIN_DIR)/mytestlist
