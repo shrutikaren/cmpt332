@@ -111,19 +111,19 @@ int main(int argc, char *argv[]) {
             gettimeofday(&thread_data[i].endTime, NULL);
 
             elapsed_time = ((thread_data[i].endTime.tv_sec - 
-		    		thread_data[i].startTime.tv_sec) * 1000) +
+		    		thread_data[i].startTime.tv_sec) * 1000.0) +
                            ((thread_data[i].endTime.tv_usec - 
-		    		thread_data[i].startTime.tv_usec) / 1000);
+		    		thread_data[i].startTime.tv_usec) / 1000.0);
 
-            printf("Thread %d terminated after %ld milliseconds\n", 
+            printf("Thread %d terminated after %.3f milliseconds\n",
 		    thread_data[i].idnum, elapsed_time);
         } else {
             elapsed_time = ((thread_data[i].endTime.tv_sec - 
-		    		thread_data[i].startTime.tv_sec) * 1000) +
+		    		thread_data[i].startTime.tv_sec) * 1000.0) +
                            ((thread_data[i].endTime.tv_usec - 
-		    		thread_data[i].startTime.tv_usec) / 1000);
+		    		thread_data[i].startTime.tv_usec) / 1000.0);
 
-            printf("Thread %d completed in %ld milliseconds\n", 
+            printf("Thread %d completed in %.3f milliseconds\n", 
 		    thread_data[i].idnum, elapsed_time);
         }
     }
