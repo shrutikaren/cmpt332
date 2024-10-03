@@ -101,16 +101,21 @@ int mainp(int argc, char *argv[]) {
         squareCounts[i] = 0;
         thread_ids[i] = PNUL;
 
-        /* Create thread */
+       /* Create thread */
         pids[i] = Create(ThreadFunction, STACK_SIZE, "Thread", &thread_data[i], NORM, USR);
         if (pids[i] == PNUL) {
             printf("Error in CreateThread: Failed to create thread %d\n", i);
             return -1;
         }
+        printf("Created thread %d with PID %d\n", i, pids[i]);
 
         /* Send Thread_Info to the thread */
-	msg_len = sizeof(Thread_Info);
-	Send(pids[i], &thread_data[i], &msg_len);
+        msg_len = sizeof(Thread_Info);
+        if (Send(pids[i], &thread_data[i], &msg_len) != 0) {
+            printf("Error in Send: Failed to send message to thread %d\n", i);
+            return -1;
+        }
+        printf("Sent Thread_Info to thread %d\n", i);
     }
 
     Sleep(deadline); /* Wait for the deadline */
