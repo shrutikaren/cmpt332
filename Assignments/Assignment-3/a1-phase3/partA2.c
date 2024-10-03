@@ -107,7 +107,7 @@ int mainp(int argc, char *argv[]) {
             printf("Error in CreateThread: Failed to create thread %d\n", i);
             return -1;
         }
-        printf("Created thread %d with PID %d\n", i, pids[i]);
+        printf("Created thread %d with PID %ld\n", i+1, pids[i]);
 
         /* Send Thread_Info to the thread */
         msg_len = sizeof(Thread_Info);
