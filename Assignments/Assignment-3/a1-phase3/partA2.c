@@ -117,7 +117,7 @@ int main(int argc, char *argv[]) {
             Kill(pids[i]);
             gettimeofday(&thread_data[i].endTime, NULL);
 
-                  elapsed_time = ((thread_data[i].endTime.tv_sec - 
+            elapsed_time = ((thread_data[i].endTime.tv_sec - 
 		    		thread_data[i].startTime.tv_sec) * 1000.0) +
                            ((thread_data[i].endTime.tv_usec - 
 		    		thread_data[i].startTime.tv_usec) / 1000.0);
