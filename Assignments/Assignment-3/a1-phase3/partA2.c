@@ -106,7 +106,8 @@ int main(int argc, char *argv[]) {
         }
 
         /* Send Thread_Info to the thread */
-        Send(pids[i], &thread_data[i], NULL);
+	int msg_len = sizeof(Thread_Info);
+	Send(pids[i], &thread_data[i], &msg_len);
     }
 
     Sleep(deadline); /* Wait for the deadline */
