@@ -61,7 +61,7 @@ void ThreadFunction() {
 /*
  * Main function that creates threads and manages their execution.
  */
-int main(int argc, char *argv[]) {
+int mainp(int argc, char *argv[]) {
     PID *pids;
     int deadline, size, i, msg_len;
     Thread_Info *thread_data;
