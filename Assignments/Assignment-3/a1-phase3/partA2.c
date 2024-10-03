@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
         Send(pids[i], &thread_data[i], NULL);
     }
 
-    sleep(deadline); /* Wait for the deadline */
+    Sleep(deadline); /* Wait for the deadline */
 
     /* Kill threads that haven't finished */
     for (i = 0; i < num_of_threads; i++) {
@@ -125,8 +125,8 @@ int main(int argc, char *argv[]) {
 		    thread_data[i].idnum, 
 		    elapsed_time);
         } else {
-            elapsed_time = ((thread_data[i].endTime.tv_sec - t
-		    		hread_data[i].startTime.tv_sec) * 1000) +
+            elapsed_time = ((thread_data[i].endTime.tv_sec - 
+		    		thread_data[i].startTime.tv_sec) * 1000) +
                            ((thread_data[i].endTime.tv_usec - 
 		    		thread_data[i].startTime.tv_usec) / 1000);
 
