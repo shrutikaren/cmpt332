@@ -17,6 +17,9 @@ volatile int *squareCounts = NULL;
 volatile thread_id_t *thread_ids = NULL;
 int num_of_threads = 0;
 
+/* Defined a reasonable stack size 8MB */
+#define STACK_SIZE (2 << 22) 
+
 /*
  * Thread function that performs square calculations.
  */
@@ -99,7 +102,7 @@ int main(int argc, char *argv[]) {
         thread_ids[i] = PNUL;
 
         /* Create thread */
-        pids[i] = Create(ThreadFunction, 0, "Thread", NULL, NORM, USR);
+        pids[i] = Create(ThreadFunction, STACK_SIZE, "Thread", &thread_data[i], NORM, USR);
         if (pids[i] == PNUL) {
             printf("Error in CreateThread: Failed to create thread %d\n", i);
             return -1;
@@ -107,7 +110,7 @@ int main(int argc, char *argv[]) {
 
         /* Send Thread_Info to the thread */
 	msg_len = sizeof(Thread_Info);
-	Send(pids[i], &thread_data[i], msg_len);
+	Send(pids[i], &thread_data[i], &msg_len);
     }
 
     Sleep(deadline); /* Wait for the deadline */
