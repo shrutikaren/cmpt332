@@ -60,7 +60,7 @@ void ThreadFunction() {
  */
 int main(int argc, char *argv[]) {
     PID *pids;
-    int deadline, size, i;
+    int deadline, size, i, msg_len;;
     Thread_Info *thread_data;
     double elapsed_time;
 
@@ -106,7 +106,7 @@ int main(int argc, char *argv[]) {
         }
 
         /* Send Thread_Info to the thread */
-	int msg_len = sizeof(Thread_Info);
+	msg_len = sizeof(Thread_Info);
 	Send(pids[i], &thread_data[i], &msg_len);
     }
 
