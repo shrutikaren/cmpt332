@@ -112,8 +112,8 @@ int main(int argc, char *argv[]) {
 
             elapsed_time = ((thread_data[i].endTime.tv_sec - 
 		    		thread_data[i].startTime.tv_sec) * 1000) +
-                           ((thread_data[i].endTime.tv_usec - t
-		    		hread_data[i].startTime.tv_usec) / 1000);
+                           ((thread_data[i].endTime.tv_usec - 
+		    		thread_data[i].startTime.tv_usec) / 1000);
 
             printf("Thread %d terminated after %ld milliseconds\n", 
 		    thread_data[i].idnum, elapsed_time);
