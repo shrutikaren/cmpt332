@@ -1,3 +1,8 @@
+/* Jack Donegan, Shruti Kaur
+   lvf165, ich524
+   11357744, 11339265 */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "square.h"
@@ -47,7 +52,8 @@ void* ThreadFunction(void* param) {
     gettimeofday(&thread_info->endTime, NULL);
     thread_info->finished = true;
 
-    printf("Got to procedure ThreadFunction for thread %d\n", thread_info->idnum);
+    printf("Got to procedure ThreadFunction for thread %d\n", 
+	thread_info->idnum);
 
     return NULL; /* Exit the thread */
 }
@@ -78,7 +84,8 @@ int main(int argc, char *argv[]) {
     threads = (pthread_t *)malloc(num_of_threads * sizeof(pthread_t));
     thread_data = (Thread_Info *)malloc(num_of_threads * sizeof(Thread_Info));
     squareCounts = (volatile int *)malloc(num_of_threads * sizeof(int));
-    thread_ids = (volatile thread_id_t *)malloc(num_of_threads * sizeof(thread_id_t));
+    thread_ids = (volatile thread_id_t *)malloc(num_of_threads * 
+		sizeof(thread_id_t));
 
     if (!threads || !thread_data || !squareCounts || !thread_ids) {
         printf("Error in main: Memory allocation failed\n");
@@ -94,7 +101,8 @@ int main(int argc, char *argv[]) {
         thread_ids[i] = 0;
 
         /* Create thread */
-        if (pthread_create(&threads[i], NULL, ThreadFunction, &thread_data[i]) != 0) {
+        if (pthread_create(&threads[i], NULL, ThreadFunction, 
+	&thread_data[i]) != 0) {
             printf("Error in pthread_create: Failed to create thread %d\n", i);
             return -1;
         }

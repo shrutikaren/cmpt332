@@ -1,3 +1,8 @@
+/* Jack Donegan, Shruti Kaur
+   lvf165, ich524
+   11357744, 11339265 */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <square.h>
@@ -53,7 +58,8 @@ void ThreadFunction() {
     gettimeofday(&thread_info->endTime, NULL);
     thread_info->finished = true;
 
-    printf("Got to procedure ThreadFunction for thread %d\n", thread_info->idnum);
+    printf("Got to procedure ThreadFunction for thread %d\n", 
+	thread_info->idnum);
 
     Pexit(); /* Exit the thread */
 }
@@ -86,7 +92,8 @@ int mainp(int argc, char *argv[]) {
     pids = (PID *)malloc(num_of_threads * sizeof(PID));
     thread_data = (Thread_Info *)malloc(num_of_threads * sizeof(Thread_Info));
     squareCounts = (volatile int *)malloc(num_of_threads * sizeof(int));
-    thread_ids = (volatile thread_id_t *)malloc(num_of_threads * sizeof(thread_id_t));
+    thread_ids = (volatile thread_id_t *)malloc(num_of_threads * 
+		sizeof(thread_id_t));
 
     if (!pids || !thread_data || !squareCounts || !thread_ids) {
         printf("Error in main: Memory allocation failed\n");
