@@ -23,17 +23,18 @@ int num_of_threads = 0;
 void ThreadFunction() {
     Thread_Info *thread_info;
     PID sender_pid;
-    int len;
+    int len, threadIndex;
     int i;
+	thread_id_t current_thread_id;
 
     /* Store current thread ID */
-    thread_id_t current_thread_id = MyPid();
+    current_thread_id = MyPid();
 	
     /* Receive the Thread_Info structure from main */
     thread_info = (Thread_Info *) Receive(&sender_pid, &len);
 
     /* Save thread ID in global array */
-    int threadIndex = thread_info->idnum - 1;
+    threadIndex = thread_info->idnum - 1;
     thread_ids[threadIndex] = current_thread_id;
 
     /* Start timing */
