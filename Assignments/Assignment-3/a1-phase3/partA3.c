@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
     pthread_t *threads;
     int deadline, size, i;
     Thread_Info *thread_data;
-    long elapsed_time;
+    double elapsed_time;
 
     if (argc != 4) {
         printf("Error in main: Invalid number of parameters\n");
