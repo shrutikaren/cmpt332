@@ -106,7 +106,7 @@ $(BIN_DIR)/partA2: $(OBJ_DIR)/partA2.o $(OBJ_DIR)/square.o \
 
 #executable for partA3
 $(BIN_DIR)/partA3: $(OBJ_DIR)/partA3.o $(OBJ_DIR)/square.o \
-		$(PTHREAD_DIR)/libpthreads.a | $(BIN_DIR)
+		| $(BIN_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/partA3.o $(OBJ_DIR)/square.o \
 	-L$(PTHREAD_DIR) -lpthreads -o $(BIN_DIR)/partA3
 
