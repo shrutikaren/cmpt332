@@ -25,7 +25,7 @@ void ThreadFunction() {
     PID sender_pid;
     int len, threadIndex;
     int i;
-	thread_id_t current_thread_id;
+    thread_id_t current_thread_id;
 
     /* Store current thread ID */
     current_thread_id = MyPid();
