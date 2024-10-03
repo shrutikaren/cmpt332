@@ -23,6 +23,7 @@ OBJ_DIR = obj/$(OS)
 LIB_DIR = lib/$(OS)
 BIN_DIR = bin/$(OS)
 
+UBC_PTHREAD_INCLUDE_DIR = /student/cmpt332/pthreads/
 UBC_PTHREAD_DIR = /student/cmpt332/pthreads/lib/$(OS)$(ARCH)
 UBC_COMPILER_FLAG = -DUSE_UBC_THREADS
 
@@ -65,6 +66,9 @@ $(OBJ_DIR)/square.o : square.c square.h | $(OBJ_DIR)
 
 $(OBJ_DIR)/partA1.o : partA1.c | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) partA1.c -o $(OBJ_DIR)/partA1.o
+
+# Add Target-Specific CPPFLAGS for partA2.o
+$(OBJ_DIR)/partA2.o : CPPFLAGS += -I$(UBC_PTHREAD_INCLUDE_DIR)
 
 # Compiling objects for partA2 with USE_UBC_THREADS
 $(OBJ_DIR)/partA2.o : partA2.c | $(OBJ_DIR)
