@@ -26,11 +26,11 @@ void ThreadFunction() {
     int len;
     int i;
 
-    /* Receive the Thread_Info structure from main */
-    thread_info = (Thread_Info *) Receive(&sender_pid, &len);
-
     /* Store current thread ID */
     thread_id_t current_thread_id = MyPid();
+	
+    /* Receive the Thread_Info structure from main */
+    thread_info = (Thread_Info *) Receive(&sender_pid, &len);
 
     /* Save thread ID in global array */
     int threadIndex = thread_info->idnum - 1;
