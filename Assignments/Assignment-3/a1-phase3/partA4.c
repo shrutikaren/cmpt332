@@ -94,7 +94,8 @@ int main(int argc, char *argv[]) {
         thread_ids[i] = 0;
 
         /* Create thread */
-        if (pthread_create(&threads[i], NULL, ThreadFunction, &thread_data[i]) != 0) {
+        if (pthread_create(&threads[i], NULL, ThreadFunction, 
+	    &thread_data[i]) != 0) {
             printf("Error in pthread_create: Failed to create thread %d\n", i);
             return -1;
         }

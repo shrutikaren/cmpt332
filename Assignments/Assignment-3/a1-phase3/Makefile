@@ -14,7 +14,7 @@ ifeq ($(OS),Windows_NT)
 target: partA1
 else # Linux
 OS := $(shell uname -s)
-target: mytestlist partA2
+target: mytestlist partA2 partA3 partA4
 endif
 
 all: $(target)
@@ -72,7 +72,8 @@ $(OBJ_DIR)/partA2.o : CPPFLAGS += -I$(UBC_PTHREAD_INCLUDE_DIR)
 
 # Compiling objects for partA2 with USE_UBC_THREADS
 $(OBJ_DIR)/partA2.o : partA2.c | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(UBC_COMPILER_FLAG) partA2.c -o $(OBJ_DIR)/partA2.o
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(UBC_COMPILER_FLAG) partA2.c \
+	-o $(OBJ_DIR)/partA2.o
 
 #compiling objects for partA3
 $(OBJ_DIR)/partA3.o: partA3.c | $(OBJ_DIR)
@@ -101,7 +102,8 @@ partA1 : $(OBJ_DIR)/partA1.o $(OBJ_DIR)/square.o | $(BIN_DIR)
 # Link executable for partA2 with UBC pthreads
 $(BIN_DIR)/partA2: $(OBJ_DIR)/partA2.o $(OBJ_DIR)/square.o \
 	$(UBC_PTHREAD_DIR)/libpthreads.a | $(BIN_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(UBC_COMPILER_FLAG) $(OBJ_DIR)/partA2.o $(OBJ_DIR)/square.o \
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(UBC_COMPILER_FLAG) $(OBJ_DIR)/partA2.o \
+	 $(OBJ_DIR)/square.o \
 	-L$(UBC_PTHREAD_DIR) -lpthreads -o $(BIN_DIR)/partA2
 
 #executable for partA3
@@ -111,8 +113,7 @@ $(BIN_DIR)/partA3: $(OBJ_DIR)/partA3.o $(OBJ_DIR)/square.o \
 	-pthread -o $(BIN_DIR)/partA3
 
 #executable for partA4
-$(BIN_DIR)/partA4: $(OBJ_DIR)/partA4.o $(OBJ_DIR)/square.o \
-		$(PTHREAD_DIR)/libpthreads.a | $(BIN_DIR)
+$(BIN_DIR)/partA4: $(OBJ_DIR)/partA4.o $(OBJ_DIR)/square.o | $(BIN_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/partA4.o $(OBJ_DIR)/square.o \
 	-pthread -o $(BIN_DIR)/partA4
 
