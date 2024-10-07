@@ -1,2 +1,5 @@
 set colorcolumn=80
 set mouse=a
+set clipboard=unnamedplus
+set noswapfile
+set relativenumber
