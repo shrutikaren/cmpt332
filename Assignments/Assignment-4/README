@@ -33,3 +33,51 @@ context switching --> starts a new thread at the tmain() function. The
 "thread_create" function is used to allocate malloc to the user stack. The 
 malloc function exists inside "umalloc.c". 
 
+After this, you will need thread_schedule to switch between the threads. 
+
+The thread switching function is called "thread_switch" is sitting inside 
+"user/uthread_switch.S". You need to save/ restore registers and this can be
+done by modifying the "struct thread" to hold the registers. Inside the 
+"thread_schedule", you can call "thread_switch". You can pass as many 
+arguments as you want. The idea of this "thread_switch" function is to switch
+from thread "t" to the "next_thread". 
+
+In your Makefile, add those lines as mentioned in the assignment. The new 
+threads needs to work with your critical sections and have an opportunity to 
+safely share data. You will implement the functions which will expose a mutex
+lock. The lock will be implemented using a spinlock. Functions: 
+	= int mtx_create(int locked)
+	= int mtx_lock(int lock_id)
+	= int mtx_unlock(int lock_id)
+
+* BONUS: TRY TO IMPLEMENT COUNTING SEMAPHORES USING MUTEX PRIMITIVES
+
+*******************************************************************************
+Part B: Implement monitors with UBC pthreads semaphores. Library utility to 
+provide the functions of a monitor facility. You need to implement the 
+condition variables and wait and signal operations. According to the convention, 
+this will be MonWait() and MonSignal(). Monitors can be implemented using 
+semaphores or traditional IPC mechanisms. We want to be able to implement
+monitors using the P() and V() operations. 
+
+Implementing the Monitor Utilities Library: 
+	= to get mutual exclusion --> you could simply put a procedure inside a 
+	  monitor object 
+	= MonEnter() and MonLeave()
+	= Four main procedures exist which includes MonEnter(), MonLeave(), 
+	  MonWait(), and MonSignal()
+	= Use the libraries we made in Assignment 1
+	= libMonitor.a should be used as a last step of your process to make the
+	  library
+	= To test the monitor, use the readers_writers problem 
+* BONUS: IMPLEMENT THE DINING PHILOSOPHER'S PROBLEM
+
+*******************************************************************************
+PART C: Communication facilitation using the UDP transport protocol and the RT
+Threads Package. To initiate our s-chat session, the user needs to agree on: 
+	= The machine that it will run on
+	= Port number that it will use
+We will use S/R/R IPC for the coordination - use 5 threads. One thread waits 
+input from the keyboard and the other awaits input from the UDP datagram. 5th
+thread does the coordination of the message. Two people could be talking from 
+different architectures and you can access from cmpt-332-arm and cmpt-332-ppc.
