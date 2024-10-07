@@ -1,0 +1,35 @@
+Introduction: 
+	= UBC pthreads
+	= RT Tthreads
+	= examining xv7 and make some addition to its functionalities
+
+Part A: Implement synchronization primitives (semaphores) for  your xv6 and then
+you will use it to solve a synchronization problem. 
+
+Read an open source freely available operating system code to get more familiar
+with various operating system codes. When you read someone else's code, write 
+down what you liked and what you didn't like. Some suggestions: 
+	= group related code together = related variables and functions 
+	= use descriptive names for the variables and procedures 
+
+When you make any change in the code, put a comment 
+	/* CMPT 332 GROUP XX Change, Fall 2024 */
+
+Inside the xv6, we will add more functionalities: 
+	= support single user threads --> concurrency with single user-level
+	= basic synchronization mechanism --> usage of mutex lock
+
+For the user-level threading system, you will design a context switch 
+mechanism and then you will implement it. Inside your xv6 files, you should have
+two files called user/uthread.c and user/uthread_switch.S and a rule in the 
+Makefile to build the uthread progra. In summary: 
+	= 2 files: user/uthread.c and user/uthread_switch.S
+	= add a rule to your Makefile 
+	= inside the uthread.c, it has the user-level threading package and it
+	  has the code for 3 simple test cases. You need to create a thread.
+	
+The "void thread_create(void *tmain())" is used to support thead creation and
+context switching --> starts a new thread at the tmain() function. The
+"thread_create" function is used to allocate malloc to the user stack. The 
+malloc function exists inside "umalloc.c". 
+
