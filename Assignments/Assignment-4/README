@@ -77,6 +77,12 @@ PART C: Communication facilitation using the UDP transport protocol and the RT
 Threads Package. To initiate our s-chat session, the user needs to agree on: 
 	= The machine that it will run on
 	= Port number that it will use
+UDP input and keyboard input threads cannot make any blocking UNIX calls as that
+would block the entire UNIX system. So we need it to have a non-blocking input
+and you can do that by setting it to a non-blocking status. You need to turn the
+file descriptor back to blocking otherwise the window that you invoked the
+application may disappear.
+
 We will use S/R/R IPC for the coordination - use 5 threads. One thread waits 
 input from the keyboard and the other awaits input from the UDP datagram. 5th
 thread does the coordination of the message. Two people could be talking from 
