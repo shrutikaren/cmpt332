@@ -28,15 +28,13 @@ void MonInit(){
     /* Initialize the enter queue and its semaphore */  
     mon.entryList = ListCreate();
     if(mon.entryList == NULL){
-        perror("Log [Error] - Failed to create entry queue in MonInit.");
-        exit(EXIT_FAILURE);
+        LOG_ERROR("Failed to create entry queue in MonInit.");
     }
 
     /* Initialize the enterSem. */
     mon.entrySem = NewSem(1);
     if(mon.entrySem < 0){
-        perror("Log [Error] - Failed to create entry semaphore in MonInit.");
-        exit(EXIT_FAILURE);
+        LOG_ERROR("Failed to create entry semaphore in MonInit.");
     }
 
     /* Initialize all conditional variables */
@@ -44,14 +42,12 @@ void MonInit(){
 
         mon.conVars[i].waitList = ListCreate();
         if(mon.conVars[i].waitList == NULL){
-            fprintf(stderr, "%s\n");
-            exit(EXIT_FAILURE);
+            LOG_ERROR("Failed to create entry semaphore in MonInit.");
         }
 
         mon.conVars[i].semaphore = NewSem(0);
         if(mon.conVars[i].waitList == NULL){
-            fprintf(stderr, "%s\n");
-            exit(EXIT_FAILURE);
+            LOG_ERROR("Failed to create entry semaphore in MonInit.");
         }
 
     }
