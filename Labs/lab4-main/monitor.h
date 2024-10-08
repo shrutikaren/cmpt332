@@ -23,4 +23,11 @@
 /*			Adding our list files 				     */
 #include <list.h>
 
+/*			Function prototypes 				     */
+void RttMonInit();
+void RttMonEnter();
+void RttMonLeave();
+void RttMonSignal(int);
+void MonServer();
+
 #endif //MONITOR_H
