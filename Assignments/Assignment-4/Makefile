@@ -39,6 +39,8 @@ LIST_OBJS = \
 	$(OBJ_DIR)/list_movers.o \
 	$(OBJ_DIR)/list_removers.o
 
+MONITOR_OBJS = $(OBJ_DIR)/monitor.o
+
 # compile objects for list
 $(OBJ_DIR)/list_adders.o : list_adders.c list.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) list_adders.c -o $(OBJ_DIR)/list_adders.o
@@ -70,6 +72,10 @@ $(OBJ_DIR)/reader_writer.o : CPPFLAGS += -I$(UBC_PTHREAD_INCLUDE_DIR)
 # archiving list files into liblist library
 $(LIB_DIR)/liblist.a : $(LIST_OBJS) | $(LIB_DIR)
 	ar rcs $(LIB_DIR)/liblist.a $(LIST_OBJS)
+
+#archiving the monitor files into the liblist library
+$(LIB_DIR)/libMonitor.a: $(MONITOR_OBJS) | $(LIB_DIR)
+	ar rcs $(LIB_DIR)/libMonitor.a $(MONITOR_OBJS)
 
 # link executable for list
 $(BIN_DIR)/reader_writer_test : \
