@@ -19,4 +19,4 @@ void MonWait(int);
 void MonSignal(int);
 void MonInit();
 
-#endif // MONITOR_H
+#endif /* MONITOR_H */
