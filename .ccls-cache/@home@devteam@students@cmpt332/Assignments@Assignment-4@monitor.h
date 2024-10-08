@@ -10,11 +10,11 @@
 #ifndef MONITOR_H 
 #define MONITOR_H
 
-void MonEnter(void);
-void MonLeave(void);
+void MonEnter();
+void MonLeave();
 void MonWait(int);
 void MonSignal(int);
-void MonInit(void);
+void MonInit();
 
 #endif // MONITOR_H
 
