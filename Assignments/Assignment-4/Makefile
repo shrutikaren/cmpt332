@@ -82,7 +82,7 @@ $(BIN_DIR)/reader_writer_test : \
 	$(OBJ_DIR)/reader_writer.o $(LIB_DIR)/liblist.a $(LIB_DIR)/libMonitor.a
 	\ | $(BIN_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/mytestlist.o \
-		-L$(LIB_DIR) -llist -o $(BIN_DIR)/mytestlist
+		-L$(LIB_DIR) -llist -libMonitor -o $(BIN_DIR)/mytestlist
 
 # linking executable to root folder
 reader_writer_test : $(BIN_DIR)/reader_writer_test
