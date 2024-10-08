@@ -4,8 +4,11 @@
  * for the reader-writer problem
  */
 
+#ifndef READER_WRITER_MONITOR_H
+#define READER_WRITER_MONITOR_H
 void Initialize(void);
 void StartRead(void);
 void StopRead(void);
 void StartWrite(void);
-void StopWrite(void);
+void StopWrite(void);I
+#endif // READER_WRITER_MONITOR_H
