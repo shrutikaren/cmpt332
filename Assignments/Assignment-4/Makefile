@@ -50,34 +50,35 @@ $(OBJ_DIR)/list_removers.o : list_removers.c list.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) list_removers.c \
 		-o $(OBJ_DIR)/list_removers.o
 
+# compile objects for the reader_writer files
 $(OBJ_DIR)/reader_writer_monitor.o: reader_writer_monitor.c \
 					reader_writer_monitor.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) reader_writer_monitor.c \
 		-o $(OBJ_DIR)/reader_writer_monitor.o
 
+$(OBJ_DIR)/reader_writer.o: reader_writer.c | $(OBJ_DIR)
+	$(CC) -o $(CPPFLAGS) $(CFLAGS) reader_writer.c -o \
+	$(OBJ_DIR)/reader_writer.o
 
+#compile objects for the monitor files
+$(OBJ_DIR)/monitor.o: monitor.c monitor.h | $(OBJ_DIR)
+	$(CC) -o $(CPPFLAGS) $(CFLAGS) monitor.c -o $(OBJ_DIR)/monitor.o
 
-
-# Add Target-Specific CPPFLAGS for partA2.o
-$(OBJ_DIR)/partA2.o : CPPFLAGS += -I$(UBC_PTHREAD_INCLUDE_DIR)
+# Add Target-Specific CPPFLAGS for reader-writer.o
+$(OBJ_DIR)/reader_writer.o : CPPFLAGS += -I$(UBC_PTHREAD_INCLUDE_DIR)
 
 # archiving list files into liblist library
 $(LIB_DIR)/liblist.a : $(LIST_OBJS) | $(LIB_DIR)
 	ar rcs $(LIB_DIR)/liblist.a $(LIST_OBJS)
 
 # link executable for list
-$(BIN_DIR)/mytestlist : \
-	$(OBJ_DIR)/mytestlist.o $(LIB_DIR)/liblist.a | $(BIN_DIR)
+$(BIN_DIR)/reader_writer_test : \
+	$(OBJ_DIR)/reader_writer.o $(LIB_DIR)/liblist.a $(LIB_DIR)/libMonitor.a
+	\ | $(BIN_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/mytestlist.o \
 		-L$(LIB_DIR) -llist -o $(BIN_DIR)/mytestlist
 
-$(BIN_DIR)/partA2: $(OBJ_DIR)/partA2.o $(OBJ_DIR)/square.o \
-	$(UBC_PTHREAD_DIR)/libpthreads.a | $(BIN_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(UBC_COMPILER_FLAG) $(OBJ_DIR)/partA2.o \
-	 $(OBJ_DIR)/square.o \
-	-L$(UBC_PTHREAD_DIR) -lpthreads -o $(BIN_DIR)/partA2
-
 # linking executable to root folder
-mytestlist : $(BIN_DIR)/mytestlist
-	ln -sf $(BIN_DIR)/mytestlist mytestlist
+reader_writer_test : $(BIN_DIR)/reader_writer_test
+	ln -sf $(BIN_DIR)/reader_writer_test reader_writer_test
 
