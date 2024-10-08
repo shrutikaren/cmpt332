@@ -36,8 +36,6 @@ typedef struct Monitor{
     ConditionVariable conVals[k];
 } Monitor;
 
-
-
 void MonEnter();
 void MonLeave();
 void MonWait(int);
