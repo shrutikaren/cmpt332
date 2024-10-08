@@ -86,7 +86,7 @@ void MonSignal(int var){
     if(ListCount(mon.conVars[var].waitList) > 0){
         /* Remove the first thread from the condition variables queue. */ 
         if ( == NULL){
-            exit(EXIT_FAILURE);
+
         }
 
         /* Signal the cv's semaphore to wake up the waiting thread */
