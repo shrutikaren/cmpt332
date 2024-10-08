@@ -13,6 +13,7 @@
 /* Default C-Library */
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 /* UBC Threads */
 #include <os.h>
@@ -30,7 +31,6 @@
 
 /* Define the number of condition variables (k) */
 #define k 10
-
 
 typedef struct CondVar{
     int semaphore;

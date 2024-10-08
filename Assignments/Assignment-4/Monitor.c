@@ -23,8 +23,7 @@ void MonInit(){
     /* Initialize the mutex semaphore to 1 (unlock) */ 
     mon.lock = NewSem(1);
     if(mon.lock < 0){
-        perror("Log [Error] - Failed to create lock mutex in MonInit.");
-        exit(EXIT_FAILURE);
+        LOG_ERROR("Failed to create lock mutex in MonInit.");
     }
 
     /* Initialize the enter queue and its semaphore */  
