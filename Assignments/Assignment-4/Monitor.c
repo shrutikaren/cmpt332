@@ -12,7 +12,6 @@ static Monitor mon;
 /* CMPT 332 GROUP 34 Change, Fall 2024 */
 /* Phase 1 */
 
-
 /**
  *  Initialize the monitor.
  */ 
