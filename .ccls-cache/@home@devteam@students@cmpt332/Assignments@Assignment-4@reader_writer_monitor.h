@@ -4,6 +4,9 @@
  * 11339265
  */
 
+/* CMPT 332 GROUP 34 Change, Fall 2024 */
+/* Phase 1 */
+
 #ifndef READER_WRITER_MONITOR_H
 #define READER_WRITER_MONITOR_H
 
