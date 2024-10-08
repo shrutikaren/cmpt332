@@ -20,8 +20,17 @@
 /* Our List functions*/
 #include <list.h>
 
+/* Loggin Errors in our code. */
+
+#define LOG_ERROR(msg) do {                             \
+    fprintf(stderr, "Log [Error] - %s: %s at %s:%d\n",  \
+        msg, strerror(errno), __FILE__, __LINE__);      \
+    exit(EXIT_FAILURE);                                 \
+}while(0)
+
 /* Define the number of condition variables (k) */
 #define k 10
+
 
 typedef struct CondVar{
     int semaphore;
