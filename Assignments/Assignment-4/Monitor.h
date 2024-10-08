@@ -20,5 +20,3 @@ void MonSignal(int);
 void MonInit();
 
 #endif // MONITOR_H
-
-
