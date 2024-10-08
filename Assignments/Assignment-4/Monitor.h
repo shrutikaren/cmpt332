@@ -16,7 +16,6 @@
 
 /* UBC Threads */
 #include <os.h>
-#include <standards.h>
 
 /* Our List functions*/
 #include <list.h>
@@ -24,16 +23,16 @@
 /* Define the number of condition variables (k) */
 #define k 10
 
-typedef struct ConditionVariable{
-    LIST* queue;
-    int sem;
-} ConditionVariable;
+typedef struct CondVar{
+    int semaphore;
+    LIST* waitList;
+} CondVar;
 
 typedef struct Monitor{
-    LIST* enterQueue;
-    int mutex;
-    int enterSem;
-    ConditionVariable conVals[k];
+    int lock;
+    int entrySem;
+    LIST* entryList;
+    CondVar conVars[k];
 } Monitor;
 
 void MonEnter();
