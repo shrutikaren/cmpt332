@@ -10,6 +10,9 @@
 #ifndef MONITOR_H 
 #define MONITOR_H
 
+#include <os.h>
+#include <standards.h>
+
 void MonEnter();
 void MonLeave();
 void MonWait(int);

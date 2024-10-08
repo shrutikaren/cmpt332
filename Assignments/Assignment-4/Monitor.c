@@ -10,3 +10,5 @@
 #include <list.h>
 
 
+/* CMPT 332 GROUP 34 Change, Fall 2024 */
+/* Phase 1 */
