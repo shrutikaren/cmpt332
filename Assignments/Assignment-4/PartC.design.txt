@@ -4,4 +4,82 @@ DESIGN DOCUMENT AND PSEUDO CODE FOR S-CHAT
 #ich524
 #11339265
 
+OVERVIEW
+--------
+
+Application that enables real-time text communication between users. We are 
+using UDP protocol and RT Threads for concurrency. 
+
+SYSTEM ARCHITECTURE
+-------------------
+
+NOTE: From the given instructions we are using a Sender/Receiver/Request model 
+for coordination.
+
+1. Keyboard Input Thread
+2. UDP Input Thread 
+3. Screen Output Thread
+4. UDP Transmit Thread
+5. Server Thread 
+
+THREAD RESPONSIBLEITIES
+-----------------------
+
+1. KEYBOARD INPUT THREAD
+
+    o FUNCTION: Read user input from the keyboard without blocking the main 
+                process.
+    
+    o OPERATION: 
+        o   Uses non-blocking I/O and the curses library in cbreak mode 
+            to read each character as it is typed.
+        o   Sends characters to the Server Thread for processing. 
+
+    o SPECIAL SEQUENCE: We plan to use `ctrl-C` to indicate that the user wants
+                        to exit the chat.
+
+2. UDP INPUT THREAD
+
+    o FUNCTION: Listens for incoming UDP datagrams from the network. 
+    
+    o OPERATION:
+        o   Uses non-blocking sockets to receive messages without blocking 
+            other threads. 
+        o   Parses incoming messages and sends them to the Server Thread for 
+            processing.
+
+    o EXTRA:
+        o   Handle Messages from different architectures (byte order differences)
+        o   Supports character-by-character display by processing each 
+            received character.
+
+
+    o PSEUDO CODE:
+
+    updInputThread():
+        while not keepRunning:
+            data, addr = recvFrom_nonblocking(udp_socket)
+            if data is not empty:
+                character_data = deserialize(data)
+                acquire mutex on incoming_buffer
+                add character_data to incoming_buffer
+                release mutex on incoming_buffer
+                signal condition varaible for incoming_buffer
+            else:
+                sleep for a short duration 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
