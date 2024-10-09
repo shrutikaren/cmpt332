@@ -1,6 +1,7 @@
 /*# Dwight Makaroff   */
-/*# student number    */
-/*# nsid              */
+/*# Shruti Kaur */
+/* 11339265  */
+/*# ICH524          */
 /*# November 7, 2008  */
 
 /* modified slightly October 2018 */

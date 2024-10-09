@@ -19,7 +19,8 @@ BIN_DIR = bin/$(OS)
 UBC_PTHREAD_INCLUDE_DIR = /student/cmpt332/pthreads/
 UBC_PTHREAD_DIR = /student/cmpt332/pthreads/lib/$(OS)$(ARCH)
 UBC_COMPILER_FLAG = -DUSE_UBC_THREADS
-RT_THREADS = /student/cmpt332/rtt
+RT_THREADS = /student/cmpt332/rtt/include 
+X86_RT_THREADS = /student/cmpt332/rtt/lib/Linuxx86_64
 
 .PHONY: all clean
 
@@ -74,6 +75,9 @@ $(OBJ_DIR)/reader_writer.o : CPPFLAGS += -I$(UBC_PTHREAD_INCLUDE_DIR)
 $(OBJ_DIR)/s-chat.o: s-chat.c | $(OBJ_DIR)
 	$(CC) -o $(CPPFLAGS) $(CFLAGS) s-chat.c -o $(OBJ_DIR)/s-chat.o
 
+# Add Target-Specific CPPFLAGS for s-chat.o
+$(OBJ_DIR)/s-chat.o : CPPFLAGS += -I$(RT_THREADS) 
+
 # archiving list files into liblist library
 $(LIB_DIR)/liblist.a : $(LIST_OBJS) | $(LIB_DIR)
 	ar rcs $(LIB_DIR)/liblist.a $(LIST_OBJS)
@@ -92,8 +96,9 @@ $(BIN_DIR)/reader_writer_test : \
 		-L$(UBC_PTHREAD_DIR) -lpthreads -o $(BIN_DIR)/mytestlist
 
 # link executable for the s-chat
-$(BIN_DIR)/s-chat: $(OBJ_DIR)/s-chat.o $(RT_THREADS) | $(BIN_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/s-chat.o -o $(BIN_DIR)/s-chat
+$(BIN_DIR)/s-chat: $(OBJ_DIR)/s-chat.o | $(BIN_DIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/s-chat.o \
+	$(X86_RT_THREADS) -ltirpc -lRtt -lRttUtils -o $(BIN_DIR)/s-chat
 
 # linking executable to root folder
 reader_writer_test : $(BIN_DIR)/reader_writer_test
