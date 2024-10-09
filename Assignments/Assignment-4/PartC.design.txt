@@ -192,3 +192,10 @@ o characterData
     o `char`: The character input by the user.
     o `timestamp`: Time when the character was sent (seconds and microseconds).
     o `fags`: Check for flags
+
+
+INCLUDES
+--------
+
+#include <rtthreads.h>
+#include <RttCommon.h>
