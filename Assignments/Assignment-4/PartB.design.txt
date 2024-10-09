@@ -1,119 +1,79 @@
-DESIGN DOCUMENT AND PSEUDO CODE FOR MONITOR
-
-#Shruti Kaur
-#ich524
-#11339265
-
 1. MONITOR INITIALIZATION
 
-    o FUNCTION: Initializes the monitor's lock, entry semaphore, entry list, and
-      condition variables.
+   Purpose: Initializes monitor's lock, entry semaphore, entry list, and condition variables.
 
-    o KEY POINTS:
-        o Creates the monitor lock semaphore initialized to 1 (unlocked).
-        o Initializes the entry list and the entry semaphore for controlling
-          access to the entry queue.
-        o Initializes each condition variable with a semaphore and wait list.
-
-    PSEUDO CODE:
-    ------------
-
-    MonInit():
-        mon.lock = NewSem(1) 
-        mon.entryList = ListCreate() 
-        mon.entrySem = NewSem(1) 
-        
-        for i in 0 to k - 1:
-            mon.conVars[i].waitList = ListCreate() 
-            mon.conVars[i].semaphore = NewSem(0)
+   Pseudocode:
+   ------------
+   MonInit():
+       mon.lock = NewSem(1)
+       mon.entryList = ListCreate()
+       mon.entrySem = NewSem(1)
+       for i in 0 to k-1:
+           mon.conVars[i].waitList = ListCreate()
+           mon.conVars[i].semaphore = NewSem(0)
 
 2. ENTER MONITOR
 
-    o FUNCTION: Acquires mutual exclusion by attempting to acquire the monitor 
-      lock and tracks the thread's entry in the monitor entry list.
+   Purpose: Enforce mutual exclusion by acquiring monitor lock and tracking the thread in the entry list.
 
-    o KEY POINTS:
-        o Adds the thread to the entry list.
-        o Attempts to acquire the monitor lock.
-        o Removes the thread from the entry list upon acquiring the lock.
-
-    PSEUDO CODE:
-    ------------
-
-    MonEnter():
-        my_pid = MyPid()
-        allocate memory for my_pid
-        acquire mon.entrySem
-        add my_pid to mon.entryList
-        release mon.entrySem
-        acquire mon.lock
-        acquire mon.entrySem
-        trimmed_pid = ListTrim(mon.entryList)
-        free trimmed_pid
-        release mon.entrySem
+   Pseudocode:
+   ------------
+   MonEnter():
+       my_pid = MyPid()
+       allocate memory for my_pid
+       acquire mon.entrySem
+       add my_pid to mon.entryList
+       release mon.entrySem
+       acquire mon.lock
+       acquire mon.entrySem
+       trimmed_pid = ListTrim(mon.entryList)
+       free trimmed_pid
+       release mon.entrySem
 
 3. LEAVE MONITOR
 
-    o FUNCTION: Releases the monitor lock and signals the next waiting thread to 
-      acquire the lock if the entry list is not empty.
+   Purpose: Release the monitor lock and signal the next waiting thread if the entry list is not empty.
 
-    o KEY POINTS:
-        o Signals the next thread in the entry list to acquire the lock. 
-        o If no threads are waiting, releases the lock.
-
-    PSEUDO CODE:
-    ------------
-
-    MonLeave():
-        acquire mon.entrySem
-        if ListCount(mon.entryList) > 0:
-            trimmed_pid = ListTrim(mon.entryList)
-            free trimmed_pid
-            signal mon.lock
-        else:
-            release mon.lock
-        release mon.entrySem
+   Pseudocode:
+   ------------
+   MonLeave():
+       acquire mon.entrySem
+       if ListCount(mon.entryList) > 0:
+           trimmed_pid = ListTrim(mon.entryList)
+           free trimmed_pid
+           signal mon.lock
+       else:
+           release mon.lock
+       release mon.entrySem
 
 4. WAIT ON CONDITION VARIABLE
 
-    o FUNCTION: Makes the calling thread wait on a specified condition variable 
-      and releases the monitor lock.
+   Purpose: Makes the calling thread wait on a condition variable and releases the monitor lock.
 
-    o OPERATION:
-        o Adds the thread to the condition variable's wait list.
-        o Releases the monitor lock and blocks the thread until signaled.
-
-    PSEUDO CODE:
-    ------------
-
-    MonWait(cv):
-        if cv is not valid:
-            error and exit
-        
-        my_pid = MyPid()
-        allocate memory for my_pid
-        add my_pid to mon.conVars[cv].waitList
-        MonLeave()
-        wait on mon.conVars[cv].semaphore
-        MonEnter() 
+   Pseudocode:
+   ------------
+   MonWait(cv):
+       if cv is not valid:
+           error and exit
+       
+       my_pid = MyPid()
+       allocate memory for my_pid
+       add my_pid to mon.conVars[cv].waitList
+       MonLeave()
+       wait on mon.conVars[cv].semaphore
+       MonEnter()
 
 5. SIGNAL CONDITION VARIABLE
 
-    o FUNCTION: Signals one thread waiting on the specified condition variable 
-      to wake up.
+   Purpose: Signals a thread waiting on the specified condition variable to wake up.
 
-    o OPERATION:
-        o Removes the first thread from the condition variable's wait list and 
-          signals it by releasing its semaphore.
-
-    PSEUDO CODE:
-    ------------
-
-    MonSignal(cv):
-        if cv is not valid:
-            error and exit
-        
-        if ListCount(mon.conVars[cv].waitList) > 0:
-            waiting_pid = ListTrim(mon.conVars[cv].waitList)
-            free waiting_pid
-            signal mon.conVars[cv].semaphore
+   Pseudocode:
+   ------------
+   MonSignal(cv):
+       if cv is not valid:
+           error and exit
+       
+       if ListCount(mon.conVars[cv].waitList) > 0:
+           waiting_pid = ListTrim(mon.conVars[cv].waitList)
+           free waiting_pid
+           signal mon.conVars[cv].semaphore
