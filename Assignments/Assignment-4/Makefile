@@ -32,7 +32,7 @@ $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
 clean: 
-	rm -rf obj/ lib/ bin/ reader_writer_test
+	rm -rf obj/ lib/ bin/ reader_writer_test *.a *.o
 
 LIST_OBJS = \
 	$(OBJ_DIR)/list_adders.o \
@@ -54,7 +54,7 @@ $(OBJ_DIR)/list_removers.o : list_removers.c list.h | $(OBJ_DIR)
 
 # compile objects for the reader_writer files`
 $(OBJ_DIR)/reader_writer_monitor.o: reader_writer_monitor.c \
-					reader-writer-monitor.h | $(OBJ_DIR)
+					reader_writer_monitor.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) reader_writer_monitor.c \
 		-o $(OBJ_DIR)/reader_writer_monitor.o
 
@@ -79,10 +79,12 @@ $(LIB_DIR)/libMonitor.a: $(MONITOR_OBJS) | $(LIB_DIR)
 
 # link executable for list
 $(BIN_DIR)/reader_writer_test : \
-	$(OBJ_DIR)/reader_writer.o $(LIB_DIR)/liblist.a $(LIB_DIR)/libMonitor.a
-	\ | $(BIN_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/mytestlist.o \
-		-L$(LIB_DIR) -llist -libMonitor -o $(BIN_DIR)/mytestlist
+	$(OBJ_DIR)/reader_writer.o $(LIB_DIR)/liblist.a \
+	 $(LIB_DIR)/libMonitor.a $(UBC_PTHREAD_DIR)/libpthreads.a | $(BIN_DIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(UBC_COMPILER_FLAG) \
+	$(OBJ_DIR).reader_writer_testo \
+		-L$(LIB_DIR) -llist -libMonitor \
+		-L$(UBC_PTHREAD_DIR) -lpthreads -o $(BIN_DIR)/mytestlist
 
 # linking executable to root folder
 reader_writer_test : $(BIN_DIR)/reader_writer_test
