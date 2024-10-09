@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-=======
-DESIGN DOCUMENT AND PSEUDO CODE FOR MONITOR
-
->>>>>>> refs/remotes/origin/main
 #Shruti Kaur
 #ich524
 #11339265
 
-<<<<<<< HEAD
 This documentation covers the solution strategy, pseudocode and why the 
 solution is correct. 
 
@@ -31,7 +25,7 @@ Two data structures will be introduced:
 *******************************  MONITOR_C ************************************
 Functions that is involved inside Monitor.c are: 
 	1) void MonInit()
-=======
+	
 1. MONITOR INITIALIZATION
 
    o FUNCTION: Initializes monitor lock, entry semaphore, entry list, and 
@@ -110,4 +104,4 @@ Functions that is involved inside Monitor.c are:
            waiting_pid = ListTrim(mon.conVars[cv].waitList)
            free waiting_pid
            signal mon.conVars[cv].semaphore
->>>>>>> refs/remotes/origin/main
+
