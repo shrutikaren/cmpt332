@@ -35,7 +35,7 @@ THREAD RESPONSIBLEITIES
             to read each character as it is typed.
         o   Sends characters to the Server Thread for processing. 
 
-    o SPECIAL SEQUENCE: We plan to use `ctrl-C` to indicate that the user wants
+    o SPECIAL SEQUENCE: We plan to use `Ctrl-C` to indicate that the user wants
                         to exit the chat.
 
     PSEUDO CODE:
@@ -91,17 +91,7 @@ THREAD RESPONSIBLEITIES
                 sleep for a short duration 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+HELPER FUNCTIONS
+----------------
 
 
