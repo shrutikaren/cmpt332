@@ -119,7 +119,8 @@ void *ListSearch(LIST_HANDLE list,
     }
     (list_space+list)->cursor = (list_space+list)->head;
     for (i = 0; i < (list_space+list)->count; i++) {
-        if (comparator(comparisonArg, (node_space+(list_space+list)->cursor)->item)) {
+        if (comparator(comparisonArg, 
+		(node_space+(list_space+list)->cursor)->item)) {
             return (node_space+(list_space+list)->cursor)->item; 
         }
         (list_space+list)->cursor = 

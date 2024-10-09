@@ -19,6 +19,7 @@ BIN_DIR = bin/$(OS)
 UBC_PTHREAD_INCLUDE_DIR = /student/cmpt332/pthreads/
 UBC_PTHREAD_DIR = /student/cmpt332/pthreads/lib/$(OS)$(ARCH)
 UBC_COMPILER_FLAG = -DUSE_UBC_THREADS
+RT_THREADS = /student/cmpt332/rtt
 
 .PHONY: all clean
 
@@ -68,6 +69,10 @@ $(OBJ_DIR)/monitor.o: monitor.c monitor.h | $(OBJ_DIR)
 
 # Add Target-Specific CPPFLAGS for reader-writer.o
 $(OBJ_DIR)/reader_writer.o : CPPFLAGS += -I$(UBC_PTHREAD_INCLUDE_DIR)
+
+#compiling objects for Part C
+$(OBJ_DIR)/s-chat.o: s-chat.c | $(OBJ_DIR)
+	$(CC) -o $(CPPFLAGS) $(CFLAGS) s-chat.c -o $(OBJ_DIR)/s-chat.o
 
 # archiving list files into liblist library
 $(LIB_DIR)/liblist.a : $(LIST_OBJS) | $(LIB_DIR)

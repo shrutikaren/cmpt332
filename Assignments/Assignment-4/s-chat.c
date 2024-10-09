@@ -6,6 +6,7 @@
 
 #include <rtthreads.h>
 #include <RttCommon.h>
+#include <rpc/types.h>
 
 #include <stdlib.h>
 #include <stdio.h>
