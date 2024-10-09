@@ -158,7 +158,7 @@ void InitializeQueue(Queue* queue) {
 
 /* Enqueue Function */
 void Enqueue(Queue* queue, CharacterData data, RttSem* mutex) {
-    /* Placeholder for enqueue logic */
+
 }
 
 /* Dequeue Function */
