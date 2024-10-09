@@ -90,6 +90,8 @@ THREAD RESPONSIBLEITIES
             else:
                 sleep for a short duration 
 
+
+
 3. SCREEN OUTPUT THREAD
 
     o FUNCTION: Outputs character to the user's screen. 
@@ -104,6 +106,7 @@ THREAD RESPONSIBLEITIES
         o   Need to make sure we handle characters appropriately.
 
 
+
 4. UDP TRANSMIT THREAD
 
     o FUNCTION: Sends data over the network to the remote user. 
@@ -114,9 +117,8 @@ THREAD RESPONSIBLEITIES
             machine and port.
 
     o TEACHERS POINTS:
-        o   I need to make sure that the display is smooth even though we have
-            network latency.
-        o   Need to make sure we handle characters appropriately.
+        o   Check that the characters are being sent in the correct order. 
+        o   Stops if necessary given the current data. 
 
 
 5. SERVER THREAD
