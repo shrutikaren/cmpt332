@@ -33,7 +33,7 @@ $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
 clean: 
-	rm -rf obj/ lib/ bin/ reader_writer_test *.a *.o
+	rm -rf obj/ lib/ bin/ reader_writer_test 
 
 LIST_OBJS = \
 	$(OBJ_DIR)/list_adders.o \
@@ -87,9 +87,13 @@ $(BIN_DIR)/reader_writer_test : \
 	$(OBJ_DIR)/reader_writer.o $(LIB_DIR)/liblist.a \
 	 $(LIB_DIR)/libMonitor.a $(UBC_PTHREAD_DIR)/libpthreads.a | $(BIN_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(UBC_COMPILER_FLAG) \
-	$(OBJ_DIR).reader_writer_testo \
+	$(OBJ_DIR)/reader_writer_test.o \
 		-L$(LIB_DIR) -llist -libMonitor \
 		-L$(UBC_PTHREAD_DIR) -lpthreads -o $(BIN_DIR)/mytestlist
+
+# link executable for the s-chat
+$(BIN_DIR)/s-chat: $(OBJ_DIR)/s-chat.o $(RT_THREADS) | $(BIN_DIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/s-chat.o -o $(BIN_DIR)/s-chat
 
 # linking executable to root folder
 reader_writer_test : $(BIN_DIR)/reader_writer_test
