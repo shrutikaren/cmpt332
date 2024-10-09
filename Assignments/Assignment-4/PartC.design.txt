@@ -6,136 +6,189 @@ DESIGN DOCUMENT AND PSEUDO CODE FOR S-CHAT
 
 OVERVIEW
 --------
-
 Application that enables real-time text communication between users. We are 
-using UDP protocol and RT Threads for concurrency. 
+using the UDP protocol and RT Threads for concurrency.
 
 SYSTEM ARCHITECTURE
 -------------------
-
-NOTE: From the given instructions we are using a Sender/Receiver/Request model 
+NOTE: From the given instructions, we are using a Sender/Receiver/Request model 
 for coordination.
 
 1. Keyboard Input Thread
 2. UDP Input Thread 
 3. Screen Output Thread
 4. UDP Transmit Thread
-5. Server Thread 
+5. Server Thread
 
-THREAD RESPONSIBLEITIES
+THREAD RESPONSIBILITIES
 -----------------------
-
 1. KEYBOARD INPUT THREAD
 
     o FUNCTION: Read user input from the keyboard without blocking the main 
-                process.
-    
-    o OPERATION: 
-        o   Uses non-blocking I/O and the curses library in cbreak mode 
-            to read each character as it is typed.
-        o   Sends characters to the Server Thread for processing. 
+      process.
+
+    o OPERATION:
+        o Uses non-blocking I/O and the curses library in cbreak mode 
+          to read each character as it is typed.
+        o Sends characters to the serverThread for processing.
 
     o SPECIAL SEQUENCE: We plan to use `Ctrl-C` to indicate that the user wants
-                        to exit the chat.
+      to exit the chat.
+
+    PSEUDO CODE:
+    ------------
+    
+    keyboardInputThread():
+        while keepRunning:
+            char = getch()
+            if char != ERROR:
+                if char == EXIT_CHARACTER:
+                    keepRunning = false
+                    signal serverThread to terminate
+                else:
+                    timestamp = getCurrentTime()
+                    characterData = { char, timestamp }
+                    acquire mutex on outgoingBuffer
+                    outgoingBuffer.enqueue(characterData)
+                    release mutex on outgoingBuffer
+                    signal conditionVariable for outgoingBuffer
+            else:
+                sleep(shortDuration)
+
+2. UDP INPUT THREAD
+
+    o FUNCTION: Listens for incoming UDP datagrams from the network.
+
+    o OPERATION:
+        o Uses non-blocking sockets to receive messages without blocking 
+          other threads.
+        o Parses incoming messages and sends them to the serverThread for 
+          processing.
+
+    o EXTRA:
+        o Handles messages from different architectures (byte order differences).
+        o Supports character-by-character display by processing each 
+          received character.
+
+    PSEUDO CODE:
+    ------------ 
+    
+    udpInputThread():
+        while keepRunning:
+            data, addr = recvFromNonBlocking(udpSocket)
+            if data is not empty:
+                characterData = deserialize(data)
+                acquire mutex on incomingBuffer
+                incomingBuffer.enqueue(characterData)
+                release mutex on incomingBuffer
+                signal conditionVariable for incomingBuffer
+            else:
+                sleep(shortDuration)
+
+3. SCREEN OUTPUT THREAD
+
+    o FUNCTION: Outputs characters to the user's screen.
+
+    o OPERATION:
+        o Receives characters from the serverThread.
+        o Displays characters in real-time using the curses library.
+
+    o NOTES:
+        o Ensure that the display is smooth even with network latency.
+        o Handle control characters appropriately.
 
     PSEUDO CODE:
     ------------
 
-    keyBoardInputThread():
-        char = getch()
-        if char != ERROR:
-            if char == EXIT_CHARACTER:
-                set keepRunning to true
-                signal Server Thread to terminate
-            else:
-                timestamp = get_current_time()
-                character_data = { char, timestamp }
-                acquire mutex on outgoing_buffer
-                add character_data to outgoing_buffer
-                release mutex on outgoing_buffer
-                signal condition variable for outgoing_buffer
-        else:
-            sleep for a short duration
-
-
-
-2. UDP INPUT THREAD
-
-    o FUNCTION: Listens for incoming UDP datagrams from the network. 
-    
-    o OPERATION:
-        o   Uses non-blocking sockets to receive messages without blocking 
-            other threads. 
-        o   Parses incoming messages and sends them to the Server Thread for 
-            processing.
-
-    o EXTRA:
-        o   Handle Messages from different architectures (byte order difference)
-        o   Supports character-by-character display by processing each 
-            received character.
-
-
-    PSEUDO CODE:
-    ------------ 
-
-    updInputThread():
-        while not keepRunning:
-            data, addr = recvFrom_nonblocking(udp_socket)
-            if data is not empty:
-                character_data = deserialize(data)
-                acquire mutex on incoming_buffer
-                add character_data to incoming_buffer
-                release mutex on incoming_buffer
-                signal condition varaible for incoming_buffer
-            else:
-                sleep for a short duration 
-
-
-
-3. SCREEN OUTPUT THREAD
-
-    o FUNCTION: Outputs character to the user's screen. 
-    
-    o OPERATION:
-        o   Receives characters from the Server Thread.
-        o   Displays characters in real-time using the curses library.
-
-    o TEACHERS POINTS:
-        o   I need to make sure that the display is smooth even though we have
-            network latency.
-        o   Need to make sure we handle characters appropriately.
-
-
+    screenOutputThread():
+        while keepRunning:
+            acquire mutex on incomingBuffer
+            while incomingBuffer.isEmpty():
+                wait conditionVariable for incomingBuffer
+                if not keepRunning:
+                    release mutex on incomingBuffer
+                    return
+            characterData = incomingBuffer.dequeue()
+            release mutex on incomingBuffer
+            displayCharacter(characterData.char)
 
 4. UDP TRANSMIT THREAD
 
-    o FUNCTION: Sends data over the network to the remote user. 
-    
+    o FUNCTION: Sends data over the network to the remote user.
+
     o OPERATION:
-        o   Get the characters from the Servber Thread's outgoing buffer. 
-        o   Use UDP sockets to send characters to the specified remote 
-            machine and port.
+        o Gets the characters from the serverThread's outgoing buffer.
+        o Uses UDP sockets to send characters to the specified remote 
+          machine and port.
 
-    o TEACHERS POINTS:
-        o   Check that the characters are being sent in the correct order. 
-        o   Stops if necessary given the current data. 
+    o NOTES:
+        o Ensure that the characters are being sent in the correct order.
+        o Manage network exceptions and retries if necessary.
 
+    PSEUDO CODE:
+    ------------
+
+    udpTransmitThread():
+        while keepRunning:
+            acquire mutex on outgoingBuffer
+            while outgoingBuffer.isEmpty():
+                wait conditionVariable for outgoingBuffer
+                if not keepRunning:
+                    release mutex on outgoingBuffer
+                    return
+            characterData = outgoingBuffer.dequeue()
+            release mutex on outgoingBuffer
+            data = serialize(characterData)
+            sendTo(udpSocket, data, remoteAddress)
 
 5. SERVER THREAD
 
-    o FUNCTION: Outputs character to the user's screen. 
-    
+    o FUNCTION: Coordinates message flow between input/output threads and 
+      manages character buffers.
+
     o OPERATION:
-        o   Receives characters from the Server Thread.
-        o   Displays characters in real-time using the curses library.
+        o Maintains two critical sections:
+            o outgoingBuffer: Stores characters from the Keyboard Input Thread 
+              to be sent by the UDP Transmit Thread.
+            o incomingBuffer: Stores characters from the UDP Input Thread to 
+              be displayed by the Screen Output Thread.
+        o Manages access to these buffers to prevent race conditions.
 
-    o TEACHERS POINTS:
-        o   I need to make sure that the display is smooth even though we have
-            network latency.
-        o   Need to make sure we handle characters appropriately.
+    o NOTES:
+        o Implement synchronization mechanisms (e.g., mutexes, semaphores) to 
+          protect critical sections.
+        o Handle buffering when the network or display is slow.
 
+    PSEUDO CODE:
+    ------------
+
+    serverThread():
+        while keepRunning:
+            sleep(shortDuration)
+        Clean up resources and signal other threads to terminate
 
 HELPER FUNCTIONS
 ----------------
 
+getCurrentTime():
+    return current time with seconds and microseconds
 
+displayCharacter(char):
+    addch(char)  /* from curses library */
+    refresh()    /* update the screen */
+
+serialize(character_data):
+    /* Convert character_data to a binary format  */
+    return binary_data
+
+deserialize(data):
+    /* Convert binary data back to character_data structure */
+    return character_data
+
+
+DATA STRUCTURES
+---------------
+o characterData
+    o `char`: The character input by the user.
+    o `timestamp`: Time when the character was sent (seconds and microseconds).
+    o `fags`: Check for flags
