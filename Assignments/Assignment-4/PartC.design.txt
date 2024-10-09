@@ -90,6 +90,19 @@ THREAD RESPONSIBLEITIES
             else:
                 sleep for a short duration 
 
+3. SCREEN OUTPUT THREAD
+
+    o FUNCTION: Outputs character to the user's screen. 
+    
+    o OPERATION:
+        o   Receives characters from the Server Thread.
+        o   Displays characters in real-time using the curses library.
+
+    o TEACHERS POINTS:
+        o   I need to make sure that the display is smooth even though we have
+            network latency.
+        o   Need to make sure we handle characters appropriately.
+
 
 HELPER FUNCTIONS
 ----------------
