@@ -38,6 +38,27 @@ THREAD RESPONSIBLEITIES
     o SPECIAL SEQUENCE: We plan to use `ctrl-C` to indicate that the user wants
                         to exit the chat.
 
+    PSEUDO CODE:
+    ------------
+
+    keyBoardInputThread():
+        char = getch()
+        if char != ERROR:
+            if char == EXIT_CHARACTER:
+                set keepRunning to true
+                signal Server Thread to terminate
+            else:
+                timestamp = get_current_time()
+                character_data = { char, timestamp }
+                acquire mutex on outgoing_buffer
+                add character_data to outgoing_buffer
+                release mutex on outgoing_buffer
+                signal condition variable for outgoing_buffer
+        else:
+            sleep for a short duration
+
+
+
 2. UDP INPUT THREAD
 
     o FUNCTION: Listens for incoming UDP datagrams from the network. 
@@ -54,7 +75,8 @@ THREAD RESPONSIBLEITIES
             received character.
 
 
-    o PSEUDO CODE:
+    PSEUDO CODE:
+    ------------ 
 
     updInputThread():
         while not keepRunning:
