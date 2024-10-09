@@ -78,7 +78,7 @@ int mainp(int argc, char* argv[]) {
     char* hostName;
     RttThreadId kbThread, udpInThread, screenOutThread, udpTransThread, srvThread;
 
-    if (argc != 4) {
+    if (argc != ARGS) {
         LOG_ERROR("Incorrect number of arguments");
     }
 
