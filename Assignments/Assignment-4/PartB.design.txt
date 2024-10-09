@@ -1,5 +1,9 @@
 DESIGN DOCUMENT AND PSEUDO CODE FOR MONITOR
 
+#Shruti Kaur
+#ich524
+#11339265
+
 1. MONITOR INITIALIZATION
 
     o FUNCTION: Initializes the monitor's lock, entry semaphore, entry list, and
