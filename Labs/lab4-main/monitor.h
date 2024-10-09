@@ -23,6 +23,20 @@
 /*			Adding our list files 				     */
 #include <list.h>
 
+/*				Typedef Structures			     */
+typedef struct ConditionVariables{
+	int semaphores;
+	LIST* waitlist;
+} ConditionVariables;
+
+typedef struct Monitor{
+	int lock; // used as a mutex
+	int entrysem;
+	LIST* entryList;
+	ConditionVariables conVars[k];
+}Monitor;
+
+
 /*			Function prototypes 				     */
 void RttMonInit();
 void RttMonEnter();
