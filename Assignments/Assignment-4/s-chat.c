@@ -1,15 +1,18 @@
 #include <rtthreads.h>
 #include <RttCommon.h>
-#include <curses.h>
+
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/time.h>
 #include <string.h>
+#include <stdbool.h>
+
+/* https://beej.us/guide/bgnet/html/split/man-pages.html#fcntlman */
+#include <curses.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <stdbool.h>
-#include <errno.h>
-#include <sys/time.h>
+#include <errno.h>                
 
 /* Error Logging Macro */
 #define LOG_ERROR(msg) do {                             \
