@@ -1,7 +1,13 @@
+<<<<<<< HEAD
+=======
+DESIGN DOCUMENT AND PSEUDO CODE FOR MONITOR
+
+>>>>>>> refs/remotes/origin/main
 #Shruti Kaur
 #ich524
 #11339265
 
+<<<<<<< HEAD
 This documentation covers the solution strategy, pseudocode and why the 
 solution is correct. 
 
@@ -25,3 +31,83 @@ Two data structures will be introduced:
 *******************************  MONITOR_C ************************************
 Functions that is involved inside Monitor.c are: 
 	1) void MonInit()
+=======
+1. MONITOR INITIALIZATION
+
+   o FUNCTION: Initializes monitor lock, entry semaphore, entry list, and 
+     condition variables.
+
+   o PSEUDO CODE:
+   ------------
+   MonInit():
+       mon.lock = NewSem(1) 
+       mon.entryList = ListCreate() 
+       mon.entrySem = NewSem(1) 
+       for i in 0 to k-1:
+           mon.conVars[i].waitList = ListCreate() 
+           mon.conVars[i].semaphore = NewSem(0)
+
+2. ENTER MONITOR
+
+   o FUNCTION: Gets monitor lock and tracks the thread in the entry list.
+
+   o PSEUDO CODE:
+   ------------
+   MonEnter():
+       my_pid = MyPid()
+       allocate memory for my_pid
+       acquire mon.entrySem
+       add my_pid to mon.entryList
+       release mon.entrySem
+       acquire mon.lock
+       acquire mon.entrySem
+       trimmed_pid = ListTrim(mon.entryList)
+       free trimmed_pid
+       release mon.entrySem
+
+3. LEAVE MONITOR
+
+   o FUNCTION: Releases monitor lock and signals the next waiting thread.
+
+   o PSEUDO CODE:
+   ------------
+   MonLeave():
+       acquire mon.entrySem
+       if ListCount(mon.entryList) > 0:
+           trimmed_pid = ListTrim(mon.entryList)
+           free trimmed_pid
+           signal mon.lock
+       else:
+           release mon.lock
+       release mon.entrySem
+
+4. WAIT ON CONDITION VARIABLE
+
+   o FUNCTION: Waits on a condition variable and releases the monitor lock.
+
+   o PSEUDO CODE:
+   ------------
+   MonWait(cv):
+       if cv invalid:
+           error and exit
+       my_pid = MyPid()
+       allocate memory for my_pid
+       add my_pid to mon.conVars[cv].waitList
+       MonLeave()
+       wait on mon.conVars[cv].semaphore
+       MonEnter()
+
+5. SIGNAL CONDITION VARIABLE
+
+   o FUNCTION: Signals a thread waiting on a condition variable.
+
+   o PSEUDO CODE:
+   ------------
+   MonSignal(cv):
+       if cv invalid:
+           error and exit
+       if ListCount(mon.conVars[cv].waitList) > 0:
+           waiting_pid = ListTrim(mon.conVars[cv].waitList)
+           free waiting_pid
+           signal mon.conVars[cv].semaphore
+>>>>>>> refs/remotes/origin/main
