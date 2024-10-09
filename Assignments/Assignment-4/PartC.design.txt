@@ -104,6 +104,35 @@ THREAD RESPONSIBLEITIES
         o   Need to make sure we handle characters appropriately.
 
 
+4. UDP TRANSMIT THREAD
+
+    o FUNCTION: Sends data over the network to the remote user. 
+    
+    o OPERATION:
+        o   Get the characters from the Servber Thread's outgoing buffer. 
+        o   Use UDP sockets to send characters to the specified remote 
+            machine and port.
+
+    o TEACHERS POINTS:
+        o   I need to make sure that the display is smooth even though we have
+            network latency.
+        o   Need to make sure we handle characters appropriately.
+
+
+5. SERVER THREAD
+
+    o FUNCTION: Outputs character to the user's screen. 
+    
+    o OPERATION:
+        o   Receives characters from the Server Thread.
+        o   Displays characters in real-time using the curses library.
+
+    o TEACHERS POINTS:
+        o   I need to make sure that the display is smooth even though we have
+            network latency.
+        o   Need to make sure we handle characters appropriately.
+
+
 HELPER FUNCTIONS
 ----------------
 
