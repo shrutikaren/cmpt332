@@ -70,7 +70,7 @@ THREAD RESPONSIBLEITIES
             processing.
 
     o EXTRA:
-        o   Handle Messages from different architectures (byte order differences)
+        o   Handle Messages from different architectures (byte order difference)
         o   Supports character-by-character display by processing each 
             received character.
 
