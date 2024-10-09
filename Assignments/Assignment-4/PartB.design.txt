@@ -21,7 +21,7 @@ DESIGN DOCUMENT AND PSEUDO CODE FOR MONITOR
 
 2. ENTER MONITOR
 
-   o FUNCTION: Acquires monitor lock and tracks the thread in the entry list.
+   o FUNCTION: Gets monitor lock and tracks the thread in the entry list.
 
    o PSEUDO CODE:
    ------------
