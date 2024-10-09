@@ -18,7 +18,7 @@
 /* UBC Threads */
 #include <os.h>
 
-/* Our List functions*/
+/* Our List functions */
 #include <list.h>
 
 /* Loggin Errors in our code. */
@@ -44,10 +44,10 @@ typedef struct Monitor{
     CondVar conVars[k];
 } Monitor;
 
+void MonInit();
 void MonEnter();
 void MonLeave();
 void MonWait(int);
 void MonSignal(int);
-void MonInit();
 
 #endif /* MONITOR_H */

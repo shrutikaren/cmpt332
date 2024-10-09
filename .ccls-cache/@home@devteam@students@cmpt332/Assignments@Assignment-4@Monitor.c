@@ -4,8 +4,8 @@
  * 11339265
  */
 
-#include "list.h"
 #include <Monitor.h>
+#include <stdlib.h>
 
 static Monitor mon;
 
@@ -42,12 +42,12 @@ void MonInit(){
 
         mon.conVars[i].waitList = ListCreate();
         if(mon.conVars[i].waitList == NULL){
-            LOG_ERROR("Failed to create entry semaphore in MonInit.");
+            LOG_ERROR("Failed to create waitList for cv MonInit.");
         }
 
         mon.conVars[i].semaphore = NewSem(0);
         if(mon.conVars[i].waitList == NULL){
-            LOG_ERROR("Failed to create entry semaphore in MonInit.");
+            LOG_ERROR("Failed to create semaphore for cv's MonInit.");
         }
 
     }
@@ -56,32 +56,57 @@ void MonInit(){
 
 void MonEnter(){
 
+    PID* currentPid;
+
+    currentPid = (PID*)malloc(sizeof(PID));
+
+    if(currentPID == NULL){
+        LOG_ERROR("Dailed to allocate memory for PID in MonEnter.");
+    }
+
+    /* TODO: Add the thread to the entryList */
+
+    /* TODO: Acquire the mutex */
+
+    /* TODO: Remove self from the entryList */
+
 }
 
 void MonLeave(){
+
+    /* TODO: Check if there are threads waiting in the entery List */
+
+    /* Signal the next thread waiting to enter the monitor */
+
+    /* If threads waiting to enter release the mutex */
 
 }
 
 void MonWait(int var){
 
     if(var < 0 || var >= k){
-        exit(EXIT_FAILURE);
+        LOG_ERROR("Invalid condition variable ID in MonWait");
     }
+
+    /* Add the thread to the condition variable's waitList */
+
+    /* Release the mutex before waiting */
+
+    /* Wait on the condition variable's semaphore */ 
+
+    /* Re-acquire the mutex after being signaled */
 
 }
 
 void MonSignal(int var){
 
     if(var < 0 || var >= k){
-        exit(EXIT_FAILURE);
+        LOG_ERROR("Invalid condition variable ID in MonWait");
     }
 
     /* Check if there are threads waiting on the condition varaible. */
     if(ListCount(mon.conVars[var].waitList) > 0){
-        /* Remove the first thread from the condition variables queue. */ 
-        if ( == NULL){
-
-        }
+        /* Remove the first thread from the condition variable's waitList. */ 
 
         /* Signal the cv's semaphore to wake up the waiting thread */
     }
