@@ -105,9 +105,9 @@ void MonSignal(int var){
     }
 
     /* Check if there are threads waiting on the condition varaible. */
-    if(ListCount(mon.conVars[var].waitList) > 0){
-        /* Remove the first thread from the condition variable's waitList. */ 
 
-        /* Signal the cv's semaphore to wake up the waiting thread */
-    }
+    /* Remove the first thread from the condition variable's waitList. */ 
+
+    /* Signal the cv's semaphore to wake up the waiting thread */
+
 }
