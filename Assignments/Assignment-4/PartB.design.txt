@@ -1,3 +1,27 @@
-#Name
-#Student Number:
-#NSID:
+#Shruti Kaur
+#ich524
+#11339265
+
+This documentation covers the solution strategy, pseudocode and why the 
+solution is correct. 
+
+******************************** MONITOR_H ************************************
+The header file would consist of the function prototypes 
+and the structures for our Monitor and our condition variables. 
+
+In terms of the libraries, we will include the following:
+	1) stdio.h
+	2) stdlib.h
+	3) errno.h
+	4) os.h
+	5) list.h
+
+Two data structures will be introduced: 
+	1) CondVar --> Attributes: semaphore, waitList
+	2) Monitor --> Attributes: lock, entrySem, entryList, conVars[k]
+	   Note that k is a variable that is already defined 
+
+
+*******************************  MONITOR_C ************************************
+Functions that is involved inside Monitor.c are: 
+	1) void MonInit()
