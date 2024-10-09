@@ -22,6 +22,7 @@
 #define MAX_SIZE 1024
 #define SHORT_DURATION 1000  /* microseconds */
 #define CTRL_C 3
+#define ARGS 4
 
 /* Data Structures */
 typedef struct {
@@ -118,23 +119,23 @@ int mainp(int argc, char* argv[]) {
 
     /* Create threads */
     if (RttCreate(&kbThread, KeyboardInputThread, 0, "KeyboardInputThread", 
-                 NULL, RTTNODEADLINE, RTTHIGH) != RTTOK) {
+                 NULL, RTTNODEADLINE, RTTHIGH) != RTTUSR) {
         LOG_ERROR("Failed to create KeyboardInputThread");
     }
     if (RttCreate(&udpInThread, UdpInputThread, 0, "UdpInputThread", 
-                 NULL, RTTNODEADLINE, RTTHIGH) != RTTOK) {
+                 NULL, RTTNODEADLINE, RTTHIGH) != RTTUSR) {
         LOG_ERROR("Failed to create UdpInputThread");
     }
     if (RttCreate(&screenOutThread, ScreenOutputThread, 0, 
-                 "ScreenOutputThread", NULL, RTTNODEADLINE, RTTHIGH) != RTTOK) {
+                 "ScreenOutputThread", NULL, RTTNODEADLINE, RTTHIGH) != RTTUSR) {
         LOG_ERROR("Failed to create ScreenOutputThread");
     }
     if (RttCreate(&udpTransThread, UdpTransmitThread, 0, 
-                 "UdpTransmitThread", NULL, RTTNODEADLINE, RTTHIGH) != RTTOK) {
+                 "UdpTransmitThread", NULL, RTTNODEADLINE, RTTHIGH) != RTTUSR) {
         LOG_ERROR("Failed to create UdpTransmitThread");
     }
     if (RttCreate(&srvThread, ServerThread, 0, "ServerThread", 
-                 NULL, RTTNODEADLINE, RTTHIGH) != RTTOK) {
+                 NULL, RTTNODEADLINE, RTTHIGH) != RTTUSR) {
         LOG_ERROR("Failed to create ServerThread");
     }
 
@@ -165,39 +166,37 @@ bool Dequeue(Queue* queue, CharacterData* data, RttSem* mutex) {
 /* Keyboard Input Thread */
 void KeyboardInputThread() {
     while (keepRunning) {
-        RttSleep(SHORT_DURATION);
+        RttUSleep(SHORT_DURATION);
     }
 }
 
 /* UDP Input Thread */
 void UdpInputThread() {
     while (keepRunning) {
-        RttSleep(SHORT_DURATION);
+        RttUSleep(SHORT_DURATION);
     }
 }
 
 /* Screen Output Thread */
 void ScreenOutputThread() {
     while (keepRunning) {
-        RttSleep(SHORT_DURATION);
+        RttUSleep(SHORT_DURATION);
     }
 }
 
 /* UDP Transmit Thread */
 void UdpTransmitThread() {
     while (keepRunning) {
-        RttSleep(SHORT_DURATION);
+        RttUSleep(SHORT_DURATION);
     }
 }
 
 /* Server Thread */
 void ServerThread() {
     while (keepRunning) {
-        RttSleep(SHORT_DURATION);
+        RttUSleep(SHORT_DURATION);
     }
 }
-
-/* Helper Functions */
 
 /* Get Current Time */
 CharacterData GetCurrentTime() {
