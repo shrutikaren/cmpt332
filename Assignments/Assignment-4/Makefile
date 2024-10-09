@@ -52,15 +52,15 @@ $(OBJ_DIR)/list_removers.o : list_removers.c list.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) list_removers.c \
 		-o $(OBJ_DIR)/list_removers.o
 
-# compile objects for the reader_writer files
+# compile objects for the reader_writer files`
 $(OBJ_DIR)/reader_writer_monitor.o: reader_writer_monitor.c \
-					reader_writer_monitor.h | $(OBJ_DIR)
+					reader-writer-monitor.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) reader_writer_monitor.c \
 		-o $(OBJ_DIR)/reader_writer_monitor.o
 
 $(OBJ_DIR)/reader_writer.o: reader_writer.c | $(OBJ_DIR)
-	$(CC) -o $(CPPFLAGS) $(CFLAGS) reader_writer.c -o \
-	$(OBJ_DIR)/reader_writer.o
+	$(CC) -o $(CPPFLAGS) $(CFLAGS) $(UBC_COMPILER_FLAG) \
+	 reader_writer.c -o $(OBJ_DIR)/reader_writer.o
 
 #compile objects for the monitor files
 $(OBJ_DIR)/monitor.o: monitor.c monitor.h | $(OBJ_DIR)

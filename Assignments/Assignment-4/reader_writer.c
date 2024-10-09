@@ -18,7 +18,10 @@
 #include <os.h>
 #include <standards.h>
 
-#include <reader-writer-monitor.h>
+/* CMPT 332 GROUP 34 Change, Fall 2024 */
+/* Phase 1 */
+
+#include <reader_writer_monitor.h>
 
 #define SLEEPMAX 20
 
