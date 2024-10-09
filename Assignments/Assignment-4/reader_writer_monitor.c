@@ -21,7 +21,7 @@
 #include <stdio.h>
 
 
-#include <monitor.h>
+#include <Monitor.h>
 
 /* INITIALIZATION CODE */
 #define OKtoWrite 1

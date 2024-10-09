@@ -18,7 +18,7 @@
 #include <os.h>
 #include <standards.h>
 
-/* CMPT 332 GROUP 34 Change, Fall 2024 */
+/* CMPT 332 GROUP Change, Fall 2024 */
 /* Phase 1 */
 
 #include <reader_writer_monitor.h>

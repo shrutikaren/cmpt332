@@ -1,3 +1,9 @@
+/*
+ * Shruti Kaur
+ * ICH524
+ * 11339265
+ * */
+
 #include <rtthreads.h>
 #include <RttCommon.h>
 
@@ -79,7 +85,8 @@ bool Dequeue(Queue* queue, CharacterData* data, RttSem* mutex);
 int mainp(int argc, char* argv[]) {
     int local, remote;
     char* hostName;
-    RttThreadId kbThread, udpInThread, screenOutThread, udpTransThread, srvThread;
+    RttThreadId kbThread, udpInThread, screenOutThread, udpTransThread, 
+	srvThread;
 
     if (argc != ARGS) {
         LOG_ERROR("Incorrect number of arguments");
@@ -130,11 +137,11 @@ int mainp(int argc, char* argv[]) {
         LOG_ERROR("Failed to create UdpInputThread");
     }
     if (RttCreate(&screenOutThread, ScreenOutputThread, 0, 
-                 "ScreenOutputThread", NULL, RTTNODEADLINE, RTTHIGH) != RTTUSR) {
+                 "ScreenOutputThread", NULL, RTTNODEADLINE, RTTHIGH) != RTTUSR){
         LOG_ERROR("Failed to create ScreenOutputThread");
     }
     if (RttCreate(&udpTransThread, UdpTransmitThread, 0, 
-                 "UdpTransmitThread", NULL, RTTNODEADLINE, RTTHIGH) != RTTUSR) {
+                 "UdpTransmitThread", NULL, RTTNODEADLINE, RTTHIGH) != RTTUSR){
         LOG_ERROR("Failed to create UdpTransmitThread");
     }
     if (RttCreate(&srvThread, ServerThread, 0, "ServerThread", 
