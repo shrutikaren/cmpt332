@@ -32,8 +32,8 @@ typedef struct ConditionVariables{
 typedef struct Monitor{
 	int lock; // used as a mutex
 	int entrysem;	
-	Queue urgentq; /* Adding an urgent queue */
-	Queue enterq; /* Adding an enter queue */
+	LIST* urgentq; /* Adding an urgent queue */
+	LIST* enterq; /* Adding an enter queue */
 	ConditionVariables conVars[k];
 }Monitor;
 
