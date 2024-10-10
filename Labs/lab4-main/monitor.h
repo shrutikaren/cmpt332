@@ -46,4 +46,4 @@ void RttMonSignal(int);
 void RttMonWait(int);
 void MonServer();
 
-#endif //MONITOR_H
+#endif /* MONITOR_H */

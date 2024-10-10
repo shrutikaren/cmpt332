@@ -11,7 +11,7 @@
 #define k 5 /*picked an arbitarily number*/
 
 Monitor monitor;
-ConditionVariables conV[k];
+ConditionVariables condV[k];
 
 void RttMonInit(int numI){
 	monitor.enterq = ListCreate(); /*Create a list for the enter queue*/
@@ -21,7 +21,7 @@ void RttMonInit(int numI){
 	for (int i = 0; i < = numI; i ++){
 		condV[i].waitlist = ListCreate();
 	}		
-	return NULL;
+	
 }
 
 void RttMonEnter(){
@@ -31,25 +31,23 @@ void RttMonEnter(){
 		return;
 	}
 	ListAdd(enterq, rtt_thread);
-	return NULL;
 }
 
 void RttMonLeave(){
+	/* If monitor is busy */
 	if (monitor.lock == 0){
-		
+		/* Check if anything is inside urgentq */
+		/* Check if anything is inside enterq */
 	}
 	monitor.lock = 1; /* Returning it back to being unlocked */
-	return NULL;
 }
 
 void RttMonSignal(int numS){
-	return NULL;
 }
 
+
 void RttMonWait(int numW){
-	return NULL;
 }
 
 void MonServer(){
-	return NULL;
 }
