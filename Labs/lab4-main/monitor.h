@@ -16,6 +16,9 @@
 /* Picked an arbitarily number */
 #define k 5 
 
+/* Variable to run server. */
+#define RUN_SERVER 1
+
 /* Define constants for message types */
 #define ENTER_MSG 0
 #define LEAVE_MSG 1
