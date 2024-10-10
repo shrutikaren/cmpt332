@@ -48,3 +48,6 @@ $(OBJ_DIR)/ reader-writer-monitor.c: reader-writer-monitor.c \
 $(BIN_DIR)/monitor: $(OBJ_DIR)/monitor.o | $(BIN_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/monitor.o -L$(X86_64_RT_THREADS)\
 	-ltirpc -lRtt -lRttUtils -o $(BIN_DIR)/monitor
+
+monitor: $(BIN_DIR)/monitor
+	ln -sf $(BIN_DIR)/monitor monitor
