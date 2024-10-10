@@ -105,7 +105,7 @@ void MonServer() {
 
             case WAIT_MSG:
 		size = sizeof(cv);
-                RttReceive(&sender, &cv, size);
+                RttReceive(&sender, &cv, &size);
                 ListAppend(monitor.conVars[cv].waitlist, (void*)sender);
                 if (!ListIsEmpty(monitor.urgentq)) {
                     next = (RttThreadId)ListRemove(monitor.urgentq);
@@ -120,7 +120,7 @@ void MonServer() {
 
             case SIGNAL_MSG:
 		size = sizeof(cv);
-                RttReceive(&sender, &cv, size);
+                RttReceive(&sender, &cv, &size);
                 if (!ListIsEmpty(monitor.conVars[cv].waitlist)) {
                     next = (RttThreadId)ListRemove(monitor.conVars[cv].waitlist);
                     ListAppend(monitor.urgentq, (void*)sender);
