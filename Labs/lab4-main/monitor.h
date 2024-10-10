@@ -7,43 +7,39 @@
 #ifndef MONITOR_H
 #define MONITOR_H
 
-/*			Adding the default C library			     */
+/* Including necessary libraries */
 #include <stdio.h>
 #include <stdlib.h>
-
-/* 			Adding the RT threads library 			     */
 #include <rtthreads.h>
-#include <string.h> /* redundant code */
-#include <fcntl.h> /* redundant code */
-#include <errno.h> /* redundant code */
-#include <sys/types.h> /* redundant code */
-#include <sys/time.h> /* redundant code */
-#include <unistd.h> /* redundant code */
-
-/*			Adding our list files 				     */
 #include <list.h>
 
-/*				Typedef Structures			     */
-typedef struct ConditionVariables{
-	int semaphores;
-	LIST* waitlist;
+/* Define constants for message types */
+#define ENTER_MSG 0
+#define LEAVE_MSG 1
+#define WAIT_MSG 2
+#define SIGNAL_MSG 3
+
+/* Define a struct for Condition Variables */
+typedef struct ConditionVariables {
+    int semaphores;
+    LIST* waitlist;  /* List of threads waiting on this CV */
 } ConditionVariables;
 
-typedef struct Monitor{
-	int lock; // used as a mutex
-	int entrysem;	
-	LIST* urgentq; /* Adding an urgent queue */
-	LIST* enterq; /* Adding an enter queue */
-	ConditionVariables conVars[k];
-}Monitor;
+/* Define a struct for the Monitor */
+typedef struct Monitor {
+    int lock;           /* Used as a mutex */
+    int entrysem;       /* Semaphore for entry */
+    LIST* urgentq;      /* Urgent queue */
+    LIST* enterq;       /* Enter queue */
+    ConditionVariables conVars[k];  /* Array of condition variables */
+} Monitor;
 
-
-/*			Function prototypes 				     */
+/* Function prototypes */
 void RttMonInit();
 void RttMonEnter();
 void RttMonLeave();
-void RttMonSignal(int);
-void RttMonWait(int);
+void RttMonWait(int cv);
+void RttMonSignal(int cv);
 void MonServer();
 
-#endif /* MONITOR_H */
+#endif /* MONITOR_H */*/
