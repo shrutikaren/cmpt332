@@ -26,31 +26,35 @@ void RttMonInit() {
 
 /* RttMonEnter: Process enters the monitor */
 void RttMonEnter() {
-    int msgType = ENTER_MSG;
+    int msgType;
+    msgType = ENTER_MSG;
     RttSend(RttMyThreadId(), &msgType, sizeof(msgType), NULL, NULL);
 }
 
 /* RttMonLeave: Process leaves the monitor */
 void RttMonLeave() {
-    int msgType = LEAVE_MSG;
+    int msgType;
+    msgType = LEAVE_MSG;
     RttSend(RttMyThreadId(), &msgType, sizeof(msgType), NULL, NULL);
 }
 
 /* RttMonWait: Process waits on condition variable */
 void RttMonWait(int cv) {
+    int msgType;
     if (cv < 0 || cv >= k) {
         return;  /* Invalid condition variable index */
     }
-    int msgType = WAIT_MSG;
+    msgType = WAIT_MSG;
     RttSend(RttMyThreadId(), &msgType, sizeof(msgType), &cv, sizeof(cv));
 }
 
 /* RttMonSignal: Signal a waiting process on a condition variable */
 void RttMonSignal(int cv) {
+    int msgType;
     if (cv < 0 || cv >= k) {
         return;  /* Invalid condition variable index */
     }
-    int msgType = SIGNAL_MSG;
+    msgType = SIGNAL_MSG;
     RttSend(RttMyThreadId(), &msgType, sizeof(msgType), &cv, sizeof(cv));
 }
 
@@ -58,7 +62,7 @@ void RttMonSignal(int cv) {
 void MonServer() {
     while (1) {
         int msgType;
-        RttThreadId sender;
+        RttThreadId sender, next;
         int cv;
 
         /* Wait to receive a message */
@@ -80,11 +84,11 @@ void MonServer() {
             case LEAVE_MSG:
                 if (!ListIsEmpty(monitor.urgentq)) {
                     /* Reply to item in urgent queue */
-                    RttThreadId next = (RttThreadId)ListRemove(monitor.urgentq);
+                    next = (RttThreadId)ListRemove(monitor.urgentq);
                     RttReply(next, NULL, 0);
                 } else if (!ListIsEmpty(monitor.enterq)) {
                     /* Reply to item in enter queue */
-                    RttThreadId next = (RttThreadId)ListRemove(monitor.enterq);
+                    next = (RttThreadId)ListRemove(monitor.enterq);
                     RttReply(next, NULL, 0);
                 } else {
                     /* Monitor becomes unoccupied */
@@ -97,10 +101,10 @@ void MonServer() {
                 RttReceive(&sender, &cv, sizeof(cv));
                 ListAppend(monitor.conVars[cv].waitlist, (void*)sender);
                 if (!ListIsEmpty(monitor.urgentq)) {
-                    RttThreadId next = (RttThreadId)ListRemove(monitor.urgentq);
+                    next = (RttThreadId)ListRemove(monitor.urgentq);
                     RttReply(next, NULL, 0);
                 } else if (!ListIsEmpty(monitor.enterq)) {
-                    RttThreadId next = (RttThreadId)ListRemove(monitor.enterq);
+                    next = (RttThreadId)ListRemove(monitor.enterq);
                     RttReply(next, NULL, 0);
                 } else {
                     monitor.lock = 0;
@@ -110,7 +114,7 @@ void MonServer() {
             case SIGNAL_MSG:
                 RttReceive(&sender, &cv, sizeof(cv));
                 if (!ListIsEmpty(monitor.conVars[cv].waitlist)) {
-                    RttThreadId next = (RttThreadId)ListRemove(monitor.conVars[cv].waitlist);
+                    next = (RttThreadId)ListRemove(monitor.conVars[cv].waitlist);
                     ListAppend(monitor.urgentq, (void*)sender);
                     RttReply(next, NULL, 0);
                 } else {
