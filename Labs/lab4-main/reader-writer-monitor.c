@@ -20,7 +20,7 @@
 
 
 #include <monitor.h>
-
+#include <reader-writer-monitor.h> /* adding the header file */
 
 /* INITIALIZATION CODE */
 #define OKtoWrite 1
