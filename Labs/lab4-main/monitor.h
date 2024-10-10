@@ -13,6 +13,9 @@
 #include <rtthreads.h>
 #include <list.h>
 
+/* Picked an arbitarily number */
+#define k 5 
+
 /* Define constants for message types */
 #define ENTER_MSG 0
 #define LEAVE_MSG 1
@@ -42,4 +45,4 @@ void RttMonWait(int cv);
 void RttMonSignal(int cv);
 void MonServer();
 
-#endif /* MONITOR_H */*/
+#endif /* MONITOR_H */
