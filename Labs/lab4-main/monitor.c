@@ -1,8 +1,8 @@
 /*
-	Shruti Kaur
-	ICH524
-	11339265
-*/
+ * Shruti Kaur
+ * ich524
+ * 11339265
+ */
 
 #include "monitor.h"
 
