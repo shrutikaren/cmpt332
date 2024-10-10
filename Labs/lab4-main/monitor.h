@@ -27,14 +27,13 @@
 typedef struct ConditionVariables{
 	int semaphores;
 	LIST* waitlist;
-	Queue enterq; /* Adding an enter queue */
-	Queue urgentq; /* Adding an urgent queue */
 } ConditionVariables;
 
 typedef struct Monitor{
 	int lock; // used as a mutex
-	int entrysem;
-	LIST* entryList;
+	int entrysem;	
+	Queue urgentq; /* Adding an urgent queue */
+	Queue enterq; /* Adding an enter queue */
 	ConditionVariables conVars[k];
 }Monitor;
 

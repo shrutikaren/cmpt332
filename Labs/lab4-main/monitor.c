@@ -13,21 +13,22 @@ Monitor monitor;
 ConditionVariables conV[k];
 
 void RttMonInit(int numI){
-	
+	monitor.
+	return NULL;
 }
 
 void RttMonEnter(){
-	
+	return NULL;
 }
 
 void RttMonLeave(){
-
+	return NULL;
 }
 
 void RttMonSignal(int numS){
-
+	return NULL;
 }
 
 void MonServer(){
-
+	return NULL;
 }
