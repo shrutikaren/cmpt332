@@ -25,6 +25,14 @@
 #define WAIT_MSG 2
 #define SIGNAL_MSG 3
 
+/* Loggin Errors in our code. */
+
+#define LOG_ERROR(msg) do {                             \
+    fprintf(stderr, "Log [Error] - %s: %s at %s:%d\n",  \
+        msg, strerror(errno), __FILE__, __LINE__);      \
+    exit(EXIT_FAILURE);                                 \
+}while(0)
+
 /* Define a struct for Condition Variables */
 typedef struct ConditionVariables {
     int semaphores;
