@@ -11,13 +11,14 @@ Monitor monitor;
 
 /* RttMonInit: Initialize monitor */
 void RttMonInit() {
+    int i;
     monitor.lock = 0;
     monitor.entrysem = 0;
     monitor.urgentq = ListCreate();  /* Initialize the urgent queue */
     monitor.enterq = ListCreate();   /* Initialize the enter queue */
     
     /* Initialize condition variables */
-    for (int i = 0; i < k; ++i) {
+    for (i = 0; i < k; i++) {
         monitor.conVars[i].semaphores = 0;
         monitor.conVars[i].waitlist = ListCreate();
     }
