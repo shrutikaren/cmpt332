@@ -41,7 +41,7 @@ void RttMonLeave() {
 /* RttMonWait: Process waits on condition variable */
 void RttMonWait(int cv) {
     int msgType;
-    unsinged int size;
+    unsigned int size;
     if (cv < 0 || cv >= k) {
         return;  /* Invalid condition variable index */
     }
@@ -53,7 +53,7 @@ void RttMonWait(int cv) {
 /* RttMonSignal: Signal a waiting process on a condition variable */
 void RttMonSignal(int cv) {
     int msgType;
-    unsinged int size;
+    unsigned int size;
     if (cv < 0 || cv >= k) {
         return;  /* Invalid condition variable index */
     }
