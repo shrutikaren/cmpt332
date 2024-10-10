@@ -41,21 +41,25 @@ void RttMonLeave() {
 /* RttMonWait: Process waits on condition variable */
 void RttMonWait(int cv) {
     int msgType;
+    unsinged int size;
     if (cv < 0 || cv >= k) {
         return;  /* Invalid condition variable index */
     }
     msgType = WAIT_MSG;
-    RttSend(RttMyThreadId(), &msgType, sizeof(msgType), &cv, sizeof(cv));
+    size = sizeof(cv);
+    RttSend(RttMyThreadId(), &msgType, sizeof(msgType), &cv, &size);
 }
 
 /* RttMonSignal: Signal a waiting process on a condition variable */
 void RttMonSignal(int cv) {
     int msgType;
+    unsinged int size;
     if (cv < 0 || cv >= k) {
         return;  /* Invalid condition variable index */
     }
     msgType = SIGNAL_MSG;
-    RttSend(RttMyThreadId(), &msgType, sizeof(msgType), &cv, sizeof(cv));
+    size = sizeof(cv);
+    RttSend(RttMyThreadId(), &msgType, sizeof(msgType), &cv, &size);
 }
 
 /* MonServer: Monitor server handling messages and coordinating synchronization */
