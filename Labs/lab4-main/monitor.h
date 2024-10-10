@@ -27,6 +27,8 @@
 typedef struct ConditionVariables{
 	int semaphores;
 	LIST* waitlist;
+	Queue enterq; /* Adding an enter queue */
+	Queue urgentq; /* Adding an urgent queue */
 } ConditionVariables;
 
 typedef struct Monitor{
