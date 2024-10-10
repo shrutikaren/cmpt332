@@ -65,12 +65,13 @@ void RttMonSignal(int cv) {
 /* MonServer: Monitor server handling messages and coordinating synchronization */
 void MonServer() {
     while (1) {
-        int msgType;
+        int msgType, size;
         RttThreadId sender, next;
         int cv;
 
         /* Wait to receive a message */
-        RttReceive(&sender, &msgType, sizeof(msgType));
+	size = sizeof(msgType);
+        RttReceive(&sender, &msgType, &size);
 
         /* Use switch statement to handle different message types */
         switch (msgType) {
