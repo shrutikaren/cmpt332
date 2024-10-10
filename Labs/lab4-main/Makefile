@@ -3,7 +3,6 @@
 	ICH524
 	11339265
 */
-
 CC = gcc
 CFLAGS = -g
 CPPFLAGS = -Wall -pedantic -I. -std=gnu90 -Wextra
@@ -28,18 +27,18 @@ $(BIN_DIR):
 clean: 
 	rm -rf obj/ lib/ bin/ monitor
 
-$(OBJ_DIR)/ monitor.o: monitor.c monitor.h | $(OBJ_DIR)
+$(OBJ_DIR)/monitor.o: monitor.c monitor.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) monitor.c -o $(OBJ_DIR)/monitor.o
 
-$(OBJ_DIR)/ monitor.o: CPPFLAGS += -I$(HEADER_RT_THREADS)
+$(OBJ_DIR)/monitor.o: CPPFLAGS += -I$(HEADER_RT_THREADS)
 
-$(OBJ_DIR)/ reader-writer.o: reader-writer.c | $(OBJ_DIR)
+$(OBJ_DIR)/reader-writer.o: reader-writer.c | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) reader-writer.c -o \
 	$(OBJ_DIR)/reader-writer.o
 
 $(OBJ_DIR)/reader-writer.o: CPPFLAGS += -I$(HEADER_RT_THREADS)
 
-$(OBJ_DIR)/ reader-writer-monitor.c: reader-writer-monitor.c \
+$(OBJ_DIR)/reader-writer-monitor.c: reader-writer-monitor.c \
 			 reader-writer-monitor.h monitor.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) reader-writer-monitor.c -o \
 	$(OBJ_DIR)/reader-writer-monitor.o
