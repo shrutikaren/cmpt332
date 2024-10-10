@@ -35,7 +35,9 @@ void RttMonEnter(){
 }
 
 void RttMonLeave(){
-	if (
+	if (monitor.lock == 0){
+		
+	}
 	monitor.lock = 1; /* Returning it back to being unlocked */
 	return NULL;
 }
