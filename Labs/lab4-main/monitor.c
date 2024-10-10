@@ -13,7 +13,8 @@ Monitor monitor;
 ConditionVariables conV[k];
 
 void RttMonInit(int numI){
-	monitor.
+	monitor.enterq = ListCreate(); /*Create a list for the enter queue*/
+	
 	return NULL;
 }
 
@@ -26,6 +27,10 @@ void RttMonLeave(){
 }
 
 void RttMonSignal(int numS){
+	return NULL;
+}
+
+void RttMonWait(int numW){
 	return NULL;
 }
 

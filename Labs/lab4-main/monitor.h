@@ -43,6 +43,7 @@ void RttMonInit();
 void RttMonEnter();
 void RttMonLeave();
 void RttMonSignal(int);
+void RttMonWait(int);
 void MonServer();
 
 #endif //MONITOR_H
