@@ -65,7 +65,8 @@ void RttMonSignal(int cv) {
 /* MonServer: Monitor server handling messages and coordinating synchronization */
 void MonServer() {
     while (1) {
-        int msgType, size;
+        int msgType;
+	unsigned size;
         RttThreadId sender, next;
         int cv;
 
