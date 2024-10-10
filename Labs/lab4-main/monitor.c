@@ -42,8 +42,10 @@ void RttMonLeave() {
 void RttMonWait(int cv) {
     int msgType;
     unsigned int size;
+    
+    /* Invalid condition variable index */
     if (cv < 0 || cv >= k) {
-        return;  /* Invalid condition variable index */
+        return;
     }
     msgType = WAIT_MSG;
     size = sizeof(cv);
@@ -54,9 +56,12 @@ void RttMonWait(int cv) {
 void RttMonSignal(int cv) {
     int msgType;
     unsigned int size;
+    
+    /* Invalid condition variable index */
     if (cv < 0 || cv >= k) {
-        return;  /* Invalid condition variable index */
+        return; 
     }
+	
     msgType = SIGNAL_MSG;
     size = sizeof(cv);
     RttSend(RttMyThreadId(), &msgType, sizeof(msgType), &cv, &size);
@@ -74,7 +79,6 @@ void MonServer() {
 	size = sizeof(msgType);
         RttReceive(&sender, &msgType, &size);
 
-        /* Use switch statement to handle different message types */
         switch (msgType) {
             case ENTER_MSG:
                 if (monitor.lock) {
@@ -132,10 +136,9 @@ void MonServer() {
                 break;
 
             default:
-                /* Handle unknown message types (optional) */
+                /* Handle unknown message types */
                 RttReply(sender, NULL, 0);
                 break;
         }
     }
 }
-
