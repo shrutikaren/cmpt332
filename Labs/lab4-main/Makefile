@@ -7,11 +7,7 @@ HEADER_RT_THREADS = /student/cmpt332/include
 X86_64_RT_THREADS = /student/cmpt332/rtt/lib
 
 RTTINC = -I/student/cmpt332/rtt/include -I/usr/include/tirpc
-<<<<<<< HEAD
 RTTLIB1 = -L/student/cmpt332/rtt/lib/Linuxx86_64
-=======
-RTTLIB1 = -L/student/cmpt332/rtt/lib/Linuxx86_64 
->>>>>>> refs/remotes/origin/main
 RTTLIB2 = -lRtt -lRttUtils -L. -lMonitor -llist -ltirpc
 
 OBJ_DIR = obj
