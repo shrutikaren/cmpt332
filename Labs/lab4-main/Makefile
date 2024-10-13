@@ -14,6 +14,11 @@ OBJ_DIR = obj
 LIB_DIR = lib
 BIN_DIR = bin
 
+LIST_OBJS = \
+	$(OBJ_DIR)/list_adders.o \
+	$(OBJ_DIR)/list_movers.o \
+	$(OBJ_DIR)/list_removers.o
+
 target: $(BIN_DIR)/monitor
 all: $(target)
 
@@ -47,6 +52,17 @@ $(OBJ_DIR)/reader-writer-monitor.o: reader-writer-monitor.c \
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) $(RTTINC) \
 		-I$(HEADER_RT_THREADS) -o $(OBJ_DIR)/reader-writer-monitor.o \
 		reader-writer-monitor.c
+
+# compile objects for list
+$(OBJ_DIR)/list_adders.o : list_adders.c list.h | $(OBJ_DIR)
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) list_adders.c -o $(OBJ_DIR)/list_adders.o
+
+$(OBJ_DIR)/list_movers.o : list_movers.c list.h | $(OBJ_DIR)
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) list_movers.c -o $(OBJ_DIR)/list_movers.o
+
+$(OBJ_DIR)/list_removers.o : list_removers.c list.h | $(OBJ_DIR)
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) list_removers.c \
+		-o $(OBJ_DIR)/list_removers.o
 
 # Binary target rule
 $(BIN_DIR)/monitor: $(OBJ_DIR)/monitor.o | $(BIN_DIR)
