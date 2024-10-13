@@ -1,7 +1,3 @@
-# B
-# Shruti Kaur
-# ICH524
-# 11339265
 CC = gcc
 CFLAGS = -g
 CPPFLAGS = -std=gnu90 -Wall -pedantic -Wextra
@@ -10,13 +6,9 @@ INC = -I.
 HEADER_RT_THREADS = /student/cmpt332/include
 X86_64_RT_THREADS = /student/cmpt332/rtt/lib
 
-RTTINC = -I/student/cmpt332/rtt/include -I/usr/include/tirpc \
-	-I/student/cmpt332/rtt/src/rtt
-
+RTTINC = -I/student/cmpt332/rtt/include -I/usr/include/tirpc
 RTTLIB1 = -L/student/cmpt332/rtt/lib/Linuxx86_64
-RTTLIB2 = -lRtt -lRttUtils -L. -llist -ltirpc
-
-RTTSTART_PATH = /student/cmpt332/rtt/src/rtt/rttstart.c
+RTTLIB2 = -lRtt -lRttUtils -L. -lMonitor -llist -ltirpc
 
 OBJ_DIR = obj
 LIB_DIR = lib
@@ -44,18 +36,11 @@ clean:
 # Object file rules
 $(OBJ_DIR)/monitor.o: monitor.c monitor.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) $(RTTINC) \
-		-I$(HEADER_RT_THREADS) \
-		-o $(OBJ_DIR)/monitor.o monitor.c
+		-I$(HEADER_RT_THREADS) -o $(OBJ_DIR)/monitor.o monitor.c
 
 $(OBJ_DIR)/reader-writer.o: reader-writer.c | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) $(RTTINC) \
-		-I$(HEADER_RT_THREADS) -o $(OBJ_DIR)/reader-writer.o \
-		reader-writer.c
-
-#Compiling rttstart.c since it has the mainp() function 
-$(OBJ_DIR)/rttstart.o: $(RTTSTART_PATH) | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) $(RTTINC) -o \
-	$(OBJ_DIR)/rttstart.o $(RTTSTART_PATH)
+		-I$(HEADER_RT_THREADS) -o $(OBJ_DIR)/reader-writer.o reader-writer.c
 
 $(OBJ_DIR)/reader-writer-monitor.o: reader-writer-monitor.c \
 	reader-writer-monitor.h monitor.h | $(OBJ_DIR)
@@ -64,9 +49,9 @@ $(OBJ_DIR)/reader-writer-monitor.o: reader-writer-monitor.c \
 		reader-writer-monitor.c
 
 # Binary target rule
-$(BIN_DIR)/monitor: $(OBJ_DIR)/monitor.o $(OBJ_DIR)/rttstart.o | $(BIN_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/monitor.o $(OBJ_DIR)/rttstart.o \
-	$(RTTLIB1) $(RTTLIB2) -o $(BIN_DIR)/monitor
+$(BIN_DIR)/monitor: $(OBJ_DIR)/monitor.o | $(BIN_DIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/monitor.o $(RTTLIB1) \
+		$(RTTLIB2) -o $(BIN_DIR)/monitor
 
 # Symlink rule for monitor
 monitor: $(BIN_DIR)/monitor
