@@ -52,11 +52,6 @@ $(OBJ_DIR)/reader-writer.o: reader-writer.c | $(OBJ_DIR)
 		-I$(HEADER_RT_THREADS) -o $(OBJ_DIR)/reader-writer.o \
 		reader-writer.c
 
-#Compiling rttstart.c since it has the mainp() function 
-$(OBJ_DIR)/rttstart.o: $(RTTSTART_PATH) | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) $(RTTINC) -o \
-	$(OBJ_DIR)/rttstart.o $(RTTSTART_PATH)
-
 $(OBJ_DIR)/reader-writer-monitor.o: reader-writer-monitor.c \
 	reader-writer-monitor.h monitor.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) $(RTTINC) \
