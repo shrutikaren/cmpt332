@@ -40,8 +40,7 @@ $(OBJ_DIR)/monitor.o: monitor.c monitor.h | $(OBJ_DIR)
 
 $(OBJ_DIR)/reader-writer.o: reader-writer.c | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) $(RTTINC) \
-		-I$(HEADER_RT_THREADS) -o $(OBJ_DIR)/reader-writer.o \
-		reader-writer.c
+		-I$(HEADER_RT_THREADS) -o $(OBJ_DIR)/reader-writer.o reader-writer.c
 
 $(OBJ_DIR)/reader-writer-monitor.o: reader-writer-monitor.c \
 	reader-writer-monitor.h monitor.h | $(OBJ_DIR)
