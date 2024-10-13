@@ -69,8 +69,8 @@ $(LIB_DIR)/liblist.a : $(LIST_OBJS) | $(LIB_DIR)
 	ar rcs $(LIB_DIR)/liblist.a $(LIST_OBJS)
 
 # Binary target rule
-$(BIN_DIR)/monitor: $(OBJ_DIR)/monitor.o | $(BIN_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/monitor.o $(RTTLIB1) \
+$(BIN_DIR)/monitor: $(OBJ_DIR)/reader-writer.o  $(LIB_DIR)/liblist.a | $(BIN_DIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/reader-writer.o $(RTTLIB1) \
 		$(RTTLIB2) -o $(BIN_DIR)/monitor
 
 # Symlink rule for monitor
