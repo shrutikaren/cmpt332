@@ -1,0 +1,144 @@
+# Shruti Kaur
+# 11339265
+# ICH524
+commit e67bc0cc9cfeecedc1d885adc518e5a19d284da3
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 10 10:01:01 2024 -0600
+
+    going to add rttstart.o
+
+commit 36a379355f0d6b498c8809b2c1e464d31b5199f9
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 10 09:16:50 2024 -0600
+
+    add
+
+commit 3360965494049aac4f7663ba8d81703dfa77636c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 10 08:42:59 2024 -0600
+
+    adding this new directory here because the other directory was not letting 
+    me add files
+
+commit 8596bb3144550fd99668089fd63c7fe9ecd3863f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 10 08:22:53 2024 -0600
+
+    trying to add the makefile again and hoping that that the file size limit 
+    issue is resolved
+
+commit 2150e2732b44ff85bb75dc32cb850b42063e9fb1
+Merge: 47b2dd2 fdc8607
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 10 00:51:26 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+
+commit 47b2dd22a7009ed1379345eeca99bb567d21b850
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 22:52:38 2024 -0600
+
+    added makefile
+
+commit e079d6e3c51abae4ecefd435bc71f150d5d164bb
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 22:34:02 2024 -0600
+
+    updating makfile
+
+commit 1cb17c816cb29a03028f835448cb142f47a3ca14
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 22:28:36 2024 -0600
+
+    adding the makefile
+
+
+commit dc91dba4b8481f06f777f617bf6ecbaab5b787b4
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 21:06:56 2024 -0600
+
+    Update
+
+
+commit 087cf102f2f8e8b0269e59a6fc3e1f78d9ad574b
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 20:26:46 2024 -0600
+
+    adding two functions
+
+commit cb2e5ac01c3bf9eb7f67591b623d0731c4e974e7
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 20:21:43 2024 -0600
+
+    finished off the RttMonEnter() function
+
+commit 1efeecf2e608a12bb98a7b47f69589a25a75a17c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 19:56:17 2024 -0600
+
+    removing spaces
+
+commit ff6ef05a3907ab76e0d10baa16ffae222b1e1989
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 19:53:06 2024 -0600
+
+    added symbolic link
+
+commit bd208db8640f25270e425c87ccf160056b3a039c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 19:52:28 2024 -0600
+
+    adding the make file
+
+commit 911ffe21a2293cf300b40a3ac3ecfbc1480ce74c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 19:41:05 2024 -0600
+
+    adding the header file
+
+commit 30d4b36a04de7a0a8d20d4798e3c99337c4a78e6
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 19:38:59 2024 -0600
+
+    working on the makefile and removed off a  duplicated version of 
+    reader-writer.c
+
+commit e8fc07192282b25da8dcc23710e02148972796a3
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 19:15:28 2024 -0600
+
+    finished the RttMonInit() function
+
+commit 4cc1440e7e863f4d6a4a1b484f02ed68374d1fc6
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 18:54:19 2024 -0600
+
+    added the MonWait function into this
+
+commit 8ece6067f20fec3aea2f425b6fe2c96ebf66ebd7
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 18:44:00 2024 -0600
+
+    added the two queues to the monitor struct instead of the condition 
+    variable struct
+
+commit 00b80b54a377348dd11b046ed82060be3cfe66ec
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 18:40:51 2024 -0600
+
+    the header file has the struct for monitor with the enterq and urgentq
+
+commit 8e2d2a1098ad91836ec335e08ecba14f1bcec9c0
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 18:33:36 2024 -0600
+
+    adding the right files - previously had a file with underscores so I 
+    removed it to avoid any kinds of confusion
+
+commit f05bc99660efea116e53781652148e9743f94391
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 18:26:18 2024 -0600
+
+    adding functions in the c file and working my way through it
+
