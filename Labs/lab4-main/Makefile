@@ -64,6 +64,10 @@ $(OBJ_DIR)/list_removers.o : list_removers.c list.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) list_removers.c \
 		-o $(OBJ_DIR)/list_removers.o
 
+# library
+$(LIB_DIR)/liblist.a : $(LIST_OBJS) | $(LIB_DIR)
+	ar rcs $(LIB_DIR)/liblist.a $(LIST_OBJS)
+
 # Binary target rule
 $(BIN_DIR)/monitor: $(OBJ_DIR)/monitor.o | $(BIN_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/monitor.o $(RTTLIB1) \
