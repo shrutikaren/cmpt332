@@ -1,0 +1,13 @@
+Script started on 2024-10-13 20:36:59-06:00 [TERM="xterm-256color" TTY="/dev/pts/172" COLUMNS="83" LINES="45"]
+[?2004hich524@tux7:~/git_hub/cmpt332/Labs/lab5-main> make
+[?2004lmkdir -p obj
+gcc -c -std=gnu90 -Wall -pedantic -Wextra -g -I/student/cmpt332/pthreads sim.c -o obj/sim.o
+[01m[Ksim.c:16:10:[m[K [01;31m[Kfatal error: [m[Klist.h: No such file or directory
+   16 | #include [01;31m[K<list.h>[m[K /* Adding this list.h to our function header*/
+      |          [01;31m[K^~~~~~~~[m[K
+compilation terminated.
+make: *** [Makefile:43: obj/sim.o] Error 1
+[?2004hich524@tux7:~/git_hub/cmpt332/Labs/lab5-main> exit
+[?2004lexit
+
+Script done on 2024-10-13 20:37:03-06:00 [COMMAND_EXIT_CODE="2"]
