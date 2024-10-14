@@ -184,7 +184,7 @@ void process(void *arg) {
 int mainp(int argc, char **argv) {
     PID pid;
     char *name;
-    int i;
+    size_t i;
     struct proc *p;
 
     srand(0);
