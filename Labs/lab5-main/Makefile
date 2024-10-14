@@ -11,6 +11,10 @@ OBJ_DIR = obj
 LIB_DIR = lib
 BIN_DIR = bin
 
+UBC_PTHREAD_INCLUDE_DIR = /student/cmpt332/pthreads
+UBC_PTHREAD_DIR = /student/cmpt332/pthreads/lib
+UBC_COMPILER_FLAG = -DUSE_UBC_THREADS
+
 LIST_OBJS = \
 	$(OBJ_DIR)/list_adders.o \
 	$(OBJ_DIR)/list_movers.o \
@@ -37,7 +41,8 @@ clean:
 
 # Object file rules
 $(OBJ_DIR)/sim.o: sim.c | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) sim.c -o $(OBJ_DIR)/sim.o
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) -I$(UBC_PTHREAD_INCLUDE_DIR) \
+	sim.c -o $(OBJ_DIR)/sim.o
 
 # compile objects for list
 $(OBJ_DIR)/list_adders.o : list_adders.c list.h | $(OBJ_DIR)
@@ -55,8 +60,9 @@ $(LIB_DIR)/liblist.a : $(LIST_OBJS) | $(LIB_DIR)
 	ar rcs $(LIB_DIR)/liblist.a $(LIST_OBJS)
 
 # Binary target rule
-$(BIN_DIR)/sim: $(OBJ_DIR)/sim.o  $(LIB_DIR)/liblist.a | $(BIN_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/sim.o -llist -o $(BIN_DIR)/sim
+$(BIN_DIR)/sim: $(OBJ_DIR)/sim.o  $(LIB_DIR)/liblist.a $(UBC_PTHREAD_DIR)/libpthreads.a| $(BIN_DIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(UBC_COMPILER_FLAG) $(OBJ_DIR)/sim.o \
+	-L$(UBC_PTHREAD_DIR) -lpthreads -llist -o $(BIN_DIR)/sim
 
 # Symlink rule for monitor
 sim: $(BIN_DIR)/sim
