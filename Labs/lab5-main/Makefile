@@ -3,9 +3,13 @@
 # ich524
 # 11339265
 #
+
 CC = gcc
 CFLAGS = -g
 CPPFLAGS = -std=gnu90 -Wall -pedantic -Wextra
+
+ARCH = $(shell uname -m)
+OS := $(shell uname -s)
 
 INC = -I.
 OBJ_DIR = obj
@@ -13,7 +17,7 @@ LIB_DIR = lib
 BIN_DIR = bin
 
 UBC_PTHREAD_INCLUDE_DIR = /student/cmpt332/pthreads
-UBC_PTHREAD_DIR = /student/cmpt332/pthreads/lib
+UBC_PTHREAD_DIR = /student/cmpt332/pthreads/lib/$(OS)$(ARCH)
 UBC_COMPILER_FLAG = -DUSE_UBC_THREADS
 
 LIST_OBJS = \
@@ -21,7 +25,7 @@ LIST_OBJS = \
 	$(OBJ_DIR)/list_movers.o \
 	$(OBJ_DIR)/list_removers.o
 
-all: $(BIN_DIR)/sim
+all: sim
 
 .PHONY: all clean
 
