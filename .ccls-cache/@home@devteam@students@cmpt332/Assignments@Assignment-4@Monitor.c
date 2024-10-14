@@ -9,7 +9,7 @@
 
 static Monitor mon;
 
-/* CMPT 332 GROUP 34 Change, Fall 2024 */
+/* CMPT 332 GROUP  Change, Fall 2024 */
 /* Phase 1 */
 
 /**
@@ -49,9 +49,8 @@ void MonInit(){
         if(mon.conVars[i].waitList == NULL){
             LOG_ERROR("Failed to create semaphore for cv's MonInit.");
         }
-
     }
-
+    return NULL;
 }
 
 void MonEnter(){
@@ -69,7 +68,7 @@ void MonEnter(){
     /* TODO: Acquire the mutex */
 
     /* TODO: Remove self from the entryList */
-
+    return NULL;
 }
 
 void MonLeave(){
@@ -79,7 +78,7 @@ void MonLeave(){
     /* Signal the next thread waiting to enter the monitor */
 
     /* If threads waiting to enter release the mutex */
-
+    return NULL;
 }
 
 void MonWait(int var){
@@ -95,7 +94,7 @@ void MonWait(int var){
     /* Wait on the condition variable's semaphore */ 
 
     /* Re-acquire the mutex after being signaled */
-
+    return NULL;
 }
 
 void MonSignal(int var){
@@ -109,5 +108,5 @@ void MonSignal(int var){
     /* Remove the first thread from the condition variable's waitList. */ 
 
     /* Signal the cv's semaphore to wake up the waiting thread */
-
+    return NULL;
 }
