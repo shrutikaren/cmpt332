@@ -17,4 +17,4 @@ void StartRead(void);
 void StopRead(void);
 void StartWrite(void);
 void StopWrite(void);
-#endif // READER_WRITER_MONITOR_H
+#endif /* READER_WRITER_MONITOR_H */
