@@ -1,0 +1,2 @@
+gcc -std=gnu90 -Wall -pedantic -Wextra -g obj/reader-writer.o -L/student/cmpt332/rtt/lib/Linuxx86_64 \
+	-lRtt -lRttUtils -L. -lMonitor -llist -ltirpc -Llib -llist -lMonitor -o bin/monitor
