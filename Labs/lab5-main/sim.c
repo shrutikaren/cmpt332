@@ -232,7 +232,7 @@ int mainp(int argc, char **argv) {
         if (name == NULL) {
             panic("Unable to allocate memory for name");
         }
-        sprintf(name, "process_%d", i);
+        sprintf(name, "process_%ld", i);
 
         pid = Create(process, 4096, name, name, NORM, USR);
         if (pid == PNUL) {
