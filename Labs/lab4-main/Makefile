@@ -64,14 +64,19 @@ $(OBJ_DIR)/list_removers.o : list_removers.c list.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) list_removers.c \
 		-o $(OBJ_DIR)/list_removers.o
 
-# Library rule
+# Library rule for list
 $(LIB_DIR)/liblist.a : $(LIST_OBJS) | $(LIB_DIR)
 	ar rcs $(LIB_DIR)/liblist.a $(LIST_OBJS)
 
+# Library rule for monitor
+$(LIB_DIR)/libMonitor.a: $(OBJ_DIR)/monitor.o | $(LIB_DIR)
+	ar -rs $(LIB_DIR)/libMonitor.a $(OBJ_DIR)/monitor.o
+	ranlib $(LIB_DIR)/libMonitor.a
+
 # Binary target rule
-$(BIN_DIR)/monitor: $(OBJ_DIR)/reader-writer.o $(LIB_DIR)/liblist.a | $(BIN_DIR)
+$(BIN_DIR)/monitor: $(OBJ_DIR)/reader-writer.o $(LIB_DIR)/liblist.a $(LIB_DIR)/libMonitor.a | $(BIN_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/reader-writer.o $(RTTLIB1) \
-		$(RTTLIB2) -L$(LIB_DIR) -llist -o $(BIN_DIR)/monitor
+		$(RTTLIB2) -L$(LIB_DIR) -llist -lMonitor -o $(BIN_DIR)/monitor
 
 # Symlink rule
 monitor: $(BIN_DIR)/monitor
