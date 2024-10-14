@@ -1,3 +1,8 @@
+#
+ # Shruti Kaur
+ # ich524
+ # 11339265
+ #
 CC = gcc
 CFLAGS = -g
 CPPFLAGS = -std=gnu90 -Wall -pedantic -Wextra
