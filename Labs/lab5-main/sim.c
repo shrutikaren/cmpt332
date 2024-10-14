@@ -13,6 +13,7 @@
 #include <stdio.h>
 
 #include <os.h>
+#include <list.h> /* Adding this list.h to our function header*/
 
 #define SCHEDULER_QUANTUM 25
 
@@ -86,7 +87,10 @@ void scheduler(void *arg) {
 void set_state(enum pstate state) {
     PID pid;
     struct proc *p;
-
+    
+    /* Creating a queue to add it into our running queue */
+    LIST_HANDLE runningq = ListCreate();
+ 
     pid = MyPid();
 
     if (state == RUNNING && pid != scheduler_pid)
@@ -105,7 +109,8 @@ void set_state(enum pstate state) {
         }
 
         if (state == RUNNABLE) {
-            /* TODO: add to runnable queue */
+            /* Adding it to the runnable queue */
+	    ListAdd(runningq, *state); 
         }
 
         p->state = state;
