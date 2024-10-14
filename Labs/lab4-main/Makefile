@@ -19,8 +19,8 @@ LIST_OBJS = \
 	$(OBJ_DIR)/list_movers.o \
 	$(OBJ_DIR)/list_removers.o
 
-target: $(BIN_DIR)/monitor
-all: $(target)
+# Final target
+all: monitor
 
 .PHONY: all clean
 
@@ -53,7 +53,7 @@ $(OBJ_DIR)/reader-writer-monitor.o: reader-writer-monitor.c \
 		-I$(HEADER_RT_THREADS) -o $(OBJ_DIR)/reader-writer-monitor.o \
 		reader-writer-monitor.c
 
-# compile objects for list
+# Compile objects for list
 $(OBJ_DIR)/list_adders.o : list_adders.c list.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) list_adders.c -o $(OBJ_DIR)/list_adders.o
 
@@ -64,15 +64,15 @@ $(OBJ_DIR)/list_removers.o : list_removers.c list.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) list_removers.c \
 		-o $(OBJ_DIR)/list_removers.o
 
-# library
+# Library rule
 $(LIB_DIR)/liblist.a : $(LIST_OBJS) | $(LIB_DIR)
 	ar rcs $(LIB_DIR)/liblist.a $(LIST_OBJS)
 
 # Binary target rule
-$(BIN_DIR)/monitor: $(OBJ_DIR)/reader-writer.o  $(LIB_DIR)/liblist.a | $(BIN_DIR)
+$(BIN_DIR)/monitor: $(OBJ_DIR)/reader-writer.o $(LIB_DIR)/liblist.a | $(BIN_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/reader-writer.o $(RTTLIB1) \
-		$(RTTLIB2) -llist -o $(BIN_DIR)/monitor
+		$(RTTLIB2) -L$(LIB_DIR) -llist -o $(BIN_DIR)/monitor
 
-# Symlink rule for monitor
+# Symlink rule
 monitor: $(BIN_DIR)/monitor
 	ln -sf $(BIN_DIR)/monitor monitor
