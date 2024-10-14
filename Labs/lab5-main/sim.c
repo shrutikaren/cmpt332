@@ -60,12 +60,16 @@ struct proc *next_proc() {
 
     /* Go through priority queues starting from the highest priority */
     for (priority = 0; priority < NUM_PRIORITIES; priority++) {
-        p = ListFirst(runningq[priority]); 
-        while (p != NULL) {
+        if (runningq[priority] == 0) {
+            printf("Error: runningq[%d] is NULL or invalid\n", priority);
+            continue; 
+        }
+        p = ListFirst(runningq[priority]);
+        while (p != NULL) {  
             if (p->state == RUNNABLE) {
-                return p;
+                return p;  
             }
-            p = ListNext(runningq[priority]); 
+            p = ListNext(runningq[priority]);
         }
     }
     return NULL;  /* No runnable process found */
@@ -213,7 +217,10 @@ int mainp(int argc, char **argv) {
 
     /* Initialize priority queues */
     for (i = 0; i < NUM_PRIORITIES; i++) {
-        runningq[i] = ListCreate();
+        runningq[i] = ListCreate(); 
+        if (runningq[i] == 0) { 
+            panic("Failed to create list for priority queue!");
+        }
     }
 
     ptable.running = 0;
