@@ -116,7 +116,9 @@ void set_state(enum pstate state) {
 
         if (state == RUNNABLE) {
             /* Add to the runnable queue by priority */
+	    printf("Adding proccess to queue!");
             ListAdd(runningq[p->priority], p);
+
         }
 
         p->state = state;
