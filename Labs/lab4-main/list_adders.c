@@ -4,7 +4,7 @@
 	11339265
 */
 #include <stdlib.h>
-#include <list.h>
+#include "list.h"
 
 #define MIN_LISTS 2
 #define MIN_NODES 2
