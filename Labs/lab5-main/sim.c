@@ -20,6 +20,7 @@
 #define BLOCK_MAXIMUM 50
 #define BLOCK_CHANCE 3
 #define WORK_MAXIMUM 50
+#define NUM_PRIORITIES 5
 
 void panic(const char *msg) {
     fprintf(stderr, "[PANIC] %s\n", msg);
@@ -49,21 +50,28 @@ static struct {
 
 static PID scheduler_pid;
 
+/* Queue for different priorities */
+LIST_HANDLE runningq[NUM_PRIORITIES];
+
 /* Returns the next process to run or NULL if there is nothing runnable */
 struct proc *next_proc() {
     struct proc *p;
+    int priority;
 
-    /* TODO: reimplement as a priority scheduler */
-    for (p = ptable.procs; p < &ptable.procs[ptable.size]; p++) {
-        if (p->state != RUNNABLE) continue;
-        return p;
+    /* Go through priority queues starting from the highest priority */
+    for (priority = 0; priority < NUM_PRIORITIES; priority++) {
+        while ((p = ListFirst(runningq[priority]))) {
+            if (p->state == RUNNABLE) {
+                return p;
+            }
+        }
     }
-
     return NULL;
 }
 
-/* Scheduler entrypoint */
+/* Scheduler entry point */
 void scheduler(void *arg) {
+    (void)arg; /* Suppress unused parameter warning */
     struct proc *p;
 
     for (;;) {
@@ -87,10 +95,6 @@ void scheduler(void *arg) {
 void set_state(enum pstate state) {
     PID pid;
     struct proc *p;
-    
-    /* Creating a queue to add it into our running queue */
-    LIST_HANDLE runningq = ListCreate();
- 
     pid = MyPid();
 
     if (state == RUNNING && pid != scheduler_pid)
@@ -101,19 +105,17 @@ void set_state(enum pstate state) {
     for (p = ptable.procs; p < &ptable.procs[ptable.size]; p++) {
         if (p->pid != pid) continue;
 
-        /* Don't do anything because it's not going to change... */
+        /* Don't do anything if it's the same state */
         if (p->state == state) break;
 
+        /* If the process was running, decrease the running count */
         if (p->state == RUNNING) {
             ptable.running -= 1;
         }
 
         if (state == RUNNABLE) {
-            /* Adding it to the runnable queue */
-	    int priority = p->priority;
-
-	    /* Adding the process in the list*/
-	    ListAdd(runningq[priority], ptable.procs); 
+            /* Add to the runnable queue by priority */
+            ListAdd(runningq[p->priority], p);
         }
 
         p->state = state;
@@ -159,7 +161,7 @@ void block(unsigned int time) {
 
 /* Process entry point */
 void process(void *arg) {
-    char *name = (char *) arg;
+    char *name = (char *)arg;
 
     set_state(RUNNABLE);
     /* We need to wait for the scheduler to let us start. */
@@ -178,6 +180,7 @@ void process(void *arg) {
     }
 }
 
+/* Main function */
 int mainp(int argc, char **argv) {
     PID pid;
     char *name;
@@ -203,8 +206,13 @@ int mainp(int argc, char **argv) {
         exit(1);
     }
 
+    /* Initialize priority queues */
+    for (i = 0; i < NUM_PRIORITIES; i++) {
+        runningq[i] = ListCreate();
+    }
+
     ptable.running = 0;
-    ptable.procs = calloc(sizeof(struct proc), ptable.size);
+    ptable.procs = calloc(ptable.size, sizeof(struct proc));
     if (ptable.procs == NULL) {
         panic("Unable to allocate ptable.");
     }
@@ -234,7 +242,7 @@ int mainp(int argc, char **argv) {
         p = &ptable.procs[i];
         p->pid = pid;
         p->state = NONE;
-        p->priority = rand() % 5;
+        p->priority = rand() % NUM_PRIORITIES;
     }
 
     return 0;
