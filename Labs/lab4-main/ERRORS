@@ -1,2 +1,113 @@
-gcc -std=gnu90 -Wall -pedantic -Wextra -g obj/reader-writer.o -L/student/cmpt332/rtt/lib/Linuxx86_64 \
-	-lRtt -lRttUtils -L. -lMonitor -llist -ltirpc -Llib -llist -lMonitor -o bin/monitor
+Script started on 2024-10-13 19:52:44-06:00 [TERM="xterm-256color" TTY="/dev/pts/172" COLUMNS="170" LINES="45"]
+[?2004hich524@tux7:~/git_hub/cmpt332/Labs/lab4-main> make
+[?2004lmkdir -p obj
+gcc -c -std=gnu90 -Wall -pedantic -Wextra -g -I. -I/student/cmpt332/rtt/include -I/usr/include/tirpc \
+	-I/student/cmpt332/include -o obj/reader-writer.o reader-writer.c
+gcc -c -std=gnu90 -Wall -pedantic -Wextra -g -I. -I/student/cmpt332/rtt/include -I/usr/include/tirpc \
+	-I/student/cmpt332/include -o obj/monitor.o monitor.c
+[01m[Kmonitor.c:[m[K In function ‘[01m[KRttMonInit[m[K’:
+[01m[Kmonitor.c:17:21:[m[K [01;35m[Kwarning: [m[Kassignment to ‘[01m[KLIST *[m[K’ {aka ‘[01m[Kstruct list *[m[K’} from ‘[01m[KLIST_HANDLE[m[K’ {aka ‘[01m[Kunsigned int[m[K’} makes pointer from integer without a cast [[01;35m[K-Wint-conversion[m[K]
+   17 |     monitor.urgentq [01;35m[K=[m[K ListCreate();  /* Initialize the urgent queue */
+      |                     [01;35m[K^[m[K
+[01m[Kmonitor.c:18:20:[m[K [01;35m[Kwarning: [m[Kassignment to ‘[01m[KLIST *[m[K’ {aka ‘[01m[Kstruct list *[m[K’} from ‘[01m[KLIST_HANDLE[m[K’ {aka ‘[01m[Kunsigned int[m[K’} makes pointer from integer without a cast [[01;35m[K-Wint-conversion[m[K]
+   18 |     monitor.enterq [01;35m[K=[m[K ListCreate();   /* Initialize the enter queue */
+      |                    [01;35m[K^[m[K
+[01m[Kmonitor.c:23:37:[m[K [01;35m[Kwarning: [m[Kassignment to ‘[01m[KLIST *[m[K’ {aka ‘[01m[Kstruct list *[m[K’} from ‘[01m[KLIST_HANDLE[m[K’ {aka ‘[01m[Kunsigned int[m[K’} makes pointer from integer without a cast [[01;35m[K-Wint-conversion[m[K]
+   23 |         monitor.conVars[i].waitlist [01;35m[K=[m[K ListCreate();
+      |                                     [01;35m[K^[m[K
+[01m[Kmonitor.c:[m[K In function ‘[01m[KMonServer[m[K’:
+[01m[Kmonitor.c:87:39:[m[K [01;35m[Kwarning: [m[Kpassing argument 1 of ‘[01m[KListAppend[m[K’ makes integer from pointer without a cast [[01;35m[K-Wint-conversion[m[K]
+   87 |                     ListAppend([01;35m[Kmonitor.enterq[m[K, (void*)&sender);
+      |                                [01;35m[K~~~~~~~^~~~~~~[m[K
+      |                                       [01;35m[K|[m[K
+      |                                       [01;35m[KLIST * {aka struct list *}[m[K
+In file included from [01m[Kmonitor.h:14[m[K,
+                 from [01m[Kmonitor.c:7[m[K:
+[01m[K./list.h:38:28:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[KLIST_HANDLE[m[K’ {aka ‘[01m[Kunsigned int[m[K’} but argument is of type ‘[01m[KLIST *[m[K’ {aka ‘[01m[Kstruct list *[m[K’}
+   38 | int ListAppend([01;36m[KLIST_HANDLE list[m[K, void *item);
+      |                [01;36m[K~~~~~~~~~~~~^~~~[m[K
+[01m[Kmonitor.c:98:60:[m[K [01;35m[Kwarning: [m[Kpassing argument 1 of ‘[01m[KListRemove[m[K’ makes integer from pointer without a cast [[01;35m[K-Wint-conversion[m[K]
+   98 |                     next = (RttThreadId*)ListRemove([01;35m[Kmonitor.urgentq[m[K);
+      |                                                     [01;35m[K~~~~~~~^~~~~~~~[m[K
+      |                                                            [01;35m[K|[m[K
+      |                                                            [01;35m[KLIST * {aka struct list *}[m[K
+[01m[K./list.h:40:30:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[KLIST_HANDLE[m[K’ {aka ‘[01m[Kunsigned int[m[K’} but argument is of type ‘[01m[KLIST *[m[K’ {aka ‘[01m[Kstruct list *[m[K’}
+   40 | void *ListRemove([01;36m[KLIST_HANDLE list[m[K);
+      |                  [01;36m[K~~~~~~~~~~~~^~~~[m[K
+[01m[Kmonitor.c:102:60:[m[K [01;35m[Kwarning: [m[Kpassing argument 1 of ‘[01m[KListRemove[m[K’ makes integer from pointer without a cast [[01;35m[K-Wint-conversion[m[K]
+  102 |                     next = (RttThreadId*)ListRemove([01;35m[Kmonitor.enterq[m[K);
+      |                                                     [01;35m[K~~~~~~~^~~~~~~[m[K
+      |                                                            [01;35m[K|[m[K
+      |                                                            [01;35m[KLIST * {aka struct list *}[m[K
+[01m[K./list.h:40:30:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[KLIST_HANDLE[m[K’ {aka ‘[01m[Kunsigned int[m[K’} but argument is of type ‘[01m[KLIST *[m[K’ {aka ‘[01m[Kstruct list *[m[K’}
+   40 | void *ListRemove([01;36m[KLIST_HANDLE list[m[K);
+      |                  [01;36m[K~~~~~~~~~~~~^~~~[m[K
+[01m[Kmonitor.c:114:47:[m[K [01;35m[Kwarning: [m[Kpassing argument 1 of ‘[01m[KListAppend[m[K’ makes integer from pointer without a cast [[01;35m[K-Wint-conversion[m[K]
+  114 |                 ListAppend([01;35m[Kmonitor.conVars[cv].waitlist[m[K, (void*)&sender);
+      |                            [01;35m[K~~~~~~~~~~~~~~~~~~~^~~~~~~~~[m[K
+      |                                               [01;35m[K|[m[K
+      |                                               [01;35m[KLIST * {aka struct list *}[m[K
+[01m[K./list.h:38:28:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[KLIST_HANDLE[m[K’ {aka ‘[01m[Kunsigned int[m[K’} but argument is of type ‘[01m[KLIST *[m[K’ {aka ‘[01m[Kstruct list *[m[K’}
+   38 | int ListAppend([01;36m[KLIST_HANDLE list[m[K, void *item);
+      |                [01;36m[K~~~~~~~~~~~~^~~~[m[K
+[01m[Kmonitor.c:116:60:[m[K [01;35m[Kwarning: [m[Kpassing argument 1 of ‘[01m[KListRemove[m[K’ makes integer from pointer without a cast [[01;35m[K-Wint-conversion[m[K]
+  116 |                     next = (RttThreadId*)ListRemove([01;35m[Kmonitor.urgentq[m[K);
+      |                                                     [01;35m[K~~~~~~~^~~~~~~~[m[K
+      |                                                            [01;35m[K|[m[K
+      |                                                            [01;35m[KLIST * {aka struct list *}[m[K
+[01m[K./list.h:40:30:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[KLIST_HANDLE[m[K’ {aka ‘[01m[Kunsigned int[m[K’} but argument is of type ‘[01m[KLIST *[m[K’ {aka ‘[01m[Kstruct list *[m[K’}
+   40 | void *ListRemove([01;36m[KLIST_HANDLE list[m[K);
+      |                  [01;36m[K~~~~~~~~~~~~^~~~[m[K
+[01m[Kmonitor.c:119:60:[m[K [01;35m[Kwarning: [m[Kpassing argument 1 of ‘[01m[KListRemove[m[K’ makes integer from pointer without a cast [[01;35m[K-Wint-conversion[m[K]
+  119 |                     next = (RttThreadId*)ListRemove([01;35m[Kmonitor.enterq[m[K);
+      |                                                     [01;35m[K~~~~~~~^~~~~~~[m[K
+      |                                                            [01;35m[K|[m[K
+      |                                                            [01;35m[KLIST * {aka struct list *}[m[K
+[01m[K./list.h:40:30:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[KLIST_HANDLE[m[K’ {aka ‘[01m[Kunsigned int[m[K’} but argument is of type ‘[01m[KLIST *[m[K’ {aka ‘[01m[Kstruct list *[m[K’}
+   40 | void *ListRemove([01;36m[KLIST_HANDLE list[m[K);
+      |                  [01;36m[K~~~~~~~~~~~~^~~~[m[K
+[01m[Kmonitor.c:131:69:[m[K [01;35m[Kwarning: [m[Kpassing argument 1 of ‘[01m[KListRemove[m[K’ makes integer from pointer without a cast [[01;35m[K-Wint-conversion[m[K]
+  131 |                                                 ([01;35m[Kmonitor.conVars[cv].waitlist[m[K);
+      |                                                  [01;35m[K~~~~~~~~~~~~~~~~~~~^~~~~~~~~[m[K
+      |                                                                     [01;35m[K|[m[K
+      |                                                                     [01;35m[KLIST * {aka struct list *}[m[K
+[01m[K./list.h:40:30:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[KLIST_HANDLE[m[K’ {aka ‘[01m[Kunsigned int[m[K’} but argument is of type ‘[01m[KLIST *[m[K’ {aka ‘[01m[Kstruct list *[m[K’}
+   40 | void *ListRemove([01;36m[KLIST_HANDLE list[m[K);
+      |                  [01;36m[K~~~~~~~~~~~~^~~~[m[K
+[01m[Kmonitor.c:132:39:[m[K [01;35m[Kwarning: [m[Kpassing argument 1 of ‘[01m[KListAppend[m[K’ makes integer from pointer without a cast [[01;35m[K-Wint-conversion[m[K]
+  132 |                     ListAppend([01;35m[Kmonitor.urgentq[m[K, (void*)&sender);
+      |                                [01;35m[K~~~~~~~^~~~~~~~[m[K
+      |                                       [01;35m[K|[m[K
+      |                                       [01;35m[KLIST * {aka struct list *}[m[K
+[01m[K./list.h:38:28:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[KLIST_HANDLE[m[K’ {aka ‘[01m[Kunsigned int[m[K’} but argument is of type ‘[01m[KLIST *[m[K’ {aka ‘[01m[Kstruct list *[m[K’}
+   38 | int ListAppend([01;36m[KLIST_HANDLE list[m[K, void *item);
+      |                [01;36m[K~~~~~~~~~~~~^~~~[m[K
+[01m[Kmonitor.c:135:39:[m[K [01;35m[Kwarning: [m[Kpassing argument 1 of ‘[01m[KListAppend[m[K’ makes integer from pointer without a cast [[01;35m[K-Wint-conversion[m[K]
+  135 |                     ListAppend([01;35m[Kmonitor.urgentq[m[K, (void*)&sender);
+      |                                [01;35m[K~~~~~~~^~~~~~~~[m[K
+      |                                       [01;35m[K|[m[K
+      |                                       [01;35m[KLIST * {aka struct list *}[m[K
+[01m[K./list.h:38:28:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[KLIST_HANDLE[m[K’ {aka ‘[01m[Kunsigned int[m[K’} but argument is of type ‘[01m[KLIST *[m[K’ {aka ‘[01m[Kstruct list *[m[K’}
+   38 | int ListAppend([01;36m[KLIST_HANDLE list[m[K, void *item);
+      |                [01;36m[K~~~~~~~~~~~~^~~~[m[K
+gcc -c -std=gnu90 -Wall -pedantic -Wextra -g -I. -I/student/cmpt332/rtt/include -I/usr/include/tirpc \
+	-I/student/cmpt332/include -o obj/reader-writer-monitor.o \
+	reader-writer-monitor.c
+gcc -c -std=gnu90 -Wall -pedantic -Wextra -g -I. list_adders.c -o obj/list_adders.o
+gcc -c -std=gnu90 -Wall -pedantic -Wextra -g -I. list_movers.c -o obj/list_movers.o
+gcc -c -std=gnu90 -Wall -pedantic -Wextra -g -I. list_removers.c \
+	-o obj/list_removers.o
+mkdir -p lib
+ar rcs lib/liblist.a obj/list_adders.o obj/list_movers.o obj/list_removers.o
+ar -rs lib/libMonitor.a obj/monitor.o
+ar: creating lib/libMonitor.a
+ranlib lib/libMonitor.a
+mkdir -p bin
+gcc -std=gnu90 -Wall -pedantic -Wextra -g obj/reader-writer.o \
+    obj/monitor.o obj/reader-writer-monitor.o -L/student/cmpt332/rtt/lib/Linuxx86_64 \
+    -lRtt -lRttUtils -L. -lMonitor -llist -ltirpc -Llib -llist -lMonitor -o bin/monitor
+ln -sf bin/monitor monitor
+[?2004hich524@tux7:~/git_hub/cmpt332/Labs/lab4-main> exit
+[?2004lexit
+
+Script done on 2024-10-13 19:52:50-06:00 [COMMAND_EXIT_CODE="0"]
