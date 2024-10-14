@@ -13,7 +13,7 @@
 #include <rtthreads.h>
 #include <list.h>
 
-/* Picked an arbitarily number */
+/* Picked an arbitrary number */
 #define k 5 
 
 /* Variable to run server. */
@@ -25,8 +25,7 @@
 #define WAIT_MSG 2
 #define SIGNAL_MSG 3
 
-/* Loggin Errors in our code. */
-
+/* Logging Errors in our code. */
 #define LOG_ERROR(msg) do {                             \
     fprintf(stderr, "Log [Error] - %s: %s at %s:%d\n",  \
         msg, strerror(errno), __FILE__, __LINE__);      \
@@ -36,15 +35,15 @@
 /* Define a struct for Condition Variables */
 typedef struct ConditionVariables {
     int semaphores;
-    LIST* waitlist;  /* List of threads waiting on this CV */
+    LIST_HANDLE waitlist;  /* List handle for threads waiting on this CV */
 } ConditionVariables;
 
 /* Define a struct for the Monitor */
 typedef struct Monitor {
-    int lock;           /* Used as a mutex */
-    int entrysem;       /* Semaphore for entry */
-    LIST* urgentq;      /* Urgent queue */
-    LIST* enterq;       /* Enter queue */
+    int lock;           /* Used as a mutex (could be RttSemaphore) */
+    int entrysem;       /* Semaphore for entry (could be RttSemaphore) */
+    LIST_HANDLE urgentq; /* Urgent queue */
+    LIST_HANDLE enterq;  /* Enter queue */
     ConditionVariables conVars[k];  /* Array of condition variables */
 } Monitor;
 
