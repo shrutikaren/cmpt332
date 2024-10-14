@@ -62,7 +62,7 @@ $(LIB_DIR)/liblist.a : $(LIST_OBJS) | $(LIB_DIR)
 # Binary target rule
 $(BIN_DIR)/sim: $(OBJ_DIR)/sim.o  $(LIB_DIR)/liblist.a $(UBC_PTHREAD_DIR)/libpthreads.a| $(BIN_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(UBC_COMPILER_FLAG) $(OBJ_DIR)/sim.o \
-	-L$(UBC_PTHREAD_DIR) -lpthreads -llist -o $(BIN_DIR)/sim
+	-L$(LIB_DIR) -L$(UBC_PTHREAD_DIR) -lpthreads -llist -o $(BIN_DIR)/sim
 
 # Symlink rule for monitor
 sim: $(BIN_DIR)/sim
