@@ -94,6 +94,7 @@ void scheduler(void *arg) {
 /* Sets the process state */
 void set_state(enum pstate state) {
     PID pid;
+
     struct proc *p;
     pid = MyPid();
 
