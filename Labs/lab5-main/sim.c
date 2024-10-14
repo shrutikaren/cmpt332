@@ -71,8 +71,8 @@ struct proc *next_proc() {
 
 /* Scheduler entry point */
 void scheduler(void *arg) {
-    (void)arg; /* Suppress unused parameter warning */
     struct proc *p;
+    (void)arg; /* Suppress unused parameter warning */
 
     for (;;) {
         if (P(ptable.mutex)) panic("invalid ptable mutex");
