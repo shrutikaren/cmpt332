@@ -110,7 +110,10 @@ void set_state(enum pstate state) {
 
         if (state == RUNNABLE) {
             /* Adding it to the runnable queue */
-	    ListAdd(runningq, *state); 
+	    int priority = p->priority;
+
+	    /* Adding the process in the list*/
+	    ListAdd(runningq[priority], ptable.procs); 
         }
 
         p->state = state;
