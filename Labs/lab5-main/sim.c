@@ -55,18 +55,20 @@ LIST_HANDLE runningq[NUM_PRIORITIES];
 
 /* Returns the next process to run or NULL if there is nothing runnable */
 struct proc *next_proc() {
-    struct proc *p;
+    struct proc *p = NULL;
     int priority;
 
     /* Go through priority queues starting from the highest priority */
     for (priority = 0; priority < NUM_PRIORITIES; priority++) {
-        while ((p = ListFirst(runningq[priority]))) {
+        p = ListFirst(runningq[priority]); 
+        while (p != NULL) {
             if (p->state == RUNNABLE) {
                 return p;
             }
+            p = ListNext(runningq[priority]); 
         }
     }
-    return NULL;
+    return NULL;  /* No runnable process found */
 }
 
 /* Scheduler entry point */
