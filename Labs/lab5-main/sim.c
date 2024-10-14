@@ -1,4 +1,10 @@
 /*
+ * Shruti Kaur
+ * ich524
+ * 11339265
+ */
+
+/*
  * Lab 6: Scheduler Simulator
  * CMPT 332 Fall 2018
  * University of Saskatchewan
