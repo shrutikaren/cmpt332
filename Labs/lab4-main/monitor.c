@@ -72,12 +72,12 @@ void RttMonSignal(int cv) {
 void MonServer() {
     while (RUN_SERVER) {
         int msgType;
-	unsigned size;
+        unsigned size;
         RttThreadId sender, *next;
         int cv;
 
         /* Wait to receive a message */
-	size = sizeof(msgType);
+        size = sizeof(msgType);
         RttReceive(&sender, &msgType, &size);
 
         switch (msgType) {
@@ -93,11 +93,11 @@ void MonServer() {
                 break;
 
             case LEAVE_MSG:
-                if ((monitor.urgentq) == NULL) {
+                if (ListCount(monitor.urgentq) > 0) {
                     /* Reply to item in urgent queue */
                     next = (RttThreadId*)ListRemove(monitor.urgentq);
-		    RttReply(*next, NULL, 0);
-                } else if ((monitor.enterq) == NULL) {
+                    RttReply(*next, NULL, 0);
+                } else if (ListCount(monitor.enterq) > 0) {
                     /* Reply to item in enter queue */
                     next = (RttThreadId*)ListRemove(monitor.enterq);
                     RttReply(*next, NULL, 0);
@@ -109,13 +109,13 @@ void MonServer() {
                 break;
 
             case WAIT_MSG:
-		size = sizeof(cv);
+                size = sizeof(cv);
                 RttReceive(&sender, &cv, &size);
                 ListAppend(monitor.conVars[cv].waitlist, (void*)&sender);
-                if ((monitor.urgentq) == NULL) {
+                if (ListCount(monitor.urgentq) > 0) {
                     next = (RttThreadId*)ListRemove(monitor.urgentq);
                     RttReply(*next, NULL, 0);
-                } else if ((monitor.enterq) == NULL) {
+                } else if (ListCount(monitor.enterq) > 0) {
                     next = (RttThreadId*)ListRemove(monitor.enterq);
                     RttReply(*next, NULL, 0);
                 } else {
@@ -124,11 +124,10 @@ void MonServer() {
                 break;
 
             case SIGNAL_MSG:
-		size = sizeof(cv);
+                size = sizeof(cv);
                 RttReceive(&sender, &cv, &size);
-                if ((monitor.conVars[cv].waitlist) == NULL) {
-                    next = (RttThreadId*)ListRemove
-						(monitor.conVars[cv].waitlist);
+                if (ListCount(monitor.conVars[cv].waitlist) > 0) {
+                    next = (RttThreadId*)ListRemove(monitor.conVars[cv].waitlist);
                     ListAppend(monitor.urgentq, (void*)&sender);
                     RttReply(*next, NULL, 0);
                 } else {
