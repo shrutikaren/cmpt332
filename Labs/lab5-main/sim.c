@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <assert.h>
 
 #include <os.h>
 #include <list.h> /* Adding this list.h to our function header*/
@@ -21,7 +22,6 @@
 #define BLOCK_CHANCE 3
 #define WORK_MAXIMUM 50
 #define NUM_PRIORITIES 5
-#define UNUSED 0xffffff
 
 void panic(const char *msg) {
     fprintf(stderr, "[PANIC] %s\n", msg);
@@ -61,7 +61,7 @@ struct proc *next_proc() {
 
     /* Go through priority queues starting from the highest priority */
     for (priority = 0; priority < NUM_PRIORITIES; priority++) {
-        if (runningq[priority] == 0) {
+        if (runningq[priority] == UNUSED) {
             printf("Error: runningq[%d] is NULL or invalid\n", priority);
             continue; 
         }
@@ -123,8 +123,9 @@ void set_state(enum pstate state) {
 
         if (state == RUNNABLE) {
             /* Add to the runnable queue by priority */
-	    printf("Adding proccess to queue!");
-            ListAdd(runningq[p->priority], p);
+            if(ListAdd(runningq[p->priority], p) == -1){
+		panic("Failed to add proccess to runnable queue");	
+	    }
 
         }
 
@@ -219,9 +220,12 @@ int mainp(int argc, char **argv) {
     /* Initialize priority queues */
     for (i = 0; i < NUM_PRIORITIES; i++) {
         runningq[i] = ListCreate(); 
-        if (runningq[i] == 0) { 
+        if (runningq[i] == UNUSED) { 
             panic("Failed to create list for priority queue!");
         }
+	else{
+	    printf("runningq[%ld] initialized: %u\n", i, runningq[i]);
+	}
     }
 
     ptable.running = 0;

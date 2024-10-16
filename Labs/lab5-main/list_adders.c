@@ -10,7 +10,6 @@
 #define MIN_LISTS 2
 #define MIN_NODES 2
 
-#define UNUSED 0xffffffff
 
 /*
  * Allowed to use more than one array.
@@ -191,6 +190,9 @@ int ListAdd(LIST_HANDLE list, void *item) {
     }
 
     NODECREATE(-1);
+    if(node == UNUSED){
+    	return -1;
+    }
 
     (node_space+node)->item = item;
     cursor = (list_space+list)->cursor;

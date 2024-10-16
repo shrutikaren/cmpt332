@@ -7,6 +7,8 @@
 #ifndef LIST_H
 #define LIST_H
 
+#define UNUSED 0xffffffff
+
 /* Reallocing moves memory arround unpredictably. So instead of using a list
  * pointer we will be using an index. */
 typedef unsigned int LIST_HANDLE;

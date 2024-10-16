@@ -37,6 +37,11 @@ void *ListFirst(LIST_HANDLE list) {
         return NULL;
     }
     (list_space+list)->cursor = (list_space+list)->head;
+    
+    /* Check if the list is empty (head is UNUSED) */
+    if((list_space + list)->head == UNUSED){
+	return NULL;	
+    }
     return (node_space+(list_space+list)->head)->item;
 }
 
