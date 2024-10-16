@@ -1,0 +1,113 @@
+//Name: KAUR Shruti
+//Student Number: 11339265
+//NSID: ICH524
+
+ich524@tux6:~/lab0> gdb ./myQsort
+GNU gdb (Fedora Linux) 15.1-1.fc40
+Copyright (C) 2024 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-redhat-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from ./myQsort...
+(gdb) run STRING
+Starting program: /student/ich524/lab0/myQsort STRING
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <https://debuginfod.fedoraproject.org/>
+Enable debuginfod for this session? (y or [n]) Y
+Debuginfod has been enabled.
+To make this setting permanent, add 'set debuginfod enabled on' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+hello
+hi
+bye
+practice arguments
+UNSORTED ORDER
+hello
+hi
+bye
+practice arguments
+
+SORTED ORDER
+bye
+hello
+hi
+practice arguments
+[Inferior 1 (process 2237304) exited normally]
+(gdb) start
+Temporary breakpoint 1 at 0x4016e1: file sortMain.c, line 28.
+Starting program: /student/ich524/lab0/myQsort STRING
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+
+Temporary breakpoint 1, main (argc=2, argv=0x7fffffffd9d8) at sortMain.c:28
+28          int nlines = 0;
+(gdb) n
+29          enum sType sortType = STRING;
+(gdb) n
+33          if (argc != 2){
+(gdb) n
+38          sortType = atoi(argv[1]);
+(gdb)
+41          switch(sortType){
+(gdb)
+42                              case STRING: comparing = (Comparator) strcmp;
+(gdb)
+43                                      break;
+(gdb)
+52          if ((nlines = readlines(lineptr, MAXLINES)) >=0){
+(gdb) info locals
+nlines = 0
+sortType = STRING
+comparing = 0x401060 <strcmp@plt>
+(gdb) backtrace full
+#0  main (argc=2, argv=0x7fffffffd9d8) at sortMain.c:52
+        nlines = 0
+        sortType = STRING
+        comparing = 0x401060 <strcmp@plt>
+(gdb) n
+
+
+54              printf("UNSORTED ORDER\n");
+(gdb) n
+UNSORTED ORDER
+55              writelines(lineptr, nlines);
+(gdb)
+
+
+57              myQsort ((void **)lineptr, 0, nlines-1, comparing);
+(gdb)
+59              printf("\nSORTED ORDER \n");
+(gdb)
+
+SORTED ORDER
+61              writelines(lineptr, nlines);
+(gdb)
+
+
+62              return 0;
+(gdb)
+69      }
+(gdb)
+Downloading source file /usr/src/debug/glibc-2.39-22.fc40.x86_64/csu/../sysdeps/nptl/libc_start_call_main.h
+[###                                                                     ]
+__libc_start_call_main (main=main@entry=0x4016d2 <main>,
+    argc=argc@entry=2, argv=argv@entry=0x7fffffffd9d8)
+    at ../sysdeps/nptl/libc_start_call_main.h:74
+74        exit (result);
+(gdb)
+[Inferior 1 (process 2243499) exited normally]
+(gdb) info locals
+No frame selected.
+(gdb)

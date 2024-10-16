@@ -1,0 +1,186 @@
+//Name: KAUR Shruti
+//Student Number: 11339265
+//NSID: ICH524
+
+commit 6701410fea9dd796963548a49cd2c1b3fac934dc
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Sep 11 23:39:46 2024 -0600
+
+    this is adjusted with all the correct file names
+
+commit fb973d0a63899192550f2bce9a74853efc99f3d7
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Sep 11 23:31:46 2024 -0600
+
+    added the different test files and was able to debug everything
+
+commit 09b63ece7d8aba477bb917f45b532a3503d87d2b
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 17:00:47 2024 -0600
+
+    adding
+
+commit c5337e138d3f5a489d1bede2278aa514b18215c4
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 16:44:43 2024 -0600
+
+    datatype of sizeFirst and sizeSecond is double
+
+commit 129ed2787658b0c73526d5153711eac606a4ddcd
+Merge: e166298 374af86
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 10:57:01 2024 -0600
+
+    Merge branch 'main' of https://git.cs.usask.ca/ich524/lab0
+
+commit 374af8643316bcc546b63451ab258534101e037e
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Sep 11 10:51:24 2024 -0600
+
+    edited the makefile so each character is less than 80 characters
+
+commit e166298487eb88836561ebe5150c172e0069450a
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 08:35:20 2024 -0600
+
+    sortMain.c --> int checked against int * wrong
+
+commit d99631c67800b6a55eb5d0feb8969f1816068e47
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 08:33:23 2024 -0600
+
+    in the for loop, have the condition stop when
+    left is equal to right as well
+
+commit 17649c499c8eec89428870bc10ac209ceca24e43
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 08:32:33 2024 -0600
+
+    Filled the intComp.c file with the code
+
+commit 3049604dc1837e1886678c442d5997d894677483
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 08:30:26 2024 -0600
+
+    removed initialzation of the pointer from NULL
+
+commit 6d277cd77d707f46654b32cda60cd74782a96de6
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 08:29:37 2024 -0600
+
+    made changes to the if else statements
+
+commit d7d5271cd87b37b2e086346a681a35f4fc6ff7e5
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 08:28:36 2024 -0600
+
+    coded doubleComp.c
+
+commit b64b5d820a1ac3eb44ad4899ffb2cbb4044c188e
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 08:26:05 2024 -0600
+
+    made if-else statements cleaner by adding the
+    curly braces
+
+commit 5880918b601646a340a924d5518ba5ab79fbde89
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 08:25:30 2024 -0600
+
+    no particular reason to use the sqrt function here
+
+commit d3edeefcd9b036db1824f11e6fca79c0b72bbadc
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 08:24:51 2024 -0600
+
+    casting Complex pointer datatype to first and
+    second variable
+
+commit a3ed87133aee890849e43bb47dd93c4fcc584e3b
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 08:23:13 2024 -0600
+
+    in complexComp.c initialize pointer to null
+
+commit c6533d860107556a40cb3169e865a59ca692e2ac
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 08:15:56 2024 -0600
+
+    adding all our function headers
+
+commit 40438d402c130cfa394bd21b8c1a4fe83f71a4b4
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 08:14:56 2024 -0600
+
+    wanted to add Comparator globally so added in
+    header
+
+commit 0fdcef60567ed58291980499b319927175c18342
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 08:14:28 2024 -0600
+
+    added Complex as a struct datatype
+
+commit 19db9b9b95eb2d20ac1063db235c6f9e9496db32
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 08:13:10 2024 -0600
+
+    added the header guards on the header file
+
+commit aba3a7c675ee6558ab6cdd197fd3582e68ea9ecb
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 08:08:43 2024 -0600
+
+    adding the header file as #include in all files -
+    has to be in quotation marks
+
+commit 0764db4afbc118780230b36bbd56dceafd4af653
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 01:54:25 2024 -0600
+
+    adding the makefile to make c files into object
+    files
+
+commit 161ea1d8b59b8a5fc342dd3f43e6393df01a7644
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Tue Sep 10 18:57:53 2024 -0600
+
+    added makefile content and added object file
+    and linking code - yet to be fixed
+
+commit 4be12c004da909fb828774486fef891f36a625de
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Tue Sep 10 18:33:38 2024 -0600
+
+    added all the files from /student/cmpt332
+
+commit 8ed701935ddbb1b71d7fb9a780e12afda328dbd9
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Mon Sep 9 20:00:47 2024 -0600
+
+    worked on the header file added a few function
+    headers
+
+commit 003e465a378bc045762703efab79717421491cff
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Mon Sep 9 19:30:32 2024 -0600
+
+    created makefile, and other files
+
+commit 615a41ce705347d237121bfac348383fdfd6d0f8
+Author: Shruti Kaur (ich524) <ich524@mail.usask.ca>
+Date:   Mon Sep 9 19:12:34 2024 -0600
+
+    Add new Makefile
+
+commit 3d96b9b6aa52a19764b8d3451a7232df81e1889c
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Mon Sep 9 19:09:15 2024 -0600
+
+    added .gitignore file
+
+commit fb21c91d9e082253abe11ee31b6f16cf26cf3adf
+Author: Shruti Kaur (ich524) <ich524@mail.usask.ca>
+Date:   Mon Sep 9 19:04:09 2024 -0600
+
+    Initial commit
