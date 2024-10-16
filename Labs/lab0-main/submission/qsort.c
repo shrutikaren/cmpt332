@@ -1,6 +1,7 @@
-//Name: KAUR Shruti
+/*/Name: KAUR Shruti
 //Student Number: 11339265
 //NSID: ICH524
+*/
 
 /* @author Kernighan/Ritchie
  * @modified by: Dwight Makaroff
@@ -19,15 +20,15 @@
 #include <qsort.h>
 
 void myQsort(void *v[], int left, int right, Comparator comp){
-
-    // Base Case 
+    int index = 0;
+    /* Base Case */
     if (left >= right){ return; }
 
     int last = left;
 
     swap(v, left, (left + right)/2);
 
-    for (int index = left+1; index <= right; index++){
+    for (index = left+1; index <= right; index++){
         if ((*comp)(v[index],v[left]) < 0){
           swap(v, ++last, index);
         }
