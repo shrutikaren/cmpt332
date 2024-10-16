@@ -1,0 +1,11 @@
+I just got to grading these.
+
+New submission has a number of problems.
+
+ 
+
+CFLAGS and CPPFLAGS are not correct. See a TA.
+
+Cannot include with "".
+
+Binary is placed in a subdirectory, so the submission cannot be tested properly with a script.
