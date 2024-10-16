@@ -1,6 +1,6 @@
-//Name: KAUR Shruti
-//Student Number: 11339265
-//NSID: ICH524
+/* Name: KAUR Shruti
+   Student Number: 11339265
+   NSID: ICH524 */
 
 /* swap.c
  * implementation of swap function

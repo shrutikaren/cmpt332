@@ -21,10 +21,11 @@
 
 void myQsort(void *v[], int left, int right, Comparator comp){
     int index = 0;
+    int last;
     /* Base Case */
     if (left >= right){ return; }
 
-    int last = left;
+    last = left;
 
     swap(v, left, (left + right)/2);
 

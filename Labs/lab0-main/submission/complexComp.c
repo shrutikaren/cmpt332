@@ -1,6 +1,6 @@
-//Name: KAUR Shruti
-//Student Number: 11339265
-//NSID: ICH524
+/* Name: KAUR Shruti
+Student Number: 11339265
+NSID: ICH524 */
 
 /*
  * @author Dwight Makaroff
@@ -23,13 +23,14 @@
  */
 
 int compareComplex(void *first, void *second){
-
-  // Allocate
+  double sizeFirst;
+  double sizeSecond;
+  /* Allocate */
   Complex *cFirst = (Complex *) malloc(sizeof(Complex));
   Complex *cSnd = (Complex *) malloc(sizeof(Complex));
   char * index = NULL;
 
-  // Failed to allocate properly
+  /* Failed to allocate properly */
   if(cFirst == NULL || cSnd == NULL){
 	return 0;
   }
@@ -39,10 +40,10 @@ int compareComplex(void *first, void *second){
   cSnd->real = strtod((char*)second, &index);
   cSnd->imag = strtod(index, NULL);
 
-  double sizeFirst = cFirst->real * cFirst->real + cFirst->imag * cFirst->imag;
-  double sizeSecond = cSnd->real * cSnd->real + cSnd->imag * cSnd->imag;
+  sizeFirst = cFirst->real * cFirst->real + cFirst->imag * cFirst->imag;
+  sizeSecond = cSnd->real * cSnd->real + cSnd->imag * cSnd->imag;
 
-  // Free memory NO MEMORY LEAKS!!
+  /* Free memory NO MEMORY LEAKS!! */
   free(cFirst);
   free(cSnd);
 

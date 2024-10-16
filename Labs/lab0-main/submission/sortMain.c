@@ -1,6 +1,6 @@
-//Name: KAUR Shruti
-//Student Number: 11339265
-//NSID: ICH524
+/* Name: KAUR Shruti
+   Student Number: 11339265
+   NSID: ICH524 */
 
 /* main program for qSort
  * @author: Kernighan/Ritchie
@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
     enum sType sortType = STRING;
     int (*comparing)(void*, void*);
 
-    // ./myQsort sortType
+    /* ./myQsort sortType */
     if (argc != 2){
       perror("Usage: perror. wrong number of arguments");
       return -1;
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]){
 
     sortType = atoi(argv[1]);
 	
-    // switch statments are faster than if's.
+    /* switch statments are faster than if's. */
     switch(sortType){
 			case STRING: comparing = (Comparator) strcmp;
 				break;
@@ -50,7 +50,7 @@ int main(int argc, char *argv[]){
 	}
 			
     if ((nlines = readlines(lineptr, MAXLINES)) >=0){ 
-//added pointer here so int is checked against int instead of int*
+/* added pointer here so int is checked against int instead of int* */
         printf("UNSORTED ORDER\n");
         writelines(lineptr, nlines);
 

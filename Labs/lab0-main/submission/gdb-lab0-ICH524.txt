@@ -100,7 +100,8 @@ SORTED ORDER
 (gdb)
 69      }
 (gdb)
-Downloading source file /usr/src/debug/glibc-2.39-22.fc40.x86_64/csu/../sysdeps/nptl/libc_start_call_main.h
+Downloading source file /usr/src/debug/glibc-2.39-22.fc40.x86_64/csu/..
+/sysdeps/nptl/libc_start_call_main.h
 [###                                                                     ]
 __libc_start_call_main (main=main@entry=0x4016d2 <main>,
     argc=argc@entry=2, argv=argv@entry=0x7fffffffd9d8)

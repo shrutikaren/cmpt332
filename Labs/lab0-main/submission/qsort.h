@@ -1,12 +1,12 @@
-//Name: KAUR Shruti
-//Student Number: 11339265
-//NSID: ICH524
+/*Name: KAUR Shruti
+Student Number: 11339265
+NSID: ICH524 */
 
 #ifndef QSORT_H
 #define QSORT_H 
 typedef struct{
 
-    // Structs by default are public
+    /* Structs by default are public */
     double real;
     double imag;
 
@@ -21,6 +21,6 @@ int myGetline(char s[], int lim);
 int readlines(char *lineptr[], int maxlines);
 void writelines(char *lineptr[], int nlines);
 void myQsort(void *v[], int left, int right, Comparator comp);
-void swap(void  *v[], int i, int j);                            // Done
+void swap(void  *v[], int i, int j);                            /* Done */
 
-#endif //QSORT_H
+#endif /*QSORT_H */
