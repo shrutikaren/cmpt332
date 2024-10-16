@@ -1,4 +1,4 @@
-#ifdef READER_WRITER_MONITOR_H
+#ifndef READER_WRITER_MONITOR_H
 #define READER_WRITER_MONITOR_H
 
 void Initialize(void);
