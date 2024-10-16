@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "qsort.h"
+#include <qsort.h>
 
 int compareInt(void *first, void *second){
 

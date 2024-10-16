@@ -8,7 +8,7 @@
  */
 
 #include <stdlib.h>
-#include "qsort.h"
+#include <qsort.h>
 
 /* returns -1 if first < second
  * returns 0 if first == second

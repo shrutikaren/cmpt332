@@ -14,7 +14,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "qsort.h"
+#include <qsort.h>
 
 enum sType{
     STRING, INTEGER, DOUBLE, COMPLEX

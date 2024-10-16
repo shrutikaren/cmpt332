@@ -16,7 +16,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "qsort.h"
+#include <qsort.h>
 
 #define MAXLEN 100
 

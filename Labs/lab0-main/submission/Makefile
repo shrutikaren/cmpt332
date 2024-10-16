@@ -2,9 +2,11 @@
 #NSID: ICH524
 #Student Number: 11339265
 
-CPPFLAGS = -I. 		# Look at header files in the current directory 
+CPPFLAGS = -Wall -std=gnu90 -pedantic -g
+# Look at header files in the current directory 
+
 CC = gcc
-CFLAGS = -Wall -std=c99 -pedantic -g	# Wall -> All Warnings
+CFLAGS = -g 	# Wall -> All Warnings
 										
 # -std=c99: C99 is used.
 										

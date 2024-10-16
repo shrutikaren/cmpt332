@@ -16,7 +16,7 @@
  * these are strings.
  */
 
-#include "qsort.h"
+#include <qsort.h>
 
 void myQsort(void *v[], int left, int right, Comparator comp){
 
