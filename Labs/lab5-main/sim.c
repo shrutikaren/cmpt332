@@ -21,6 +21,7 @@
 #define BLOCK_CHANCE 3
 #define WORK_MAXIMUM 50
 #define NUM_PRIORITIES 5
+#define UNUSED 0xffffff
 
 void panic(const char *msg) {
     fprintf(stderr, "[PANIC] %s\n", msg);
