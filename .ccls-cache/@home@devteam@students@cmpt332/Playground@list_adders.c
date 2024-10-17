@@ -54,8 +54,8 @@ int allocateList(void){
             listPool.lists,
             sizeof(LIST) * newTotalLists
         );
-        LIST * newFreeLists = realloc(
-            listPool.lists,
+        int * newFreeLists = realloc(
+            listPool.freeLists,
             sizeof(int) * newTotalLists
         );
         for (i = listPool.totalLists; i < newTotalLists; i++) {
