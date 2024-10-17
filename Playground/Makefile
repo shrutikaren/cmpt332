@@ -50,7 +50,7 @@ $(LIB_DIR)/liblist.a : $(LIST_OBJS) | $(LIB_DIR)
 	ar rcs $(LIB_DIR)/liblist.a $(LIST_OBJS)
 
 # Binary target rule
-$(BIN_DIR)/: $(OBJ_DIR)/unit_test.o $(LIB_DIR)/liblist.a | $(BIN_DIR)
+$(BIN_DIR)/unit_tests: $(OBJ_DIR)/unit_tests.o $(LIB_DIR)/liblist.a | $(BIN_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(INC) $(OBJ_DIR)/unit_tests.o \
 	-L$(LIB_DIR) $(LIB_DIR)/liblist.a -o $(BIN_DIR)/unit_tests
 
