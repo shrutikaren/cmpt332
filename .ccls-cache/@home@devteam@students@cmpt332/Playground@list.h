@@ -19,6 +19,40 @@
 typedef struct NODE NODE;
 typedef struct LIST LIST;
 
+/* Function Prototypes */
+
+/* List creation and management */
+LIST *ListCreate(void);
+void ListFree(LIST *pList, void (*itemFree)(void *pItem));
+
+/* List properties */
+int ListCount(LIST *pList);
+void *ListFirst(LIST *pList);
+void *ListLast(LIST *pList);
+void *ListCurr(LIST *pList);
+
+/* List navigation */
+void *ListNext(LIST *pList);
+void *ListPrev(LIST *pList);
+
+/* List modification */
+int ListAdd(LIST *pList, void *pItem);
+int ListInsert(LIST *pList, void *pItem);
+int ListAppend(LIST *pList, void *pItem);
+int ListPrepend(LIST *pList, void *pItem);
+void *ListRemove(LIST *pList);
+void ListConcat(LIST *pList1, LIST *pList2);
+void *ListTrim(LIST *pList);
+
+/* List searching */
+void *ListSearch(LIST *pList,
+                 int (*comparator)(void *, void *), void *pComparisonArg);
+
+/* Internal definitions for implementation files */
+#ifdef LIST_IMPLEMENTATION
+
+#define UNUSED_NODE -1
+
 /* NODE structure */
 struct NODE {
     void *item;
@@ -52,43 +86,16 @@ typedef struct {
 } ListPool;
 
 /* Global pools */
-static NodePool nodePool = {NULL, NULL, 0, 0};
-static ListPool listPool = {NULL, NULL, 0, 0};
+extern NodePool nodePool;
+extern ListPool listPool;
 
-/* Helper Function prototypes */
-static void initializePools(void);
-static int allocateNode(void);
-static void freeNode(int index);
-static int allocateList(void);
-static void freeList(int index);
+/* Function prototypes for internal use */
+void initializePools(void);
+int allocateNode(void);
+void freeNode(int index);
+int allocateList(void);
+void freeList(int index);
 
-/* Function Prototypes */
-
-/* List creation and management */
-LIST *ListCreate(void);
-void ListFree(LIST *pList, void (*itemFree)(void *pItem));
-
-/* List properties */
-int ListCount(LIST *pList);
-void *ListFirst(LIST *pList);
-void *ListLast(LIST *pList);
-void *ListCurr(LIST *pList);
-
-/* List navigation */
-void *ListNext(LIST *pList);
-void *ListPrev(LIST *pList);
-
-/* List modification */
-int ListAdd(LIST *pList, void *pItem);
-int ListInsert(LIST *pList, void *pItem);
-int ListAppend(LIST *pList, void *pItem);
-int ListPrepend(LIST *pList, void *pItem);
-void *ListRemove(LIST *pList);
-void ListConcat(LIST *pList1, LIST *pList2);
-void *ListTrim(LIST *pList);
-
-/* List searching */
-void *ListSearch(LIST *pList,
-                 int (*comparator)(void *, void *), void *pComparisonArg);
+#endif /* LIST_IMPLEMENTATION */
 
 #endif 

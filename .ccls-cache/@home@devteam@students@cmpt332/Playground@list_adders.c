@@ -1,26 +1,30 @@
+#define LIST_IMPLEMENTATION
 #include <stdio.h>
 #include <stdlib.h>
 #include "list.h"
 
 #define UNUSED_NODE -1
 
-static void initializePools(void){
+NodePool nodePool = {NULL, NULL, 0, 0};
+ListPool listPool = {NULL, NULL, 0, 0};
+
+void initializePools(void){
 
 }
 
-static int allocateNode(void){
+int allocateNode(void){
     return 0;
 }
 
-static void freeNode(int index){
+void freeNode(int index){
 
 }
 
-static int allocateList(void){
+int allocateList(void){
     return 0;
 }
 
-static void freeList(int index){
+void freeList(int index){
 
 }
 
