@@ -44,7 +44,36 @@ void freeNode(int index){
 }
 
 int allocateList(void){
-    return 0;
+    
+    int i = 0; 
+    
+    if(listPool.freeListCount == 0){
+        /* Expand list pool */ 
+        int newTotalLists = listPool.totalLists * 2;
+        LIST * newLists = realloc(
+            listPool.lists,
+            sizeof(LIST) * newTotalLists
+        );
+        LIST * newFreeLists = realloc(
+            listPool.lists,
+            sizeof(int) * newTotalLists
+        );
+        for (i = listPool.totalLists; i < newTotalLists; i++) {
+            newLists[i].inUse = 0;
+            newFreeLists[listPool.freeListCount++] = i;
+        }
+        listPool.lists = newLists;
+        listPool.freeLists = newFreeLists;
+        listPool.totalLists = newTotalLists;
+    }
+
+    int index = listPool.freeLists[--listPool.freeListCount];
+    listPool.lists[index].inUse = 1;
+    listPool.lists[index].head = UNUSED_NODE;
+    listPool.lists[index].tail = UNUSED_NODE;
+    listPool.lists[index].current = UNUSED_NODE;
+    listPool.lists[index].count = 0;
+    return index;
 }
 
 void freeList(int index){
