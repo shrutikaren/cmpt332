@@ -5,6 +5,8 @@
 CC = gcc
 CFLAGS = -g
 CPPFLAGS = -Wall -pedantic -I. -std=gnu90 -Wextra  
+INC = -I. 
+CURRENT_DIR = ./ #IMPORTANT TO LINK LOCAL HEADER FILES
 
 ARCH = $(shell uname -m)
 OS := $(shell uname -s)
@@ -41,42 +43,47 @@ LIST_OBJS = \
 	$(OBJ_DIR)/list_movers.o \
 	$(OBJ_DIR)/list_removers.o
 
-MONITOR_OBJS = $(OBJ_DIR)/monitor.o
+MONITOR_OBJS = $(OBJ_DIR)/Monitor.o
 
 # compile objects for list
-$(OBJ_DIR)/list_adders.o : list_adders.c list.h | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) list_adders.c -o $(OBJ_DIR)/list_adders.o
+$(OBJ_DIR)/list_adders.o : list_adders.c | $(OBJ_DIR)
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) -I$(CURRENT_DIR) \
+	list_adders.c -o $(OBJ_DIR)/list_adders.o
 
-$(OBJ_DIR)/list_movers.o : list_movers.c list.h | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) list_movers.c -o $(OBJ_DIR)/list_movers.o
+$(OBJ_DIR)/list_movers.o : list_movers.c | $(OBJ_DIR)
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) -I$(CURRENT_DIR) \
+	list_movers.c -o $(OBJ_DIR)/list_movers.o
 
-$(OBJ_DIR)/list_removers.o : list_removers.c list.h | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) list_removers.c \
-		-o $(OBJ_DIR)/list_removers.o
+$(OBJ_DIR)/list_removers.o : list_removers.c | $(OBJ_DIR)
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) -I$(CURRENT_DIR) \
+	list_removers.c -o $(OBJ_DIR)/list_removers.o
 
 # compile objects for the reader_writer files`
-$(OBJ_DIR)/reader_writer_monitor.o: reader_writer_monitor.c \
-					reader_writer_monitor.h | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) reader_writer_monitor.c \
-		-o $(OBJ_DIR)/reader_writer_monitor.o
+$(OBJ_DIR)/reader_writer_monitor.o: reader_writer_monitor.c | $(OBJ_DIR)
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) -I$(UBC_PTHREAD_INCLUDE_DIR) \
+	-I$(CURRENT_DIR) reader_writer_monitor.c -o \
+	$(OBJ_DIR)/reader_writer_monitor.o
 
 $(OBJ_DIR)/reader_writer.o: reader_writer.c | $(OBJ_DIR)
-	$(CC) -o $(CPPFLAGS) $(CFLAGS) $(UBC_COMPILER_FLAG) \
-	 reader_writer.c -o $(OBJ_DIR)/reader_writer.o
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(UBC_COMPILER_FLAG) $(INC) \
+	-I$(CURRENT_DIR) -I$(UBC_PTHREAD_INCLUDE_DIR) reader_writer.c -o \
+	$(OBJ_DIR)/reader_writer.o
 
 #compile objects for the monitor files
-$(OBJ_DIR)/monitor.o: monitor.c monitor.h | $(OBJ_DIR)
-	$(CC) -o $(CPPFLAGS) $(CFLAGS) monitor.c -o $(OBJ_DIR)/monitor.o
+$(OBJ_DIR)/Monitor.o: Monitor.c | $(OBJ_DIR)
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) -I$(CURRENT_DIR) \
+	-I$(UBC_PTHREAD_INCLUDE_DIR) Monitor.c -o $(OBJ_DIR)/Monitor.o
 
 # Add Target-Specific CPPFLAGS for reader-writer.o
-$(OBJ_DIR)/reader_writer.o : CPPFLAGS += -I$(UBC_PTHREAD_INCLUDE_DIR)
+#$(OBJ_DIR)/reader_writer.o : CPPFLAGS += -I$(UBC_PTHREAD_INCLUDE_DIR)
 
 #compiling objects for Part C
 $(OBJ_DIR)/s-chat.o: s-chat.c | $(OBJ_DIR)
-	$(CC) -o $(CPPFLAGS) $(CFLAGS) s-chat.c -o $(OBJ_DIR)/s-chat.o
+	$(CC) -o $(CPPFLAGS) $(CFLAGS) $(INC) -I$(RT_THREADS) s-chat.c -o \
+	$(OBJ_DIR)/s-chat.o
 
 # Add Target-Specific CPPFLAGS for s-chat.o
-$(OBJ_DIR)/s-chat.o : CPPFLAGS += -I$(RT_THREADS) 
+#$(OBJ_DIR)/s-chat.o : CPPFLAGS += -I$(RT_THREADS) 
 
 # archiving list files into liblist library
 $(LIB_DIR)/liblist.a : $(LIST_OBJS) | $(LIB_DIR)
@@ -89,11 +96,13 @@ $(LIB_DIR)/libMonitor.a: $(MONITOR_OBJS) | $(LIB_DIR)
 # link executable for list
 $(BIN_DIR)/reader_writer_test : \
 	$(OBJ_DIR)/reader_writer.o $(LIB_DIR)/liblist.a \
-	 $(LIB_DIR)/libMonitor.a $(UBC_PTHREAD_DIR)/libpthreads.a | $(BIN_DIR)
+	$(LIB_DIR)/libMonitor.a $(UBC_PTHREAD_DIR)/libpthreads.a \
+	$(OBJ_DIR)/reader_writer_monitor.o $(OBJ_DIR)/Monitor.o | $(BIN_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(UBC_COMPILER_FLAG) \
-	$(OBJ_DIR)/reader_writer_test.o \
-		-L$(LIB_DIR) -llist -libMonitor \
-		-L$(UBC_PTHREAD_DIR) -lpthreads -o $(BIN_DIR)/mytestlist
+	$(OBJ_DIR)/reader_writer.o  \
+	 $(OBJ_DIR)/Monitor.o $(OBJ_DIR)/reader_writer_monitor.o \
+		-L. -L$(UBC_PTHREAD_DIR) -L$(LIB_DIR) -llist -lMonitor \
+		 -lpthreads -o $(BIN_DIR)/reader_writer_test
 
 # link executable for the s-chat
 $(BIN_DIR)/s-chat: $(OBJ_DIR)/s-chat.o | $(BIN_DIR)

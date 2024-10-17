@@ -8,6 +8,8 @@
 #include <stdlib.h>
 
 static Monitor mon;
+#define s 10 /*picked a random number*/
+
 
 /* CMPT 332 GROUP  Change, Fall 2024 */
 /* Phase 1 */
@@ -24,12 +26,12 @@ void MonInit(){
     if(mon.lock < 0){
         LOG_ERROR("Failed to create lock mutex in MonInit.");
     }
-
     /* Initialize the enter queue and its semaphore */  
-    mon.entryList = ListCreate();
+    mon.entrySem = ListCreate();
     if(mon.entryList == NULL){
         LOG_ERROR("Failed to create entry queue in MonInit.");
     }
+   
 
     /* Initialize the enterSem. */
     mon.entrySem = NewSem(1);
@@ -40,7 +42,7 @@ void MonInit(){
     /* Initialize all conditional variables */
     for(i = 0; i < k; i++){
 
-        mon.conVars[i].waitList = ListCreate();
+        mon.conVars[i].semaphore = ListCreate();
         if(mon.conVars[i].waitList == NULL){
             LOG_ERROR("Failed to create waitList for cv MonInit.");
         }
@@ -50,7 +52,7 @@ void MonInit(){
             LOG_ERROR("Failed to create semaphore for cv's MonInit.");
         }
     }
-    return NULL;
+    return ;
 }
 
 void MonEnter(){
@@ -59,7 +61,7 @@ void MonEnter(){
 
     currentPid = (PID*)malloc(sizeof(PID));
 
-    if(currentPID == NULL){
+    if(currentPid == NULL){
         LOG_ERROR("Dailed to allocate memory for PID in MonEnter.");
     }
 
@@ -68,7 +70,7 @@ void MonEnter(){
     /* TODO: Acquire the mutex */
 
     /* TODO: Remove self from the entryList */
-    return NULL;
+    return;
 }
 
 void MonLeave(){
@@ -78,7 +80,7 @@ void MonLeave(){
     /* Signal the next thread waiting to enter the monitor */
 
     /* If threads waiting to enter release the mutex */
-    return NULL;
+    return ;
 }
 
 void MonWait(int var){
@@ -94,7 +96,7 @@ void MonWait(int var){
     /* Wait on the condition variable's semaphore */ 
 
     /* Re-acquire the mutex after being signaled */
-    return NULL;
+    return ;
 }
 
 void MonSignal(int var){
@@ -108,5 +110,5 @@ void MonSignal(int var){
     /* Remove the first thread from the condition variable's waitList. */ 
 
     /* Signal the cv's semaphore to wake up the waiting thread */
-    return NULL;
+    return ;
 }
