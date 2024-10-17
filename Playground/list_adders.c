@@ -35,3 +35,14 @@ typedef struct {
     int totalLists;
     int freeListCount;
 } ListPool;
+
+/* Global pools */
+static NodePool nodePool = {NULL, NULL, 0, 0};
+static ListPool listPool = {NULL, NULL, 0, 0};
+
+/* Function prototypes */
+static void initializePools(void);
+static int allocateNode(void);
+static void freeNode(int index);
+static int allocateList(void);
+static void freeList(int index);
