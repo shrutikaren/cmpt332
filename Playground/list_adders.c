@@ -10,6 +10,29 @@ ListPool listPool = {NULL, NULL, 0, 0};
 
 void initializePools(void){
 
+    int i;
+
+    if(nodePool.nodes == NULL){
+        nodePool.totalNodes = MIN_NODES;
+        nodePool.nodes = malloc(sizeof(NODE) * nodePool.totalNodes);
+        nodePool.freeNodes = malloc(sizeof(int) * nodePool.totalNodes);
+        for (i = 0; i < nodePool.totalNodes; i++) {
+            nodePool.freeNodes[i] = nodePool.totalNodes - i - 1; 
+        }
+        nodePool.freeNodeCount = nodePool.totalNodes;
+    }
+
+    if(listPool.lists == NULL){
+        listPool.totalLists = MIN_LISTS;
+        listPool.lists = malloc(sizeof(LIST) * listPool.totalLists);
+        listPool.freeLists = malloc(sizeof(int) * listPool.totalLists);
+        for (i = 0; i < listPool.totalLists; i++) {
+            listPool.lists[i].inUse = 0;
+            listPool.freeLists[i] = listPool.totalLists - i - 1;
+        }
+        listPool.freeListCount = listPool.totalLists;
+    }
+
 }
 
 int allocateNode(void){
