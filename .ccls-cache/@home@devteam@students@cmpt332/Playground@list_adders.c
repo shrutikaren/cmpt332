@@ -29,7 +29,15 @@ void freeList(int index){
 }
 
 LIST *ListCreate(void){
-    return NULL;
+    
+    initializePools();
+    int index = allocateList();
+    if(index < 0){
+        return NULL;
+    }
+
+    return &listPool.lists[index];
+
 }
 
 void ListFree(LIST *pList, void (*itemFree)(void *pItem)){

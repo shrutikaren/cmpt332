@@ -1,3 +1,4 @@
+#define LIST_IMPLEMENTATION
 #include <stdlib.h>
 #include "list.h"
 
