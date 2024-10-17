@@ -5,6 +5,7 @@
 void test_ListCreate(){
     LIST* list = ListCreate();
     assert(list != NULL);
+    assert(ListCount(list) == 0);
     printf("test_ListCreate passed.\n");
 }
 
