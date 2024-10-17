@@ -19,6 +19,11 @@
 typedef struct NODE NODE;
 typedef struct LIST LIST;
 
+/* Internal definitions for implementation files */
+#ifdef LIST_IMPLEMENTATION
+
+#define UNUSED_NODE -1
+
 /* NODE structure */
 struct NODE {
     void *item;
@@ -52,15 +57,17 @@ typedef struct {
 } ListPool;
 
 /* Global pools */
-static NodePool nodePool = {NULL, NULL, 0, 0};
-static ListPool listPool = {NULL, NULL, 0, 0};
+extern NodePool nodePool;
+extern ListPool listPool;
 
-/* Helper Function prototypes */
-static void initializePools(void);
-static int allocateNode(void);
-static void freeNode(int index);
-static int allocateList(void);
-static void freeList(int index);
+/* Function prototypes for internal use */
+void initializePools(void);
+int allocateNode(void);
+void freeNode(int index);
+int allocateList(void);
+void freeList(int index);
+
+#endif /* LIST_IMPLEMENTATION */
 
 /* Function Prototypes */
 
