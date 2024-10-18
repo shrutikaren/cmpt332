@@ -11,14 +11,17 @@ extern ListPool listPool;
 /* Remove the current item */
 void *ListRemove(LIST *pList) {
 
+    int nodeIndex, prevNode, nextNode;
+    void* item;
+
     if(pList == NULL || pList->current == UNUSED_NODE){
         return NULL;
     }
 
-    int nodeIndex = pList->current;
-    void* item = nodePool.nodes[nodeIndex].item;
-    int prevNode = nodePool.nodes[nodeIndex].prev;
-    int nextNode = nodePool.nodes[nodeIndex].next;
+    nodeIndex = pList->current;
+    item = nodePool.nodes[nodeIndex].item;
+    prevNode = nodePool.nodes[nodeIndex].prev;
+    nextNode = nodePool.nodes[nodeIndex].next;
 
     if(prevNode != UNUSED_NODE){
         nodePool.nodes[prevNode].next = nextNode;
