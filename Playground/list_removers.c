@@ -33,6 +33,7 @@ void *ListRemove(LIST *pList) {
     else{
         pList->tail = prevNode;
     }
+
     pList->current = nextNode;
     freeNode(nodeIndex);
     pList->count--;
