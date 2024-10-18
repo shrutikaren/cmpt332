@@ -36,12 +36,33 @@ void test3_ListAdd(){
     assert(result==EXIT_SUCCESS);
     printf("test3_ListAdd passed. \n");
 }
+
+void test4_ListAdd(){
+    LIST* list = ListCreate();
+    int item1 = 4;
+    int item3 = 0;
+    int item4 = 10000;
+    int item5 = 200;
+    int r1 = ListAdd(list, &item1);
+    int r2 = ListAdd(list, &item3);
+    int r3 = ListAdd(list, &item4);
+    int r4 = ListAdd(list, &item5);
+    assert(r1 == EXIT_SUCCESS);
+    assert(r2 == EXIT_SUCCESS);
+    assert(r3 == EXIT_SUCCESS);
+    assert(r4 == EXIT_SUCCESS);
+    assert(*(int*)ListCurr(list) == 200);
+    assert(ListCount(list) == 4);
+    printf("test4_ListAdd passed. \n");
+}
+
 int main(int argc, char *argv[]){
     
     test_ListCreate();
     test_ListAdd();
     test2_ListAdd();
     test3_ListAdd();
+    test4_ListAdd(); 
 
     /* Remove all the memory at the end. */
     ListDispose();
