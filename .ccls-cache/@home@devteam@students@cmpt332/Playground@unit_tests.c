@@ -113,7 +113,7 @@ int main(){
     test6_ListAdd();
 
     /* Remove all the memory at the end. */
-    ListDispose();
+    //ListDispose();
 
     return EXIT_SUCCESS;
 
