@@ -70,14 +70,14 @@ void test5_ListAdd(){
 
 void test6_ListAdd(){
 
-    int i;
+    int i, result;
     LIST* list = ListCreate();
     const int numitems = 1000000;
 
     for(i = 0; i < numitems; i ++){
         int *item = (int *)malloc(sizeof(int));
         *item = i;
-        int result = ListAdd(list, item);
+        result = ListAdd(list, item);
         assert(result==EXIT_SUCCESS);
         assert(ListCount(list) == i + 1);
         assert(*(int *)ListCurr(list) == i);
