@@ -11,10 +11,11 @@ void test_ListCreate(){
 
 void test_ListAdd(){
     LIST* list = ListCreate();
-    int item1 = 1;
+    int item1 = 3;
     int result = ListAdd(list, &item1);
     assert(result == EXIT_SUCCESS);
     assert(ListCount(list) == 1);
+    assert(*(int*)ListCurr(list) == 3);
     printf("test_ListCreate passed.\n");
 }
 
