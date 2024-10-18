@@ -69,9 +69,14 @@ $(LIB_DIR)/liblist.a : $(LIST_OBJS) | $(LIB_DIR)
 $(BIN_DIR)/sim: $(OBJ_DIR)/sim.o $(LIB_DIR)/liblist.a \
 	$(UBC_PTHREAD_DIR)/libpthreads.a | $(BIN_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(INC) $(UBC_COMPILER_FLAG) \
+<<<<<<< HEAD
 	$(OBJ_DIR)/sim.o \
 	-L$(LIB_DIR) $(LIB_DIR)/liblist.a -L$(UBC_PTHREAD_DIR) -lpthreads -o \
 	$(BIN_DIR)/sim
+=======
+	$(OBJ_DIR)/sim.o -L$(LIB_DIR) $(LIB_DIR)/liblist.a -L$(UBC_PTHREAD_DIR)\
+	-lpthreads -o $(BIN_DIR)/sim
+>>>>>>> refs/remotes/origin/main
 
 # Symlink rule for monitor
 sim: $(BIN_DIR)/sim

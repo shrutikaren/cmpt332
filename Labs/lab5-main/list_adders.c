@@ -1,10 +1,16 @@
 /*
  * Shruti Kaur
+<<<<<<< HEAD
  * 11339265
  * ICH524
  *
  * */
 
+=======
+ * ICH524
+ * 11339265
+ * */
+>>>>>>> refs/remotes/origin/main
 #define LIST_IMPLEMENTATION
 #include <stdio.h>
 #include <stdlib.h>

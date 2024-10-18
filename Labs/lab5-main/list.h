@@ -1,9 +1,16 @@
 /*
+<<<<<<< HEAD
  * Shruti Kaur
  * 11339265
  * ICH524
  * */
 
+=======
+ * Shruti KAUR
+ * ICH524
+ * 11339265
+ * */
+>>>>>>> refs/remotes/origin/main
 #ifndef LIST_H
 #define LIST_H
 
