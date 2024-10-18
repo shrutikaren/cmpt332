@@ -16,7 +16,7 @@ void test_ListAdd(){
     assert(result == EXIT_SUCCESS);
     assert(ListCount(list) == 1);
     assert(*(int*)ListCurr(list) == 3);
-    printf("test_ListCreate passed.\n");
+    printf("test_ListAdd passed.\n");
 }
 
 int main(int argc, char *argv[]){
