@@ -43,6 +43,7 @@ int ListPrepend(LIST *pList, void *pItem);
 void *ListRemove(LIST *pList);
 void ListConcat(LIST *pList1, LIST *pList2);
 void *ListTrim(LIST *pList);
+void ListDispose(void);
 
 /* List searching */
 void *ListSearch(LIST *pList,
@@ -95,7 +96,6 @@ int allocateNode(void);
 void freeNode(int index);
 int allocateList(void);
 void freeList(int index);
-void ListDispose(void);
 
 #endif /* LIST_IMPLEMENTATION */
 
