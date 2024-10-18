@@ -8,6 +8,7 @@ void test_ListCreate(){
     assert(list != NULL);
     assert(ListCount(list) == 0);
     printf("test_ListCreate passed.\n");
+    ListFree(list, NULL);
 }
 
 /* Checking if list created with one item */
