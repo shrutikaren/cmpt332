@@ -170,17 +170,42 @@ int ListAdd(LIST *pList, void *pItem){
 }
 
 int ListInsert(LIST *pList, void *pItem){
+
     return 0;
 }
 
 int ListAppend(LIST *pList, void *pItem){
-    return 0;
+    if(pList == NULL){
+        return EXIT_FAILURE;
+    }
+    pList->current = pList->tail;
+    return ListAdd(pList, pItem);
 }
 
 int ListPrepend(LIST *pList, void *pItem){
-    return 0;
+    if(pList == NULL){
+        return EXIT_FAILURE;
+    }
+    pList->current = pList->head;
+    return ListInsert(pList, pItem);
 }
 
 void ListConcat(LIST *pList1, LIST *pList2){
-
+    if(pList1 == NULL || pList2 == NULL){
+        return;
+    }
+    if(pList2->count == 0){
+        freeList(pList2 - listPool.lists);
+        return;
+    }
+    if(pList1->count == 0){
+        *pList1 = *pList2;
+    }
+    else{
+        nodePool.nodes[pList1->tail].next = pList2->head;
+        nodePool.nodes[pList2->head].prev = pList1->tail;
+        pList1->tail = pList2->tail;
+        pList1->count += pList2->count;
+    }
+    freeList(pList2 - listPool.lists);
 }
