@@ -4,4 +4,294 @@
  * 11339265
  */
 
+./sim 5 4
+runningq[0] initialized: 131451904
+runningq[1] initialized: 131451924
+runningq[2] initialized: 131451944
+runningq[3] initialized: 131451964
+runningq[4] initialized: 131451984
+process_3 is running. (priority 0)
+process_1 is start block.
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_2 is running. (priority 2)
+process_4 is running. (priority 3)
+process_3 is start block.
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_2 is running. (priority 2)
+process_3 is done blocking.
+process_3 is start block.
+process_1 is running. (priority 1)
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_1 is start block.
+process_2 is start block.
+process_4 is start block.
+process_3 is done blocking.
+process_3 is running. (priority 0)
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_2 is done blocking.
+process_2 is start block.
+process_0 is running. (priority 3)
+process_3 is running. (priority 0)
+process_2 is done blocking.
+process_2 is running. (priority 2)
+process_1 is start block.
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_3 is start block.
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_0 is running. (priority 3)
+process_3 is done blocking.
+process_3 is start block.
+process_2 is start block.
+process_0 is running. (priority 3)
+process_1 is start block.
+process_4 is done blocking.
+process_4 is running. (priority 3)
+process_3 is done blocking.
+process_3 is start block.
+process_1 is done blocking.
+process_1 is start block.
+process_2 is done blocking.
+process_2 is start block.
+process_0 is running. (priority 3)
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_4 is start block.
+process_3 is done blocking.
+process_3 is running. (priority 0)
+process_2 is done blocking.
+process_2 is start block.
+process_0 is running. (priority 3)
+process_1 is running. (priority 1)
+process_2 is done blocking.
+process_2 is start block.
+process_0 is start block.
+process_3 is running. (priority 0)
+process_4 is done blocking.
+process_4 is start block.
+process_1 is running. (priority 1)
+process_2 is done blocking.
+process_2 is running. (priority 2)
+process_0 is done blocking.
+process_0 is running. (priority 3)
+process_3 is start block.
+process_0 is running. (priority 3)
+process_1 is start block.
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_4 is done blocking.
+process_4 is running. (priority 3)
+process_3 is done blocking.
+process_3 is running. (priority 0)
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_2 is start block.
+process_0 is running. (priority 3)
+process_4 is running. (priority 3)
+process_3 is running. (priority 0)
+process_1 is running. (priority 1)
+process_3 is running. (priority 0)
+process_1 is start block.
+process_2 is done blocking.
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_2 is running. (priority 2)
+process_0 is start block.
+process_4 is running. (priority 3)
+process_3 is running. (priority 0)
+process_1 is done blocking.
+process_1 is start block.
+process_4 is running. (priority 3)
+process_3 is start block.
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_2 is running. (priority 2)
+process_1 is start block.
+process_0 is done blocking.
+process_0 is running. (priority 3)
+process_4 is running. (priority 3)
+process_3 is done blocking.
+process_3 is running. (priority 0)
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_3 is running. (priority 0)
+process_1 is running. (priority 1)
+process_2 is start block.
+process_0 is running. (priority 3)
+process_4 is running. (priority 3)
+process_3 is running. (priority 0)
+process_1 is running. (priority 1)
+process_2 is done blocking.
+process_2 is running. (priority 2)
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_3 is running. (priority 0)
+process_1 is running. (priority 1)
+process_2 is running. (priority 2)
+process_1 is start block.
+process_0 is start block.
+process_3 is running. (priority 0)
+process_2 is running. (priority 2)
+process_4 is running. (priority 3)
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_2 is running. (priority 2)
+process_0 is done blocking.
+process_0 is start block.
+process_3 is start block.
+process_1 is start block.
+process_0 is done blocking.
+process_0 is start block.
+process_3 is done blocking.
+process_3 is running. (priority 0)
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_2 is running. (priority 2)
+process_0 is done blocking.
+process_0 is start block.
+process_1 is running. (priority 1)
+process_0 is done blocking.
+process_0 is running. (priority 3)
+process_3 is running. (priority 0)
+process_1 is running. (priority 1)
+process_2 is start block.
+process_0 is running. (priority 3)
+process_2 is done blocking.
+process_2 is running. (priority 2)
+process_3 is start block.
+process_1 is start block.
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_0 is running. (priority 3)
+process_4 is running. (priority 3)
+process_3 is done blocking.
+process_3 is start block.
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_2 is running. (priority 2)
+process_0 is start block.
+process_1 is running. (priority 1)
+process_0 is done blocking.
+process_0 is running. (priority 3)
+process_4 is running. (priority 3)
+process_3 is done blocking.
+process_3 is start block.
+process_1 is running. (priority 1)
+process_2 is start block.
+process_3 is done blocking.
+process_3 is running. (priority 0)
+process_1 is running. (priority 1)
+process_2 is done blocking.
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_1 is running. (priority 1)
+process_2 is running. (priority 2)
+process_3 is start block.
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_1 is start block.
+process_0 is start block.
+process_4 is running. (priority 3)
+process_3 is done blocking.
+process_3 is running. (priority 0)
+process_1 is done blocking.
+process_1 is start block.
+process_2 is running. (priority 2)
+process_0 is done blocking.
+process_0 is start block.
+process_4 is running. (priority 3)
+process_3 is start block.
+process_1 is done blocking.
+process_1 is start block.
+process_2 is running. (priority 2)
+process_0 is done blocking.
+process_0 is running. (priority 3)
+process_4 is start block.
+process_3 is done blocking.
+process_3 is running. (priority 0)
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_2 is start block.
+process_0 is start block.
+process_1 is running. (priority 1)
+process_2 is done blocking.
+process_2 is running. (priority 2)
+process_0 is done blocking.
+process_0 is running. (priority 3)
+process_3 is running. (priority 0)
+process_1 is running. (priority 1)
+process_2 is start block.
+process_1 is running. (priority 1)
+process_0 is running. (priority 3)
+process_4 is done blocking.
+process_4 is running. (priority 3)
+process_3 is running. (priority 0)
+process_2 is done blocking.
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_1 is start block.
+process_3 is running. (priority 0)
+process_1 is done blocking.
+process_1 is start block.
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_3 is running. (priority 0)
+process_2 is running. (priority 2)
+process_0 is start block.
+process_3 is running. (priority 0)
+process_1 is running. (priority 1)
+process_2 is running. (priority 2)
+process_0 is done blocking.
+process_0 is running. (priority 3)
+process_0 is running. (priority 3)
+process_3 is running. (priority 0)
+process_1 is running. (priority 1)
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_3 is running. (priority 0)
+process_0 is running. (priority 3)
+process_3 is running. (priority 0)
+process_1 is start block.
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_2 is running. (priority 2)
+process_4 is start block.
+process_3 is running. (priority 0)
+process_1 is done blocking.
+process_1 is start block.
+process_0 is start block.
+process_3 is start block.
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_2 is running. (priority 2)
+process_4 is done blocking.
+process_4 is running. (priority 3)
+process_3 is done blocking.
+process_3 is start block.
+process_1 is start block.
+process_3 is done blocking.
+process_3 is start block.
+process_1 is done blocking.
+process_1 is start block.
+process_2 is running. (priority 2)
+process_0 is done blocking.
+process_0 is running. (priority 3)
+process_3 is done blocking.
+process_3 is running. (priority 0)
+process_0 is running. (priority 3)
+process_4 is running. (priority 3)
+process_3 is start block.
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_2 is running. (priority 2)
+^C
 
