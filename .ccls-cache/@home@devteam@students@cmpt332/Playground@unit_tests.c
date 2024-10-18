@@ -100,7 +100,7 @@ void test6_ListAdd(){
 }
 
 
-int main(int argc, char *argv[]){
+int main(){
     
     test_ListCreate();
     test_ListAdd();
