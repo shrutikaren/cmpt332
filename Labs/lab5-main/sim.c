@@ -52,7 +52,7 @@ static struct {
 static PID scheduler_pid;
 
 /* Queue for different priorities */
-LIST_HANDLE runningq[NUM_PRIORITIES];
+unsigned int runningq[NUM_PRIORITIES];
 
 /* Returns the next process to run or NULL if there is nothing runnable */
 struct proc *next_proc() {
