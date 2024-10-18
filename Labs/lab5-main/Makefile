@@ -51,7 +51,11 @@ $(OBJ_DIR)/sim.o: sim.c list.h | $(OBJ_DIR)
 # compile objects for list
 $(OBJ_DIR)/list_adders.o : list_adders.c list.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) list_adders.c -o \
+<<<<<<< HEAD
 	$(OBJ_DIR)/list_adders.o
+=======
+	 $(OBJ_DIR)/list_adders.o
+>>>>>>> 5b3c8d9 (adding makefile)
 
 $(OBJ_DIR)/list_movers.o : list_movers.c list.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) list_movers.c -o \
@@ -70,6 +74,7 @@ $(BIN_DIR)/sim: $(OBJ_DIR)/sim.o $(LIB_DIR)/liblist.a \
 	$(UBC_PTHREAD_DIR)/libpthreads.a | $(BIN_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(INC) $(UBC_COMPILER_FLAG) \
 <<<<<<< HEAD
+<<<<<<< HEAD
 	$(OBJ_DIR)/sim.o \
 	-L$(LIB_DIR) $(LIB_DIR)/liblist.a -L$(UBC_PTHREAD_DIR) -lpthreads -o \
 	$(BIN_DIR)/sim
@@ -77,6 +82,11 @@ $(BIN_DIR)/sim: $(OBJ_DIR)/sim.o $(LIB_DIR)/liblist.a \
 	$(OBJ_DIR)/sim.o -L$(LIB_DIR) $(LIB_DIR)/liblist.a -L$(UBC_PTHREAD_DIR)\
 	-lpthreads -o $(BIN_DIR)/sim
 >>>>>>> refs/remotes/origin/main
+=======
+	$(OBJ_DIR)/sim.o \
+	-L$(LIB_DIR) $(LIB_DIR)/liblist.a -L$(UBC_PTHREAD_DIR) -lpthreads \
+	-o $(BIN_DIR)/sim
+>>>>>>> 5b3c8d9 (adding makefile)
 
 # Symlink rule for monitor
 sim: $(BIN_DIR)/sim
