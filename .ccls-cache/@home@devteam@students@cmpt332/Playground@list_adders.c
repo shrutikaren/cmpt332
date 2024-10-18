@@ -191,13 +191,16 @@ int ListPrepend(LIST *pList, void *pItem){
 }
 
 void ListConcat(LIST *pList1, LIST *pList2){
+
     if(pList1 == NULL || pList2 == NULL){
         return;
     }
+
     if(pList2->count == 0){
         freeList(pList2 - listPool.lists);
         return;
     }
+
     if(pList1->count == 0){
         *pList1 = *pList2;
     }
@@ -207,5 +210,6 @@ void ListConcat(LIST *pList1, LIST *pList2){
         pList1->tail = pList2->tail;
         pList1->count += pList2->count;
     }
+
     freeList(pList2 - listPool.lists);
 }
