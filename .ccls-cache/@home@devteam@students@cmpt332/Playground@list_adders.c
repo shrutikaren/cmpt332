@@ -53,7 +53,9 @@ int allocateNode(void) {
         nodePool.freeNodes = newFreeNodes;
         nodePool.totalNodes = newTotalNodes;
     }
+
     return nodePool.freeNodes[--nodePool.freeNodeCount];
+
 }
 
 /* Free a node back to the pool */
@@ -63,6 +65,7 @@ void freeNode(int index) {
 
 /* Allocate a list from the pool */
 int allocateList(void) {
+
     int i;
 
     if (listPool.freeListCount == 0) {

@@ -20,5 +20,23 @@ void *ListTrim(LIST *pList) {
 
 /* Free the list and its nodes */
 void ListFree(LIST *pList, void (*itemFree)(void *pItem)) {
+    
+    if(pList == NULL){ return; }
+
+    int nodeIndex = pList->head;
+
+    while (nodeIndex != UNUSED_NODE) {
+
+        int nextNode = nodePool.nodes[nodeIndex].next;
+        if(itemFree != NULL && nodePool.nodes[nodeIndex].item != NULL){
+            itemFree(nodePool.nodes[nodeIndex].item);
+        }
+        freeNode(nodeIndex);
+        nodeIndex = nextNode;
+
+    }
+
+    int listIndex = pList - listPool.lists;
+    freeList(listIndex);
   
 }
