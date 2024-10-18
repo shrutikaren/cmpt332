@@ -132,12 +132,40 @@ LIST *ListCreate(void){
 
 }
 
-void ListFree(LIST *pList, void (*itemFree)(void *pItem)){
-    return;
-}
-
 int ListAdd(LIST *pList, void *pItem){
-    return -1;
+    if(pList == NULL){ return EXIT_FAILURE; }
+
+    int newNodeIndex = allocateNode();
+
+    nodePool.nodes[newNodeIndex].item = pItem;
+    nodePool.nodes[newNodeIndex].next = UNUSED_NODE;
+    nodePool.nodes[newNodeIndex].prev = UNUSED_NODE;
+
+    if(pList->count == 0){
+        pList->head = pList->tail = pList->current = newNodeIndex;
+    }
+
+    else if (pList->current == UNUSED_NODE){
+        nodePool.nodes[newNodeIndex].prev = pList->tail;
+        nodePool.nodes[newNodeIndex].next = newNodeIndex;
+        pList->tail = pList->current = newNodeIndex;
+    }
+
+    else{
+        int nextNode = nodePool.nodes[pList->current].next;
+        nodePool.nodes[newNodeIndex].prev = pList->current;
+        nodePool.nodes[newNodeIndex].next = nextNode;
+        nodePool.nodes[pList->current].next = newNodeIndex;
+        if (nextNode != UNUSED_NODE) {
+            nodePool.nodes[nextNode].prev = newNodeIndex;
+        }
+        else{
+            pList->tail = newNodeIndex;
+        }
+        pList->current = newNodeIndex;
+    }
+    pList->count++;
+    return EXIT_SUCCESS;
 }
 
 int ListInsert(LIST *pList, void *pItem){
