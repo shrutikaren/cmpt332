@@ -122,8 +122,8 @@ void ListDispose(void){
 
 LIST *ListCreate(void){
     
-    initializePools();
     int index = allocateList();
+    initializePools();
     if(index < 0){
         return NULL;
     }
@@ -133,9 +133,11 @@ LIST *ListCreate(void){
 }
 
 int ListAdd(LIST *pList, void *pItem){
+
+    int newNodeIndex;
     if(pList == NULL){ return EXIT_FAILURE; }
 
-    int newNodeIndex = allocateNode();
+    newNodeIndex = allocateNode();
 
     nodePool.nodes[newNodeIndex].item = pItem;
     nodePool.nodes[newNodeIndex].next = UNUSED_NODE;
@@ -171,11 +173,12 @@ int ListAdd(LIST *pList, void *pItem){
 
 int ListInsert(LIST *pList, void *pItem){
 
+    int newNodeIndex;
     if(pList == NULL){
         return EXIT_FAILURE;
     }
 
-    int newNodeIndex = allocateNode();
+    newNodeIndex = allocateNode();
     nodePool.nodes[newNodeIndex].item = pItem;
     nodePool.nodes[newNodeIndex].next = UNUSED_NODE;
     nodePool.nodes[newNodeIndex].prev = UNUSED_NODE;
