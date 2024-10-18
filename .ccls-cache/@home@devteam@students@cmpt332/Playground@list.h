@@ -95,6 +95,7 @@ int allocateNode(void);
 void freeNode(int index);
 int allocateList(void);
 void freeList(int index);
+void ListDispose(void);
 
 #endif /* LIST_IMPLEMENTATION */
 

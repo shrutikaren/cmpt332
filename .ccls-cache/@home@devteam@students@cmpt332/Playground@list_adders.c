@@ -98,6 +98,28 @@ void freeList(int index) {
     listPool.freeLists[listPool.freeListCount++] = index;
 }
 
+void ListDispose(void){
+    if(nodePool.node != NULL){
+        free(nodePool.nodes);
+        nodePool.nodes = NULL;
+    }
+
+    if(nodePool.node != NULL){
+        free(nodePool.freeNodes);
+        nodePool.freeNodes = NULL;
+    }
+
+    if(nodePool.node != NULL){
+        free(nodePool.lists);
+        nodePool.lists = NULL;
+    }
+
+    if(listPool.node != NULL){
+        free(listPool.freeLists);
+        listPool.freeLists = NULL;
+    }
+}
+
 LIST *ListCreate(void){
     
     initializePools();
