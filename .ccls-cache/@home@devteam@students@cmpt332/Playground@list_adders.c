@@ -99,22 +99,22 @@ void freeList(int index) {
 }
 
 void ListDispose(void){
-    if(nodePool.node != NULL){
+    if(nodePool.nodes != NULL){
         free(nodePool.nodes);
         nodePool.nodes = NULL;
     }
 
-    if(nodePool.node != NULL){
+    if(nodePool.nodes != NULL){
         free(nodePool.freeNodes);
         nodePool.freeNodes = NULL;
     }
 
-    if(nodePool.node != NULL){
-        free(nodePool.lists);
-        nodePool.lists = NULL;
+    if(listPool.lists!= NULL){
+        free(listPool.lists);
+        listPool.lists = NULL;
     }
 
-    if(listPool.node != NULL){
+    if(listPool.lists != NULL){
         free(listPool.freeLists);
         listPool.freeLists = NULL;
     }
