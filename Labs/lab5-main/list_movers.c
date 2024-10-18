@@ -1,3 +1,8 @@
+/*
+ * Shruti KAUR
+ * 11332965
+ * ICH524
+ * */
 #define LIST_IMPLEMENTATION
 #include <stdlib.h>
 #include <list.h>
