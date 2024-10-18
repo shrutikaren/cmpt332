@@ -8,7 +8,6 @@ void test_ListCreate(){
     assert(list != NULL);
     assert(ListCount(list) == 0);
     printf("test_ListCreate passed.\n");
-    ListFree(list, NULL);
 }
 
 /* Checking if list created with one item */
@@ -96,6 +95,8 @@ void test6_ListAdd(){
         void* item = ListRemove(list);
         free(item);
     }
+
+    assert(ListCount(list) == 0);
 
     printf("test6_ListAdd passed. \n");
 }
