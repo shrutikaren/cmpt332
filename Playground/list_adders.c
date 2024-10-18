@@ -171,7 +171,37 @@ int ListAdd(LIST *pList, void *pItem){
 
 int ListInsert(LIST *pList, void *pItem){
 
-    return 0;
+    if(pList == NULL){
+        return EXIT_FAILURE;
+    }
+
+    int newNodeIndex = allocateNode();
+    nodePool.nodes[newNodeIndex].item = pItem;
+    nodePool.nodes[newNodeIndex].next = UNUSED_NODE;
+    nodePool.nodes[newNodeIndex].prev = UNUSED_NODE;
+
+    if(pList->count == 0){
+        pList->head = pList->tail = pList->current = newNodeIndex;
+    }
+    else if (pList->current == UNUSED_NODE){
+        nodePool.nodes[newNodeIndex].next = pList->head;
+        nodePool.nodes[pList->head].prev = newNodeIndex;
+        pList->head = pList->current = newNodeIndex;
+    }
+    else{
+        int prevNode = nodePool.nodes[pList->current].prev;
+        nodePool.nodes[newNodeIndex].next = pList->current;
+        nodePool.nodes[newNodeIndex].prev = prevNode;
+        nodePool.nodes[pList->current].prev = newNodeIndex;
+        if(prevNode != UNUSED_NODE){
+            nodePool.nodes[prevNode].next = newNodeIndex;
+        }else{
+            pList->head = newNodeIndex;
+        }
+        pList->current = newNodeIndex;
+    }
+    pList->count++;
+    return EXIT_SUCCESS;
 }
 
 int ListAppend(LIST *pList, void *pItem){
@@ -212,4 +242,5 @@ void ListConcat(LIST *pList1, LIST *pList2){
     }
 
     freeList(pList2 - listPool.lists);
+
 }
