@@ -27,7 +27,11 @@ void *ListFirst(LIST *pList) {
 
 /* Move current to the last item */
 void *ListLast(LIST *pList) {
-    return NULL;
+    if(pList == NULL || pList->tail == UNUSED_NODE){
+        return NULL;
+    }
+    pList->current = pList->tail;
+    return nodePool.nodes[pList->current].item;
 }
 
 /* Return the current item */
@@ -54,11 +58,39 @@ void *ListNext(LIST *pList) {
 
 /* Move current to the previous item */
 void *ListPrev(LIST *pList) {
-    return NULL;
+    if(pList == NULL || pList->current == UNUSED_NODE){
+        return NULL;
+    }
+    int prevNode = nodePool.nodes[pList->current].prev;
+    if(prevNode == UNUSED_NODE){
+        pList->current = UNUSED_NODE;
+        return NULL;
+    }
+    pList->current = prevNode;
+    return nodePool.nodes[pList->current].item;
 }
 
 /* Search the list starting from current */
 void *ListSearch(LIST *pList,
                  int (*comparator)(void *, void *), void *pComparisonArg) {
+
+    if(pList == NULL || comparator == NULL){
+        return NULL;
+    }
+    
+    int nodeIndex = pList->current;
+    
+    while (nodeIndex != UNUSED_NODE) {
+        void* item = nodePool.nodes[nodeIndex].item;
+        if(comparator(item,pComparisonArg) == 1){
+            pList->current = nodeIndex;
+            return item;
+        }
+        nodeIndex = nodePool.nodes[nodeIndex].next;
+    }
+    
+    pList->current = UNUSED_NODE;
+    
     return NULL;
+
 }

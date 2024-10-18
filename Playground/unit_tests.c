@@ -72,7 +72,7 @@ void test6_ListAdd(){
 
     int i;
     LIST* list = ListCreate();
-    const int numitems = 100000;
+    const int numitems = 1000000;
 
     for(i = 0; i < numitems; i ++){
         int *item = (int *)malloc(sizeof(int));
