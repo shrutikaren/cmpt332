@@ -52,10 +52,12 @@ void *ListTrim(LIST *pList) {
 
 /* Free the list and its nodes */
 void ListFree(LIST *pList, void (*itemFree)(void *pItem)) {
+
+    int nodeIndex, listIndex;
     
     if(pList == NULL){ return; }
 
-    int nodeIndex = pList->head;
+    nodeIndex = pList->head;
 
     while (nodeIndex != UNUSED_NODE) {
 
@@ -76,7 +78,7 @@ void ListFree(LIST *pList, void (*itemFree)(void *pItem)) {
     pList->inUse = 0;
 
     /* Return the list to the pool */
-    int listIndex = pList - listPool.lists;
+    listIndex = pList - listPool.lists;
     freeList(listIndex);
   
 }
