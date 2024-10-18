@@ -122,8 +122,9 @@ void ListDispose(void){
 
 LIST *ListCreate(void){
     
+    int index;
     initializePools();
-    int index = allocateList();
+    index = allocateList();
     if(index < 0){
         return NULL;
     }
