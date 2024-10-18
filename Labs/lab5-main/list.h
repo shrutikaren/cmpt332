@@ -1,3 +1,8 @@
+/*
+ * Shruti KAUR
+ * ICH524
+ * 11339265
+ * */
 #ifndef LIST_H
 #define LIST_H
 
