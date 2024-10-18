@@ -68,6 +68,36 @@ void test5_ListAdd(){
     printf("test5_ListAdd passed. \n");
 }
 
+void test6_ListAdd(){
+
+    LIST* list = ListCreate();
+    const int numitems = 100000;
+
+    for(int i = 0; i < numitems; i ++){
+        int *item = (int *)malloc(sizeof(int));
+        *item = i;
+        int result = ListAdd(list, item);
+        assert(result==EXIT_SUCCESS);
+        assert(ListCount(list) == i + 1);
+        assert(*(int *)ListCurr(list) == i);
+    }
+
+    ListFirst(list);
+    for (int i = 0; i < numitems; i++) {
+        assert(*(int*)ListCurr(list) == i);
+        if(i < numitems - 1){
+            assert(ListNext(list) != NULL);
+        }
+    }
+
+    for(int i = 0; i < numitems; i++){
+        void* item = ListRemove(list);
+        free(item);
+    }
+
+    printf("test6_ListAdd passed. \n");
+}
+
 
 int main(int argc, char *argv[]){
     

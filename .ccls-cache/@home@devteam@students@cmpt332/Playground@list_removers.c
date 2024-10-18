@@ -10,7 +10,34 @@ extern ListPool listPool;
 
 /* Remove the current item */
 void *ListRemove(LIST *pList) {
-    return NULL;
+
+    if(pList == NULL || pList->current == UNUSED_NODE){
+        return NULL;
+    }
+
+    int nodeIndex = pList->current;
+    void* item = nodePool.nodes[nodeIndex].item;
+    int prevNode = nodePool.nodes[nodeIndex].prev;
+    int nextNode = nodePool.nodes[nodeIndex].next;
+
+    if(prevNode != UNUSED_NODE){
+        nodePool.nodes[prevNode].next = nextNode;
+    }
+    else{
+        pList->head = nextNode;
+    }
+
+    if(nextNode != UNUSED_NODE){
+        nodePool.nodes[nextNode].prev = prevNode;
+    }
+    else{
+        pList->tail = prevNode;
+    }
+    pList->current = nextNode;
+    freeNode(nodeIndex);
+    pList->count--;
+
+    return item;
 }
 
 /* Remove and return the last item */
