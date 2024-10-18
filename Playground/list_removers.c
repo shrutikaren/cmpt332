@@ -43,7 +43,11 @@ void *ListRemove(LIST *pList) {
 
 /* Remove and return the last item */
 void *ListTrim(LIST *pList) {
-    return NULL;
+    if(pList == NULL || pList->tail == UNUSED_NODE){
+        return NULL;
+    }
+    pList->current = pList->tail;
+    return ListRemove(pList);
 }
 
 /* Free the list and its nodes */
