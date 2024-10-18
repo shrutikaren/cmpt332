@@ -1,7 +1,7 @@
 #define LIST_IMPLEMENTATION
 #include <stdio.h>
 #include <stdlib.h>
-#include "list.h"
+#include <list.h>
 
 #define UNUSED_NODE -1
 
@@ -40,7 +40,7 @@ int allocateNode(void){
 }
 
 void freeNode(int index){
-
+    return 0;
 }
 
 int allocateList(void){
@@ -97,7 +97,30 @@ void ListFree(LIST *pList, void (*itemFree)(void *pItem)){
 }
 
 int ListAdd(LIST *pList, void *pItem){
+    /* Case 1: The item doesn't exist */
+    if (pItem == NULL){
+	return -1;
+    }
+    
+    /* Case 2: The list is full */
+    if (pList->count >= MAX_SIZE){
+	return -1;
+    }
+
+    struct NODE addingItem;
+    addingItem.item = pItem;
+    addingItem.prev = pList->tail;
+
+    /* Case 3: The list doesn't exist */
+    if (pList->head == -1){
+	addingItem.item = NULL;
+	addingItem.prev = NULL;
+    }
+    pList.count++;
     return 0;
+	
+    }
+    return -1;
 }
 
 int ListInsert(LIST *pList, void *pItem){
