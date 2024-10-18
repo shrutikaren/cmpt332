@@ -56,6 +56,19 @@ void test4_ListAdd(){
     printf("test4_ListAdd passed. \n");
 }
 
+void test5_ListAdd(){
+    LIST* list = ListCreate();
+    int item1 = 4;
+    int item2 = -1; /* UNUSED_NODE */
+    int r1 = ListAdd(list, &item1);
+    int r2 = ListAdd(list, &item2);
+    assert(r1 == EXIT_SUCCESS);
+    assert(r2 == EXIT_SUCCESS);
+    assert(*(int*)ListCurr(list) == -1);
+    printf("test5_ListAdd passed. \n");
+}
+
+
 int main(int argc, char *argv[]){
     
     test_ListCreate();
@@ -63,6 +76,7 @@ int main(int argc, char *argv[]){
     test2_ListAdd();
     test3_ListAdd();
     test4_ListAdd(); 
+    test5_ListAdd();
 
     /* Remove all the memory at the end. */
     ListDispose();
