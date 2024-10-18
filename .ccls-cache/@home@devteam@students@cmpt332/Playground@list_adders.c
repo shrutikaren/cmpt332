@@ -35,29 +35,43 @@ void initializePools(void){
 
 }
 
-int allocateNode(void){
-    return 0;
+/* Allocate a node from the pool */
+int allocateNode(void) {
+
+    int i;
+
+    if (nodePool.freeNodeCount == 0) {
+        /* Expand node pool */
+        int newTotalNodes = nodePool.totalNodes * 2;
+        NODE *newNodes = realloc(nodePool.nodes, sizeof(NODE) * newTotalNodes);
+        int *newFreeNodes = realloc(nodePool.freeNodes,
+                                    sizeof(int) * newTotalNodes);
+        for (i = nodePool.totalNodes; i < newTotalNodes; i++) {
+            newFreeNodes[nodePool.freeNodeCount++] = i;
+        }
+        nodePool.nodes = newNodes;
+        nodePool.freeNodes = newFreeNodes;
+        nodePool.totalNodes = newTotalNodes;
+    }
+    return nodePool.freeNodes[--nodePool.freeNodeCount];
 }
 
-void freeNode(int index){
-
+/* Free a node back to the pool */
+void freeNode(int index) {
+    nodePool.freeNodes[nodePool.freeNodeCount++] = index;
 }
 
-int allocateList(void){
-    
-    int i = 0; 
-    
-    if(listPool.freeListCount == 0){
-        /* Expand list pool */ 
+/* Allocate a list from the pool */
+int allocateList(void) {
+    int i;
+
+    if (listPool.freeListCount == 0) {
+        /* Expand list pool */
         int newTotalLists = listPool.totalLists * 2;
-        LIST * newLists = realloc(
-            listPool.lists,
-            sizeof(LIST) * newTotalLists
-        );
-        int * newFreeLists = realloc(
-            listPool.freeLists,
-            sizeof(int) * newTotalLists
-        );
+        LIST *newLists = realloc(listPool.lists,
+                                 sizeof(LIST) * newTotalLists);
+        int *newFreeLists = realloc(listPool.freeLists,
+                                    sizeof(int) * newTotalLists);
         for (i = listPool.totalLists; i < newTotalLists; i++) {
             newLists[i].inUse = 0;
             newFreeLists[listPool.freeListCount++] = i;
@@ -66,7 +80,6 @@ int allocateList(void){
         listPool.freeLists = newFreeLists;
         listPool.totalLists = newTotalLists;
     }
-
     int index = listPool.freeLists[--listPool.freeListCount];
     listPool.lists[index].inUse = 1;
     listPool.lists[index].head = UNUSED_NODE;
@@ -76,8 +89,10 @@ int allocateList(void){
     return index;
 }
 
-void freeList(int index){
-
+/* Free a list back to the pool */
+void freeList(int index) {
+    listPool.lists[index].inUse = 0;
+    listPool.freeLists[listPool.freeListCount++] = index;
 }
 
 LIST *ListCreate(void){
@@ -97,7 +112,7 @@ void ListFree(LIST *pList, void (*itemFree)(void *pItem)){
 }
 
 int ListAdd(LIST *pList, void *pItem){
-    return 0;
+    return -1;
 }
 
 int ListInsert(LIST *pList, void *pItem){

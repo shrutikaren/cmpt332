@@ -1,7 +1,7 @@
 #define LIST_IMPLEMENTATION
 #include <stdio.h>
 #include <stdlib.h>
-#include <list.h>
+#include "list.h"
 
 #define UNUSED_NODE -1
 
@@ -37,13 +37,16 @@ void initializePools(void){
 
 /* Allocate a node from the pool */
 int allocateNode(void) {
+
+    int i;
+
     if (nodePool.freeNodeCount == 0) {
         /* Expand node pool */
         int newTotalNodes = nodePool.totalNodes * 2;
         NODE *newNodes = realloc(nodePool.nodes, sizeof(NODE) * newTotalNodes);
         int *newFreeNodes = realloc(nodePool.freeNodes,
                                     sizeof(int) * newTotalNodes);
-        for (int i = nodePool.totalNodes; i < newTotalNodes; i++) {
+        for (i = nodePool.totalNodes; i < newTotalNodes; i++) {
             newFreeNodes[nodePool.freeNodeCount++] = i;
         }
         nodePool.nodes = newNodes;
@@ -60,6 +63,8 @@ void freeNode(int index) {
 
 /* Allocate a list from the pool */
 int allocateList(void) {
+    int i;
+
     if (listPool.freeListCount == 0) {
         /* Expand list pool */
         int newTotalLists = listPool.totalLists * 2;
@@ -67,7 +72,7 @@ int allocateList(void) {
                                  sizeof(LIST) * newTotalLists);
         int *newFreeLists = realloc(listPool.freeLists,
                                     sizeof(int) * newTotalLists);
-        for (int i = listPool.totalLists; i < newTotalLists; i++) {
+        for (i = listPool.totalLists; i < newTotalLists; i++) {
             newLists[i].inUse = 0;
             newFreeLists[listPool.freeListCount++] = i;
         }
@@ -107,29 +112,6 @@ void ListFree(LIST *pList, void (*itemFree)(void *pItem)){
 }
 
 int ListAdd(LIST *pList, void *pItem){
-    /* Case 1: The item doesn't exist */
-    if (pItem == NULL){
-	return -1;
-    }
-    
-    /* Case 2: The list is full */
-    if (pList->count >= MAX_SIZE){
-	return -1;
-    }
-
-    struct NODE addingItem;
-    addingItem.item = pItem;
-    addingItem.prev = pList->tail;
-
-    /* Case 3: The list doesn't exist */
-    if (pList->head == -1){
-	addingItem.item = NULL;
-	addingItem.prev = NULL;
-    }
-    pList.count++;
-    return 0;
-	
-    }
     return -1;
 }
 
