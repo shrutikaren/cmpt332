@@ -40,7 +40,16 @@ void *ListCurr(LIST *pList) {
 
 /* Move current to the next item */
 void *ListNext(LIST *pList) {
-    return NULL;
+    if(pList == NULL || pList->current == UNUSED_NODE){
+        return NULL;
+    }
+    int nextNode = nodePool.nodes[pList->current].next;
+    if(nextNode == UNUSED_NODE){
+        pList->current = UNUSED_NODE;
+        return NULL;
+    }
+    pList->current = nextNode;
+    return nodePool.nodes[pList->current].item;
 }
 
 /* Move current to the previous item */
