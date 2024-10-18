@@ -9,6 +9,15 @@ void test_ListCreate(){
     printf("test_ListCreate passed.\n");
 }
 
+void test_ListAdd(){
+    LIST* list = ListCreate();
+    int item1 = 1;
+    int result = ListAdd(list, &item1);
+    assert(result == EXIT_SUCCESS);
+    assert(ListCount(list) == 1);
+    printf("test_ListCreate passed.\n");
+}
+
 int main(int argc, char *argv[]){
     
     test_ListCreate();

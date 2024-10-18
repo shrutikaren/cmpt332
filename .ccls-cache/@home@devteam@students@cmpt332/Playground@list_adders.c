@@ -165,6 +165,7 @@ int ListAdd(LIST *pList, void *pItem){
         pList->current = newNodeIndex;
     }
     pList->count++;
+            
     return EXIT_SUCCESS;
 }
 
