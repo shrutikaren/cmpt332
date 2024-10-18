@@ -1,337 +1,251 @@
-/*
- * Shruti Kaur
- * ich524
- * 11339265
- */
-
+#define LIST_IMPLEMENTATION
+#include <stdio.h>
 #include <stdlib.h>
-#include <list.h>
+#include "list.h"
 
-#define MIN_LISTS 2
-#define MIN_NODES 2
+#define UNUSED_NODE -1
 
+NodePool nodePool = {NULL, NULL, 0, 0};
+ListPool listPool = {NULL, NULL, 0, 0};
 
-/*
- * Allowed to use more than one array.
- *
- * Double pointer array is an acceptable solution: however, you will lose
- * marks.
- */
+void initializePools(void){
 
-/*
- * Purpose: Retrieves a node from node_space, and allocates more memory if
- * there is not enough.
- * Preconditions: int i; NODE_HANDLE node; NODE * temp; must be declared 
- * Postconditions: node is set to an empty node, or NULL on failure
- */
-#define NODECREATE(on_error) { \
-    /* Allocate more memory if we don't have enough space. */ \
-    node = UNUSED; \
-    if (node_count >= MIN_LISTS) { \
-        temp = (NODE *)realloc(node_space, \
-                (MIN_NODES << (node_mult + 1)) * sizeof(NODE)); \
-        if (!temp) { \
-            return on_error; \
-        } \
-        node_space = temp;\
-        node_mult++;\
-    } \
-    \
-    for (i = 0; i < (unsigned int)(MIN_NODES << (node_count / MIN_NODES)) \
-            ; i++) { \
-        if (!(node_space+i)->item) { \
-            node_count++; \
-            \
-            (node_space+i)->next = UNUSED; \
-            (node_space+i)->prev = UNUSED; \
-            \
-            node = i; \
-            break; \
-        } \
-    } \
+    int i;
+
+    if(nodePool.nodes == NULL){
+        nodePool.totalNodes = MIN_NODES;
+        nodePool.nodes = malloc(sizeof(NODE) * nodePool.totalNodes);
+        nodePool.freeNodes = malloc(sizeof(int) * nodePool.totalNodes);
+        for (i = 0; i < nodePool.totalNodes; i++) {
+            nodePool.freeNodes[i] = nodePool.totalNodes - i - 1; 
+        }
+        nodePool.freeNodeCount = nodePool.totalNodes;
+    }
+
+    if(listPool.lists == NULL){
+        listPool.totalLists = MIN_LISTS;
+        listPool.lists = malloc(sizeof(LIST) * listPool.totalLists);
+        listPool.freeLists = malloc(sizeof(int) * listPool.totalLists);
+        for (i = 0; i < listPool.totalLists; i++) {
+            listPool.lists[i].inUse = 0;
+            listPool.freeLists[i] = listPool.totalLists - i - 1;
+        }
+        listPool.freeListCount = listPool.totalLists;
+    }
+
 }
 
-/*
- * Purpose: Check if the amount of used lists is at or below half the capacity
- * of the allocated space.
- * Postcondition: if there are half or less of the lists used, halfs the
- * allocated space.
- */
+/* Allocate a node from the pool */
+int allocateNode(void) {
 
-LIST * list_space;
-NODE * node_space;
-unsigned int list_count, node_count, list_mult, node_mult;
+    int i;
 
-/*
- * Purpose: initializes an empty List to be further used by other functions.
- * Returns: a list pointer or NULL on error
- */
-LIST_HANDLE ListCreate() {
-    LIST * temp;
-    unsigned long i;
-   
-    if (!list_space) {
-        list_space = (LIST *)malloc(MIN_LISTS * sizeof(LIST));
-        if (!list_space) {
-            return UNUSED;
+    if (nodePool.freeNodeCount == 0) {
+        /* Expand node pool */
+        int newTotalNodes = nodePool.totalNodes * 2;
+        NODE *newNodes = realloc(nodePool.nodes, sizeof(NODE) * newTotalNodes);
+        int *newFreeNodes = realloc(nodePool.freeNodes,
+                                    sizeof(int) * newTotalNodes);
+        for (i = nodePool.totalNodes; i < newTotalNodes; i++) {
+            newFreeNodes[nodePool.freeNodeCount++] = i;
         }
-        for (i = 0; i < MIN_LISTS; i++) {
-            (list_space+i)->count = UNUSED;
-        }
-        list_mult = 0;
-        list_count = 0;
+        nodePool.nodes = newNodes;
+        nodePool.freeNodes = newFreeNodes;
+        nodePool.totalNodes = newTotalNodes;
     }
-   
-    if (!node_space) {
-        node_space = (NODE *)malloc(MIN_NODES * sizeof(NODE));
-        if (!node_space) {
-            free(list_space);
-            list_space = NULL;
-            return UNUSED;
+
+    return nodePool.freeNodes[--nodePool.freeNodeCount];
+
+}
+
+/* Free a node back to the pool */
+void freeNode(int index) {
+    nodePool.freeNodes[nodePool.freeNodeCount++] = index;
+}
+
+/* Allocate a list from the pool */
+int allocateList(void) {
+
+    int i, index;
+
+    if (listPool.freeListCount == 0) {
+        /* Expand list pool */
+        int newTotalLists = listPool.totalLists * 2;
+        LIST *newLists = realloc(listPool.lists,
+                                 sizeof(LIST) * newTotalLists);
+        int *newFreeLists = realloc(listPool.freeLists,
+                                    sizeof(int) * newTotalLists);
+        for (i = listPool.totalLists; i < newTotalLists; i++) {
+            newLists[i].inUse = 0;
+            newFreeLists[listPool.freeListCount++] = i;
         }
-        for (i = 0; i < MIN_NODES; i++) {
-            (node_space+i)->item = NULL;
-        }
-        node_mult = 0;
-        node_count = 0;
+        listPool.lists = newLists;
+        listPool.freeLists = newFreeLists;
+        listPool.totalLists = newTotalLists;
     }
+    index = listPool.freeLists[--listPool.freeListCount];
+    listPool.lists[index].inUse = 1;
+    listPool.lists[index].head = UNUSED_NODE;
+    listPool.lists[index].tail = UNUSED_NODE;
+    listPool.lists[index].current = UNUSED_NODE;
+    listPool.lists[index].count = 0;
+    return index;
+}
+
+/* Free a list back to the pool */
+void freeList(int index) {
+    listPool.lists[index].inUse = 0;
+    listPool.freeLists[listPool.freeListCount++] = index;
+}
+
+void ListDispose(void){
+    if(nodePool.nodes != NULL){
+        free(nodePool.nodes);
+        nodePool.nodes = NULL;
+    }
+
+    if(nodePool.nodes != NULL){
+        free(nodePool.freeNodes);
+        nodePool.freeNodes = NULL;
+    }
+
+    if(listPool.lists!= NULL){
+        free(listPool.lists);
+        listPool.lists = NULL;
+    }
+
+    if(listPool.lists != NULL){
+        free(listPool.freeLists);
+        listPool.freeLists = NULL;
+    }
+}
+
+LIST *ListCreate(void){
     
-    /* We assign the return value of realloc to a temporary value first.
-     * realloc will return NULL if we don't have enough memory BUT won't
-     * delete the original pointer. */
-    if (list_count >= (unsigned int)(MIN_LISTS << list_mult)) {
-        temp = (LIST *)realloc(list_space,
-                (MIN_LISTS << (list_mult + 1)) * sizeof(LIST));
-        if (!temp) {
-            return UNUSED;
+    int index;
+    initializePools();
+    index = allocateList();
+    if(index < 0){
+        return NULL;
+    }
+
+    return &listPool.lists[index];
+
+}
+
+int ListAdd(LIST *pList, void *pItem){
+
+    int newNodeIndex;
+    if(pList == NULL){ return EXIT_FAILURE; }
+
+    initializePools();
+    newNodeIndex = allocateNode();
+
+    nodePool.nodes[newNodeIndex].item = pItem;
+    nodePool.nodes[newNodeIndex].next = UNUSED_NODE;
+    nodePool.nodes[newNodeIndex].prev = UNUSED_NODE;
+
+    if(pList->count == 0){
+        pList->head = pList->tail = pList->current = newNodeIndex;
+    }
+
+    else if (pList->current == UNUSED_NODE){
+        nodePool.nodes[newNodeIndex].prev = pList->tail;
+        nodePool.nodes[newNodeIndex].next = newNodeIndex;
+        pList->tail = pList->current = newNodeIndex;
+    }
+
+    else{
+        int nextNode = nodePool.nodes[pList->current].next;
+        nodePool.nodes[newNodeIndex].prev = pList->current;
+        nodePool.nodes[newNodeIndex].next = nextNode;
+        nodePool.nodes[pList->current].next = newNodeIndex;
+        if (nextNode != UNUSED_NODE) {
+            nodePool.nodes[nextNode].prev = newNodeIndex;
         }
-        list_space = temp;
-        for (i = 0; i < (unsigned int)(MIN_LISTS << (list_mult)); i++) {
-            (list_space+i+(MIN_LISTS << list_mult))->count = UNUSED;
+        else{
+            pList->tail = newNodeIndex;
         }
-        list_mult++;
+        pList->current = newNodeIndex;
     }
-   
-    for (i = 0; i < (unsigned int)(MIN_LISTS << (list_mult)); i++) {
-        if ((list_space+i)->count == UNUSED) {
-            list_count++;
+    pList->count++;
+            
+    return EXIT_SUCCESS;
+}
 
-            /* clear out list */
-            (list_space+i)->head = UNUSED;
-            (list_space+i)->tail = UNUSED;
-            (list_space+i)->cursor = UNUSED;
-            (list_space+i)->count = 0;
+int ListInsert(LIST *pList, void *pItem){
 
-            return i;
+    int newNodeIndex;
+    if(pList == NULL){
+        return EXIT_FAILURE;
+    }
+
+    newNodeIndex = allocateNode();
+    nodePool.nodes[newNodeIndex].item = pItem;
+    nodePool.nodes[newNodeIndex].next = UNUSED_NODE;
+    nodePool.nodes[newNodeIndex].prev = UNUSED_NODE;
+
+    if(pList->count == 0){
+        pList->head = pList->tail = pList->current = newNodeIndex;
+    }
+    else if (pList->current == UNUSED_NODE){
+        nodePool.nodes[newNodeIndex].next = pList->head;
+        nodePool.nodes[pList->head].prev = newNodeIndex;
+        pList->head = pList->current = newNodeIndex;
+    }
+    else{
+        int prevNode = nodePool.nodes[pList->current].prev;
+        nodePool.nodes[newNodeIndex].next = pList->current;
+        nodePool.nodes[newNodeIndex].prev = prevNode;
+        nodePool.nodes[pList->current].prev = newNodeIndex;
+        if(prevNode != UNUSED_NODE){
+            nodePool.nodes[prevNode].next = newNodeIndex;
+        }else{
+            pList->head = newNodeIndex;
         }
+        pList->current = newNodeIndex;
     }
-
-    return UNUSED;
+    pList->count++;
+    return EXIT_SUCCESS;
 }
 
-/*
- * Purpose: inserts an item into the list before the current item
- * Returns: 0 on success, -1 on failure
- */
-int ListInsert(LIST_HANDLE list, void *item) {
-    NODE * temp;
-    NODE_HANDLE node, cursor;
-    unsigned int i;
-
-    if (list == UNUSED) {
-        return -1;
+int ListAppend(LIST *pList, void *pItem){
+    if(pList == NULL){
+        return EXIT_FAILURE;
     }
-    if (!item) {
-        return -1;
-    }
-
-    NODECREATE(-1);
-    (node_space+node)->item = item;
-    
-    cursor = (list_space+list)->cursor;
-
-    if ((list_space+list)->count == 0) {
-       (list_space+list)->head = node;
-       (list_space+list)->tail = node;
-       (list_space+list)->cursor = node;
-       (list_space+list)->count++;
-       return 0;
-    }
-   
-    (node_space+node)->prev = (list_space+list)->cursor;
-    if ((node_space+cursor)->next == UNUSED) {
-        (node_space+cursor)->next = node;
-        (list_space+list)->tail = node;
-    } else {
-        (node_space+(node_space+cursor)->next)->prev = node;
-        (node_space+node)->next = (node_space+cursor)->next;
-        (node_space+cursor)->next = node;
-    }
-    (list_space+list)->cursor = node;
-    (list_space+list)->count++;
-   
-    return 0;
+    pList->current = pList->tail;
+    return ListAdd(pList, pItem);
 }
 
-/*
- * Purpose: inserts an item into the list after the current item
- * Returns: 0 on success, -1 on failure
- */
-int ListAdd(LIST_HANDLE list, void *item) {
-    NODE * temp;
-    NODE_HANDLE node, cursor;
-    unsigned int i;
-
-    if (list == UNUSED) {
-        return -1;
+int ListPrepend(LIST *pList, void *pItem){
+    if(pList == NULL){
+        return EXIT_FAILURE;
     }
-    if (!item) {
-        return -1;
-    }
-
-    NODECREATE(-1);
-    if(node == UNUSED){
-    	return -1;
-    }
-
-    (node_space+node)->item = item;
-    cursor = (list_space+list)->cursor;
-
-    if ((list_space+list)->count == 0) {
-        (list_space+list)->head = node;
-        (list_space+list)->tail = node;
-        (list_space+list)->cursor = node;
-        (list_space+list)->count++;
-        return 0;
-    }
-
-    (node_space+node)->next = (list_space+list)->cursor;
-    if ((node_space+cursor)->prev == UNUSED) {
-        (node_space+cursor)->prev = node;
-        (list_space+list)->head = node;
-    } else {
-        (node_space+(node_space+cursor)->prev)->next = node;
-        (node_space+node)->prev = (node_space+cursor)->prev;
-        (node_space+cursor)->prev = node;
-    }
-    (list_space+list)->cursor = node;
-    (list_space+list)->count++;
-
-    return 0;
+    pList->current = pList->head;
+    return ListInsert(pList, pItem);
 }
 
-/*
- * Purpose: appends an item to the end of the list
- * Returns: 0 on success, -1 on failure
- */
-int ListAppend(LIST_HANDLE list, void *item) {
-    NODE * temp;
-    NODE_HANDLE node;
-    unsigned int i;
+void ListConcat(LIST *pList1, LIST *pList2){
 
-    if (list == UNUSED) {
-        return -1;
-    }
-    if (!item) {
-        return -1;
-    }
-
-    NODECREATE(-1);
-
-    (node_space+node)->item = item;
-
-    if ((list_space+list)->count == 0) {
-        (list_space+list)->head = node;
-        (list_space+list)->tail = node;
-        (list_space+list)->cursor = node;
-        (list_space+list)->count++;
-        return 0;
-    }
-   
-    (node_space+((list_space+list)->tail))->next = node;
-    (node_space+node)->prev = (list_space+list)->tail;
-    (list_space+list)->tail = node;
-    (list_space+list)->cursor = node;
-    (list_space+list)->count++;
-
-    return 0;
-}
-
-/*
- * Purpose: prepends an item to the start of the list
- * Returns: 0 on success, -1 on failure
- */
-int ListPrepend(LIST_HANDLE list, void *item) {
-    NODE * temp;
-    NODE_HANDLE node;
-    unsigned int i;
-
-    if (list == UNUSED) {
-        return -1;
-    }
-    if (!item) {
-        return -1;
-    }
-
-    NODECREATE(-1);
-
-    (node_space+node)->item = item;
-
-    if ((list_space+list)->count == 0) {
-       (list_space+list)->head = node;
-       (list_space+list)->tail = node;
-       (list_space+list)->cursor = node;
-       (list_space+list)->count++;
-       return 0;
-    }
-
-    (node_space+(list_space+list)->head)->prev = node;
-    (node_space+node)->next = (list_space+list)->head;
-    (list_space+list)->head = node;
-    (list_space+list)->cursor = node;
-    (list_space+list)->count++;
-
-    return 0;
-}
-
-/*
- * Purpose: adds list2 to the end of list1
- * Postconditions: list2 is destroyed
- * Note: List memory will not be reduced in this function until Phase 3.
- *       Only increasing memory is required for Phase 2.
- */
-void ListConcat(LIST_HANDLE list1, LIST_HANDLE list2) {
-    if (list1 == UNUSED) {
-        return;
-    }
-    if (list2 == UNUSED) {
-        return;
-    }
-    /* We allow the concatenation of empty lists.*/
-    if ((list_space+list2)->count == 0) {
-        (list_space+list2)->count = UNUSED;
-        return;
-    }
-    /* In the event list1 is empty and list2 is not, copy list2 into list1,
-     * and free it.*/
-    if ((list_space+list1)->count == 0) {
-        (list_space+list1)->head = (list_space+list2)->head;
-        (list_space+list1)->tail = (list_space+list2)->tail;
-        (list_space+list1)->cursor =(list_space+list2)->cursor;
-        (list_space+list1)->count = (list_space+list2)->count;
-        (list_space+list2)->count = UNUSED;
+    if(pList1 == NULL || pList2 == NULL){
         return;
     }
 
-    (node_space+(list_space+list1)->tail)->next = (list_space+list2)->head;
-    (node_space+(list_space+list2)->head)->prev = (list_space+list1)->tail;
-    (list_space+list1)->tail = (list_space+list2)->tail;
-    (list_space+list1)->count += (list_space+list2)->count;
-    
-    (list_space+list2)->count = UNUSED;
-    list_count--;
-    /* TODO: add list_count check (macro?) to reduce memory for Phase 3. */
-    
+    if(pList2->count == 0){
+        freeList(pList2 - listPool.lists);
+        return;
+    }
 
-    return;
+    if(pList1->count == 0){
+        *pList1 = *pList2;
+    }
+    else{
+        nodePool.nodes[pList1->tail].next = pList2->head;
+        nodePool.nodes[pList2->head].prev = pList1->tail;
+        pList1->tail = pList2->tail;
+        pList1->count += pList2->count;
+    }
+
+    freeList(pList2 - listPool.lists);
+
 }

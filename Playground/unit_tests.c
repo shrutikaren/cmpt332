@@ -126,7 +126,6 @@ int main(){
 		
     test7_ListInsert();
     /* Remove all the memory at the end. */
-    ListDispose();
 
     return EXIT_SUCCESS;
 

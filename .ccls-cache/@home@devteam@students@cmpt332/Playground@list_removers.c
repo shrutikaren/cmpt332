@@ -37,11 +37,21 @@ void *ListRemove(LIST *pList) {
         pList->tail = prevNode;
     }
 
-    pList->current = nextNode;
+    if(nextNode != UNUSED_NODE){
+        pList->current = nextNode;
+    }
+    else if (prevNode != UNUSED_NODE){
+        pList->current = prevNode;
+    }
+    else{
+        pList->current = UNUSED_NODE;
+    }
+
     freeNode(nodeIndex);
     pList->count--;
 
     return item;
+
 }
 
 /* Remove and return the last item */
