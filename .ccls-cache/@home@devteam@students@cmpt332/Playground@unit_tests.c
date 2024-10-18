@@ -21,6 +21,7 @@ void test_ListAdd(){
 int main(int argc, char *argv[]){
     
     test_ListCreate();
+    test_ListAdd();
 
     /* Remove all the memory at the end. */
     ListDispose();

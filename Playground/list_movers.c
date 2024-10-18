@@ -28,7 +28,10 @@ void *ListLast(LIST *pList) {
 
 /* Return the current item */
 void *ListCurr(LIST *pList) {
-    return NULL;
+    if(pList == NULL || pList->current == UNUSED_NODE){
+        return NULL;
+    }
+    return nodePool.nodes[pList->current].item;
 }
 
 /* Move current to the next item */
