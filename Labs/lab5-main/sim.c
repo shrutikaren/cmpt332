@@ -52,7 +52,11 @@ static struct {
 static PID scheduler_pid;
 
 /* Queue for different priorities */
+<<<<<<< HEAD
 unsigned int runningq[NUM_PRIORITIES];
+=======
+LIST* runningq[NUM_PRIORITIES];
+>>>>>>> refs/remotes/origin/main
 
 /* Returns the next process to run or NULL if there is nothing runnable */
 struct proc *next_proc() {
@@ -61,16 +65,16 @@ struct proc *next_proc() {
 
     /* Go through priority queues starting from the highest priority */
     for (priority = 0; priority < NUM_PRIORITIES; priority++) {
-        if (runningq[priority] == UNUSED) {
+        if (runningq[priority] == NULL) {
             printf("Error: runningq[%d] is NULL or invalid\n", priority);
             continue; 
         }
-        p = ListFirst(runningq[priority]);
+        p = (struct proc*)ListFirst(runningq[priority]);
         while (p != NULL) {  
             if (p->state == RUNNABLE) {
                 return p;  
             }
-            p = ListNext(runningq[priority]);
+            p = (struct proc*)ListNext(runningq[priority]);
         }
     }
     return NULL;  /* No runnable process found */
@@ -123,7 +127,7 @@ void set_state(enum pstate state) {
 
         if (state == RUNNABLE) {
             /* Add to the runnable queue by priority */
-            if(ListAdd(runningq[p->priority], p) == -1){
+            if(ListAdd(runningq[p->priority], p) == EXIT_FAILURE){
 		panic("Failed to add proccess to runnable queue");	
 	    }
 
@@ -220,7 +224,7 @@ int mainp(int argc, char **argv) {
     /* Initialize priority queues */
     for (i = 0; i < NUM_PRIORITIES; i++) {
         runningq[i] = ListCreate(); 
-        if (runningq[i] == UNUSED) { 
+        if (runningq[i] == NULL) { 
             panic("Failed to create list for priority queue!");
         }
 	else{
