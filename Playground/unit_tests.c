@@ -101,6 +101,18 @@ void test6_ListAdd(){
     printf("test6_ListAdd passed. \n");
 }
 
+void test7_ListInsert(){
+    LIST* list = ListCreate();
+    int i, result;
+    constant int numitems =  5;
+
+    for (i = 0; i < numitems; i++){
+	result = ListInsert(list, *numitems);
+    } 	
+    assert(*(int *)ListCurr(list) == 4;
+    assert(ListCount(list) = 5);
+    printf("test7_ListInsert() passed. \n");
+}
 
 int main(){
     
@@ -111,7 +123,8 @@ int main(){
     test4_ListAdd(); 
     test5_ListAdd();
     test6_ListAdd();
-
+		
+    test7_ListInsert();
     /* Remove all the memory at the end. */
     ListDispose();
 
