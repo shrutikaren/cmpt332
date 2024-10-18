@@ -44,10 +44,11 @@ void *ListCurr(LIST *pList) {
 
 /* Move current to the next item */
 void *ListNext(LIST *pList) {
+    int nextNode;
     if(pList == NULL || pList->current == UNUSED_NODE){
         return NULL;
     }
-    int nextNode = nodePool.nodes[pList->current].next;
+    nextNode = nodePool.nodes[pList->current].next;
     if(nextNode == UNUSED_NODE){
         pList->current = UNUSED_NODE;
         return NULL;
@@ -58,10 +59,11 @@ void *ListNext(LIST *pList) {
 
 /* Move current to the previous item */
 void *ListPrev(LIST *pList) {
+    int prevNode;
     if(pList == NULL || pList->current == UNUSED_NODE){
         return NULL;
     }
-    int prevNode = nodePool.nodes[pList->current].prev;
+    prevNode = nodePool.nodes[pList->current].prev;
     if(prevNode == UNUSED_NODE){
         pList->current = UNUSED_NODE;
         return NULL;
@@ -74,11 +76,13 @@ void *ListPrev(LIST *pList) {
 void *ListSearch(LIST *pList,
                  int (*comparator)(void *, void *), void *pComparisonArg) {
 
+    int nodeIndex; 
+
     if(pList == NULL || comparator == NULL){
         return NULL;
     }
     
-    int nodeIndex = pList->current;
+    nodeIndex = pList->current;
     
     while (nodeIndex != UNUSED_NODE) {
         void* item = nodePool.nodes[nodeIndex].item;
