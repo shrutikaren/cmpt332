@@ -18,7 +18,11 @@ int ListCount(LIST *pList) {
 
 /* Move current to the first item */
 void *ListFirst(LIST *pList) {
-    return NULL;
+    if(pList == NULL || pList->head == UNUSED_NODE){
+        return NULL;
+    }
+    pList->current = pList->head;
+    return nodePool.nodes[pList->current].item;
 }
 
 /* Move current to the last item */
