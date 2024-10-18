@@ -66,7 +66,7 @@ void freeNode(int index) {
 /* Allocate a list from the pool */
 int allocateList(void) {
 
-    int i;
+    int i, index;
 
     if (listPool.freeListCount == 0) {
         /* Expand list pool */
@@ -83,7 +83,7 @@ int allocateList(void) {
         listPool.freeLists = newFreeLists;
         listPool.totalLists = newTotalLists;
     }
-    int index = listPool.freeLists[--listPool.freeListCount];
+    index = listPool.freeLists[--listPool.freeListCount];
     listPool.lists[index].inUse = 1;
     listPool.lists[index].head = UNUSED_NODE;
     listPool.lists[index].tail = UNUSED_NODE;
