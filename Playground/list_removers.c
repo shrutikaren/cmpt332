@@ -36,6 +36,14 @@ void ListFree(LIST *pList, void (*itemFree)(void *pItem)) {
 
     }
 
+    /* Reset the list's pointers */
+    pList->head = UNUSED_NODE;
+    pList->tail = UNUSED_NODE;
+    pList->current = UNUSED_NODE;
+    pList->count = 0;
+    pList->inUse = 0;
+
+    /* Return the list to the pool */
     int listIndex = pList - listPool.lists;
     freeList(listIndex);
   

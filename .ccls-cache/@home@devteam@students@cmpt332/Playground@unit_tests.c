@@ -6,6 +6,7 @@ void test_ListCreate(){
     LIST* list = ListCreate();
     assert(list != NULL);
     assert(ListCount(list) == 0);
+    ListFree(list, NULL);
     printf("test_ListCreate passed.\n");
 }
 
