@@ -70,10 +70,11 @@ void test5_ListAdd(){
 
 void test6_ListAdd(){
 
+    int i;
     LIST* list = ListCreate();
     const int numitems = 100000;
 
-    for(int i = 0; i < numitems; i ++){
+    for(i = 0; i < numitems; i ++){
         int *item = (int *)malloc(sizeof(int));
         *item = i;
         int result = ListAdd(list, item);
@@ -83,14 +84,14 @@ void test6_ListAdd(){
     }
 
     ListFirst(list);
-    for (int i = 0; i < numitems; i++) {
+    for (i = 0; i < numitems; i++) {
         assert(*(int*)ListCurr(list) == i);
         if(i < numitems - 1){
             assert(ListNext(list) != NULL);
         }
     }
 
-    for(int i = 0; i < numitems; i++){
+    for(i = 0; i < numitems; i++){
         void* item = ListRemove(list);
         free(item);
     }
@@ -107,6 +108,7 @@ int main(int argc, char *argv[]){
     test3_ListAdd();
     test4_ListAdd(); 
     test5_ListAdd();
+    test6_ListAdd();
 
     /* Remove all the memory at the end. */
     ListDispose();
