@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include "list.h"
-
+#include <assert.h>
 /* Checking if list was created */
 void test_ListCreate(){
     LIST* list = ListCreate();
@@ -103,15 +103,27 @@ void test6_ListAdd(){
 
 void test7_ListInsert(){
     LIST* list = ListCreate();
-    int i, result;
-    constant int numitems =  5;
+    int i;
+    int result;
+    const int numitems =  5;
 
     for (i = 0; i < numitems; i++){
-	result = ListInsert(list, *numitems);
+	result = ListInsert(list, &i);
     } 	
-    assert(*(int *)ListCurr(list) == 4;
-    assert(ListCount(list) = 5);
+    assert(result == EXIT_SUCCESS);
+    assert(*(int *)ListCurr(list) == 5);
+    assert(ListCount(list) == 5);
     printf("test7_ListInsert() passed. \n");
+}
+
+/* Testing for the edge cases */
+void test8_ListInsert(){
+    LIST*  list = NULL;
+    int result;
+    int item1 = 5;
+    result = ListInsert(list, &item1);
+    assert(result == EXIT_FAILURE);
+    printf("test8_ListInsert() passed \n");
 }
 
 int main(){
@@ -126,7 +138,6 @@ int main(){
 		
     test7_ListInsert();
     /* Remove all the memory at the end. */
-
+    test8_ListInsert();
     return EXIT_SUCCESS;
-
 }
