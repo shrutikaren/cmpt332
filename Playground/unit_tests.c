@@ -536,18 +536,20 @@ void test_ListOperationsAfterFree() {
 
     /* Try to operate on the freed list */
     count = ListCount(list);
-    assert(count == EXIT_FAILURE);
+    assert(count == 0);
     printf("test_ListOperationsAfterFree passed.\n");
 }
 
 void test_ExhaustNodePool() {
     LIST *list = ListCreate();
+    assert(list != NULL);
     int i;
     int numNodes = 200; /* Exceed initial MIN_NODES */
     for (i = 0; i < numNodes; i++) {
         int *item = malloc(sizeof(int));
+        assert(item != NULL);
         *item = i;
-        ListAdd(list, item);
+        assert(ListAdd(list, item) == EXIT_SUCCESS);
     }
     assert(ListCount(list) == numNodes);
 
@@ -710,6 +712,7 @@ int main() {
     test_ListInsertNullItem();
     test_ListRemoveFromEmpty();
     test_ListTrimFromEmpty();
+    ListDispose();
 
     printf("All tests passed successfully.\n");
     return EXIT_SUCCESS;
