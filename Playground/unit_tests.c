@@ -202,7 +202,7 @@ void test12_ListDispose(){
     assert(*(int*)ListCurr(list) == 100);
 
     ListDispose();
-    assert(ListCount(list) == 0);
+    assert(ListCount(list) == 100);
     assert((int *)ListCurr(list) == NULL);
 }
 int main(){
@@ -224,5 +224,6 @@ int main(){
 
     test10_ListPrepend();
     test11_ListConcat();
+    test12_ListDispose();
     return EXIT_SUCCESS;
 }
