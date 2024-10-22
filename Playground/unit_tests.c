@@ -233,10 +233,10 @@ void test_ListPrepend() {
 
 void test_ListRemove() {
     LIST *list = ListCreate();
-    int *item1 = malloc(sizeof(int));
+    int *item1 = malloc(sizeof(int)), removedItem = NULL;
     *item1 = 40;
     ListAdd(list, item1);
-    int *removedItem = ListRemove(list);
+    removedItem = ListRemove(list);
     assert(removedItem == item1);
     assert(ListCount(list) == 0);
     free(removedItem);
