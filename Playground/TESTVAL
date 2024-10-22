@@ -1,0 +1,79 @@
+Script started on 2024-10-21 22:37:27-04:00 [TERM="foot" TTY="/dev/pts/2" COLUMNS="190" LINES="46"]
+[1m[7m%[27m[1m[0m                                                                                                                                                                                              ]2;devteam@jaxdev:~/students/cmpt332/Playground]1;..32/Playground]7;file://jaxdev/home/devteam/students/cmpt332/Playground\[0m[27m[24m[J
+[1;36mcmpt332/Playground[0m  [35m [0m[35mmain[0m [38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m40%[0m[1;2;37m | [0m[1;2;37m3GiB/7GiB[0m
+[32m   100%[0m [38;2;191;204;227m| [0m[38;2;191;204;227m22:37:27[0m[38;2;191;204;227m [0m [34m🗸[0m [1;32m ➜[0m [K[?1h=[?2004hm[1m[31mm[0m[39m[1m[31mm[0m[39m[90make clean[39m[9D[1m[31mm[1m[31ma[0m[39m[1m[31mm[1m[31ma[1m[31mk[0m[39m[1m[31mk[1m[31me[0m[39m[0m[32mm[0m[32ma[0m[32mk[0m[32me[39m[39m [39m [39m [39m [39m [39m [?1l>[?2004l
+]2;make]1;makemkdir -p obj/Linux
+gcc -c -Wall -pedantic -I. -std=gnu90 -Wextra   -g -I. -I./ unit_tests.c -o obj/Linux/unit_tests.o
+[01m[Kunit_tests.c:[m[K In function ‘[01m[Ktest_ListSearch[m[K’:
+[01m[Kunit_tests.c:288:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeclaration-after-statement-Wdeclaration-after-statement]8;;[m[K]
+  288 |     [01;35m[Kint[m[K *item2 = malloc(sizeof(int));
+      |     [01;35m[K^~~[m[K
+[01m[Kunit_tests.c:[m[K In function ‘[01m[Ktest_ListNext[m[K’:
+[01m[Kunit_tests.c:308:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeclaration-after-statement-Wdeclaration-after-statement]8;;[m[K]
+  308 |     [01;35m[Kint[m[K *item2 = malloc(sizeof(int));
+      |     [01;35m[K^~~[m[K
+[01m[Kunit_tests.c:315:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeclaration-after-statement-Wdeclaration-after-statement]8;;[m[K]
+  315 |     [01;35m[Kvoid[m[K *nextItem = ListNext(list);
+      |     [01;35m[K^~~~[m[K
+[01m[Kunit_tests.c:[m[K In function ‘[01m[Ktest_ListPrev[m[K’:
+[01m[Kunit_tests.c:326:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeclaration-after-statement-Wdeclaration-after-statement]8;;[m[K]
+  326 |     [01;35m[Kint[m[K *item2 = malloc(sizeof(int));
+      |     [01;35m[K^~~[m[K
+[01m[Kunit_tests.c:333:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeclaration-after-statement-Wdeclaration-after-statement]8;;[m[K]
+  333 |     [01;35m[Kvoid[m[K *prevItem = ListPrev(list);
+      |     [01;35m[K^~~~[m[K
+[01m[Kunit_tests.c:[m[K In function ‘[01m[Ktest_ListCount[m[K’:
+[01m[Kunit_tests.c:344:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeclaration-after-statement-Wdeclaration-after-statement]8;;[m[K]
+  344 |     [01;35m[Kint[m[K *item2 = malloc(sizeof(int));
+      |     [01;35m[K^~~[m[K
+[01m[Kunit_tests.c:[m[K In function ‘[01m[Ktest_ListAdd_NullList[m[K’:
+[01m[Kunit_tests.c:400:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeclaration-after-statement-Wdeclaration-after-statement]8;;[m[K]
+  400 |     [01;35m[Kint[m[K result = ListAdd(list, item);
+      |     [01;35m[K^~~[m[K
+[01m[Kunit_tests.c:[m[K In function ‘[01m[Ktest_ListInsert_NullList[m[K’:
+[01m[Kunit_tests.c:410:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeclaration-after-statement-Wdeclaration-after-statement]8;;[m[K]
+  410 |     [01;35m[Kint[m[K result = ListInsert(list, item);
+      |     [01;35m[K^~~[m[K
+[01m[Kunit_tests.c:[m[K In function ‘[01m[Ktest_ListAppend_NullList[m[K’:
+[01m[Kunit_tests.c:420:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeclaration-after-statement-Wdeclaration-after-statement]8;;[m[K]
+  420 |     [01;35m[Kint[m[K result = ListAppend(list, item);
+      |     [01;35m[K^~~[m[K
+[01m[Kunit_tests.c:[m[K In function ‘[01m[Ktest_ListPrepend_NullList[m[K’:
+[01m[Kunit_tests.c:430:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeclaration-after-statement-Wdeclaration-after-statement]8;;[m[K]
+  430 |     [01;35m[Kint[m[K result = ListPrepend(list, item);
+      |     [01;35m[K^~~[m[K
+[01m[Kunit_tests.c:[m[K In function ‘[01m[Ktest_ListSearch_NullComparator[m[K’:
+[01m[Kunit_tests.c:441:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeclaration-after-statement-Wdeclaration-after-statement]8;;[m[K]
+  441 |     [01;35m[Kvoid[m[K *foundItem = ListSearch(list, NULL, NULL);
+      |     [01;35m[K^~~~[m[K
+[01m[Kunit_tests.c:[m[K In function ‘[01m[Ktest_MultipleLists[m[K’:
+[01m[Kunit_tests.c:464:9:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeclaration-after-statement-Wdeclaration-after-statement]8;;[m[K]
+  464 |         [01;35m[Kint[m[K *item = malloc(sizeof(int));
+      |         [01;35m[K^~~[m[K
+[01m[Kunit_tests.c:[m[K In function ‘[01m[Ktest_ListOperationsAfterFree[m[K’:
+[01m[Kunit_tests.c:483:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeclaration-after-statement-Wdeclaration-after-statement]8;;[m[K]
+  483 |     [01;35m[Kint[m[K count = ListCount(list);
+      |     [01;35m[K^~~[m[K
+[01m[Kunit_tests.c:[m[K In function ‘[01m[Ktest_ExhaustNodePool[m[K’:
+[01m[Kunit_tests.c:491:25:[m[K [01;35m[Kwarning: [m[KC++ style comments are not allowed in ISO C90
+  491 |     int numNodes = 200; [01;35m[K/[m[K/ Exceed initial MIN_NODES
+      |                         [01;35m[K^[m[K
+[01m[Kunit_tests.c:491:25:[m[K [01;36m[Knote: [m[K(this will be reported only once per input file)
+[01m[Kunit_tests.c:[m[K In function ‘[01m[Ktest_ExhaustListPool[m[K’:
+[01m[Kunit_tests.c:507:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids variable length array ‘[01m[Klists[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wvla-Wvla]8;;[m[K]
+  507 |     [01;35m[KLIST[m[K *lists[numLists];
+      |     [01;35m[K^~~~[m[K
+gcc -c -Wall -pedantic -I. -std=gnu90 -Wextra   -g -I. -I./ list_adders.c -o obj/Linux/list_adders.o
+gcc -c -Wall -pedantic -I. -std=gnu90 -Wextra   -g -I. -I./  list_movers.c -o obj/Linux/list_movers.o
+gcc -c -Wall -pedantic -I. -std=gnu90 -Wextra   -g -I. -I./ list_removers.c -o obj/Linux/list_removers.o
+mkdir -p lib/Linux
+ar rcs lib/Linux/liblist.a obj/Linux/list_adders.o obj/Linux/list_movers.o obj/Linux/list_removers.o
+mkdir -p bin/Linux
+gcc -Wall -pedantic -I. -std=gnu90 -Wextra   -g -I. obj/Linux/unit_tests.o -L. \
+-Llib/Linux lib/Linux/liblist.a -o bin/Linux/unit_tests
+ln -sf bin/Linux/unit_tests unit_tests
+[1m[7m%[27m[1m[0m                                                                                                                                                                                              ]2;devteam@jaxdev:~/students/cmpt332/Playground]1;..32/Playground]7;file://jaxdev/home/devteam/students/cmpt332/Playground\[0m[27m[24m[J
+[1;36mcmpt332/Playground[0m  [35m [0m[35mmain[0m [38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m40%[0m[1;2;37m | [0m[1;2;37m3GiB/7GiB[0m
+[32m   100%[0m [38;2;191;204;227m| [0m[38;2;191;204;227m22:37:29[0m[38;2;191;204;227m [0m [34m🗸[0m [1;32m ➜[0m [K[?1h=[?2004he[1m[31me[0m[39m[1m[31me[0m[39m[90mcho $OSTYPE[39m[11D[1m[31me[1m[31mx[0m[39m[39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [10D[0m[32me[0m[32mx[39m[90mport SQLCIPHER_KEY="your-encryption-key"[39m
+[K[A[28C[32me[32mx[32mi[39m[39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [1B[K[A[29C[1m[31me[1m[31mx[1m[31mi[0m[39m[90mt[39m[1m[31mi[1m[31mt[0m[39m[0m[32me[0m[32mx[0m[32mi[0m[32mt[39m[?1l>[?2004l[1B]2;exit]1;exit
+Script done on 2024-10-21 22:37:32-04:00 [COMMAND_EXIT_CODE="0"]
