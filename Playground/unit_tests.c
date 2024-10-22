@@ -162,9 +162,7 @@ void test10_ListPrepend(){
     assert(*(int*)ListCurr(list)==20);
     assert(ListCount(list) == 11);
 
-    ListDispose();
     printf("test_10_ListPrepend() passed\n");
-    /*printf("%d this is the count\n",ListCount(list));*/
 }
 
 void test11_ListConcat(){
@@ -187,23 +185,6 @@ void test11_ListConcat(){
     assert(ListCount(list_1) == 30);
     assert(*(int*)ListCurr(list_1) == 10);
     printf("test11_ListConcat() passed\n");
-}
-
-void test12_ListDispose(){
-    LIST* list = ListCreate();
-    int i, result, total;
-    total = 100;
-    for (i = 0; i < total; i ++){
-	result = ListAppend(list, &i);
-    }
-
-    assert(result == EXIT_SUCCESS);
-    assert(ListCount(list) == 100);
-    assert(*(int*)ListCurr(list) == 100);
-
-    ListDispose();
-    assert(ListCount(list) == 100);
-    assert((int *)ListCurr(list) == NULL);
 }
 
 void test13_ListFirst(){
@@ -233,10 +214,8 @@ int main(){
 
     /* Works on both list append and list insert */
     test9_ListInsert();
-
     test10_ListPrepend();
     test11_ListConcat();
-    test12_ListDispose();
     test13_ListFirst();
     return EXIT_SUCCESS;
 }

@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include "list.h"
-
+#include <assert.h>
 /* Checking if list was created */
 void test_ListCreate(){
     LIST* list = ListCreate();
@@ -79,7 +79,7 @@ void test6_ListAdd(){
         *item = i;
         result = ListAdd(list, item);
         assert(result==EXIT_SUCCESS);
-        assert(ListCount(list) == i + 1);
+	assert(ListCount(list) == i + 1);
         assert(*(int *)ListCurr(list) == i);
     }
 
@@ -101,7 +101,103 @@ void test6_ListAdd(){
     printf("test6_ListAdd passed. \n");
 }
 
+void test7_ListInsert(){
+    LIST* list = ListCreate();
+    int i;
+    int result;
+    const int numitems =  5;
 
+    for (i = 0; i < numitems; i++){
+	result = ListInsert(list, &i);
+    } 	
+    assert(result == EXIT_SUCCESS);
+    assert(*(int *)ListCurr(list) == 5);
+    assert(ListCount(list) == 5);
+    printf("test7_ListInsert() passed. \n");
+}
+
+/* Testing for the edge cases */
+void test8_ListInsert(){
+    LIST*  list = NULL;
+    int result;
+    int item1 = 5;
+    result = ListInsert(list, &item1);
+    assert(result == EXIT_FAILURE);
+    printf("test8_ListInsert() passed \n");
+}
+
+void test9_ListInsert(){ 
+    LIST* list = ListCreate();
+    int i, result, resultappend;
+    int item;
+    int totaliter = 1000000;
+    for (i = 0; i < totaliter; i++){
+	result = ListInsert(list, &i);
+    }
+    assert(result == EXIT_SUCCESS);
+    
+    item = 9;
+    resultappend = ListAppend(list, &item);
+    assert(resultappend == EXIT_SUCCESS);
+    /* 9 should be sitting at the cursor */
+    assert(*(int*)ListCurr(list)==9);
+    assert(ListCount(list) == 1000001);
+    printf("test9_ListInsert() passed\n");
+}
+
+void test10_ListPrepend(){
+    LIST* list = ListCreate();
+    int i,iteritem, result, resultprepend;
+    iteritem = 10;
+    for (i = 0; i < iteritem; i++){
+	result = ListInsert(list, &i);
+    }
+    assert(result == EXIT_SUCCESS);
+    assert(*(int*)ListCurr(list) == 10);
+    assert(ListCount(list) == 10);
+
+    i = 20;
+    resultprepend = ListPrepend(list, &i);
+    assert(resultprepend == EXIT_SUCCESS);
+    assert(*(int*)ListCurr(list)==20);
+    assert(ListCount(list) == 11);
+
+    printf("test_10_ListPrepend() passed\n");
+}
+
+void test11_ListConcat(){
+    LIST* list_1 = ListCreate();
+    LIST* list_2 = ListCreate();
+
+    int iter_1, iter_2;
+    int i;
+    iter_1 = 10;
+    iter_2 = 20;
+    for (i = 0; i < iter_1; i ++){
+	ListPrepend(list_1, &iter_1);
+    }
+    assert(ListCount(list_1) == 10);
+    for (i = 0; i < iter_2; i ++){
+	ListPrepend(list_2, &iter_2);
+    }
+    assert(ListCount(list_2) == 20);
+    ListConcat(list_1, list_2);
+    assert(ListCount(list_1) == 30);
+    assert(*(int*)ListCurr(list_1) == 10);
+    printf("test11_ListConcat() passed\n");
+}
+
+void test13_ListFirst(){
+    LIST* list = ListCreate();
+    int i, iter;
+    int* item;
+    iter = 15;
+    for (i = 0; i < iter; i ++){
+ 	ListAppend(list, &i);
+    }
+    item = ListFirst(list);
+    printf("%d item", *item);
+}
 int main(){
     
     test_ListCreate();
@@ -111,9 +207,15 @@ int main(){
     test4_ListAdd(); 
     test5_ListAdd();
     test6_ListAdd();
-
+		
+    test7_ListInsert();
     /* Remove all the memory at the end. */
+    test8_ListInsert();
 
+    /* Works on both list append and list insert */
+    test9_ListInsert();
+    test10_ListPrepend();
+    test11_ListConcat();
+    test13_ListFirst();
     return EXIT_SUCCESS;
-
 }
