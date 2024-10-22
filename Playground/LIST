@@ -4,6 +4,7 @@
 /* Including necessary libraries */
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #define MIN_LISTS 10
 #define MIN_NODES 100
@@ -146,8 +147,16 @@ int allocateNode(void) {
         /* Expand node pool */
         int newTotalNodes = nodePool.totalNodes * 2;
         NODE *newNodes = realloc(nodePool.nodes, sizeof(NODE) * newTotalNodes);
+        if(newNodes == NULL){
+            LOG_ERROR("Failed to realloc nodePool.nodes");
+        }
+
         int *newFreeNodes = realloc(nodePool.freeNodes,
                                     sizeof(int) * newTotalNodes);
+        if(newFreeNodes == NULL){
+            LOG_ERROR("Failed to realloc nodePool.freeNodes");
+        }
+
         for (i = nodePool.totalNodes; i < newTotalNodes; i++) {
             newFreeNodes[nodePool.freeNodeCount++] = i;
         }
@@ -196,6 +205,9 @@ int allocateList(void) {
 
 /* Free a list back to the pool */
 void freeList(int index) {
+    if(index < 0 || index >= listPool.totalLists){
+        LOG_ERROR("Attempt to free invalid list index.");
+    }
     listPool.lists[index].inUse = 0;
     listPool.freeLists[listPool.freeListCount++] = index;
 }
@@ -206,7 +218,7 @@ void ListDispose(void){
         nodePool.nodes = NULL;
     }
 
-    if(nodePool.nodes != NULL){
+    if(nodePool.freeNodes!= NULL){
         free(nodePool.freeNodes);
         nodePool.freeNodes = NULL;
     }
@@ -216,7 +228,7 @@ void ListDispose(void){
         listPool.lists = NULL;
     }
 
-    if(listPool.lists != NULL){
+    if(listPool.freeLists!= NULL){
         free(listPool.freeLists);
         listPool.freeLists = NULL;
     }
@@ -253,7 +265,8 @@ int ListAdd(LIST *pList, void *pItem){
 
     else if (pList->current == UNUSED_NODE){
         nodePool.nodes[newNodeIndex].prev = pList->tail;
-        nodePool.nodes[newNodeIndex].next = newNodeIndex;
+        nodePool.nodes[newNodeIndex].next = UNUSED_NODE;
+        nodePool.nodes[pList->tail].next = newNodeIndex;
         pList->tail = pList->current = newNodeIndex;
     }
 
@@ -278,7 +291,7 @@ int ListAdd(LIST *pList, void *pItem){
 int ListInsert(LIST *pList, void *pItem){
 
     int newNodeIndex;
-    if(pList == NULL){
+    if(pList == NULL || !pList->inUse){
         return EXIT_FAILURE;
     }
 
@@ -371,7 +384,7 @@ extern ListPool listPool;
 
 /* Get the count of items in the list */
 int ListCount(LIST *pList) {
-    if(pList == NULL){
+    if(pList == NULL || !pList->inUse){
         return EXIT_FAILURE;
     }
     return pList->count;
