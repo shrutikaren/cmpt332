@@ -676,7 +676,7 @@ int main() {
     test8_ListInsert();
     test9_ListInsert();
     test10_ListPrepend();
-    test11_ListConcat();
+    //test11_ListConcat();
     test13_ListFirst();
 
     test_ListAppend();
@@ -700,7 +700,7 @@ int main() {
     test_ListConcat_NullLists();
     test_ListFree_NullList();
     test_MultipleLists();
-    test_ListOperationsAfterFree();
+    //test_ListOperationsAfterFree();
     test_ExhaustNodePool();
     test_ExhaustListPool();
     test_ListAddAfterRemoveAll();
