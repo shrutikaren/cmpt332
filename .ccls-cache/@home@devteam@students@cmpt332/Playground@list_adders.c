@@ -44,8 +44,16 @@ int allocateNode(void) {
         /* Expand node pool */
         int newTotalNodes = nodePool.totalNodes * 2;
         NODE *newNodes = realloc(nodePool.nodes, sizeof(NODE) * newTotalNodes);
+        if(newNodes == NULL){
+            LOG_ERROR("Failed to realloc nodePool.nodes");
+        }
+
         int *newFreeNodes = realloc(nodePool.freeNodes,
                                     sizeof(int) * newTotalNodes);
+        if(newFreeNodes == NULL){
+            LOG_ERROR("Failed to realloc nodePool.freeNodes");
+        }
+
         for (i = nodePool.totalNodes; i < newTotalNodes; i++) {
             newFreeNodes[nodePool.freeNodeCount++] = i;
         }
@@ -94,6 +102,9 @@ int allocateList(void) {
 
 /* Free a list back to the pool */
 void freeList(int index) {
+    if(index < 0 || index >= listPool.totalLists){
+        LOG_ERROR("Attempt to free invalid list index.");
+    }
     listPool.lists[index].inUse = 0;
     listPool.freeLists[listPool.freeListCount++] = index;
 }
@@ -177,7 +188,7 @@ int ListAdd(LIST *pList, void *pItem){
 int ListInsert(LIST *pList, void *pItem){
 
     int newNodeIndex;
-    if(pList == NULL){
+    if(pList == NULL || !pList->inUse){
         return EXIT_FAILURE;
     }
 

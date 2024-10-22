@@ -4,6 +4,7 @@
 /* Including necessary libraries */
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #define MIN_LISTS 10
 #define MIN_NODES 100

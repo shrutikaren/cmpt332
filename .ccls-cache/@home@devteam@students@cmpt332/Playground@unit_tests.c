@@ -536,7 +536,7 @@ void test_ListOperationsAfterFree() {
 
     /* Try to operate on the freed list */
     count = ListCount(list);
-    assert(count == 0);
+    assert(count == EXIT_FAILURE);
     printf("test_ListOperationsAfterFree passed.\n");
 }
 
@@ -562,12 +562,25 @@ void test_ExhaustListPool() {
     int i;
     const int numLists = 20; /* Exceed initial MIN_LISTS */
     LIST *lists[20]; /* Fixed-size array */
+
     for (i = 0; i < numLists; i++) {
         lists[i] = ListCreate();
         assert(lists[i] != NULL);
+        assert(ListCount(lists[i]) == 0);
     }
     for (i = 0; i < numLists; i++) {
-        ListFree(lists[i], NULL);
+        int* item = malloc(sizeof(int));
+        assert(item != NULL);
+        *item = i * 10;
+        assert(ListAdd(lists[i], item) == EXIT_SUCCESS);
+        assert(ListCount(lists[i]) == 1);
+    }
+    for(i = 0; i < numLists; i++){
+        ListFree(lists[i], free); 
+    }
+
+    for(i = 0; i < numLists; i++){
+        assert(ListCount(lists[i]) == EXIT_FAILURE);
     }
     printf("test_ExhaustListPool passed.\n");
 }
