@@ -220,9 +220,10 @@ void test_ListAppend() {
 
 void test_ListPrepend() {
     LIST *list = ListCreate();
+    int result = 0; 
     int *item1 = malloc(sizeof(int));
     *item1 = 30;
-    int result = ListPrepend(list, item1);
+    result = ListPrepend(list, item1);
     assert(result == EXIT_SUCCESS);
     assert(ListCount(list) == 1);
     assert(*(int *)ListFirst(list) == 30);
