@@ -24,9 +24,6 @@ UBC_PTHREAD_DIR = /student/cmpt332/pthreads/lib/$(OS)$(ARCH)
 UBC_COMPILER_FLAG = -DUSE_UBC_THREADS
 RT_THREADS = /student/cmpt332/rtt/include 
 X86_RT_THREADS = /student/cmpt332/rtt/lib/Linuxx86_64
-U = /student/cmpt332/xv6-2024/xv6-threads/user
-HEADER_FILE_XV6 = /student/cmpt332/xv6-2024/xv6-fall2024/kernel
-
 .PHONY: all clean
 
 $(OBJ_DIR):
@@ -47,23 +44,6 @@ LIST_OBJS = \
 	$(OBJ_DIR)/list_removers.o
 
 MONITOR_OBJS = $(OBJ_DIR)/Monitor.o
-
-# ==================== EVERYTHING FOR PART A IS HERE ========================== 
-# Compile object for uthread.c
-$(U)/uthread.o: $(U)/uthread.c | $(U)
-	$(CC) -c $(CPPFLAGS) $(INC) -I$(HEADER_FILE_XV6) $(U)/uthread.c \
-	-o $(U)/uthread.o
-
-$(U)/uthread_switch.o: $(U)/uthread_switch.S | $(U)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $(U)/uthread_switch.o \
-	$(U)/uthread_switch.S
-
-# Build the _uthread executable
-$(U)/_uthread: $(U)/uthread.o $(U)/uthread_switch.o $(ULIB)
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $(U)/_uthread $(U)/uthread.o \
-	$(U)/uthread_switch.o $(OBJDUMP) -S $(U)/_uthread > $(U)/uthread.asm
-
-# compile the source file 
 
 # compile objects for list
 $(OBJ_DIR)/list_adders.o : list_adders.c | $(OBJ_DIR)
