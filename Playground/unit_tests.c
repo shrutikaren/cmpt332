@@ -207,9 +207,10 @@ void test13_ListFirst(){
 
 void test_ListAppend() {
     LIST *list = ListCreate();
+    int result = 0; 
     int *item1 = malloc(sizeof(int));
     *item1 = 20;
-    int result = ListAppend(list, item1);
+    result = ListAppend(list, item1);
     assert(result == EXIT_SUCCESS);
     assert(ListCount(list) == 1);
     assert(*(int *)ListLast(list) == 20);
