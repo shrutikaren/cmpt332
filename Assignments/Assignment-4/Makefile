@@ -3,8 +3,8 @@
 # 11339265
 
 CC = gcc
-CFLAGS = -g 
-CPPFLAGS = -Wall -std=gnu90 -pedantic -g -Wextra
+CFLAGS = -g
+CPPFLAGS = -Wall -pedantic -I. -std=gnu90 -Wextra  
 INC = -I. 
 CURRENT_DIR = ./ #IMPORTANT TO LINK LOCAL HEADER FILES
 
@@ -47,8 +47,7 @@ LIST_OBJS = \
 MONITOR_OBJS = $(OBJ_DIR)/Monitor.o
 
 # compile object for uthread.c 
-$(OBJ_DIR)/uthread.o: uthread.c | $(OBJ_DIR)
-	$(CC)
+#$(OBJ_DIR)/uthread.o: uthread.c | $(
 #$(U)/_uthread: $(U)uthread.c | $(OBJ_DIR)
 # compile the source file 
 
@@ -86,7 +85,7 @@ $(OBJ_DIR)/Monitor.o: Monitor.c | $(OBJ_DIR)
 
 #compiling objects for Part C
 $(OBJ_DIR)/s-chat.o: s-chat.c | $(OBJ_DIR)
-	$(CC) -o $(CPPFLAGS) $(INC) -I$(RT_THREADS) s-chat.c -o \
+	$(CC) -o $(CPPFLAGS)  $(INC) -I$(RT_THREADS) s-chat.c -o \
 	$(OBJ_DIR)/s-chat.o
 
 # Add Target-Specific CPPFLAGS for s-chat.o
@@ -105,7 +104,7 @@ $(BIN_DIR)/reader_writer_test : \
 	$(OBJ_DIR)/reader_writer.o $(LIB_DIR)/liblist.a \
 	$(LIB_DIR)/libMonitor.a $(UBC_PTHREAD_DIR)/libpthreads.a \
 	$(OBJ_DIR)/reader_writer_monitor.o $(OBJ_DIR)/Monitor.o | $(BIN_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(UBC_COMPILER_FLAG) \
+	$(CC) $(CFLAGS) $(UBC_COMPILER_FLAG) \
 	$(OBJ_DIR)/reader_writer.o  \
 	 $(OBJ_DIR)/Monitor.o $(OBJ_DIR)/reader_writer_monitor.o \
 		-L. -L$(UBC_PTHREAD_DIR) -L$(LIB_DIR) -llist -lMonitor \
@@ -113,7 +112,7 @@ $(BIN_DIR)/reader_writer_test : \
 
 # link executable for the s-chat
 $(BIN_DIR)/s-chat: $(OBJ_DIR)/s-chat.o | $(BIN_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/s-chat.o \
+	$(CC) $(CFLAGS) $(OBJ_DIR)/s-chat.o \
 	$(X86_RT_THREADS) -ltirpc -lRtt -lRttUtils -o $(BIN_DIR)/s-chat
 
 # linking executable to root folder
