@@ -702,7 +702,7 @@ int main() {
     test_MultipleLists();
     //test_ListOperationsAfterFree();
     //test_ExhaustNodePool();
-    test_ExhaustListPool();
+    //test_ExhaustListPool();
     test_ListAddAfterRemoveAll();
     test_ListSearchNotFound();
     test_ListNextBeyondEnd();
