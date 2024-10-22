@@ -237,7 +237,10 @@ void ListConcat(LIST *pList1, LIST *pList2){
     }
 
     if(pList1->count == 0){
-        *pList1 = *pList2;
+        pList1->head = pList2->head;
+        pList1->tail = pList2->tail;
+        pList1->current = pList2->current;
+        pList1->count = pList2->count;
     }
     else{
         nodePool.nodes[pList1->tail].next = pList2->head;
