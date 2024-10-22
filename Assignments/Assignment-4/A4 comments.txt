@@ -1,0 +1,27 @@
+TOTAL:  5.5/10 marks
+
+Feedback on Makefile  2/4
+
+make sure you compile lists for your arch specific schat binaries 
+no compilation of schat for other achitectures yet
+
+(-0.5) do not use CPPFLAGS when making a binary from *.o files
+(-0.5) linker errors undefined refs
+(-1) cant make (your rule is looking for monitor.c but you have Monitor.c)
+
+Feedback on Stubs and completeness:  3/5
+
+	Part B:     1.5/2 marks
+
+(-0.5) no calls to P() and V() within Monitor.c
+
+
+	Part C:	    2/3 marks
+
+(-0.5) no calls to S/R/R
+(-0.5) threads dont do anything but sleep	
+
+
+
+Feeback on git log:         0/1
+(-1) no gitlog
