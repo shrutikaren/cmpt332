@@ -247,7 +247,12 @@ void ListConcat(LIST *pList1, LIST *pList2){
         nodePool.nodes[pList2->head].prev = pList1->tail;
         pList1->tail = pList2->tail;
         pList1->count += pList2->count;
+        pList1->current = pList2->current;
     }
+
+    pList2->head = pList2->tail = pList2->current = UNUSED_NODE;
+    pList2->count = 0;
+    pList2->inUse = 0;
 
     freeList(pList2 - listPool.lists);
 

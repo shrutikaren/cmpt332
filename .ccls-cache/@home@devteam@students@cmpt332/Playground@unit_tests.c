@@ -675,7 +675,7 @@ int main() {
     test8_ListInsert();
     test9_ListInsert();
     test10_ListPrepend();
-    //test11_ListConcat();
+    test11_ListConcat();
     test13_ListFirst();
 
     test_ListAppend();
