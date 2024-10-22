@@ -205,6 +205,18 @@ void test12_ListDispose(){
     assert(ListCount(list) == 100);
     assert((int *)ListCurr(list) == NULL);
 }
+
+void test13_ListFirst(){
+    LIST* list = ListCreate();
+    int i, iter;
+    int* item;
+    iter = 15;
+    for (i = 0; i < iter; i ++){
+ 	ListAppend(list, &i);
+    }
+    item = ListFirst(list);
+    printf("%d item", *item);
+}
 int main(){
     
     test_ListCreate();
@@ -225,5 +237,6 @@ int main(){
     test10_ListPrepend();
     test11_ListConcat();
     test12_ListDispose();
+    test13_ListFirst();
     return EXIT_SUCCESS;
 }
