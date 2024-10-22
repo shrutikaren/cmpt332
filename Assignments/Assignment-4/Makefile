@@ -24,6 +24,7 @@ UBC_COMPILER_FLAG = -DUSE_UBC_THREADS
 RT_THREADS = /student/cmpt332/rtt/include 
 X86_RT_THREADS = /student/cmpt332/rtt/lib/Linuxx86_64
 U = /student/cmpt332/xv6-2024/xv6-threads/user
+HEADER_FILE_XV6 = /student/cmpt332/xv6-2024/xv6-fall2024/kernel
 
 .PHONY: all clean
 
@@ -47,8 +48,12 @@ LIST_OBJS = \
 MONITOR_OBJS = $(OBJ_DIR)/Monitor.o
 
 # compile object for uthread.c 
-#$(OBJ_DIR)/uthread.o: uthread.c | $(
-#$(U)/_uthread: $(U)uthread.c | $(OBJ_DIR)
+$(OBJ_DIR)/uthread.o: uthread.c | $(OBJ_DIR)
+	$(CC) -c $(CPPFLAGS) $(INC) -I$(HEADER_FILE_XV6) uthread.c -o \
+	$(OBJ_DIR)/uthread.o
+
+$(U)/_uthread: $(U)uthread.c | $(OBJ_DIR)
+
 # compile the source file 
 
 # compile objects for list

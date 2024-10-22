@@ -203,6 +203,7 @@ void test13_ListFirst(){
     }
     item = ListFirst(list);
     printf("%d item", *item);
+    printf("test case 13 passed\n");
 }
 
 void test_ListAppend() {
