@@ -3,6 +3,11 @@
 #include "list.h"
 #include <assert.h>
 
+/* Comparator function for testing ListSearch */
+int intComparator(void *pItem, void *pComparisonArg) {
+    return (*(int *)pItem == *(int *)pComparisonArg);
+}
+
 /* Checking if list was created */
 void test_ListCreate(){
     LIST* list = ListCreate();
