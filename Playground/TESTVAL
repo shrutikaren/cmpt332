@@ -1,103 +1,381 @@
-Script started on 2024-10-22 00:23:00-04:00 [TERM="foot" TTY="/dev/pts/2" COLUMNS="190" LINES="46"]
+Script started on 2024-10-22 00:39:23-04:00 [TERM="foot" TTY="/dev/pts/2" COLUMNS="190" LINES="46"]
 [1m[7m%[27m[1m[0m                                                                                                                                                                                              ]2;devteam@jaxdev:~/students/cmpt332/Playground]1;..32/Playground]7;file://jaxdev/home/devteam/students/cmpt332/Playground\[0m[27m[24m[J
-[1;36mcmpt332/Playground[0m  [35m [0m[35mmain[0m [38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m39%[0m[1;2;37m | [0m[1;2;37m3GiB/7GiB[0m
-[32m   100%[0m [38;2;191;204;227m| [0m[38;2;191;204;227m00:23:00[0m[38;2;191;204;227m [0m [34m🗸[0m [1;32m ➜[0m [K[?1h=[?2004hm[1m[31mm[0m[39m[1m[31mm[0m[39m[90make[39m[1m[31mm[1m[31ma[0m[39m[1m[31mm[1m[31ma[1m[31mk[0m[39m[1m[31mk[1m[31me[0m[39m[0m[32mm[0m[32ma[0m[32mk[0m[32me[39m[32me[32m [39m[32me[39m[39m [90mclean[39m[39mc[39ml[39me[39ma[39mn[?1l>[?2004l
-]2;make clean]1;makerm -rf obj/ lib/ bin/ unit_tests 
+[1;36mcmpt332/Playground[0m  [35m [0m[35mmain[0m [38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m40%[0m[1;2;37m | [0m[1;2;37m3GiB/7GiB[0m
+[32m   100%[0m [38;2;191;204;227m| [0m[38;2;191;204;227m00:39:23[0m[38;2;191;204;227m [0m [34m🗸[0m [1;32m ➜[0m [K[?1h=[?2004hscript TESTVAL[14D[32ms[32mc[32mr[32mi[32mp[32mt[39m [4mT[4mE[4mS[4mT[4mV[4mA[4mL[24m[14D[32mv[32ma[32ml[32mg[32mr[32mi[39mn[4md[4m [4m.[4m/[4mu[4mn[4mi[24mt_tests[16D[32mi[32mn[24m[32md[39m[24m [4C[4mi[4mt[4m_[4mt[4me[4ms[4mt[4ms[24m[21D[32m.[32m/[32mu[32mn[32mi[32mt[32m_[32mt[39me[4ms[4mt[4ms[24m[24m [24m [24m [24m [24m [24m [24m [24m [24m [9D[32mt[32me[24m[32ms[24m[32mt[24m[32ms[39m[12D[32mv[32ma[32ml[32mg[32mr[32mi[32mn[32md[32m [32m.[32m/[32mu[39mnit_tests[14D[32md[39m[39m [39m[4m.[39m[4m/[39m[4mu[4mn[4mi[4mt[4m_[4mt[4me[4ms[4mt[4ms[24m[?1l>[?2004l
+]2;valgrind ./unit_tests]1;valgrind==919601== Memcheck, a memory error detector
+==919601== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==919601== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==919601== Command: ./unit_tests
+==919601== 
+Running Test 1: Basic Operations...
+Test 1 Failed: Incorrect item removed.
+Test 1 Passed.
+
+Running Test 2: Edge Cases...
+Test 2 Passed.
+
+Running Test 3: Large Data with Random Operations...
+Test 3 Passed.
+
+Running Test 4: Multiple Lists Operations...
+==919601== Invalid read of size 4
+==919601==    at 0x414838: ListCount (list_movers.c:13)
+==919601==    by 0x413313: test_multiple_lists (unit_tests.c:893)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9ce0 is 16 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid read of size 4
+==919601==    at 0x414850: ListCount (list_movers.c:16)
+==919601==    by 0x413313: test_multiple_lists (unit_tests.c:893)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9cdc is 12 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid read of size 4
+==919601==    at 0x414874: ListFirst (list_movers.c:21)
+==919601==    by 0x413367: test_multiple_lists (unit_tests.c:901)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9cd0 is 0 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid read of size 4
+==919601==    at 0x41488C: ListFirst (list_movers.c:24)
+==919601==    by 0x413367: test_multiple_lists (unit_tests.c:901)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9cd0 is 0 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid write of size 4
+==919601==    at 0x414894: ListFirst (list_movers.c:24)
+==919601==    by 0x413367: test_multiple_lists (unit_tests.c:901)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9cd8 is 8 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid read of size 4
+==919601==    at 0x4148A8: ListFirst (list_movers.c:25)
+==919601==    by 0x413367: test_multiple_lists (unit_tests.c:901)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9cd8 is 8 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid read of size 4
+==919601==    at 0x414BCC: ListRemove (list_removers.c:17)
+==919601==    by 0x413377: test_multiple_lists (unit_tests.c:902)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9cd8 is 8 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid read of size 4
+==919601==    at 0x414BE4: ListRemove (list_removers.c:21)
+==919601==    by 0x413377: test_multiple_lists (unit_tests.c:902)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9cd8 is 8 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid write of size 4
+==919601==    at 0x414C84: ListRemove (list_removers.c:30)
+==919601==    by 0x413377: test_multiple_lists (unit_tests.c:902)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9cd0 is 0 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid write of size 4
+==919601==    at 0x414CD8: ListRemove (list_removers.c:41)
+==919601==    by 0x413377: test_multiple_lists (unit_tests.c:902)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9cd8 is 8 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid read of size 4
+==919601==    at 0x414D14: ListRemove (list_removers.c:51)
+==919601==    by 0x413377: test_multiple_lists (unit_tests.c:902)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9cdc is 12 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid write of size 4
+==919601==    at 0x414D20: ListRemove (list_removers.c:51)
+==919601==    by 0x413377: test_multiple_lists (unit_tests.c:902)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9cdc is 12 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid read of size 4
+==919601==    at 0x414838: ListCount (list_movers.c:13)
+==919601==    by 0x4133DB: test_multiple_lists (unit_tests.c:911)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9ce0 is 16 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid read of size 4
+==919601==    at 0x414850: ListCount (list_movers.c:16)
+==919601==    by 0x4133DB: test_multiple_lists (unit_tests.c:911)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9cdc is 12 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid read of size 4
+==919601==    at 0x414DA0: ListFree (list_removers.c:73)
+==919601==    by 0x413433: test_multiple_lists (unit_tests.c:918)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9cd0 is 0 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid write of size 4
+==919601==    at 0x414E44: ListFree (list_removers.c:87)
+==919601==    by 0x413433: test_multiple_lists (unit_tests.c:918)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9cd0 is 0 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid write of size 4
+==919601==    at 0x414E50: ListFree (list_removers.c:88)
+==919601==    by 0x413433: test_multiple_lists (unit_tests.c:918)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9cd4 is 4 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid write of size 4
+==919601==    at 0x414E5C: ListFree (list_removers.c:89)
+==919601==    by 0x413433: test_multiple_lists (unit_tests.c:918)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9cd8 is 8 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid write of size 4
+==919601==    at 0x414E64: ListFree (list_removers.c:90)
+==919601==    by 0x413433: test_multiple_lists (unit_tests.c:918)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9cdc is 12 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+==919601== Invalid write of size 4
+==919601==    at 0x414E6C: ListFree (list_removers.c:91)
+==919601==    by 0x413433: test_multiple_lists (unit_tests.c:918)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Address 0x4ac9ce0 is 16 bytes inside a block of size 200 free'd
+==919601==    at 0x48C7B84: realloc (vg_replace_malloc.c:1690)
+==919601==    by 0x413CDF: allocateList (list_adders.c:82)
+==919601==    by 0x4140C3: ListCreate (list_adders.c:138)
+==919601==    by 0x4131D7: test_multiple_lists (unit_tests.c:874)
+==919601==    by 0x41372F: main (unit_tests.c:992)
+==919601==  Block was alloc'd at
+==919601==    at 0x48C0860: malloc (vg_replace_malloc.c:442)
+==919601==    by 0x41393F: initializePools (list_adders.c:27)
+==919601==    by 0x4140BF: ListCreate (list_adders.c:137)
+==919601==    by 0x412A5B: test_basic_operations (unit_tests.c:688)
+==919601==    by 0x413723: main (unit_tests.c:989)
+==919601== 
+Log [Error] - Attempt to free invalid list index.: Success at list_adders.c:106
+==919601== 
+==919601== HEAP SUMMARY:
+==919601==     in use at exit: 279,640 bytes in 4,954 blocks
+==919601==   total heap usage: 20,032 allocs, 15,078 frees, 598,484 bytes allocated
+==919601== 
+==919601== LEAK SUMMARY:
+==919601==    definitely lost: 0 bytes in 0 blocks
+==919601==    indirectly lost: 0 bytes in 0 blocks
+==919601==      possibly lost: 0 bytes in 0 blocks
+==919601==    still reachable: 279,640 bytes in 4,954 blocks
+==919601==         suppressed: 0 bytes in 0 blocks
+==919601== Rerun with --leak-check=full to see details of leaked memory
+==919601== 
+==919601== For lists of detected and suppressed errors, rerun with: -s
+==919601== ERROR SUMMARY: 40326 errors from 20 contexts (suppressed: 0 from 0)
 [1m[7m%[27m[1m[0m                                                                                                                                                                                              ]2;devteam@jaxdev:~/students/cmpt332/Playground]1;..32/Playground]7;file://jaxdev/home/devteam/students/cmpt332/Playground\[0m[27m[24m[J
-[1;36mcmpt332/Playground[0m  [35m [0m[35mmain[0m [38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m39%[0m[1;2;37m | [0m[1;2;37m3GiB/7GiB[0m
-[32m   100%[0m [38;2;191;204;227m| [0m[38;2;191;204;227m00:23:04[0m[38;2;191;204;227m [0m [34m🗸[0m [1;32m ➜[0m [K[?1h=[?2004hm[1m[31mm[0m[39m[1m[31mm[0m[39m[90make clean[39m[9D[1m[31mm[1m[31ma[0m[39m[1m[31mm[1m[31ma[1m[31mk[0m[39m[1m[31mk[1m[31me[0m[39m[0m[32mm[0m[32ma[0m[32mk[0m[32me[39m[39m [39m [39m [39m [39m [39m [?1l>[?2004l
-]2;make]1;makemkdir -p obj/Linux
-gcc -c -Wall -pedantic -I. -std=gnu90 -Wextra   -g -I. -I./ unit_tests.c -o obj/Linux/unit_tests.o
-[01m[Kunit_tests.c:[m[K In function ‘[01m[Ktest7_ListInsert[m[K’:
-[01m[Kunit_tests.c:142:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids variable length array ‘[01m[Kitems[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wvla-Wvla]8;;[m[K]
-  142 |     [01;35m[Kint[m[K *items[numitems];
-      |     [01;35m[K^~~[m[K
-[01m[Kunit_tests.c:[m[K In function ‘[01m[Ktest9_ListInsert[m[K’:
-[01m[Kunit_tests.c:175:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids variable length array ‘[01m[Kitems[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wvla-Wvla]8;;[m[K]
-  175 |     [01;35m[Kint[m[K *items[totaliter];
-      |     [01;35m[K^~~[m[K
-[01m[Kunit_tests.c:185:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeclaration-after-statement-Wdeclaration-after-statement]8;;[m[K]
-  185 |     [01;35m[Kint[m[K *item_ptr = malloc(sizeof(int));
-      |     [01;35m[K^~~[m[K
-[01m[Kunit_tests.c:[m[K In function ‘[01m[Ktest_MultipleLists[m[K’:
-[01m[Kunit_tests.c:518:9:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeclaration-after-statement-Wdeclaration-after-statement]8;;[m[K]
-  518 |         [01;35m[Kint[m[K *item = malloc(sizeof(int));
-      |         [01;35m[K^~~[m[K
-[01m[Kunit_tests.c:[m[K In function ‘[01m[Ktest_ExhaustNodePool[m[K’:
-[01m[Kunit_tests.c:546:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeclaration-after-statement-Wdeclaration-after-statement]8;;[m[K]
-  546 |     [01;35m[Kint[m[K i;
-      |     [01;35m[K^~~[m[K
-gcc -c -Wall -pedantic -I. -std=gnu90 -Wextra   -g -I. -I./ list_adders.c -o obj/Linux/list_adders.o
-In file included from [01m[Klist_adders.c:4[m[K:
-[01m[Klist_adders.c:[m[K In function ‘[01m[KallocateNode[m[K’:
-[01m[Klist.h:15:14:[m[K [01;35m[Kwarning: [m[Kimplicit declaration of function ‘[01m[Kstrerror[m[K’; did you mean ‘[01m[Kperror[m[K’? [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wimplicit-function-declaration-Wimplicit-function-declaration]8;;[m[K]
-   15 |         msg, [01;35m[Kstrerror[m[K(errno), __FILE__, __LINE__);      \
-      |              [01;35m[K^~~~~~~~[m[K
-[01m[Klist_adders.c:48:13:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KLOG_ERROR[m[K’
-   48 |             [01;36m[KLOG_ERROR[m[K("Failed to realloc nodePool.nodes");
-      |             [01;36m[K^~~~~~~~~[m[K
-[01m[Klist.h:14:21:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%s[m[K’ expects argument of type ‘[01m[Kchar *[m[K’, but argument 4 has type ‘[01m[Kint[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wformat=-Wformat=]8;;[m[K]
-   14 |     fprintf(stderr, [01;35m[K"Log [Error] - %s: %s at %s:%d\n"[m[K,  \
-      |                     [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
-   15 |         msg, [32m[Kstrerror(errno)[m[K, __FILE__, __LINE__);      \
-      |              [32m[K~~~~~~~~~~~~~~~[m[K
-      |              [32m[K|[m[K
-      |              [32m[Kint[m[K
-[01m[Klist_adders.c:48:13:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KLOG_ERROR[m[K’
-   48 |             [01;36m[KLOG_ERROR[m[K("Failed to realloc nodePool.nodes");
-      |             [01;36m[K^~~~~~~~~[m[K
-[01m[Klist.h:14:41:[m[K [01;36m[Knote: [m[Kformat string is defined here
-   14 |     fprintf(stderr, "Log [Error] - %s: [01;36m[K%s[m[K at %s:%d\n",  \
-      |                                        [01;36m[K~^[m[K
-      |                                         [01;36m[K|[m[K
-      |                                         [01;36m[Kchar *[m[K
-      |                                        [32m[K%d[m[K
-[01m[Klist_adders.c:51:9:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeclaration-after-statement-Wdeclaration-after-statement]8;;[m[K]
-   51 |         [01;35m[Kint[m[K *newFreeNodes = realloc(nodePool.freeNodes,
-      |         [01;35m[K^~~[m[K
-[01m[Klist.h:14:21:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%s[m[K’ expects argument of type ‘[01m[Kchar *[m[K’, but argument 4 has type ‘[01m[Kint[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wformat=-Wformat=]8;;[m[K]
-   14 |     fprintf(stderr, [01;35m[K"Log [Error] - %s: %s at %s:%d\n"[m[K,  \
-      |                     [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
-   15 |         msg, [32m[Kstrerror(errno)[m[K, __FILE__, __LINE__);      \
-      |              [32m[K~~~~~~~~~~~~~~~[m[K
-      |              [32m[K|[m[K
-      |              [32m[Kint[m[K
-[01m[Klist_adders.c:54:13:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KLOG_ERROR[m[K’
-   54 |             [01;36m[KLOG_ERROR[m[K("Failed to realloc nodePool.freeNodes");
-      |             [01;36m[K^~~~~~~~~[m[K
-[01m[Klist.h:14:41:[m[K [01;36m[Knote: [m[Kformat string is defined here
-   14 |     fprintf(stderr, "Log [Error] - %s: [01;36m[K%s[m[K at %s:%d\n",  \
-      |                                        [01;36m[K~^[m[K
-      |                                         [01;36m[K|[m[K
-      |                                         [01;36m[Kchar *[m[K
-      |                                        [32m[K%d[m[K
-[01m[Klist_adders.c:[m[K In function ‘[01m[KfreeList[m[K’:
-[01m[Klist.h:14:21:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%s[m[K’ expects argument of type ‘[01m[Kchar *[m[K’, but argument 4 has type ‘[01m[Kint[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wformat=-Wformat=]8;;[m[K]
-   14 |     fprintf(stderr, [01;35m[K"Log [Error] - %s: %s at %s:%d\n"[m[K,  \
-      |                     [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
-   15 |         msg, [32m[Kstrerror(errno)[m[K, __FILE__, __LINE__);      \
-      |              [32m[K~~~~~~~~~~~~~~~[m[K
-      |              [32m[K|[m[K
-      |              [32m[Kint[m[K
-[01m[Klist_adders.c:106:9:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KLOG_ERROR[m[K’
-  106 |         [01;36m[KLOG_ERROR[m[K("Attempt to free invalid list index.");
-      |         [01;36m[K^~~~~~~~~[m[K
-[01m[Klist.h:14:41:[m[K [01;36m[Knote: [m[Kformat string is defined here
-   14 |     fprintf(stderr, "Log [Error] - %s: [01;36m[K%s[m[K at %s:%d\n",  \
-      |                                        [01;36m[K~^[m[K
-      |                                         [01;36m[K|[m[K
-      |                                         [01;36m[Kchar *[m[K
-      |                                        [32m[K%d[m[K
-gcc -c -Wall -pedantic -I. -std=gnu90 -Wextra   -g -I. -I./  list_movers.c -o obj/Linux/list_movers.o
-gcc -c -Wall -pedantic -I. -std=gnu90 -Wextra   -g -I. -I./ list_removers.c -o obj/Linux/list_removers.o
-mkdir -p lib/Linux
-ar rcs lib/Linux/liblist.a obj/Linux/list_adders.o obj/Linux/list_movers.o obj/Linux/list_removers.o
-mkdir -p bin/Linux
-gcc -Wall -pedantic -I. -std=gnu90 -Wextra   -g -I. obj/Linux/unit_tests.o -L. \
--Llib/Linux lib/Linux/liblist.a -o bin/Linux/unit_tests
-ln -sf bin/Linux/unit_tests unit_tests
-[1m[7m%[27m[1m[0m                                                                                                                                                                                              ]2;devteam@jaxdev:~/students/cmpt332/Playground]1;..32/Playground]7;file://jaxdev/home/devteam/students/cmpt332/Playground\[0m[27m[24m[J
-[1;36mcmpt332/Playground[0m  [35m [0m[35mmain[0m [38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m39%[0m[1;2;37m | [0m[1;2;37m3GiB/7GiB[0m
-[32m   100%[0m [38;2;191;204;227m| [0m[38;2;191;204;227m00:23:05[0m[38;2;191;204;227m [0m [34m🗸[0m [1;32m ➜[0m [K[?1h=[?2004he[1m[31me[0m[39m[1m[31me[0m[39m[90mxit[39m[1m[31me[1m[31mx[0m[39m[0m[32me[0m[32mx[39m[32me[32mx[32mi[39m[1m[31me[1m[31mx[1m[31mi[0m[39m[1m[31mi[1m[31mt[0m[39m[0m[32me[0m[32mx[0m[32mi[0m[32mt[39m[?1l>[?2004l
+[1;36mcmpt332/Playground[0m  [35m [0m[35mmain[0m [38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m40%[0m[1;2;37m | [0m[1;2;37m3GiB/7GiB[0m
+[32m   100%[0m [38;2;191;204;227m| [0m[38;2;191;204;227m00:39:26[0m[38;2;191;204;227m [0m [34m🗸[0m [1;31m ✖[0m [K[?1h=[?2004he[1m[31me[0m[39m[1m[31me[0m[39m[90mxit[39m[1m[31me[1m[31mx[0m[39m[0m[32me[0m[32mx[39m[32me[32mx[32mi[39m[1m[31me[1m[31mx[1m[31mi[0m[39m[1m[31mi[1m[31mt[0m[39m[0m[32me[0m[32mx[0m[32mi[0m[32mt[39m[?1l>[?2004l
 ]2;exit]1;exit
-Script done on 2024-10-22 00:23:07-04:00 [COMMAND_EXIT_CODE="0"]
+Script done on 2024-10-22 00:39:28-04:00 [COMMAND_EXIT_CODE="1"]
