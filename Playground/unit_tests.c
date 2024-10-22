@@ -233,7 +233,7 @@ void test_ListPrepend() {
 
 void test_ListRemove() {
     LIST *list = ListCreate();
-    int *item1 = malloc(sizeof(int)), removedItem = NULL;
+    int *item1 = malloc(sizeof(int)), *removedItem = NULL;
     *item1 = 40;
     ListAdd(list, item1);
     removedItem = ListRemove(list);
@@ -246,10 +246,10 @@ void test_ListRemove() {
 
 void test_ListTrim() {
     LIST *list = ListCreate();
-    int *item1 = malloc(sizeof(int));
+    int *item1 = malloc(sizeof(int)), *trimmedItem = NULL;
     *item1 = 50;
     ListAdd(list, item1);
-    int *trimmedItem = ListTrim(list);
+    trimmedItem = ListTrim(list);
     assert(trimmedItem == item1);
     assert(ListCount(list) == 0);
     free(trimmedItem);
@@ -261,9 +261,8 @@ void test_ListConcat() {
     LIST *list1 = ListCreate();
     LIST *list2 = ListCreate();
 
-    int *item1 = malloc(sizeof(int));
+    int* item1 = malloc(sizeof(int)), *item2 = malloc(sizeof(int));
     *item1 = 60;
-    int *item2 = malloc(sizeof(int));
     *item2 = 70;
 
     ListAdd(list1, item1);
@@ -281,17 +280,19 @@ void test_ListConcat() {
 
 void test_ListSearch() {
     LIST *list = ListCreate();
+    int target;
+    int* foundItem = NULL;
     int *item1 = malloc(sizeof(int));
     *item1 = 80;
     int *item2 = malloc(sizeof(int));
     *item2 = 90;
-    int target = 90;
+    target = 90;
 
     ListAdd(list, item1);
     ListAdd(list, item2);
     ListFirst(list);
 
-    int *foundItem = ListSearch(list, intComparator, &target);
+    foundItem = ListSearch(list, intComparator, &target);
     assert(foundItem != NULL);
     assert(*foundItem == 90);
 
@@ -552,11 +553,12 @@ void test_ListNextBeyondEnd() {
 
 void test_ListPrevBeyondStart() {
     LIST *list = ListCreate();
+    void *prevItem = NULL;
     int *item1 = malloc(sizeof(int));
     *item1 = 270;
     ListAdd(list, item1);
     ListPrev(list);
-    void *prevItem = ListPrev(list);
+    prevItem = ListPrev(list);
     assert(prevItem == NULL);
     ListFree(list, free);
     printf("test_ListPrevBeyondStart passed.\n");
