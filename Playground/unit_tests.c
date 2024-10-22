@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "list.h"
 #include <assert.h>
+
 /* Checking if list was created */
 void test_ListCreate(){
     LIST* list = ListCreate();
