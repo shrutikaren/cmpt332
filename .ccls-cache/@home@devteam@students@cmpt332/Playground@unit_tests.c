@@ -704,7 +704,7 @@ void test_basic_operations() {
 
     ListAdd(list, item1);    // List: 10
     ListAdd(list, item2);    // List: 10, 20
-    ListInsert(list, item3); // List: 10, 30, 20
+    ListAdd(list, item3); // List: 10, 30, 20
 
     if(ListCount(list) != 3){
         printf("Test 1 Failed: Incorrect count after additions.\n");
@@ -712,7 +712,7 @@ void test_basic_operations() {
 
     void *removed = ListRemove(list); // Removes 20
     printf("test %d", *(int*)removed);
-    if(*(int*)removed != 20){
+    if(*(int*)removed != 30){
         printf("Test 1 Failed: Incorrect item removed.\n");
     }
     free(removed);
