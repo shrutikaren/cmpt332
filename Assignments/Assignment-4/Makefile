@@ -5,6 +5,7 @@
 CC = gcc
 CFLAGS = -g
 CPPFLAGS = -Wall -pedantic -I. -std=gnu90 -Wextra  
+LDFLAGS = -L/usr/local/include 
 INC = -I. 
 CURRENT_DIR = ./ #IMPORTANT TO LINK LOCAL HEADER FILES
 
@@ -47,12 +48,20 @@ LIST_OBJS = \
 
 MONITOR_OBJS = $(OBJ_DIR)/Monitor.o
 
-# compile object for uthread.c 
-$(OBJ_DIR)/uthread.o: uthread.c | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(INC) -I$(HEADER_FILE_XV6) uthread.c -o \
-	$(OBJ_DIR)/uthread.o
+# ==================== EVERYTHING FOR PART A IS HERE ========================== 
+# Compile object for uthread.c
+$(U)/uthread.o: $(U)/uthread.c | $(U)
+	$(CC) -c $(CPPFLAGS) $(INC) -I$(HEADER_FILE_XV6) $(U)/uthread.c \
+	-o $(U)/uthread.o
 
-$(U)/_uthread: $(U)uthread.c | $(OBJ_DIR)
+$(U)/uthread_switch.o: $(U)/uthread_switch.S | $(U)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $(U)/uthread_switch.o \
+	$(U)/uthread_switch.S
+
+# Build the _uthread executable
+$(U)/_uthread: $(U)/uthread.o $(U)/uthread_switch.o $(ULIB)
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $(U)/_uthread $(U)/uthread.o \
+	$(U)/uthread_switch.o $(OBJDUMP) -S $(U)/_uthread > $(U)/uthread.asm
 
 # compile the source file 
 
