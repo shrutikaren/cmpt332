@@ -79,7 +79,7 @@ void test6_ListAdd(){
         *item = i;
         result = ListAdd(list, item);
         assert(result==EXIT_SUCCESS);
-        assert(ListCount(list) == i + 1);
+	assert(ListCount(list) == i + 1);
         assert(*(int *)ListCurr(list) == i);
     }
 
@@ -126,6 +126,28 @@ void test8_ListInsert(){
     printf("test8_ListInsert() passed \n");
 }
 
+void test9_ListInsert(){ 
+    LIST* list = ListCreate();
+    int i, result, resultappend;
+    int item;
+    int totaliter = 1000000;
+    for (i = 0; i < totaliter; i++){
+	result = ListInsert(list, &i);
+    }
+    assert(result == EXIT_SUCCESS);
+    
+    item = 9;
+    resultappend = ListAppend(list, &item);
+    assert(resultappend == EXIT_SUCCESS);
+    /* 9 should be sitting at the cursor */
+    assert(*(int*)ListCurr(list)==9);
+    assert(ListCount(list) == 1000001);
+    printf("test9_ListInsert() passed\n");
+}
+
+void test10_ListPrepend(){
+    LIST* list = ListCreate();
+}
 int main(){
     
     test_ListCreate();
@@ -139,5 +161,8 @@ int main(){
     test7_ListInsert();
     /* Remove all the memory at the end. */
     test8_ListInsert();
+
+    /* Works on both list append and list insert */
+    test9_ListInsert();
     return EXIT_SUCCESS;
 }
