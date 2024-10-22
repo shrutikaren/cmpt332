@@ -457,14 +457,15 @@ void test_ListFree_NullList() {
 
 void test_MultipleLists() {
     LIST *lists[5];
-    for (int i = 0; i < 5; i++) {
+    int i;
+    for (i = 0; i < 5; i++) {
         lists[i] = ListCreate();
         int *item = malloc(sizeof(int));
         *item = i * 10;
         ListAdd(lists[i], item);
         assert(ListCount(lists[i]) == 1);
     }
-    for (int i = 0; i < 5; i++) {
+    for (i = 0; i < 5; i++) {
         ListFree(lists[i], free);
     }
     printf("test_MultipleLists passed.\n");
@@ -485,8 +486,9 @@ void test_ListOperationsAfterFree() {
 
 void test_ExhaustNodePool() {
     LIST *list = ListCreate();
+    int i = 0;
     int numNodes = 200; // Exceed initial MIN_NODES
-    for (int i = 0; i < numNodes; i++) {
+    for (i = 0; i < numNodes; i++) {
         int *item = malloc(sizeof(int));
         *item = i;
         ListAdd(list, item);
@@ -499,13 +501,14 @@ void test_ExhaustNodePool() {
 }
 
 void test_ExhaustListPool() {
-    int numLists = 20; // Exceed initial MIN_LISTS
+    int i;
+    const int numLists = 20; // Exceed initial MIN_LISTS
     LIST *lists[numLists];
-    for (int i = 0; i < numLists; i++) {
+    for (i = 0; i < numLists; i++) {
         lists[i] = ListCreate();
         assert(lists[i] != NULL);
     }
-    for (int i = 0; i < numLists; i++) {
+    for (i = 0; i < numLists; i++) {
         ListFree(lists[i], NULL);
     }
     printf("test_ExhaustListPool passed.\n");
@@ -513,11 +516,10 @@ void test_ExhaustListPool() {
 
 void test_ListAddAfterRemoveAll() {
     LIST *list = ListCreate();
-    int *item1 = malloc(sizeof(int));
+    int *item1 = malloc(sizeof(int)), *item2 = malloc(sizeof(int));
     *item1 = 220;
     ListAdd(list, item1);
     ListRemove(list);
-    int *item2 = malloc(sizeof(int));
     *item2 = 230;
     ListAdd(list, item2);
     assert(ListCount(list) == 1);
@@ -528,12 +530,14 @@ void test_ListAddAfterRemoveAll() {
 
 void test_ListSearchNotFound() {
     LIST *list = ListCreate();
+    int target;
+    void *foundItem; 
     int *item1 = malloc(sizeof(int));
     *item1 = 240;
-    int target = 250;
+    target = 250;
     ListAdd(list, item1);
     ListFirst(list);
-    void *foundItem = ListSearch(list, intComparator, &target);
+    foundItem = ListSearch(list, intComparator, &target);
     assert(foundItem == NULL);
     ListFree(list, free);
     printf("test_ListSearchNotFound passed.\n");
@@ -541,11 +545,12 @@ void test_ListSearchNotFound() {
 
 void test_ListNextBeyondEnd() {
     LIST *list = ListCreate();
+    void *nextItem; 
     int *item1 = malloc(sizeof(int));
     *item1 = 260;
     ListAdd(list, item1);
     ListNext(list);
-    void *nextItem = ListNext(list);
+    nextItem = ListNext(list);
     assert(nextItem == NULL);
     ListFree(list, free);
     printf("test_ListNextBeyondEnd passed.\n");
