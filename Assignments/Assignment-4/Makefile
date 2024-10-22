@@ -23,6 +23,7 @@ UBC_PTHREAD_DIR = /student/cmpt332/pthreads/lib/$(OS)$(ARCH)
 UBC_COMPILER_FLAG = -DUSE_UBC_THREADS
 RT_THREADS = /student/cmpt332/rtt/include 
 X86_RT_THREADS = /student/cmpt332/rtt/lib/Linuxx86_64
+U = /student/cmpt332/xv6-2024/xv6-threads/user
 
 .PHONY: all clean
 
@@ -45,33 +46,38 @@ LIST_OBJS = \
 
 MONITOR_OBJS = $(OBJ_DIR)/Monitor.o
 
+# compile object for uthread.c 
+#$(OBJ_DIR)/uthread.o: uthread.c | $(
+#$(U)/_uthread: $(U)uthread.c | $(OBJ_DIR)
+# compile the source file 
+
 # compile objects for list
 $(OBJ_DIR)/list_adders.o : list_adders.c | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) -I$(CURRENT_DIR) \
+	$(CC) -c $(CPPFLAGS) $(INC) -I$(CURRENT_DIR) \
 	list_adders.c -o $(OBJ_DIR)/list_adders.o
 
 $(OBJ_DIR)/list_movers.o : list_movers.c | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) -I$(CURRENT_DIR) \
+	$(CC) -c $(CPPFLAGS) $(INC) -I$(CURRENT_DIR) \
 	list_movers.c -o $(OBJ_DIR)/list_movers.o
 
 $(OBJ_DIR)/list_removers.o : list_removers.c | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) -I$(CURRENT_DIR) \
+	$(CC) -c $(CPPFLAGS) $(INC) -I$(CURRENT_DIR) \
 	list_removers.c -o $(OBJ_DIR)/list_removers.o
 
 # compile objects for the reader_writer files`
 $(OBJ_DIR)/reader_writer_monitor.o: reader_writer_monitor.c | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) -I$(UBC_PTHREAD_INCLUDE_DIR) \
+	$(CC) -c $(CPPFLAGS) $(INC) -I$(UBC_PTHREAD_INCLUDE_DIR) \
 	-I$(CURRENT_DIR) reader_writer_monitor.c -o \
 	$(OBJ_DIR)/reader_writer_monitor.o
 
 $(OBJ_DIR)/reader_writer.o: reader_writer.c | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(UBC_COMPILER_FLAG) $(INC) \
+	$(CC) -c $(CPPFLAGS) $(UBC_COMPILER_FLAG) $(INC) \
 	-I$(CURRENT_DIR) -I$(UBC_PTHREAD_INCLUDE_DIR) reader_writer.c -o \
 	$(OBJ_DIR)/reader_writer.o
 
 #compile objects for the monitor files
 $(OBJ_DIR)/Monitor.o: Monitor.c | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(INC) -I$(CURRENT_DIR) \
+	$(CC) -c $(CPPFLAGS) $(INC) -I$(CURRENT_DIR) \
 	-I$(UBC_PTHREAD_INCLUDE_DIR) Monitor.c -o $(OBJ_DIR)/Monitor.o
 
 # Add Target-Specific CPPFLAGS for reader-writer.o
@@ -79,7 +85,7 @@ $(OBJ_DIR)/Monitor.o: Monitor.c | $(OBJ_DIR)
 
 #compiling objects for Part C
 $(OBJ_DIR)/s-chat.o: s-chat.c | $(OBJ_DIR)
-	$(CC) -o $(CPPFLAGS) $(CFLAGS) $(INC) -I$(RT_THREADS) s-chat.c -o \
+	$(CC) -o $(CPPFLAGS)  $(INC) -I$(RT_THREADS) s-chat.c -o \
 	$(OBJ_DIR)/s-chat.o
 
 # Add Target-Specific CPPFLAGS for s-chat.o
@@ -98,7 +104,7 @@ $(BIN_DIR)/reader_writer_test : \
 	$(OBJ_DIR)/reader_writer.o $(LIB_DIR)/liblist.a \
 	$(LIB_DIR)/libMonitor.a $(UBC_PTHREAD_DIR)/libpthreads.a \
 	$(OBJ_DIR)/reader_writer_monitor.o $(OBJ_DIR)/Monitor.o | $(BIN_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(UBC_COMPILER_FLAG) \
+	$(CC) $(CFLAGS) $(UBC_COMPILER_FLAG) \
 	$(OBJ_DIR)/reader_writer.o  \
 	 $(OBJ_DIR)/Monitor.o $(OBJ_DIR)/reader_writer_monitor.o \
 		-L. -L$(UBC_PTHREAD_DIR) -L$(LIB_DIR) -llist -lMonitor \
@@ -106,7 +112,7 @@ $(BIN_DIR)/reader_writer_test : \
 
 # link executable for the s-chat
 $(BIN_DIR)/s-chat: $(OBJ_DIR)/s-chat.o | $(BIN_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/s-chat.o \
+	$(CC) $(CFLAGS) $(OBJ_DIR)/s-chat.o \
 	$(X86_RT_THREADS) -ltirpc -lRtt -lRttUtils -o $(BIN_DIR)/s-chat
 
 # linking executable to root folder
