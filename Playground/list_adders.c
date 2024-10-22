@@ -104,7 +104,7 @@ void ListDispose(void){
         nodePool.nodes = NULL;
     }
 
-    if(nodePool.nodes != NULL){
+    if(nodePool.freeNodes!= NULL){
         free(nodePool.freeNodes);
         nodePool.freeNodes = NULL;
     }
@@ -114,7 +114,7 @@ void ListDispose(void){
         listPool.lists = NULL;
     }
 
-    if(listPool.lists != NULL){
+    if(listPool.freeLists!= NULL){
         free(listPool.freeLists);
         listPool.freeLists = NULL;
     }
