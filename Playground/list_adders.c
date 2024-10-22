@@ -151,7 +151,8 @@ int ListAdd(LIST *pList, void *pItem){
 
     else if (pList->current == UNUSED_NODE){
         nodePool.nodes[newNodeIndex].prev = pList->tail;
-        nodePool.nodes[newNodeIndex].next = newNodeIndex;
+        nodePool.nodes[newNodeIndex].next = UNUSED_NODE;
+        nodePool.nodes[pList->tail].next = newNodeIndex;
         pList->tail = pList->current = newNodeIndex;
     }
 
