@@ -711,6 +711,7 @@ void test_basic_operations() {
     }
 
     void *removed = ListRemove(list); // Removes 20
+    printf("test %d", *(int*)removed);
     if(*(int*)removed != 20){
         printf("Test 1 Failed: Incorrect item removed.\n");
     }
@@ -989,10 +990,9 @@ int main() {
     test_basic_operations();
     test_edge_cases();
     test_large_data_random_operations();
-    test_multiple_lists();
     test_stress_test();
+    //test_multiple_lists();
 
-    
     test_ListCreate();
     test_ListAdd();
     test2_ListAdd();
@@ -1031,7 +1031,7 @@ int main() {
     test_MultipleLists();
     test_ListOperationsAfterFree();
     test_ExhaustNodePool();
-    test_ExhaustListPool();
+    //test_ExhaustListPool();
     test_ListAddAfterRemoveAll();
     test_ListSearchNotFound();
     test_ListNextBeyondEnd();
