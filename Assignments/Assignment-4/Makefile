@@ -5,7 +5,7 @@
 CC = gcc
 CFLAGS = -g
 CPPFLAGS = -Wall -pedantic -I. -std=gnu90 -Wextra  
-LDFLAGS = -L/usr/local/include 
+LDFLAGS = -L/usr/local/include -L\. 
 INC = -I. 
 CURRENT_DIR = ./ #IMPORTANT TO LINK LOCAL HEADER FILES
 
@@ -121,7 +121,7 @@ $(BIN_DIR)/reader_writer_test : \
 	$(CC) $(CFLAGS) $(UBC_COMPILER_FLAG) \
 	$(OBJ_DIR)/reader_writer.o  \
 	 $(OBJ_DIR)/Monitor.o $(OBJ_DIR)/reader_writer_monitor.o \
-		-L. -L$(UBC_PTHREAD_DIR) -L$(LIB_DIR) -llist -lMonitor \
+		$(LDFLAGS)  -L$(UBC_PTHREAD_DIR) -L$(LIB_DIR) -llist -lMonitor \
 		 -lpthreads -o $(BIN_DIR)/reader_writer_test
 
 # link executable for the s-chat
