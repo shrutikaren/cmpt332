@@ -70,6 +70,9 @@ CFLAGS += -fno-builtin-printf -fno-builtin-fprintf -fno-builtin-vprintf
 CFLAGS += -I.
 CFLAGS += $(shell $(CC) -fno-stack-protector -E -x c /dev/null >/dev/null 2>&1 && echo -fno-stack-protector)
 
+# CMPT 332 GROUP 01, FALL 2024
+CFLAGS += -mno-relax
+
 # Disable PIE when possible (for Ubuntu 16.10 toolchain)
 ifneq ($(shell $(CC) -dumpspecs 2>/dev/null | grep -e '[^f]no-pie'),)
 CFLAGS += -fno-pie -no-pie
@@ -139,17 +142,17 @@ UPROGS=\
 	$U/_grind\
 	$U/_wc\
 	$U/_zombie\
-	
-	# CMPT 332 GROUP 01 CHANGE FALL 2024
+	# CMPT 332 GROUP 01,  FALL 2024 CHANGE
 	$U/_uthread\
 
-# CMPT 332 GROUP 01 CHANGE FALL 2024
-$U/uthread_switch.o: $U/uthread_switch.S
-	$(CC) $(CFLAGS) -c -o $U/uthread_switch.o $U/uthread_switch.S
+# CMPT 332 GROUP 01, FALL 2024 CHANGE
+$U/uthread_switch.o : $U/uthread_switch.S
+    $(CC) $(CFLAGS) -c -o $U/uthread_switch.o $U/uthread_switch.S
 
 $U/_uthread: $U/uthread.o $U/uthread_switch.o $(ULIB)
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_uthread $U/uthread.o \
-	$U/uthread_switch.o $(OBJDUMP) -S $U/_uthread > $U/uthread.asm
+    $(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_uthread $U/uthread.o \
+    $U/uthread_switch.o $(ULIB)
+    $(OBJDUMP) -S $U/_uthread > $U/uthread.asm
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)

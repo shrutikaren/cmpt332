@@ -10,15 +10,38 @@
 #define STACK_SIZE  8192
 #define MAX_THREAD  4
 
+/* CMPT 332 GROUP 01, FALL 2024*/
+#define MUTEX_SIZE  256
+typedef struct mutex{
+  int locked; /* locked state */
+} mutex_t;
 
 struct thread {
   char       stack[STACK_SIZE]; /* the thread's stack */
   int        state;             /* FREE, RUNNING, RUNNABLE */
+  
+  /* CMPT 332 GROUP 01, FALL 2024 */
+  uint64_t   s0;
+  uint64_t   s1;
+  uint64_t   s2;
+  uint64_t   s3;
+  uint64_t   s4; 
+  uint64_t   s5;
+  uint64_t   s6;
+  uint64_t   s7;
+  uint64_t   s8;
+  uint64_t   s9;
+  uint64_t   s10;
+  uint64_t   s11;
 };
 struct thread all_thread[MAX_THREAD];
 struct thread *current_thread;
 extern void thread_switch(uint64, uint64);
-              
+
+/* CMPT 332 GROUP 01, FALL 2024*/
+mutex_t *all_m[MUTEX_SIZE];
+int m_count;
+
 void 
 thread_init(void)
 {
@@ -35,6 +58,11 @@ void
 thread_schedule(void)
 {
   struct thread *t, *next_thread;
+
+  /* CMPT 332 GROUP 01, FALL 2024 */
+  uint64_t current_stack, next_stack;
+  current_stack = (uint64_t)thread->stack; 
+  next_stack = (uint64_t)next_thread->stack;
 
   /* Find another runnable thread. */
   next_thread = 0;
@@ -58,10 +86,9 @@ thread_schedule(void)
     next_thread->state = RUNNING;
     t = current_thread;
     current_thread = next_thread;
-    /* YOUR CODE HERE
-     * Invoke thread_switch to switch from t to next_thread:
-     * thread_switch(??, ??);
-     */
+
+    /* CMPT 332 GROUP 01, FALL 2024 */
+    thread_switch(current_stack, next_stack);
   } else
     next_thread = 0;
 }
@@ -75,7 +102,9 @@ thread_create(void (*func)())
     if (t->state == FREE) break;
   }
   t->state = RUNNABLE;
-  // YOUR CODE HERE
+  
+  /* CMPT 332 GROUP 01, FALL 2024 */
+  t->stack = malloc(STACK_SIZE);
 }
 
 void 
@@ -148,7 +177,42 @@ thread_c(void)
   thread_schedule();
 }
 
-int 
+/* CMPT 332 GROUP 01, FALL 2024*/
+int mtx_create(int locked){
+   int locked_id;
+   if (m_count > MUTEX_SIZE){
+	return -1;
+   }
+   mutex_t m = (mutex_t *)malloc(sizeof(mutex_t));
+   
+   if (!m){
+	return -1;
+   }
+   m->locked = locked;
+   all_m[mutex_count++] = m;
+
+   locked_id = count++;
+   return locked_id;
+}
+
+/* CMPT 332 GROUP 01, FALL 2024*/
+int mtx_lock(int lock_id){
+   mutex* m = all_m[lock_id];
+   while (m->locked){
+	/* wait indefinitely */
+   }
+   m->locked = 0;
+   return 0;
+}
+
+/* CMPT 332 GROUP 01, FALL 2024*/
+int mtx_unlock(int lock_id){
+   mutex* m = all_m[lock_id];
+   while (!m->locked){return -1;}
+   m->locked = 1;
+   return 0;
+}
+
 main(int argc, char *argv[]) 
 {
   a_started = b_started = c_started = 0;

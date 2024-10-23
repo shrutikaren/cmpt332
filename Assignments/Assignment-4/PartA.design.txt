@@ -1,0 +1,8 @@
+For the thread structure, we will save the registers specifically the "saved
+register" and the stack pointer as well. We don't need to save the "temporary
+registers" because those are always caller saved anyway. Caller saved means
+that they are saved before the call and restored after the call so we don't need
+to spend our resources to worry about them. Since the saved registers are callee
+saved, those needs to be saved before our context switches. This is an 
+important part of the process when we work with our registers. 
+
