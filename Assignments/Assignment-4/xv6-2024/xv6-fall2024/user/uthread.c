@@ -62,7 +62,7 @@ thread_schedule(void)
 
   /* CMPT 332 GROUP 01, FALL 2024 */
   uint64_t current_stack, next_stack;
-  current_stack = (uint64_t)thread->stack; 
+  current_stack = (uint64_t)t->stack; 
   next_stack = (uint64_t)next_thread->stack;
 
   /* Find another runnable thread. */
