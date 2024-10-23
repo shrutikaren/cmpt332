@@ -28,11 +28,13 @@ OBJS = \
   $K/sysfile.o \
   $K/kernelvec.o \
   $K/plic.o \
-  $K/virtio_disk.o
-
+  $K/virtio_disk.o 
+  
+  # CMPT 332 CHANGE GROUP 01, FALL 2024
+  
 # riscv64-unknown-elf- or riscv64-linux-gnu-
 # perhaps in /opt/riscv/bin
-#TOOLPREFIX = 
+
 
 # Try to infer the correct TOOLPREFIX if not set
 ifndef TOOLPREFIX
@@ -142,17 +144,19 @@ UPROGS=\
 	$U/_grind\
 	$U/_wc\
 	$U/_zombie\
-	# CMPT 332 GROUP 01,  FALL 2024 CHANGE
-	$U/_uthread\
+	$U/_uthread
 
 # CMPT 332 GROUP 01, FALL 2024 CHANGE
 $U/uthread_switch.o : $U/uthread_switch.S
-    $(CC) $(CFLAGS) -c -o $U/uthread_switch.o $U/uthread_switch.S
+	$(CC) $(CFLAGS) -c -o $U/uthread_switch.o $U/uthread_switch.S
+
+$U/uthread.o: $U/uthread.c
+	$(CC) $(CFLAGS) -c -o $U/uthread.o $U/uthread.c
 
 $U/_uthread: $U/uthread.o $U/uthread_switch.o $(ULIB)
-    $(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_uthread $U/uthread.o \
-    $U/uthread_switch.o $(ULIB)
-    $(OBJDUMP) -S $U/_uthread > $U/uthread.asm
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_uthread $U/uthread.o \
+	$U/uthread_switch.o $(ULIB)
+	$(OBJDUMP) -S $U/_uthread > $U/uthread.asm
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
@@ -167,7 +171,7 @@ clean:
         $U/usys.S \
 	$(UPROGS)
 
-# try to generate a unique GDB port
+# try to gen~/xv6-2024/xv6-threads/usererate a unique GDB port
 GDBPORT = $(shell expr `id -u` % 5000 + 25000)
 # QEMU's gdb stub command line changed in 0.11
 QEMUGDB = $(shell if $(QEMU) -help | grep -q '^-gdb'; \
