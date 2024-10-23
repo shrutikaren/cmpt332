@@ -105,7 +105,7 @@ thread_create(void (*func)())
   t->state = RUNNABLE;
   
   /* CMPT 332 GROUP 01, FALL 2024 */
-  t->stack = malloc(STACK_SIZE);
+  t->stack = (char *)malloc(sizeof(char);
 }
 
 void 
