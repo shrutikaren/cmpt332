@@ -44,8 +44,16 @@ int allocateNode(void) {
         /* Expand node pool */
         int newTotalNodes = nodePool.totalNodes * 2;
         NODE *newNodes = realloc(nodePool.nodes, sizeof(NODE) * newTotalNodes);
+        if(newNodes == NULL){
+            LOG_ERROR("Failed to realloc nodePool.nodes");
+        }
+
         int *newFreeNodes = realloc(nodePool.freeNodes,
                                     sizeof(int) * newTotalNodes);
+        if(newFreeNodes == NULL){
+            LOG_ERROR("Failed to realloc nodePool.freeNodes");
+        }
+
         for (i = nodePool.totalNodes; i < newTotalNodes; i++) {
             newFreeNodes[nodePool.freeNodeCount++] = i;
         }
@@ -94,6 +102,9 @@ int allocateList(void) {
 
 /* Free a list back to the pool */
 void freeList(int index) {
+    if(index < 0 || index >= listPool.totalLists){
+        LOG_ERROR("Attempt to free invalid list index.");
+    }
     listPool.lists[index].inUse = 0;
     listPool.freeLists[listPool.freeListCount++] = index;
 }
@@ -104,7 +115,7 @@ void ListDispose(void){
         nodePool.nodes = NULL;
     }
 
-    if(nodePool.nodes != NULL){
+    if(nodePool.freeNodes!= NULL){
         free(nodePool.freeNodes);
         nodePool.freeNodes = NULL;
     }
@@ -114,7 +125,7 @@ void ListDispose(void){
         listPool.lists = NULL;
     }
 
-    if(listPool.lists != NULL){
+    if(listPool.freeLists!= NULL){
         free(listPool.freeLists);
         listPool.freeLists = NULL;
     }
@@ -151,8 +162,10 @@ int ListAdd(LIST *pList, void *pItem){
 
     else if (pList->current == UNUSED_NODE){
         nodePool.nodes[newNodeIndex].prev = pList->tail;
-        nodePool.nodes[newNodeIndex].next = newNodeIndex;
+        nodePool.nodes[newNodeIndex].next = UNUSED_NODE;
+        nodePool.nodes[pList->tail].next = newNodeIndex;
         pList->tail = pList->current = newNodeIndex;
+        pList->current = newNodeIndex;
     }
 
     else{
@@ -176,7 +189,7 @@ int ListAdd(LIST *pList, void *pItem){
 int ListInsert(LIST *pList, void *pItem){
 
     int newNodeIndex;
-    if(pList == NULL){
+    if(pList == NULL || !pList->inUse){
         return EXIT_FAILURE;
     }
 
@@ -237,14 +250,22 @@ void ListConcat(LIST *pList1, LIST *pList2){
     }
 
     if(pList1->count == 0){
-        *pList1 = *pList2;
+        pList1->head = pList2->head;
+        pList1->tail = pList2->tail;
+        pList1->current = pList2->current;
+        pList1->count = pList2->count;
     }
     else{
         nodePool.nodes[pList1->tail].next = pList2->head;
         nodePool.nodes[pList2->head].prev = pList1->tail;
         pList1->tail = pList2->tail;
         pList1->count += pList2->count;
+        pList1->current = pList2->current;
     }
+
+    pList2->head = pList2->tail = pList2->current = UNUSED_NODE;
+    pList2->count = 0;
+    pList2->inUse = 0;
 
     freeList(pList2 - listPool.lists);
 

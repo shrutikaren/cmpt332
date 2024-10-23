@@ -228,21 +228,20 @@ void test11_ListConcat() {
     LIST* list_2 = ListCreate();
     int iter_1, iter_2;
     int i;
-    int *items1[10], *items2[20];
 
     iter_1 = 10;
     iter_2 = 20;
     for (i = 0; i < iter_1; i++) {
-        items1[i] = malloc(sizeof(int));
-        *items1[i] = iter_1;
-        ListPrepend(list_1, items1[i]);
+        int* item = malloc(sizeof(int));
+        *item = iter_1;
+        ListPrepend(list_1, item);
     }
     assert(ListCount(list_1) == 10);
 
     for (i = 0; i < iter_2; i++) {
-        items2[i] = malloc(sizeof(int));
-        *items2[i] = iter_2;
-        ListPrepend(list_2, items2[i]);
+        int* item = malloc(sizeof(int));
+        *item = iter_2;
+        ListPrepend(list_2, item);
     }
     assert(ListCount(list_2) == 20);
 
@@ -543,12 +542,14 @@ void test_ListOperationsAfterFree() {
 
 void test_ExhaustNodePool() {
     LIST *list = ListCreate();
+    assert(list != NULL);
     int i;
     int numNodes = 200; /* Exceed initial MIN_NODES */
     for (i = 0; i < numNodes; i++) {
         int *item = malloc(sizeof(int));
+        assert(item != NULL);
         *item = i;
-        ListAdd(list, item);
+        assert(ListAdd(list, item) == EXIT_SUCCESS);
     }
     assert(ListCount(list) == numNodes);
 
@@ -561,12 +562,25 @@ void test_ExhaustListPool() {
     int i;
     const int numLists = 20; /* Exceed initial MIN_LISTS */
     LIST *lists[20]; /* Fixed-size array */
+
     for (i = 0; i < numLists; i++) {
         lists[i] = ListCreate();
         assert(lists[i] != NULL);
+        assert(ListCount(lists[i]) == 0);
     }
     for (i = 0; i < numLists; i++) {
-        ListFree(lists[i], NULL);
+        int* item = malloc(sizeof(int));
+        assert(item != NULL);
+        *item = i * 10;
+        assert(ListAdd(lists[i], item) == EXIT_SUCCESS);
+        assert(ListCount(lists[i]) == 1);
+    }
+    for(i = 0; i < numLists; i++){
+        ListFree(lists[i], free); 
+    }
+
+    for(i = 0; i < numLists; i++){
+        assert(ListCount(lists[i]) == EXIT_FAILURE);
     }
     printf("test_ExhaustListPool passed.\n");
 }
@@ -663,7 +677,322 @@ void test_ListTrimFromEmpty() {
     printf("test_ListTrimFromEmpty passed.\n");
 }
 
+/* Function to free integer items */
+void freeInt(void *pItem) {
+    free(pItem);
+}
+
+/* Test 1: Basic Operations - Create, Add, Insert, Remove, Free */
+void test_basic_operations() {
+    printf("Running Test 1: Basic Operations...\n");
+    LIST *list = ListCreate();
+    if(list == NULL) {
+        printf("Failed to create list.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    int *item1 = malloc(sizeof(int));
+    int *item2 = malloc(sizeof(int));
+    int *item3 = malloc(sizeof(int));
+    if(item1 == NULL || item2 == NULL || item3 == NULL){
+        LOG_ERROR("Memory allocation failed in Test 1");
+    }
+
+    *item1 = 10;
+    *item2 = 20;
+    *item3 = 30;
+
+    ListAdd(list, item1);    // List: 10
+    ListAdd(list, item2);    // List: 10, 20
+    ListAdd(list, item3); // List: 10, 30, 20
+
+    if(ListCount(list) != 3){
+        printf("Test 1 Failed: Incorrect count after additions.\n");
+    }
+
+    void *removed = ListRemove(list); // Removes 20
+    printf("test %d", *(int*)removed);
+    if(*(int*)removed != 30){
+        printf("Test 1 Failed: Incorrect item removed.\n");
+    }
+    free(removed);
+
+    if(ListCount(list) != 2){
+        printf("Test 1 Failed: Incorrect count after removal.\n");
+    }
+
+    ListFree(list, freeInt);
+    printf("Test 1 Passed.\n\n");
+}
+
+/* Test 2: Edge Cases - Operations on Empty and Single-element Lists */
+void test_edge_cases() {
+    printf("Running Test 2: Edge Cases...\n");
+    LIST *emptyList = ListCreate();
+    if(emptyList == NULL){
+        printf("Failed to create empty list.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    /* Attempt to remove from empty list */
+    void *removed = ListRemove(emptyList);
+    if(removed != NULL){
+        printf("Test 2 Failed: Removed item from empty list.\n");
+    }
+
+    /* Add a single element */
+    int *item = malloc(sizeof(int));
+    if(item == NULL){
+        LOG_ERROR("Memory allocation failed in Test 2");
+    }
+    *item = 100;
+    ListAdd(emptyList, item);
+
+    if(ListCount(emptyList) != 1){
+        printf("Test 2 Failed: Incorrect count after adding single element.\n");
+    }
+
+    /* Remove the single element */
+    removed = ListRemove(emptyList);
+    if(*(int*)removed != 100){
+        printf("Test 2 Failed: Incorrect item removed from single-element list.\n");
+    }
+    free(removed);
+
+    if(ListCount(emptyList) != 0){
+        printf("Test 2 Failed: Incorrect count after removing single element.\n");
+    }
+
+    ListFree(emptyList, freeInt);
+
+    /* Test operations on single-element list */
+    LIST *singleList = ListCreate();
+    int *singleItem = malloc(sizeof(int));
+    if(singleItem == NULL){
+        LOG_ERROR("Memory allocation failed in Test 2");
+    }
+    *singleItem = 200;
+    ListAdd(singleList, singleItem);
+
+    /* Attempt to navigate */
+    void *first = ListFirst(singleList);
+    void *last = ListLast(singleList);
+    void *curr = ListCurr(singleList);
+
+    if(*(int*)first != 200 || *(int*)last != 200 || *(int*)curr != 200){
+        printf("Test 2 Failed: Navigation failed on single-element list.\n");
+    }
+
+    /* Remove the single element */
+    removed = ListRemove(singleList);
+    if(*(int*)removed != 200){
+        printf("Test 2 Failed: Incorrect item removed from single-element list.\n");
+    }
+    free(removed);
+
+    if(ListCount(singleList) != 0){
+        printf("Test 2 Failed: Incorrect count after removing from single-element list.\n");
+    }
+
+    ListFree(singleList, freeInt);
+    printf("Test 2 Passed.\n\n");
+}
+
+/* Test 3: Large Number of Elements with Random Insertions and Deletions */
+void test_large_data_random_operations() {
+    printf("Running Test 3: Large Data with Random Operations...\n");
+    LIST *list = ListCreate();
+    if(list == NULL){
+        printf("Failed to create list.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    const int NUM_ELEMENTS = 10000;
+    int i;
+    srand(time(NULL));
+
+    /* Add elements */
+    for(i = 0; i < NUM_ELEMENTS; i++) {
+        int *item = malloc(sizeof(int));
+        if(item == NULL){
+            LOG_ERROR("Memory allocation failed in Test 3");
+        }
+        *item = i;
+        if(ListAdd(list, item) != EXIT_SUCCESS){
+            printf("Test 3 Failed: Failed to add item %d.\n", i);
+        }
+    }
+
+    if(ListCount(list) != NUM_ELEMENTS){
+        printf("Test 3 Failed: Incorrect count after additions.\n");
+    }
+
+    /* Perform random deletions */
+    for(i = 0; i < NUM_ELEMENTS / 2; i++) {
+        int action = rand() % 3;
+        if(action == 0){
+            /* Remove first */
+            void *item = ListFirst(list);
+            if(item != NULL){
+                free(ListRemove(list));
+            }
+        }
+        else if(action == 1){
+            /* Remove last */
+            void *item = ListLast(list);
+            if(item != NULL){
+                free(ListRemove(list));
+            }
+        }
+        else{
+            /* Remove current */
+            void *item = ListCurr(list);
+            if(item != NULL){
+                free(ListRemove(list));
+            }
+        }
+    }
+
+    /* Check count */
+    if(ListCount(list) != NUM_ELEMENTS / 2){
+        printf("Test 3 Failed: Incorrect count after deletions.\n");
+    }
+
+    /* Free remaining elements */
+    ListFree(list, freeInt);
+    printf("Test 3 Passed.\n\n");
+}
+
+/* Test 4: Multiple Lists Operations */
+void test_multiple_lists() {
+    printf("Running Test 4: Multiple Lists Operations...\n");
+    const int NUM_LISTS = 100;
+    LIST *lists[NUM_LISTS];
+    int i, j;
+
+    /* Create multiple lists and add elements */
+    for(i = 0; i < NUM_LISTS; i++) {
+        lists[i] = ListCreate();
+        if(lists[i] == NULL){
+            printf("Test 4 Failed: Failed to create list %d.\n", i);
+            exit(EXIT_FAILURE);
+        }
+        for(j = 0; j < 100; j++) {
+            int *item = malloc(sizeof(int));
+            if(item == NULL){
+                LOG_ERROR("Memory allocation failed in Test 4");
+            }
+            *item = i * 100 + j;
+            if(ListAdd(lists[i], item) != EXIT_SUCCESS){
+                printf("Test 4 Failed: Failed to add item to list %d.\n", i);
+            }
+        }
+    }
+
+    /* Verify counts */
+    for(i = 0; i < NUM_LISTS; i++) {
+        if(ListCount(lists[i]) != 100){
+            printf("Test 4 Failed: Incorrect count in list %d.\n", i);
+        }
+    }
+
+    /* Randomly remove elements from each list */
+    for(i = 0; i < NUM_LISTS; i++) {
+        for(j = 0; j < 50; j++) {
+            ListFirst(lists[i]);
+            void *item = ListRemove(lists[i]);
+            if(item != NULL){
+                free(item);
+            }
+        }
+    }
+
+    /* Verify counts */
+    for(i = 0; i < NUM_LISTS; i++) {
+        if(ListCount(lists[i]) != 50){
+            printf("Test 4 Failed: Incorrect count after removals in list %d.\n", i);
+        }
+    }
+
+    /* Free all lists */
+    for(i = 0; i < NUM_LISTS; i++) {
+        ListFree(lists[i], freeInt);
+    }
+
+    printf("Test 4 Passed.\n\n");
+}
+
+/* Test 5: Stress Test with Extensive Random Operations */
+void test_stress_test() {
+    printf("Running Test 5: Stress Test with Extensive Random Operations...\n");
+    LIST *list = ListCreate();
+    if(list == NULL){
+        printf("Failed to create list.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    const int NUM_OPERATIONS = 100000;
+    int i;
+    srand(time(NULL));
+
+    for(i = 0; i < NUM_OPERATIONS; i++) {
+        int action = rand() % 4;
+        if(action == 0){
+            /* Add at current position */
+            int *item = malloc(sizeof(int));
+            if(item == NULL){
+                LOG_ERROR("Memory allocation failed in Test 5");
+            }
+            *item = rand();
+            ListAdd(list, item);
+        }
+        else if(action == 1){
+            /* Insert at current position */
+            int *item = malloc(sizeof(int));
+            if(item == NULL){
+                LOG_ERROR("Memory allocation failed in Test 5");
+            }
+            *item = rand();
+            ListInsert(list, item);
+        }
+        else if(action == 2){
+            /* Remove current item */
+            void *item = ListRemove(list);
+            if(item != NULL){
+                free(item);
+            }
+        }
+        else{
+            /* Navigate */
+            int nav = rand() % 3;
+            if(nav == 0){
+                ListFirst(list);
+            }
+            else if(nav == 1){
+                ListLast(list);
+            }
+            else{
+                ListNext(list);
+            }
+        }
+    }
+
+    /* Final count verification (can't predict exact count) */
+    printf("Final count after stress test: %d\n", ListCount(list));
+
+    /* Free remaining elements */
+    ListFree(list, freeInt);
+    printf("Test 5 Passed.\n\n");
+}
+
 int main() {
+
+    test_basic_operations();
+    test_edge_cases();
+    test_large_data_random_operations();
+    test_stress_test();
+    //test_multiple_lists();
+
     test_ListCreate();
     test_ListAdd();
     test2_ListAdd();
@@ -676,7 +1005,7 @@ int main() {
     test8_ListInsert();
     test9_ListInsert();
     test10_ListPrepend();
-    //test11_ListConcat();
+    test11_ListConcat();
     test13_ListFirst();
 
     test_ListAppend();
@@ -700,8 +1029,8 @@ int main() {
     test_ListConcat_NullLists();
     test_ListFree_NullList();
     test_MultipleLists();
-    //test_ListOperationsAfterFree();
-    //test_ExhaustNodePool();
+    test_ListOperationsAfterFree();
+    test_ExhaustNodePool();
     //test_ExhaustListPool();
     test_ListAddAfterRemoveAll();
     test_ListSearchNotFound();
@@ -711,6 +1040,7 @@ int main() {
     test_ListInsertNullItem();
     test_ListRemoveFromEmpty();
     test_ListTrimFromEmpty();
+    ListDispose();
 
     printf("All tests passed successfully.\n");
     return EXIT_SUCCESS;

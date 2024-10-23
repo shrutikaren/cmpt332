@@ -10,7 +10,7 @@ extern ListPool listPool;
 
 /* Get the count of items in the list */
 int ListCount(LIST *pList) {
-    if(pList == NULL){
+    if(pList == NULL || !pList->inUse){
         return EXIT_FAILURE;
     }
     return pList->count;
