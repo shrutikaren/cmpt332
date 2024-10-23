@@ -1,3 +1,1 @@
-user/forktest.o: user/forktest.c \
- /student/cmpt332/xv6-2024/riscv/sysroot/usr/include/stdc-predef.h \
- kernel/types.h kernel/stat.h user/user.h
+user/forktest.o: user/forktest.c kernel/types.h kernel/stat.h user/user.h

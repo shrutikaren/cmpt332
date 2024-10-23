@@ -1,3 +1,2 @@
-user/ulib.o: user/ulib.c \
- /student/cmpt332/xv6-2024/riscv/sysroot/usr/include/stdc-predef.h \
- kernel/types.h kernel/stat.h kernel/fcntl.h user/user.h
+user/ulib.o: user/ulib.c kernel/types.h kernel/stat.h kernel/fcntl.h \
+ user/user.h
