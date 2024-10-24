@@ -105,7 +105,7 @@ thread_create(void (*func)())
   t->state = RUNNABLE;
   
   /* CMPT 332 GROUP 01, FALL 2024 */
-  t->stack = (char *)malloc(sizeof(char);
+  t->stack = (char *)malloc(sizeof(char));
 }
 
 void 
@@ -184,7 +184,7 @@ int mtx_create(int locked){
    if (m_count > MUTEX_SIZE){
 	return -1;
    }
-   mutex_t m = (mutex_t *)malloc(sizeof(mutex_t));
+   struct mutex_t m = (mutex_t *)malloc(sizeof(mutex_t));
    
    if (!m){
 	return -1;
