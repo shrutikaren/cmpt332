@@ -3,6 +3,7 @@
 #include "user/user.h"
 #include <stdint.h>
 /* CMPT 332 GROUP 01, FALL 2024*/
+#include <stddef.h>
 
 /* Possible states of a thread: */
 #define FREE        0x0
@@ -14,7 +15,7 @@
 
 /* CMPT 332 GROUP 01, FALL 2024*/
 #define MUTEX_SIZE  256
-typedef struct mutex{
+typedef struct mutex_t{
   int locked; /* locked state */
 } mutex_t;
 
@@ -41,7 +42,7 @@ struct thread *current_thread;
 extern void thread_switch(uint64, uint64);
 
 /* CMPT 332 GROUP 01, FALL 2024*/
-struct mutex_t* m = all_m[MUTEX_SIZE];
+struct mutex_t* all_m[MUTEX_SIZE];
 static int m_count = 0;
 
 void 
@@ -59,9 +60,11 @@ thread_init(void)
 void 
 thread_schedule(void)
 {
-  struct thread *t, *next_thread;
 
   /* CMPT 332 GROUP 01, FALL 2024 */
+  /* initializing the threads first */
+  struct thread *t = (struct thread*)malloc(sizeof(struct thread));
+  struct thread *next_thread = (struct thread*)malloc(sizeof(struct thread));
   uint64_t current_stack, next_stack;
   current_stack = (uint64_t)t->stack; 
   next_stack = (uint64_t)next_thread->stack;
@@ -185,9 +188,9 @@ int mtx_create(int locked){
    if (m_count > MUTEX_SIZE){
 	return -1;
    }
-   struct mutex_t *m = (struct mutex_t *)malloc(sizeof(struct mutex_t));
+   mutex_t *m = (mutex_t *)malloc(sizeof(mutex_t));
    
-   if (m = NULL){
+   if (m == NULL){
 	return -1;
    }
    m->locked = locked;
@@ -199,7 +202,7 @@ int mtx_create(int locked){
 
 /* CMPT 332 GROUP 01, FALL 2024*/
 int mtx_lock(int lock_id){
-   mutex* m = all_m[lock_id];
+   mutex_t* m = all_m[lock_id];
    while (m->locked){
 	/* wait indefinitely */
    }
@@ -209,7 +212,7 @@ int mtx_lock(int lock_id){
 
 /* CMPT 332 GROUP 01, FALL 2024*/
 int mtx_unlock(int lock_id){
-   mutex* m = all_m[lock_id];
+   mutex_t* m = all_m[lock_id];
    while (!m->locked){return -1;}
    m->locked = 1;
    return 0;
