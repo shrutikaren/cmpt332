@@ -9,7 +9,7 @@
 /* Implementing a bounded buffer and semaphore*/
 typedef struct thread_info_t{
 	LIST* buffer;
-	int sempahore;
+	int mutex;
 }
 
 thread_info_t thread_info = malloc(sizeof(BUFFER_SIZE));
