@@ -5,33 +5,42 @@
 #define FULL_BUFFER_SIZE 10
 
 /* Implementing a bounded buffer and mutex*/
-typedef struct buffer{
-	int buffer[FULL_BUFFER_SIZE];
-	int buffer_size;
-	int left;
-	int right;
-	int mutex; 
-}
-
-/* Creating the variables and initializing those variables*/
-int main_mutex;
-buffer* buffer_created = (struct buffer*)malloc(sizeof(struct buffer));
-main_mutex = mtx_create(buffer_created->mutex);
+int buffer[FULL_BUFFER_SIZE];
+int left;
+int right;
+int buffer_count; /* The shared variable*/
+mutex_t* mutex;
 
 /* Produces an item inside the buffer */
-void P(){
-	/* Checks if no item in the buffer */
-	
-	/* If no item inside list*/
-
-	/* If item inside list */
-
+void P(void){
+	while (1){
+		mtx_lock(mutex->locked);
+		if (buffer_count < FULL_BUFFER_SIZE){
+			buffer_count ++;
+		}	
+		mtx_unlock(mutex->locked);
+	}
+	thread_yield(); /* Put it into a RUNNABLE state*/
 }
 
-void V(){
+void V(void){
+	while(1){
 	/* Check if the buffer is full */
-
-	
+		mtx_lock(mutex->locked);
+		if (buffer_count > 0){
+			buffer_count --;
+		}
+		mtx_unlock(mutex->unlocked);
+	 		
+	}
+	thread_yield(); /* Put it into the RUNNABLE queue*/
 }
 
+int main(int argc, char *argv[]){
+	mutex = mtx_create(0);
+	thread_init();
+	thread_create(P);
+	thread_create(V);
+	return 0;
+}
 
