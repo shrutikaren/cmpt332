@@ -84,7 +84,7 @@ $(OBJ_DIR)/s-chat.o: s-chat.c | $(OBJ_DIR)
 	$(OBJ_DIR)/s-chat.o
 
 # compiling object file for partA testing 
-$(OBJ_DIR)/producer-consumer.o: producer-consumer.o | $(OBJ_DIR)
+$(OBJ_DIR)/producer-consumer.o: producer-consumer.c $( C_AND_ASSEM_DIR)/uthread.c | $(OBJ_DIR)
 	$(CC) -o $(CPPFLAGS) producer-consumer.c -o $(OBJ_DIR)/producer-consumer.o
 
 # Add Target-Specific CPPFLAGS for s-chat.o
