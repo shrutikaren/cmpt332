@@ -33,15 +33,15 @@
 #define k 10
 
 typedef struct CondVar{
-    int semaphore;
-    LIST* waitList;
+    int semaphore; /* int to control access */
+    LIST* waitList; /* list of threads waiting */
 } CondVar;
 
 typedef struct Monitor{
-    int lock;
-    int entrySem;
-    LIST* entryList;
-    CondVar conVars[k];
+    int lock; /* used to access shared resources */
+    int entrySem; /* used to access entry */
+    LIST* entryList; /* threads to enter into the list */
+    CondVar conVars[k]; 
 } Monitor;
 
 void MonInit();

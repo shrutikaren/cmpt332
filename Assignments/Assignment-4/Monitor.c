@@ -28,8 +28,8 @@ void MonInit(){
     }
     
     /* Initialize the enter queue and its semaphore */  
-    mon.entrySem = ListCreate();
-    if(mon.entryList == NULL){
+    mon.entryList = ListCreate();
+    if(mon.entryList == 0){
         LOG_ERROR("Failed to create entry queue in MonInit.");
     }
 
@@ -41,14 +41,15 @@ void MonInit(){
 
     /* Initialize all conditional variables */
     for(i = 0; i < k; i++){
-
-        mon.conVars[i].semaphore = ListCreate();
-        if(mon.conVars[i].waitList == NULL){
+	
+	/* Initializing the waitList */
+        mon.conVars[i].waitList = ListCreate();
+        if(mon.conVars[i].waitList == 0){
             LOG_ERROR("Failed to create waitList for cv MonInit.");
         }
 
         mon.conVars[i].semaphore = NewSem(0);
-        if(mon.conVars[i].waitList == NULL){
+        if(mon.conVars[i].semaphore == -1){
             LOG_ERROR("Failed to create semaphore for cv's MonInit.");
         }
     }
@@ -58,11 +59,11 @@ void MonInit(){
 void MonEnter(){
 
     PID* currentPid;
-
+    void* trimmedPid;
     currentPid = (PID*)malloc(sizeof(PID));
 
     if(currentPid == NULL){
-        LOG_ERROR("Dailed to allocate memory for PID in MonEnter.");
+        LOG_ERROR("Failed to allocate memory for PID in MonEnter.");
     }
 
     *currentPid = MyPid();
@@ -73,11 +74,10 @@ void MonEnter(){
     V(mon.entrySem);
     
     /* TODO: Acquire the mutex */
-    P(mon.mutex);
-    
-    /* TODO: Remove self from the entryList */
+    P(mon.lock);
+    /* TODO: Reove self from the entryList */
     P(mon.entrySem);
-    void* trimmedPid = ListTrim(mon.entryList);
+    trimmedPid = ListTrim(mon.entryList);
     if (trimmedPid != NULL) {
         free(trimmedPid); 
     } else {
@@ -87,12 +87,13 @@ void MonEnter(){
 }
 
 void MonLeave(){
+    void* trimmedPid;
     /* TODO: Check if there are threads waiting in the entery List */
     P(mon.entrySem);
     
     if (ListCount(mon.entryList) > 0) {
         /* Signal the next thread waiting to enter the monitor */
-        void* trimmedPid = ListTrim(mon.entryList);
+        trimmedPid = ListTrim(mon.entryList);
         if (trimmedPid != NULL) {
             free(trimmedPid); 
             V(mon.lock);      
@@ -108,13 +109,13 @@ void MonLeave(){
 }
 
 void MonWait(int cvar){
-
+    PID* myPid;
     if(cvar < 0 || cvar >= k){
         LOG_ERROR("Invalid condition variable ID in MonWait");
     }
 
     /* Add the thread to the condition variable's wait queue */
-    PID* myPid = (PID*)malloc(sizeof(PID));
+    myPid = (PID*)malloc(sizeof(PID));
     if (myPid == NULL) {
         LOG_ERROR("Failed to allocate memory for PID in MonWait");
     }
@@ -134,7 +135,7 @@ void MonWait(int cvar){
 }
 
 void MonSignal(int cvar){
-
+    PID* waitingPid;
     if(cvar < 0 || cvar >= k){
         LOG_ERROR("Invalid condition variable ID in MonWait");
     }
@@ -142,7 +143,7 @@ void MonSignal(int cvar){
     /* Check if there are threads waiting on the condition varaible. */
     if (ListCount(mon.conVars[cvar].waitList) > 0) {
         /* Remove the first thread from the condition variable's waitList. */ 
-        PID* waitingPid = (PID*)ListTrim(mon.conVars[cvar].waitList);
+        waitingPid = (PID*)ListTrim(mon.conVars[cvar].waitList);
         if (waitingPid == NULL) {
             LOG_ERROR("Failed to trim from condition variable in MonSignal.");
         }

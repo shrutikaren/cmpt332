@@ -1,107 +1,97 @@
-/*
- * Shruti Kaur
- * ich524
- * 11339265
- */
+#define LIST_IMPLEMENTATION
+#include <stdlib.h>
+#include "list.h"
 
-#include <stddef.h>
-#include <list.h>
+#define UNUSED_NODE -1
 
-#define UNUSED 0xffffffff
+/* Extern pools from list_adders.c */
+extern NodePool nodePool;
+extern ListPool listPool;
 
-extern LIST * list_space;
-extern unsigned int list_count;
-extern NODE * node_space;
-extern unsigned int node_count;
+/* Remove the current item */
+void *ListRemove(LIST *pList) {
 
+    int nodeIndex, prevNode, nextNode;
+    void* item;
 
-/*
- * Purpose: pops the current item from the list
- * Effects: current item becomes it's next item
- * Returns: a pointer to the current item
- */
-void *ListRemove(LIST_HANDLE list) {
-    void * item;
-    NODE_HANDLE node;
-    if (list == UNUSED) {
+    if(pList == NULL || pList->current == UNUSED_NODE){
         return NULL;
     }
-    if ((list_space+list)->count == 0) {
-        return NULL;
+
+    nodeIndex = pList->current;
+    item = nodePool.nodes[nodeIndex].item;
+    prevNode = nodePool.nodes[nodeIndex].prev;
+    nextNode = nodePool.nodes[nodeIndex].next;
+
+    if(prevNode != UNUSED_NODE){
+        nodePool.nodes[prevNode].next = nextNode;
     }
-    item = (node_space+(list_space+list)->cursor)->item;
-    if ((list_space+list)->count == 1) {
-        (list_space+list)->head = UNUSED;
-        (list_space+list)->tail = UNUSED;
-        (list_space+list)->cursor = UNUSED;
-        (list_space+list)->count = 0;
-        return item;
-    };
-    node = (node_space+(list_space+list)->cursor)->prev;
-    if (!((list_space+list)->cursor == (list_space+list)->head)) {
-        (node_space+node)->next = (node_space+(list_space+list)->cursor)->next;
-    }
-    if (!((list_space+list)->cursor == (list_space+list)->tail)) {
-        (node_space+(node_space+(list_space+list)->cursor)->next)->prev = node;
+    else{
+        pList->head = nextNode;
     }
 
-    (node_space+(list_space+list)->cursor)->item = NULL;
-    node_count--;
+    if(nextNode != UNUSED_NODE){
+        nodePool.nodes[nextNode].prev = prevNode;
+    }
+    else{
+        pList->tail = prevNode;
+    }
+
+    if(nextNode != UNUSED_NODE){
+        pList->current = nextNode;
+    }
+    else if (prevNode != UNUSED_NODE){
+        pList->current = prevNode;
+    }
+    else{
+        pList->current = UNUSED_NODE;
+    }
+
+    freeNode(nodeIndex);
+    pList->count--;
 
     return item;
+
 }
 
-/*
- * Purpose: deletes the list, itemFree is used to delete individual items
- */
-void ListFree(LIST_HANDLE list, void (*itemFree)(void *)) {
-    NODE_HANDLE node;
-    if (list == UNUSED) {
-        return;
+/* Remove and return the last item */
+void *ListTrim(LIST *pList) {
+    if(pList == NULL || pList->tail == UNUSED_NODE){
+        return NULL;
     }
-    if (!itemFree) {
-        return;
-    }
-    node = (list_space+list)->head;
-    while (node != UNUSED) {
-        itemFree((node_space+node)->item);
-        (node_space+node)->item = NULL;
-        node_count--;
-        node = (node_space+node)->next;
-    }
-    (list_space+list)->count = UNUSED;
-    list_count--;
-
-    return;
+    pList->current = pList->tail;
+    return ListRemove(pList);
 }
 
-/*
- * Purpose: pops the item from the end of the list
- * Effects: the current item is set to the new last item
- * Returns: a pointer to this item
- */
-void *ListTrim(LIST_HANDLE list) {
-    void * item;
-    NODE_HANDLE node;
-    if (list == UNUSED) {
-        return NULL;
-    }
-    if ((list_space+list)->count == 0) {
-        return NULL;
-    }
-    item = (node_space+(list_space+list)->tail)->item;
-    if ((list_space+list)->count == 1) {
-        (list_space+list)->head = UNUSED;
-        (list_space+list)->tail = UNUSED;
-        (list_space+list)->cursor = UNUSED;
-        (list_space+list)->count = 0;
-        return item;
-    };
-    node = (node_space+(list_space+list)->tail)->prev;
-    (node_space+node)->next = (node_space+(list_space+list)->tail)->next;
+/* Free the list and its nodes */
+void ListFree(LIST *pList, void (*itemFree)(void *pItem)) {
 
-    (node_space+(list_space+list)->tail)->item = NULL;
-    node_count--;
+    int nodeIndex, listIndex;
+    
+    if(pList == NULL){ return; }
 
-    return item;
+    nodeIndex = pList->head;
+
+    while (nodeIndex != UNUSED_NODE) {
+
+        int nextNode = nodePool.nodes[nodeIndex].next;
+        if(itemFree != NULL && nodePool.nodes[nodeIndex].item != NULL){
+            itemFree(nodePool.nodes[nodeIndex].item);
+        }
+        freeNode(nodeIndex);
+        nodeIndex = nextNode;
+
+    }
+
+    /* Reset the list's pointers */
+    pList->head = UNUSED_NODE;
+    pList->tail = UNUSED_NODE;
+    pList->current = UNUSED_NODE;
+    pList->count = 0;
+    pList->inUse = 0;
+
+    /* Return the list to the pool */
+    listIndex = pList - listPool.lists;
+    freeList(listIndex);
+  
 }
