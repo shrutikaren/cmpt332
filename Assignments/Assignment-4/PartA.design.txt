@@ -1,3 +1,10 @@
+**************All of the work will be done inside xv6-fall-2024****************
+1. uthread.c
+
+
+2. uthread_switch.S
+
+Logic for uthread_switch.S: 
 For the thread structure, we will save the registers specifically the "saved
 register" and the stack pointer as well. We don't need to save the "temporary
 registers" because those are always caller saved anyway. Caller saved means

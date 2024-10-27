@@ -7,12 +7,11 @@
 
 	.globl thread_switch
 thread_switch:
-	/* First parameter in a0, second is in a1, stack pointer reg is sp  */
-	/* Saving all of the saved registers from the current_thread*/
-	addi sp, sp, -104 /* Moving the stack pointer to give it space */
-	sd sp, 0(a0)
-	sd ra, 8(sp)	
-	sd s0, 16(sp)	
+	/* YOUR CODE HERE */
+	addi sp, sp, -104
+	sd ra, 0(sp)
+	sd sp, 8(sp)
+	sd s0, 16(sp)
 	sd s1, 24(sp)
 	sd s2, 32(sp)
 	sd s3, 40(sp)
@@ -22,15 +21,17 @@ thread_switch:
 	sd s7, 72(sp)
 	sd s8, 80(sp)
 	sd s9, 88(sp)
-	sd s10, 96(sp)
+	sd s10, 96(a0)
 	sd s11, 104(sp)
 	
-	ld sp, 0(a1) /* store next one */
-	ld ra, 8(sp)
+	sd sp, 0(a0)
+	
+	ld ra, 0(sp)
+	ld sp, 8(sp)
 	ld s0, 16(sp)
 	ld s1, 24(sp)
 	ld s2, 32(sp)
-	ld s3, 40(sp)
+	ld s3, 40(sp) 
 	ld s4, 48(sp)
 	ld s5, 56(sp)
 	ld s6, 64(sp)
@@ -40,5 +41,7 @@ thread_switch:
 	ld s10, 96(sp)
 	ld s11, 104(sp)
 	
-	addi sp, sp, 104 /* Adding the stack pointer back */
+	sd sp, 0(a1) 
+
+	addi sp, sp, 104
 	ret    /* return to ra */
