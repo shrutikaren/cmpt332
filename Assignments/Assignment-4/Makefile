@@ -11,7 +11,7 @@ CURRENT_DIR = ./ #IMPORTANT TO LINK LOCAL HEADER FILES
 
 ARCH = $(shell uname -m)
 OS := $(shell uname -s)
-target: reader_writer_test partA_test
+target: reader_writer_test
 
 all: $(target)
 
@@ -24,7 +24,6 @@ UBC_PTHREAD_DIR = /student/cmpt332/pthreads/lib/$(OS)$(ARCH)
 UBC_COMPILER_FLAG = -DUSE_UBC_THREADS
 RT_THREADS = /student/cmpt332/rtt/include 
 X86_RT_THREADS = /student/cmpt332/rtt/lib/Linuxx86_64
-C_AND_ASSEM_DIR = /git_hub_cpy/cmpt332/Assignments/Assignment-4/xv6-2024/xv6-fall2024/user
 .PHONY: all clean
 
 $(OBJ_DIR):
@@ -83,10 +82,6 @@ $(OBJ_DIR)/s-chat.o: s-chat.c | $(OBJ_DIR)
 	$(CC) -o $(CPPFLAGS)  $(INC) -I$(RT_THREADS) s-chat.c -o \
 	$(OBJ_DIR)/s-chat.o
 
-# compiling object file for partA testing 
-$(OBJ_DIR)/producer-consumer.o: producer-consumer.c $( C_AND_ASSEM_DIR)/uthread.c | $(OBJ_DIR)
-	$(CC) -o $(CPPFLAGS) producer-consumer.c -o $(OBJ_DIR)/producer-consumer.o
-
 # Add Target-Specific CPPFLAGS for s-chat.o
 #$(OBJ_DIR)/s-chat.o : CPPFLAGS += -I$(RT_THREADS) 
 
@@ -109,12 +104,6 @@ $(BIN_DIR)/reader_writer_test : \
 		$(LDFLAGS)  -L$(UBC_PTHREAD_DIR) -L$(LIB_DIR) -llist -lMonitor \
 		 -lpthreads -o $(BIN_DIR)/reader_writer_test
 
-# link executable for the partA testing
-$(BIN_DIR)/partA_test: $(OBJ_DIR)/producer-consumer.o \
-	$(C_AND_ASSEM_DIR)/uthread.o $(C_AND_ASSEM_DIR)/uthread_switch.S | $(BIN_DIR)
-	$(CC) $(CFLAGS) $(C_AND_ASSEM_DR)/uthread.o \
-	$(C_AND_ASSEM_DIR)/uthread_switch.S -o $(BIN_DIR)/partA_test
-
 # link executable for the s-chat
 $(BIN_DIR)/s-chat: $(OBJ_DIR)/s-chat.o | $(BIN_DIR)
 	$(CC) $(CFLAGS) $(OBJ_DIR)/s-chat.o \
@@ -124,6 +113,3 @@ $(BIN_DIR)/s-chat: $(OBJ_DIR)/s-chat.o | $(BIN_DIR)
 reader_writer_test : $(BIN_DIR)/reader_writer_test
 	ln -sf $(BIN_DIR)/reader_writer_test reader_writer_test
 
-#linking executable for our partA testing file
-partA_test: $(BIN_DIR)/partA_test
-	ln -sf $(BIN_DIR)/partA_test partA_test

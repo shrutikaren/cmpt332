@@ -149,7 +149,8 @@ UPROGS=\
 	$U/_grind\
 	$U/_wc\
 	$U/_zombie\
-	$U/_uthread
+	$U/_uthread\
+	$U/_produce-consumer
 
 # CMPT 332 GROUP 01, FALL 2024 CHANGE
 $U/uthread_switch.o : $U/uthread_switch.S
