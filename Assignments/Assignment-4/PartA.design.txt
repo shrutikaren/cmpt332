@@ -1,15 +1,45 @@
 **************All of the work will be done inside xv6-fall-2024****************
 1. uthread.c
+	= Data structure for thread: include the return address, stack pointer, 
+	and the 12 saved registers. Our registers can be of a data type of 
+	unsigned integers of 64 bits. The reason is because we are on a 64-bit
+	system so when the registers are 64-bit wide, they can hold about 64-bit
+	values. This allows us to have the right amount of memory so that the 
+	C and assembly file can work in a seamless manner. 
 
+		uint64 ra;
+		uint64 sp;
+		uint64 saved_regs[12]
+
+	The reason why we have 12 is due to the following registers: s0, s1, s2,
+	s3, s4, s5, s6, s7, s8, s9, s10, and s11. 
+
+	= Our thread_switch function is being implemented inside the assembly
+	file by working around with our registers. This part will be discussed
+	inside uthread_switch.S. 
+
+	= When working inside the thread_schedule function. We would want to 
+	switch our threads whenever the current_thread is not equal to the 
+	next_thread. To do this, we will pass both our current thread "t" and 
+	the next one called "next_thread". We will cast it as uint64 so that it
+	can work really well with our a0 and a1 (argument registers). 
+
+	= Inside our thread_create function, we will assign our thread's return
+	address "ra" to be pased to a function which will be the function to 		
+	which our thread needs. Another factor is that the stack pointer itself	
+	going to be increased by the stack size value during every thread_create
+	function. 
 
 2. uthread_switch.S
 
-Logic for uthread_switch.S: 
-For the thread structure, we will save the registers specifically the "saved
-register" and the stack pointer as well. We don't need to save the "temporary
-registers" because those are always caller saved anyway. Caller saved means
-that they are saved before the call and restored after the call so we don't need
-to spend our resources to worry about them. Since the saved registers are callee
-saved, those needs to be saved before our context switches. This is an 
-important part of the process when we work with our registers. 
+	= For the thread structure, we will save the registers specifically the
+	"saved register" and the stack pointer as well. We don't need to save 
+	the "temporary registers" because those are always caller saved anyway. 
+	Caller saved means that they are saved before the call and restored 
+	aifkter the call so we don't need to spend our resources to worry about 
+	them. Since the saved registers are callee saved, those needs to be 
+	saved before our context switches. This is an important part of the 
+	process when we work with our registers. 
 
+3. produce-consumer.c
+	
