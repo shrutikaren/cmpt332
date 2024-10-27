@@ -149,8 +149,7 @@ UPROGS=\
 	$U/_grind\
 	$U/_wc\
 	$U/_zombie\
-	$U/_uthread\
-	$U/_produce-consumer
+	$U/_uthread
 
 # CMPT 332 GROUP 01, FALL 2024 CHANGE
 $U/uthread_switch.o : $U/uthread_switch.S
@@ -166,12 +165,12 @@ $U/_uthread: $U/uthread.o $U/uthread_switch.o $(ULIB)
 	$(OBJDUMP) -S $U/_uthread > $U/uthread.asm
 
 # CMPT 332 GROUP 01, FALL 2024 CHANGE
-$U/produce-consumer.o: $U/produce-consumer.c $U/uthread.h
-	$(CC) $(CFLAGS) -c -o $U/produce-consumer.o $U/produce-consumer.c
+#$U/produce-consumer.o: $U/produce-consumer.c $U/uthread.h
+#	$(CC) $(CFLAGS) -c -o $U/produce-consumer.o $U/produce-consumer.c
 
 
-$U/_produce-consumer: $U/produce-consumer.o $(ULIB)
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_produce-consumer $U/produce-consumer.o $U/uthread.o $(ULIB)
+#$U/_produce-consumer: $U/produce-consumer.o $(ULIB)
+#	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_produce-consumer $U/produce-consumer.o $U/uthread.o $(ULIB)
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)

@@ -1,9 +1,6 @@
 #include "kernel/types.h"
 #include "kernel/stat.h"
 #include "user/user.h"
-#include <stdint.h>
-/* CMPT 332 GROUP 01, FALL 2024*/
-#include <stddef.h>
 
 /* Possible states of a thread: */
 #define FREE        0x0
@@ -13,38 +10,15 @@
 #define STACK_SIZE  8192
 #define MAX_THREAD  4
 
-/* CMPT 332 GROUP 01, FALL 2024*/
-#define MUTEX_SIZE  256
-typedef struct mutex_t{
-  int locked; /* locked state */
-} mutex_t;
 
 struct thread {
   char       stack[STACK_SIZE]; /* the thread's stack */
   int        state;             /* FREE, RUNNING, RUNNABLE */
-  
-  /* CMPT 332 GROUP 01, FALL 2024 */
-  uint64_t   s0;
-  uint64_t   s1;
-  uint64_t   s2;
-  uint64_t   s3;
-  uint64_t   s4; 
-  uint64_t   s5;
-  uint64_t   s6;
-  uint64_t   s7;
-  uint64_t   s8;
-  uint64_t   s9;
-  uint64_t   s10;
-  uint64_t   s11;
 };
 struct thread all_thread[MAX_THREAD];
 struct thread *current_thread;
 extern void thread_switch(uint64, uint64);
-
-/* CMPT 332 GROUP 01, FALL 2024*/
-struct mutex_t* all_m[MUTEX_SIZE];
-static int m_count = 0;
-
+              
 void 
 thread_init(void)
 {
@@ -60,26 +34,19 @@ thread_init(void)
 void 
 thread_schedule(void)
 {
-
-  /* CMPT 332 GROUP 01, FALL 2024 */
-  /* initializing the threads first */
-  struct thread *t = (struct thread*)malloc(sizeof(struct thread));
-  struct thread *next_thread = (struct thread*)malloc(sizeof(struct thread));
-  uint64_t current_stack, next_stack;
-  current_stack = (uint64_t)current_thread->stack; 
-  next_stack = (uint64_t)next_thread->stack;
+  struct thread *t, *next_thread;
 
   /* Find another runnable thread. */
   next_thread = 0;
-  current_thread = current_thread + 1;
+  t = current_thread + 1;
   for(int i = 0; i < MAX_THREAD; i++){
-    if(current_thread >= all_thread + MAX_THREAD)
-      current_thread = all_thread;
-    if(current_thread->state == RUNNABLE) {
-      next_thread = current_thread;
+    if(t >= all_thread + MAX_THREAD)
+      t = all_thread;
+    if(t->state == RUNNABLE) {
+      next_thread = t;
       break;
     }
-    current_thread = current_thread + 1;
+    t = t + 1;
   }
 
   if (next_thread == 0) {
@@ -89,11 +56,12 @@ thread_schedule(void)
 
   if (current_thread != next_thread) {         /* switch threads?  */
     next_thread->state = RUNNING;
-    /*t = current_thread;*/
+    t = current_thread;
     current_thread = next_thread;
-
-    /* CMPT 332 GROUP 01, FALL 2024 */
-    thread_switch(current_stack, next_stack);
+    /* YOUR CODE HERE
+     * Invoke thread_switch to switch from t to next_thread:
+     * thread_switch(??, ??);
+     */
   } else
     next_thread = 0;
 }
@@ -101,15 +69,13 @@ thread_schedule(void)
 void 
 thread_create(void (*func)())
 {
-  
-  /* CMPT 332 GROUP 01, FALL 2024 */
-  /*struct thread *t = (struct thread *) malloc (sizeof(struct thread));*/
+  struct thread *t;
 
-  for (current_thread = all_thread; current_thread < all_thread + MAX_THREAD; current_thread++) { 
-    if (current_thread->state == FREE) break;
+  for (t = all_thread; t < all_thread + MAX_THREAD; t++) {
+    if (t->state == FREE) break;
   }
-  current_thread->state = RUNNABLE;
-  
+  t->state = RUNNABLE;
+  // YOUR CODE HERE
 }
 
 void 
@@ -182,43 +148,8 @@ thread_c(void)
   thread_schedule();
 }
 
-/* CMPT 332 GROUP 01, FALL 2024*/
-int mtx_create(int locked){
-   int locked_id;
-   if (m_count > MUTEX_SIZE){
-	return -1;
-   }
-   mutex_t *m = (mutex_t *)malloc(sizeof(mutex_t));
-   
-   if (m == NULL){
-	return -1;
-   }
-   m->locked = locked;
-   all_m[m_count++] = m;
-
-   locked_id = m_count++;
-   return locked_id;
-}
-
-/* CMPT 332 GROUP 01, FALL 2024*/
-int mtx_lock(int lock_id){
-   mutex_t* m = all_m[lock_id];
-   while (m->locked){
-	/* wait indefinitely */
-   }
-   m->locked = 0;
-   return 0;
-}
-
-/* CMPT 332 GROUP 01, FALL 2024*/
-int mtx_unlock(int lock_id){
-   mutex_t* m = all_m[lock_id];
-   while (!m->locked){return -1;}
-   m->locked = 1;
-   return 0;
-}
-
-int main(int argc, char *argv[]) 
+int 
+main(int argc, char *argv[]) 
 {
   a_started = b_started = c_started = 0;
   a_n = b_n = c_n = 0;
