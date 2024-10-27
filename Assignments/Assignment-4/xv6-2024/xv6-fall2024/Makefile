@@ -169,8 +169,9 @@ $U/_uthread: $U/uthread.o $U/uthread_switch.o $(ULIB)
 $U/produce-consumer.o: $U/produce-consumer.c $U/uthread.h
 	$(CC) $(CFLAGS) -c -o $U/produce-consumer.o $U/produce-consumer.c
 
+
 $U/_produce-consumer: $U/produce-consumer.o $(ULIB)
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_produce-consumer $U/produce-consumer.o
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_produce-consumer $U/produce-consumer.o $U/uthread.o $(ULIB)
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)

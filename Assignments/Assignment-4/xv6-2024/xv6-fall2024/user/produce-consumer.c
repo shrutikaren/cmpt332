@@ -11,6 +11,7 @@ int left;
 int right;
 int buffer_count; /* The shared variable*/
 mutex_t* mutex;
+int mutex_id;
 
 /* Produces an item inside the buffer */
 void P(void){
@@ -19,7 +20,7 @@ void P(void){
 		if (buffer_count < FULL_BUFFER_SIZE){
 			buffer_count ++;
 		}	
-		mtx_unlock(mutex->locked);
+		mtx_unlock(mutex_id);
 	}
 	thread_yield(); /* Put it into a RUNNABLE state*/
 }
@@ -31,14 +32,14 @@ void V(void){
 		if (buffer_count > 0){
 			buffer_count --;
 		}
-		mtx_unlock(mutex->unlocked);
+		mtx_unlock(mutex_id);
 	 		
 	}
 	thread_yield(); /* Put it into the RUNNABLE queue*/
 }
 
 int main(int argc, char *argv[]){
-	mutex = mtx_create(0);
+	mutex_id = mtx_create(0);
 	thread_init();
 	thread_create(P);
 	thread_create(V);
