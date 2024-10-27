@@ -6,9 +6,19 @@
 #define FREE        0x0
 #define RUNNING     0x1
 #define RUNNABLE    0x2
+#define PRODUCE_CONSUMER 
 
 #define STACK_SIZE  8192
 #define MAX_THREAD  4
+
+/* CMPT 332 GROUP 01, FALL 2024*/
+#include <stddef.h>
+
+/* CMPT 332 GROUP 01, FALL 2024*/
+#define MUTEX_SIZE  256
+typedef struct mutex_t{
+  int locked; /* locked state */
+} mutex_t;
 
 struct thread {
   uint64 ra;           
@@ -21,6 +31,10 @@ struct thread {
 struct thread all_thread[MAX_THREAD];
 struct thread *current_thread;
 extern void thread_switch(uint64, uint64);
+
+/* CMPT 332 GROUP 01, FALL 2024*/
+struct mutex_t* all_m[MUTEX_SIZE];
+static int m_count = 0;
               
 void 
 thread_init(void)
@@ -154,9 +168,54 @@ thread_c(void)
   thread_schedule();
 }
 
+/* CMPT 332 GROUP 01, FALL 2024*/
+int mtx_create(int locked){
+   int locked_id;
+   if (m_count > MUTEX_SIZE){
+	return -1;
+   }
+   mutex_t *m = (mutex_t *)malloc(sizeof(mutex_t));
+
+   if (m == NULL){
+	return -1;
+   }
+   m->locked = locked;
+
+   locked_id = m_count++;
+   return locked_id;
+}
+
+/* CMPT 332 GROUP 01, FALL 2024*/
+int mtx_lock(int lock_id){
+    mutex_t * m = all_m[lock_id];
+
+    while (m->locked);
+    m->locked = 0; /* Unlock the lock */
+    return 0;
+}
+
+
+/* CMPT 332 GROUP 01, FALL 2024*/
+int mtx_unlock(int lock_id){
+    mutex_t * m = all_m[lock_id];
+    while (m->locked){
+	return -1;
+    }
+    
+    m->locked = 1;
+    return 0;
+}
+
 int 
 main(int argc, char *argv[]) 
 {
+#ifndef PRODUCE_CONSUMER 
+   mutex_id = mtx_create(0);
+   thread_init();
+   thread_create(P);
+   thread_create(V);
+	
+#else
   a_started = b_started = c_started = 0;
   a_n = b_n = c_n = 0;
   thread_init();
@@ -164,5 +223,6 @@ main(int argc, char *argv[])
   thread_create(thread_b);
   thread_create(thread_c);
   thread_schedule();
+#endif
   exit(0);
 }
