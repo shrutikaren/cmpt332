@@ -6,7 +6,6 @@
 #define FREE        0x0
 #define RUNNING     0x1
 #define RUNNABLE    0x2
-#define PRODUCE_CONSUMER 
 
 #define STACK_SIZE  8192
 #define MAX_THREAD  4
@@ -206,16 +205,9 @@ int mtx_unlock(int lock_id){
     return 0;
 }
 
-int 
-main(int argc, char *argv[]) 
+#ifdef UTHREAD
+int main(int argc, char *argv[]) 
 {
-#ifndef PRODUCE_CONSUMER 
-   mutex_id = mtx_create(0);
-   thread_init();
-   thread_create(P);
-   thread_create(V);
-	
-#else
   a_started = b_started = c_started = 0;
   a_n = b_n = c_n = 0;
   thread_init();
@@ -223,6 +215,6 @@ main(int argc, char *argv[])
   thread_create(thread_b);
   thread_create(thread_c);
   thread_schedule();
-#endif
   exit(0);
 }
+#endif
