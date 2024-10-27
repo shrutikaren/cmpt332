@@ -63,15 +63,15 @@ thread_schedule(void)
 
   /* CMPT 332 GROUP 01, FALL 2024 */
   /* initializing the threads first */
-  struct thread *t = (struct thread*)malloc(sizeof(struct thread));
+  /*struct thread *t = (struct thread*)malloc(sizeof(struct thread));*/
   struct thread *next_thread = (struct thread*)malloc(sizeof(struct thread));
   uint64_t current_stack, next_stack;
-  current_stack = (uint64_t)t->stack; 
+  current_stack = (uint64_t)current_thread->stack; 
   next_stack = (uint64_t)next_thread->stack;
 
   /* Find another runnable thread. */
   next_thread = 0;
-  t = current_thread + 1;
+  current_thread = current_thread + 1;
   for(int i = 0; i < MAX_THREAD; i++){
     if(t >= all_thread + MAX_THREAD)
       t = all_thread;
