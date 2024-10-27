@@ -145,7 +145,6 @@ void MonSignal(int cvar){
         PID* waitingPid = (PID*)ListTrim(mon.conVars[cvar].waitList);
         if (waitingPid == NULL) {
             LOG_ERROR("Failed to trim from condition variable in MonSignal.");
-            //fprintf(stderr, "MonSignal: Failed to trim from condition variable %d wait_queue\n", cvar);
         }
 
         /* Signal the cv's semaphore to wake up the waiting thread */
