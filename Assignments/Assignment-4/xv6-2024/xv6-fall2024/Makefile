@@ -151,8 +151,6 @@ UPROGS=\
 	$U/_uthread\
 	$U/_produce-consumer
 
-$(U)/uthread_lib.o: $(U)/uthread_lib.c
-	$(CC) $(CFLAGS) -c -o $(U)/uthread_lib.o $(U)/uthread_lib.c
 
 $(U)/uthread.o: $(U)/uthread.c
 	$(CC) $(CFLAGS) -c -o $(U)/uthread.o $(U)/uthread.c
@@ -163,9 +161,9 @@ $(U)/uthread_switch.o: $(U)/uthread_switch.S
 $(U)/produce-consumer.o: $(U)/produce-consumer.c
 	$(CC) $(CFLAGS) -c -o $(U)/produce-consumer.o $(U)/produce-consumer.c
 
-$(U)/_produce-consumer: $(U)/produce-consumer.o $(U)/uthread_lib.o $(U)/uthread_switch.o $(ULIB)
+$(U)/_produce-consumer: $(U)/produce-consumer.o  $(U)/uthread_switch.o $(ULIB)
 	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $(U)/_produce-consumer \
-	$(U)/produce-consumer.o $(U)/uthread_lib.o $(U)/uthread_switch.o $(ULIB)
+	$(U)/produce-consumer.o $(U)/uthread_switch.o $(ULIB)
 	$(OBJDUMP) -S $(U)/_produce-consumer > $(U)/produce-consumer.asm
 
 $(U)/_uthread: $(U)/uthread.o $(U)/uthread_switch.o $(ULIB)
