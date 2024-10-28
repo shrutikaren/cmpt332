@@ -8,7 +8,6 @@
 #include <stdlib.h>
 
 static Monitor mon;
-<<<<<<< HEAD
 #define s 10 /*picked a random number*/
 
 
@@ -16,8 +15,6 @@ static Monitor mon;
 
 /* Static Monitor instance */
 static Monitor mon;
-=======
->>>>>>> refs/remotes/origin/main
 
 /**
  * Initialize the monitor.
