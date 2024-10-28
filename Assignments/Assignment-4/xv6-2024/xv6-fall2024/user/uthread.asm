@@ -584,7 +584,7 @@ int mtx_unlock(int lock_id){
 
 0000000000000414 <main>:
 
-
+#ifndef UTHREAD_LIBRARY
 int main(int argc, char *argv[]) 
 {
  414:	1141                	add	sp,sp,-16
@@ -632,72 +632,34 @@ int main(int argc, char *argv[])
  492:	2f8080e7          	jalr	760(ra) # 786 <exit>
 
 0000000000000496 <thread_switch>:
-         */
-
-	.globl thread_switch
-thread_switch:
-	/* YOUR CODE HERE */
-	sd ra, 0(a0)
  496:	00153023          	sd	ra,0(a0)
-	sd sp, 8(a0)
  49a:	00253423          	sd	sp,8(a0)
-	sd s0, 16(a0)
  49e:	e900                	sd	s0,16(a0)
-	sd s1, 24(a0)
  4a0:	ed04                	sd	s1,24(a0)
-	sd s2, 32(a0)
  4a2:	03253023          	sd	s2,32(a0)
-	sd s3, 40(a0)
  4a6:	03353423          	sd	s3,40(a0)
-	sd s4, 48(a0)
  4aa:	03453823          	sd	s4,48(a0)
-	sd s5, 56(a0)
  4ae:	03553c23          	sd	s5,56(a0)
-	sd s6, 64(a0)
  4b2:	05653023          	sd	s6,64(a0)
-	sd s7, 72(a0)
  4b6:	05753423          	sd	s7,72(a0)
-	sd s8, 80(a0)
  4ba:	05853823          	sd	s8,80(a0)
-	sd s9, 88(a0)
  4be:	05953c23          	sd	s9,88(a0)
-	sd s10, 96(a0)
  4c2:	07a53023          	sd	s10,96(a0)
-	sd s11, 104(a0)
  4c6:	07b53423          	sd	s11,104(a0)
-	
-	
-	ld ra, 0(a1)
  4ca:	0005b083          	ld	ra,0(a1)
-	ld sp, 8(a1)
  4ce:	0085b103          	ld	sp,8(a1)
-	ld s0, 16(a1)
  4d2:	6980                	ld	s0,16(a1)
-	ld s1, 24(a1)
  4d4:	6d84                	ld	s1,24(a1)
-	ld s2, 32(a1)
  4d6:	0205b903          	ld	s2,32(a1)
-	ld s3, 40(a1) 
  4da:	0285b983          	ld	s3,40(a1)
-	ld s4, 48(a1)
  4de:	0305ba03          	ld	s4,48(a1)
-	ld s5, 56(a1)
  4e2:	0385ba83          	ld	s5,56(a1)
-	ld s6, 64(a1)
  4e6:	0405bb03          	ld	s6,64(a1)
-	ld s7, 72(a1)
  4ea:	0485bb83          	ld	s7,72(a1)
-	ld s8, 80(a1)
  4ee:	0505bc03          	ld	s8,80(a1)
-	ld s9, 88(a1)
  4f2:	0585bc83          	ld	s9,88(a1)
-	ld s10, 96(a1)
  4f6:	0605bd03          	ld	s10,96(a1)
-	ld s11, 104(a1)
  4fa:	0685bd83          	ld	s11,104(a1)
-	
-
-	ret    /* return to ra */
  4fe:	8082                	ret
 
 0000000000000500 <start>:
