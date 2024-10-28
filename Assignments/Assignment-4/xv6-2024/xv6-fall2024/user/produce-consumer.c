@@ -1,19 +1,8 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <uthread.h>
 #define FULL_BUFFER_SIZE 10
-
-extern int mtx_create(int);
-extern int mtx_lock(int);
-extern int mtx_unlock(int);
-extern void thread_create(void (*func));
-extern void thread_init(void);
-extern void thread_yield(void);
-
-typedef struct mutex_t{
-  int locked; /* locked state */
-} mutex_t;
 
 mutex_t * mutex;
 /* Implementing a bounded buffer and mutex*/
@@ -49,4 +38,16 @@ void V(void){
 	}
 	thread_yield(); /* Put it into the RUNNABLE queue*/
 }
+
+int main(int argc, char *argv[]){
+	mutex_id = mtx_create(0);
+	thread_init();
+	thread_create(P);
+	thread_create(V);
+	return 0;
+}
+
+
+
+
 

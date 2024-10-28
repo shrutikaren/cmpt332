@@ -75,8 +75,6 @@ CFLAGS += -fno-builtin-free
 CFLAGS += -fno-builtin-memcpy -Wno-main
 CFLAGS += -fno-builtin-printf -fno-builtin-fprintf -fno-builtin-vprintf
 CFLAGS += -I.
-#CMPT 332 GROUP 01, FALL 2024
-CPFLAGS += -Wl, -z, now -Wl
 CFLAGS += $(shell $(CC) -fno-stack-protector -E -x c /dev/null >/dev/null 2>&1 && echo -fno-stack-protector)
 # CMPT 332 GROUP 01, FALL 2024
 CFLAGS += -mno-relax
@@ -157,8 +155,8 @@ UPROGS=\
 $U/uthread_switch.o : $U/uthread_switch.S
 	$(CC) $(CFLAGS) -c -o $U/uthread_switch.o $U/uthread_switch.S
 
-$U/uthread.o: $U/uthread.c
-	$(CC) $(CFLAGS) -DUTHREAD -c -o $U/uthread.o $U/uthread.c
+#$U/uthread.o: $U/uthread.c
+#	$(CC) $(CFLAGS) -c -o $U/uthread.o $U/uthread.c
 
 # CMPT 332 GROUP 01, FALL 2024 CHANGE
 $U/_uthread: $U/uthread.o $U/uthread_switch.o $(ULIB)
@@ -167,14 +165,14 @@ $U/_uthread: $U/uthread.o $U/uthread_switch.o $(ULIB)
 	$(OBJDUMP) -S $U/_uthread > $U/uthread.asm
 
 # CMPT 332 GROUP 01, FALL 2024 CHANGE
-$U/produce-consumer.o: $U/produce-consumer.c  
-	$(CC) $(CFLAGS) -DPRODUCE_CONSUMER -c -o $U/produce-consumer.o $U/produce-consumer.c
+#$U/produce-consumer.o: $U/produce-consumer.c  
+#	$(CC) $(CFLAGS) -DPRODUCE_CONSUMER -c -o $U/produce-consumer.o $U/produce-consumer.c
 
-$U/_produce-consumer: $U/produce-consumer.o $U/uthread.o $U/uthread_switch.o \
+#$U/_produce-consumer: $U/produce-consumer.o $U/uthread.o $U/uthread_switch.o \
 	$(ULIB)
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_produce-consumer \
+#	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_produce-consumer \
 	$U/produce-consumer.o $U/uthread.o $U/uthread_switch.o $(ULIB)
-	$(OBJDUMP) -S $U/_produce-consumer > $U/produce-consumer.asm
+#	$(OBJDUMP) -S $U/_produce-consumer > $U/produce-consumer.asm
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
