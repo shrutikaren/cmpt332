@@ -1,4 +1,4 @@
-user/produce-consumer.o: user/produce-consumer.c \
+user/p_d.o: user/p_d.c \
  /usr/local/riscv/riscv64-unknown-elf/include/assert.h \
  /usr/local/riscv/riscv64-unknown-elf/include/_ansi.h \
  /usr/local/riscv/riscv64-unknown-elf/include/newlib.h \

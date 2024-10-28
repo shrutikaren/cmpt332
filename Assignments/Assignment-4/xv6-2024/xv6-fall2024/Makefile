@@ -149,7 +149,7 @@ UPROGS=\
 	$U/_wc\
 	$U/_zombie\
 	$U/_uthread\
-	$U/_produce-consumer
+	$U/_p_d
 
 
 $(U)/uthread.o: $(U)/uthread.c
@@ -163,10 +163,10 @@ $(U)/_uthread: $(U)/uthread.o $(U)/uthread_switch.o $(ULIB)
 	$(U)/uthread.o $(U)/uthread_switch.o $(ULIB)
 	$(OBJDUMP) -S $(U)/_uthread > $(U)/uthread.asm
 
-$(U)/_produce-consumer: $(U)/produce-consumer.o $(U)/uthread_switch.o $(U)/uthread_lib.o $(ULIB)
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $(U)/_produce-consumer \
-	$(U)/produce-consumer.o $(U)/uthread_switch.o $(U)/uthread_lib.o $(ULIB)
-	$(OBJDUMP) -S $(U)/_produce-consumer > $(U)/produce-consumer.asm
+$(U)/_p_d: $(U)/p_d.o $(U)/uthread_switch.o $(U)/uthread_lib.o $(ULIB)
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $(U)/_p_d \
+	$(U)/p_d.o $(U)/uthread_switch.o $(U)/uthread_lib.o $(ULIB)
+	$(OBJDUMP) -S $(U)/_p_d > $(U)/p_d.asm
 
 
 fs.img: mkfs/mkfs README $(UPROGS)

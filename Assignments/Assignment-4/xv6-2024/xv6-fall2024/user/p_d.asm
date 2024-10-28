@@ -1,5 +1,5 @@
 
-user/_produce-consumer:     file format elf64-littleriscv
+user/_p_d:     file format elf64-littleriscv
 
 
 Disassembly of section .text:
