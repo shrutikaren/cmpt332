@@ -190,7 +190,7 @@ int mtx_lock(int lock_id){
 
     while (m->locked);
     m->locked = 0; /* Unlock the lock */
-    return 0;
+    return lock_id;
 }
 
 

@@ -11,32 +11,36 @@ int left;
 int right;
 int buffer_count; /* The shared variable*/
 int mutex_id;
+mutex_t *mutex;
 
 /* Produces an item inside the buffer */
 void P(void){
 	while (1){
-		mutex = malloc(sizeof(mutex_t));
-		mtx_lock(mutex->locked);
+		mtx_lock(&(mutex->locked));
 		if (buffer_count < FULL_BUFFER_SIZE){
-			buffer_count ++;
+			buffer[right] = rand();  // Producing a random item
+            		right = (right + 1) % FULL_BUFFER_SIZE;
+            		buffer_count++;
+            		printf("Produced: buffer_count = %d\n", buffer_count);
 		}	
-		mtx_unlock(mutex_id);
+		mtx_unlock(&mutex->locked);
+		thread_yield();
 	}
-	thread_yield(); /* Put it into a RUNNABLE state*/
 }
 
 void V(void){
 	while(1){
 	/* Check if the buffer is full */
-		mutex = malloc(sizeof(mutex_t));
-		mtx_lock(mutex->locked);
+		mtx_lock(&mutex->locked);
 		if (buffer_count > 0){
+			int item = buffer[left];
+			left = (left + 1) % FULL_BUFFER_SIZE;
 			buffer_count --;
 		}
-		mtx_unlock(mutex_id);
-	 		
+
+		mtx_unlock(&mutex->locked);
+		thread_yield();
 	}
-	thread_yield(); /* Put it into the RUNNABLE queue*/
 }
 
 int main(int argc, char *argv[]){
@@ -46,7 +50,6 @@ int main(int argc, char *argv[]){
 	thread_create(V);
 	return 0;
 }
-
 
 
 

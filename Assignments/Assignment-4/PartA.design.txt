@@ -35,10 +35,14 @@ ICH524
 	can work really well with our a0 and a1 (argument registers). 
 
 	= Inside our thread_create function, we will assign our thread's return
-	address "ra" to be pased to a function which will be the function to 		
-	which our thread needs. Another factor is that the stack pointer itself	
+	address "ra" to be pased to a function which will be the function to 		       which our thread needs. Another factor is that the stack pointer itself	
 	going to be increased by the stack size value during every thread_create
 	function. 
+
+	= In the mtx_lock and mtx_create, we will return our lock_id. In our
+	mtx_unlock, we will return 0 to go back into our unlocked state. In our
+	produce-consumer file, we will update our locks with those returning 
+	values from those functions.
 
 2. uthread_switch.S
 
@@ -113,4 +117,7 @@ ICH524
 
 	
 To test this, we will make clean --> make qemu --> uthread --> obtain output
-again with produce-consumer --> obtain output
+again with produce-consumer --> obtain output. 
+
+*While reading the manual, it seems that the file name cannot be more than 15 
+characters so produce-consumer would be altered to p_d.c
