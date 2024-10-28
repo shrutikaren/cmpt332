@@ -155,9 +155,6 @@ UPROGS=\
 $U/uthread_switch.o : $U/uthread_switch.S
 	$(CC) $(CFLAGS) -c -o $U/uthread_switch.o $U/uthread_switch.S
 
-$U/uthread.o: $U/uthread.c
-	$(CC) $(CFLAGS) -c -o $U/uthread.o $U/uthread.c
-
 # CMPT 332 GROUP 01, FALL 2024 CHANGE
 $U/_uthread: $U/uthread.o $U/uthread_switch.o $(ULIB)
 	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_uthread $U/uthread.o \
@@ -174,13 +171,19 @@ $U/_uthread: $U/uthread.o $U/uthread_switch.o $(ULIB)
 	$U/produce-consumer.o $U/uthread.o $U/uthread_switch.o $(ULIB)
 #	$(OBJDUMP) -S $U/_produce-consumer > $U/produce-consumer.asm
 
-$U/produce-consumer.o: $U/produce-consumer.c
-	$(CC) $(CFLAGS) -c -o $U/produce-consumer.o $U/produce-consumer.c
+# Rule to compile uthreads.c into uthreads.o
+user/uthreads.o: user/uthreads.c user/uthread.h
+	$(CC) $(CFLAGS) -c -o user/uthreads.o user/uthreads.c
 
-$U/_produce-consumer: $U/produce-consumer.o $U/uthreads.o $U/uthread_switch.o $(ULIB)
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_produce-consumer \
-	$U/produce-consumer.o $U/uthreads.o $U/uthread_switch.o $(ULIB)
-	$(OBJDUMP) -S $U/_produce-consumer > $U/produce-consumer.asm
+# Rule to compile produce-consumer.c into produce-consumer.o
+user/produce-consumer.o: user/produce-consumer.c
+	$(CC) $(CFLAGS) -c -o user/produce-consumer.o user/produce-consumer.c
+
+# Rule to link produce-consumer.o and uthreads.o to create the executable
+user/_produce-consumer: user/produce-consumer.o user/uthreads.o user/uthread_switch.o $(ULIB)
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o user/_produce-consumer \
+	user/produce-consumer.o user/uthreads.o user/uthread_switch.o $(ULIB)
+	$(OBJDUMP) -S user/_produce-consumer > user/produce-consumer.asm
 
 
 
