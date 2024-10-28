@@ -171,21 +171,19 @@ $U/_uthread: $U/uthread.o $U/uthread_switch.o $(ULIB)
 	$U/produce-consumer.o $U/uthread.o $U/uthread_switch.o $(ULIB)
 #	$(OBJDUMP) -S $U/_produce-consumer > $U/produce-consumer.asm
 
-# Rule to compile uthreads.c into uthreads.o
-user/uthreads.o: user/uthreads.c user/uthread.h
-	$(CC) $(CFLAGS) -c -o user/uthreads.o user/uthreads.c
+# Rule to compile uthread.c into uthread.o
+user/uthread.o: user/uthread.c user/uthread.h
+	$(CC) $(CFLAGS) -c -o user/uthread.o user/uthread.c
 
 # Rule to compile produce-consumer.c into produce-consumer.o
 user/produce-consumer.o: user/produce-consumer.c
 	$(CC) $(CFLAGS) -c -o user/produce-consumer.o user/produce-consumer.c
 
-# Rule to link produce-consumer.o and uthreads.o to create the executable
-user/_produce-consumer: user/produce-consumer.o user/uthreads.o user/uthread_switch.o $(ULIB)
+# Rule to link produce-consumer.o and uthread.o to create the executable
+user/_produce-consumer: user/produce-consumer.o user/uthread.o user/uthread_switch.o $(ULIB)
 	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o user/_produce-consumer \
-	user/produce-consumer.o user/uthreads.o user/uthread_switch.o $(ULIB)
+	user/produce-consumer.o user/uthread.o user/uthread_switch.o $(ULIB)
 	$(OBJDUMP) -S user/_produce-consumer > user/produce-consumer.asm
-
-
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
