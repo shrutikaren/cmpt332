@@ -162,7 +162,7 @@ $(U)/uthread_switch.o: $(U)/uthread_switch.S
 $(U)/produce-consumer.o: $(U)/produce-consumer.c
 	$(CC) $(CFLAGS) -c -o $(U)/produce-consumer.o $(U)/produce-consumer.c
 
-$(U)/_uthread: $(U)/threads.o $(U)/uthread_switch.o $(ULIB)
+$(U)/_uthread: $(U)/uthread_switch.o $(ULIB)
 	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $(U)/_uthread $(U)/uthread.o \
 	$(U)/uthread_switch.o $(ULIB)
 	$(OBJDUMP) -S $(U)/_uthread > $(U)/uthread.asm
