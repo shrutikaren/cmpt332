@@ -7,167 +7,186 @@
 #include <Monitor.h>
 #include <stdlib.h>
 
+
 /* Static Monitor Instance */
 static Monitor mon;
 
 /**
  * Initialize the monitor.
  */ 
-void MonInit(){
+void MonInit(void) {
     int i;
 
-    /* Initialize the monitor lock semaphore to 1 (unlocked) */ 
-    mon.lock = NewSem(1);
-    if(mon.lock < 0){
-        LOG_ERROR("Failed to create lock mutex in MonInit.");
-    }
-    
-    /* Initialize the entry queue and its semaphore */  
-    mon.entryList = ListCreate();
-    if(mon.entryList == NULL){
-        LOG_ERROR("Failed to create entry queue in MonInit.");
+    /* Initialize queues used for debugging purposes */
+    mon.urgent_queue = ListCreate();
+    if (mon.urgent_queue == NULL) {
+        LOG_ERROR("Failed to create urgent_queue in MonInit.");
     }
 
-    /* Initialize the entrySem semaphore to 1 */
-    mon.entrySem = NewSem(1);
-    if(mon.entrySem < 0){
-        LOG_ERROR("Failed to create entry semaphore in MonInit.");
+    mon.enter_queue = ListCreate();
+    if (mon.enter_queue == NULL) {
+        LOG_ERROR("Failed to create enter_queue in MonInit.");
+    }
+
+    /* Initialize semaphores for entering monitor and accessing queues */
+    mon.urgent_sem = NewSem(0);
+    if (mon.urgent_sem < 0) {
+        LOG_ERROR("Failed to create urgent_sem in MonInit.");
+    }
+
+    mon.enter_mtx = NewSem(1);  
+    if (mon.enter_mtx < 0) {
+        LOG_ERROR("Failed to create enter_mtx in MonInit.");
+    }
+
+    mon.enter_queue_sem = NewSem(1);
+    if (mon.enter_queue_sem < 0) {
+        LOG_ERROR("Failed to create enter_queue_sem in MonInit.");
     }
 
     /* Initialize all condition variables */
-    for(i = 0; i < k; i++){
-        /* Initialize the waitList for each condition variable */
-        mon.conVars[i].waitList = ListCreate();
-        if(mon.conVars[i].waitList == NULL){
-            LOG_ERROR("Failed to create waitList for condition variable in MonInit.");
+    for (i = 0; i < k; ++i) {
+        mon.cond_vars[i].wait_queue = ListCreate();
+        if (mon.cond_vars[i].wait_queue == NULL) {
+            LOG_ERROR("Failed to create wait_queue for condition variable in MonInit.");
         }
 
-        /* Initialize the semaphore for each condition variable to 0 */
-        mon.conVars[i].semaphore = NewSem(0);
-        if(mon.conVars[i].semaphore < 0){
+        mon.cond_vars[i].sem = NewSem(0);   /* Initialize semaphore to 0 */
+        if (mon.cond_vars[i].sem < 0) {
             LOG_ERROR("Failed to create semaphore for condition variable in MonInit.");
         }
     }
+
+    printf("Monitor initialized successfully.\n");
 }
 
 /**
  * Enter the monitor.
  */ 
-void MonEnter(){
-    PID* currentPid;
-    void* trimmedPid;
+void MonEnter(void) {
+    PID* my_pid;
 
     /* Allocate memory for the current PID */
-    currentPid = (PID*)malloc(sizeof(PID));
-    if(currentPid == NULL){
+    my_pid = malloc(sizeof(PID));
+    if (my_pid == NULL) {
         LOG_ERROR("Failed to allocate memory for PID in MonEnter.");
     }
 
     /* Get the current thread's PID */
-    *currentPid = MyPid();
+    *my_pid = MyPid();
+    printf("MonEnter: Thread %d is attempting to enter the monitor.\n", *my_pid);
 
-    /* Add the thread to the entryList */
-    P(mon.entrySem);
-    ListPrepend(mon.entryList, currentPid);
-    V(mon.entrySem);
-    
+    /* Add the thread to the enter_queue */
+    P(mon.enter_queue_sem);
+    ListAppend(mon.enter_queue, (void*)my_pid);  /* Use ListAppend for FIFO */
+    printf("MonEnter: Thread %d added to enter_queue.\n", *my_pid);
+    V(mon.enter_queue_sem);
+
     /* Acquire the monitor lock */
-    P(mon.lock);
-
-    /* Remove self from the entryList */
-    P(mon.entrySem);
-    trimmedPid = ListTrim(mon.entryList);
-    if (trimmedPid != NULL) {
-        free(trimmedPid); 
-    } else {
-        LOG_ERROR("Failed to trim from entryList in MonEnter.");
-    }
-    V(mon.entrySem);
+    P(mon.enter_mtx);
+    printf("MonEnter: Thread %d acquired the monitor lock.\n", *my_pid);
 }
 
 /**
  * Leave the monitor.
  */ 
-void MonLeave(){
-    void* trimmedPid;
+void MonLeave(void) {
+    PID* trimmed_pid;
 
-    /* Acquire the entrySem semaphore before accessing entryList */
-    P(mon.entrySem);
-    
-    if (ListCount(mon.entryList) > 0) {
-        /* Remove the next thread from the entryList */
-        trimmedPid = ListTrim(mon.entryList);
-        if (trimmedPid != NULL) {
-            free(trimmedPid); 
-            /* Release the monitor lock for the next thread */
-            V(mon.lock);      
-        } else {
-            LOG_ERROR("Failed to trim from entryList in MonLeave.");
+    printf("MonLeave: Thread leaving the monitor.\n");
+
+    /* Check if there are urgent threads waiting */
+    if (ListCount(mon.urgent_queue) > 0) {
+        /* Remove the first thread from urgent_queue */
+        trimmed_pid = (PID*)ListRemove(mon.urgent_queue); /* FIFO */
+        if (trimmed_pid == NULL) {
+            LOG_ERROR("Failed to remove from urgent_queue in MonLeave.");
         }
-    } else {
-        /* If no threads are waiting to enter, release the monitor lock */
-        V(mon.lock);
+        printf("MonLeave: Signaling urgent thread %d.\n", *trimmed_pid);
+        free(trimmed_pid);
+        V(mon.urgent_sem);  /* Signal the urgent semaphore */
     }
-    V(mon.entrySem);
+    /* Else, check if there are threads waiting to enter the monitor */
+    else if (ListCount(mon.enter_queue) > 0) {
+        /* Remove the first thread from enter_queue */
+        trimmed_pid = (PID*)ListRemove(mon.enter_queue); /* FIFO */
+        if (trimmed_pid == NULL) {
+            LOG_ERROR("Failed to remove from enter_queue in MonLeave.");
+        }
+        printf("MonLeave: Signaling thread %d to enter the monitor.\n", *trimmed_pid);
+        free(trimmed_pid);
+        V(mon.enter_mtx);  /* Signal the enter mutex semaphore */
+    }
+    /* If no threads are waiting, simply release the monitor lock */
+    else {
+        V(mon.enter_mtx);
+        printf("MonLeave: Monitor lock released, no waiting threads.\n");
+    }
 }
 
 /**
  * Wait on a condition variable.
  */ 
-void MonWait(int cvar){
-    PID* myPid;
+void MonWait(int cv) {
+    PID* my_pid;
 
     /* Validate condition variable ID */
-    if(cvar < 0 || cvar >= k){
-        LOG_ERROR("Invalid condition variable ID in MonWait");
+    if (cv < 0 || cv >= k) {
+        LOG_ERROR("Invalid condition variable ID in MonWait.");
     }
 
     /* Allocate memory for the current PID */
-    myPid = (PID*)malloc(sizeof(PID));
-    if (myPid == NULL) {
-        LOG_ERROR("Failed to allocate memory for PID in MonWait");
+    my_pid = malloc(sizeof(PID));
+    if (my_pid == NULL) {
+        LOG_ERROR("Failed to allocate memory for PID in MonWait.");
     }
-    *myPid = MyPid();
 
-    /* Add the thread to the condition variable's waitList */
-    ListAppend(mon.conVars[cvar].waitList, (void*)myPid);
+    /* Get the current thread's PID */
+    *my_pid = MyPid();
+    printf("MonWait: Thread %d is waiting on condition variable %d.\n", *my_pid, cv);
 
-    /* Release the monitor lock before waiting */
+    /* Add the thread to the condition variable's wait_queue */
+    ListAppend(mon.cond_vars[cv].wait_queue, (void*)my_pid);  /* Use ListAppend for FIFO */
+    printf("MonWait: Thread %d added to condition variable %d's wait_queue.\n", *my_pid, cv);
+
+    /* Release the monitor lock */
     MonLeave();
 
     /* Wait on the condition variable's semaphore */
-    P(mon.conVars[cvar].semaphore);
+    P(mon.cond_vars[cv].sem);
+    printf("MonWait: Thread %d was signaled on condition variable %d.\n", *my_pid, cv);
 
-    /* Re-acquire the monitor lock after being signaled */
+    /* Re-acquire the monitor lock */
     MonEnter();
 }
 
 /**
  * Signal a condition variable.
  */ 
-void MonSignal(int cvar){
-    PID* waitingPid;
+void MonSignal(int cv) {
+    PID* waiting_pid;
 
     /* Validate condition variable ID */
-    if(cvar < 0 || cvar >= k){
-        LOG_ERROR("Invalid condition variable ID in MonSignal");
+    if (cv < 0 || cv >= k) {
+        LOG_ERROR("Invalid condition variable ID in MonSignal.");
     }
 
     /* Check if there are threads waiting on the condition variable */
-    if (ListCount(mon.conVars[cvar].waitList) > 0) {
-        /* Set the list's current pointer to the first item */
-        ListFirst(mon.conVars[cvar].waitList);
-    
-        /* Remove the first thread from the condition variable's waitList */
-        waitingPid = (PID*)ListRemove(mon.conVars[cvar].waitList);
-        if (waitingPid == NULL) {
-            LOG_ERROR("Failed to remove from condition variable in MonSignal.");
+    if (ListCount(mon.cond_vars[cv].wait_queue) > 0) {
+        /* Remove the first thread from the condition variable's wait_queue */
+        waiting_pid = (PID*)ListRemove(mon.cond_vars[cv].wait_queue);  /* FIFO */
+        if (waiting_pid == NULL) {
+            LOG_ERROR("Failed to remove from condition variable's wait_queue in MonSignal.");
         }
-    
+
+        printf("MonSignal: Signaling thread %d on condition variable %d.\n", *waiting_pid, cv);
+
         /* Signal the condition variable's semaphore to wake up the waiting thread */
-        V(mon.conVars[cvar].semaphore);
-    
-        /* Free the PID memory */
-        free(waitingPid);
+        V(mon.cond_vars[cv].sem);
+
+        /* No need to add to urgent_queue or allocate new PIDs */
+        free(waiting_pid);
+    } else {
+        printf("MonSignal: No threads waiting on condition variable %d.\n", cv);
     }
 }
