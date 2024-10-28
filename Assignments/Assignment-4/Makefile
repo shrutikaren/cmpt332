@@ -19,6 +19,28 @@ OBJ_DIR = obj/$(OS)
 LIB_DIR = lib/$(OS)
 BIN_DIR = bin/$(OS)
 
+CROSS_COMPILE_ARM = arm-linux-gnuabihf-
+CROSS_COMPILE_PPC = powerpc-linux-gnu-
+
+BUILD_DIRS = build/obj/cmpt332-linux build/lib/cmpt332-linux \
+	     build/bin/cmpt332-linux build/obj/cmpt332-arm \
+	     build/lib/cmpt332-arm build/bin/cmpt332-arm \
+	     build/obj/cmpt332-ppc build/lib/cmpt332-ppc \
+	     build/bin/cmpt332-ppc
+
+BUILD_DIR_LINUX_OBJ = build/obj/cmpt332-linux
+BUILD_DIR_LINUX_LIB = build/lib/cmpt332-linux
+BUILD_DIR_LINUX_BIN = build/lib/cmpt332-linux
+
+BUILD_DIR_ARM_OBJ = build/obj/cmpt332-arm
+BUILD_DIR_ARM_LIB = build/lib/cmpt332-arm
+BUILD_DIR_ARM_BIN = build/lib/cmpt332-arm
+
+BUILD_DIR_PPC_OBJ = build/obj/cmpt332-ppc
+BUILD_DIR_PPC_LIB = build/lib/cmpt332-ppc
+BUILD_DIR_PPC_BIN = build/lib/cmpt332-ppc
+
+
 UBC_PTHREAD_INCLUDE_DIR = /student/cmpt332/pthreads/
 UBC_PTHREAD_DIR = /student/cmpt332/pthreads/lib/$(OS)$(ARCH)
 UBC_COMPILER_FLAG = -DUSE_UBC_THREADS
@@ -70,7 +92,7 @@ $(OBJ_DIR)/reader_writer.o: reader_writer.c | $(OBJ_DIR)
 	$(OBJ_DIR)/reader_writer.o
 
 #compile objects for the monitor files
-$(OBJ_DIR)/Monitor.o: Monitor.c | $(OBJ_DIR)
+$(OBJ_DIR)/Monitor.o: Monitor.c Monitor.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(INC) -I$(CURRENT_DIR) \
 	-I$(UBC_PTHREAD_INCLUDE_DIR) Monitor.c -o $(OBJ_DIR)/Monitor.o
 
