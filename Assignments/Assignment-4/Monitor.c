@@ -70,7 +70,7 @@ void MonEnter(){
 
     /*   Add the thread to the entryList */
     P(mon.entrySem);
-    ListPrepend(mon.entryList, (void*)currentPid);
+    ListPrepend(mon.entryList, currentPid);
     V(mon.entrySem);
     
     /*   Acquire the mutex */
