@@ -205,7 +205,7 @@ int mtx_unlock(int lock_id){
     return 0;
 }
 
-
+#ifndef UTHREAD_LIBRARY
 int main(int argc, char *argv[]) 
 {
   a_started = b_started = c_started = 0;
@@ -217,3 +217,4 @@ int main(int argc, char *argv[])
   thread_schedule();
   exit(0);
 }
+#endif
