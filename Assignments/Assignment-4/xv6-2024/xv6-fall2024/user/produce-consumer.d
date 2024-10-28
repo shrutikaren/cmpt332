@@ -31,7 +31,4 @@ user/produce-consumer.o: user/produce-consumer.c \
  /usr/local/riscv/riscv64-unknown-elf/include/sys/stdio.h \
  /usr/local/riscv/riscv64-unknown-elf/include/stdlib.h \
  /usr/local/riscv/riscv64-unknown-elf/include/machine/stdlib.h \
- /usr/local/riscv/riscv64-unknown-elf/include/alloca.h user/uthread.h \
- /usr/local/riscv/lib/gcc/riscv64-unknown-elf/12.2.0/include/stdint.h \
- /usr/local/riscv/riscv64-unknown-elf/include/stdint.h \
- /usr/local/riscv/riscv64-unknown-elf/include/sys/_intsup.h
+ /usr/local/riscv/riscv64-unknown-elf/include/alloca.h

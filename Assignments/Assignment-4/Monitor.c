@@ -11,7 +11,7 @@ static Monitor mon;
 #define s 10 /*picked a random number*/
 
 
-#include "monitor.h"
+#include "Monitor.h"
 
 /* Static Monitor instance */
 static Monitor mon;

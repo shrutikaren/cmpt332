@@ -76,7 +76,6 @@ CFLAGS += -fno-builtin-memcpy -Wno-main
 CFLAGS += -fno-builtin-printf -fno-builtin-fprintf -fno-builtin-vprintf
 CFLAGS += -I.
 CFLAGS += $(shell $(CC) -fno-stack-protector -E -x c /dev/null >/dev/null 2>&1 && echo -fno-stack-protector)
-
 # CMPT 332 GROUP 01, FALL 2024
 CFLAGS += -mno-relax
 
@@ -166,7 +165,7 @@ $U/_uthread: $U/uthread.o $U/uthread_switch.o $(ULIB)
 	$(OBJDUMP) -S $U/_uthread > $U/uthread.asm
 
 # CMPT 332 GROUP 01, FALL 2024 CHANGE
-$U/produce-consumer.o: $U/produce-consumer.c 
+$U/produce-consumer.o: $U/produce-consumer.c  
 	$(CC) $(CFLAGS) -DPRODUCE_CONSUMER -c -o $U/produce-consumer.o $U/produce-consumer.c
 
 $U/_produce-consumer: $U/produce-consumer.o $U/uthread.o $U/uthread_switch.o \
