@@ -1,4 +1,4 @@
-ifndef MONITOR_H 
+#ifndef MONITOR_H 
 #define MONITOR_H
 
 /* Default C-Library */
@@ -12,5 +12,5 @@ void MonEnter(void);
 void MonLeave(void);
 void MonWait(int);
 void MonSignal(int);
-void MonInit(void);
+void MonInit();
 #endif /* MONITOR_H */

@@ -205,9 +205,10 @@ int mtx_unlock(int lock_id){
     return 0;
 }
 
-#ifdef UTHREAD
+
 int main(int argc, char *argv[]) 
 {
+  #ifdef UTHREAD
   a_started = b_started = c_started = 0;
   a_n = b_n = c_n = 0;
   thread_init();
@@ -215,6 +216,15 @@ int main(int argc, char *argv[])
   thread_create(thread_b);
   thread_create(thread_c);
   thread_schedule();
+  #endif 
+
+  #ifdef PRODUCE_CONSUMER
+  mutex_id = mtx_create(0);
+  thread_init();
+  thread_create(P);
+  thread_create(V);
+  return 0;
+  
+  #endif  
   exit(0);
 }
-#endif
