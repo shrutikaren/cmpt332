@@ -6,7 +6,6 @@
 
 #include <Monitor.h>
 #include <list.h>
-#include "Monitor.h"
 
 static Monitor mon;
 
