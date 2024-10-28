@@ -181,7 +181,7 @@ user/produce-consumer.o: user/produce-consumer.c
 
 # Rule to link produce-consumer.o and uthread.o to create the executable
 user/_produce-consumer: user/produce-consumer.o user/uthread.o user/uthread_switch.o $(ULIB)
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o user/_produce-consumer \
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0x1000 -o user/_produce-consumer \
 	user/produce-consumer.o user/uthread.o user/uthread_switch.o $(ULIB)
 	$(OBJDUMP) -S user/_produce-consumer > user/produce-consumer.asm
 
