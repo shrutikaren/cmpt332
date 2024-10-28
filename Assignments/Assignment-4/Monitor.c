@@ -42,12 +42,12 @@ void MonInit() {
     for (i = 0; i < k; i++) {
         mon.condVars[i].waitList = ListCreate();
         if (!mon.condVars[i].waitList) {
-            LOG_ERROR("Failed to create waitList for condition variable in MonInit.");
+            LOG_ERROR("Failed to create waitList for cv's in MonInit.");
         }
 
         mon.condVars[i].semaphore = NewSem(0);
         if (mon.condVars[i].semaphore < 0) {
-            LOG_ERROR("Failed to create semaphore for condition variable in MonInit.");
+            LOG_ERROR("Failed to create semaphore for cv's in MonInit.");
         }
     }
 }
