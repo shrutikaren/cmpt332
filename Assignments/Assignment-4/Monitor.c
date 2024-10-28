@@ -11,145 +11,141 @@ static Monitor mon;
 #define s 10 /*picked a random number*/
 
 
-/* CMPT 332 GROUP  Change, Fall 2024 */
-/* Phase 1 */
+#include "monitor.h"
+
+/* Static Monitor instance */
+static Monitor mon;
 
 /**
- *  Initialize the monitor.
- */ 
-void MonInit(){
-
-    int i;
-
-    /* Initialize the mutex semaphore to 1 (unlock) */ 
+ * Initialize the monitor and its condition variables.
+ */
+void MonInit(void) {
+    /* Initialize the mutex semaphore to 1 (unlocked) */
     mon.lock = NewSem(1);
-    if(mon.lock < 0){
+    if (mon.lock < 0) {
         LOG_ERROR("Failed to create lock mutex in MonInit.");
     }
-    
-    /* Initialize the enter queue and its semaphore */  
-    mon.entryList = ListCreate();
-    if(mon.entryList == 0){
-        LOG_ERROR("Failed to create entry queue in MonInit.");
-    }
 
-    /* Initialize the enterSem. */
+    /* Initialize the semaphore protecting the entryList */
     mon.entrySem = NewSem(1);
-    if(mon.entrySem < 0){
+    if (mon.entrySem < 0) {
         LOG_ERROR("Failed to create entry semaphore in MonInit.");
     }
 
-    /* Initialize all conditional variables */
-    for(i = 0; i < k; i++){
-	
-	/* Initializing the waitList */
-        mon.conVars[i].waitList = ListCreate();
-        if(mon.conVars[i].waitList == 0){
-            LOG_ERROR("Failed to create waitList for cv MonInit.");
-        }
-
-        mon.conVars[i].semaphore = NewSem(0);
-        if(mon.conVars[i].semaphore == -1){
-            LOG_ERROR("Failed to create semaphore for cv's MonInit.");
-        }
+    /* Initialize the entryList */
+    mon.entryList = ListCreate();
+    if (mon.entryList == NULL) {
+        LOG_ERROR("Failed to create entry queue in MonInit.");
     }
 
+    /* Initialize all condition variables */
+    for (int i = 0; i < K; i++) {
+        /* Initialize the waitList */
+        mon.conVars[i].waitList = ListCreate();
+        if (mon.conVars[i].waitList == NULL) {
+            LOG_ERROR("Failed to create waitList for condition variable in MonInit.");
+        }
+
+        /* Initialize the semaphore for the condition variable */
+        mon.conVars[i].semaphore = NewSem(0);
+        if (mon.conVars[i].semaphore < 0) {
+            LOG_ERROR("Failed to create semaphore for condition variable in MonInit.");
+        }
+    }
 }
 
-void MonEnter(){
-
-    PID* currentPid;
-    void* trimmedPid;
-    currentPid = (PID*)malloc(sizeof(PID));
-
-    if(currentPid == NULL){
+/**
+ * Enter the monitor. Provides mutual exclusion.
+ */
+void MonEnter(void) {
+    PID* currentPid = (PID*)malloc(sizeof(PID));
+    if (currentPid == NULL) {
         LOG_ERROR("Failed to allocate memory for PID in MonEnter.");
     }
-
     *currentPid = MyPid();
 
-    /*   Add the thread to the entryList */
+    /* Add the thread to the entryList */
     P(mon.entrySem);
-    ListPrepend(mon.entryList, currentPid);
+    ListAppend(mon.entryList, currentPid);
     V(mon.entrySem);
-    
-    /*   Acquire the mutex */
+
+    /* Acquire the mutex */
     P(mon.lock);
-    /*   Reove self from the entryList */
-    P(mon.entrySem);
-    trimmedPid = ListTrim(mon.entryList);
-    if (trimmedPid != NULL) {
-        free(trimmedPid); 
-    } else {
-        LOG_ERROR("Failed to trim from entryList in MonEnter.");
-    }
-    V(mon.entrySem);
-}
 
-void MonLeave(){
-    void* trimmedPid;
-    /*   Check if there are threads waiting in the entery List */
+    /* Remove self from the entryList */
     P(mon.entrySem);
-    
-    if (ListCount(mon.entryList) > 0) {
-        /* Signal the next thread waiting to enter the monitor */
-        trimmedPid = ListTrim(mon.entryList);
-        if (trimmedPid != NULL) {
-            free(trimmedPid); 
-            V(mon.lock);      
-        } else {
-            LOG_ERROR("Failed to trim from entryList in MonLeave.");
+    LISTNODE* node = ListFirst(mon.entryList);
+    while (node != NULL) {
+        if (*(PID*)node->item == *currentPid) {
+            ListRemove(mon.entryList, node);
+            free(currentPid);
+            break;
         }
-    } else {
-        /* If threads waiting to enter release the mutex */
-        V(mon.lock);
+        node = node->next;
     }
     V(mon.entrySem);
-    
 }
 
-void MonWait(int cvar){
-    PID* myPid;
-    if(cvar < 0 || cvar >= k){
-        LOG_ERROR("Invalid condition variable ID in MonWait");
+/**
+ * Leave the monitor. Releases mutual exclusion.
+ */
+void MonLeave(void) {
+    /* Release the mutex */
+    V(mon.lock);
+}
+
+/**
+ * Wait on a condition variable.
+ * @param cvar The index of the condition variable to wait on.
+ */
+void MonWait(int cvar) {
+    if (cvar < 0 || cvar >= K) {
+        LOG_ERROR("Invalid condition variable ID in MonWait.");
     }
 
-    /* Add the thread to the condition variable's wait queue */
-    myPid = (PID*)malloc(sizeof(PID));
+    PID* myPid = (PID*)malloc(sizeof(PID));
     if (myPid == NULL) {
-        LOG_ERROR("Failed to allocate memory for PID in MonWait");
+        LOG_ERROR("Failed to allocate memory for PID in MonWait.");
     }
     *myPid = MyPid();
 
-    ListPrepend(mon.conVars[cvar].waitList, (void*)myPid);
+    /* Add the thread to the condition variable's waitList */
+    P(mon.entrySem);
+    ListAppend(mon.conVars[cvar].waitList, myPid);
+    V(mon.entrySem);
 
     /* Release the mutex before waiting */
-    MonLeave();
+    V(mon.lock);
 
     /* Wait on the condition variable's semaphore */
     P(mon.conVars[cvar].semaphore);
 
     /* Re-acquire the mutex after being signaled */
-    MonEnter();
-
+    P(mon.lock);
 }
 
-void MonSignal(int cvar){
-    PID* waitingPid;
-    if(cvar < 0 || cvar >= k){
-        LOG_ERROR("Invalid condition variable ID in MonWait");
+/**
+ * Signal a condition variable.
+ * @param cvar The index of the condition variable to signal.
+ */
+void MonSignal(int cvar) {
+    if (cvar < 0 || cvar >= K) {
+        LOG_ERROR("Invalid condition variable ID in MonSignal.");
     }
 
-    /* Check if there are threads waiting on the condition varaible. */
+    /* Check if there are threads waiting on the condition variable */
+    P(mon.entrySem);
     if (ListCount(mon.conVars[cvar].waitList) > 0) {
-        /* Remove the first thread from the condition variable's waitList. */ 
-        waitingPid = (PID*)ListTrim(mon.conVars[cvar].waitList);
+        /* Remove the first thread from the condition variable's waitList */
+        PID* waitingPid = (PID*)ListTrim(mon.conVars[cvar].waitList);
         if (waitingPid == NULL) {
             LOG_ERROR("Failed to trim from condition variable in MonSignal.");
         }
+        free(waitingPid);
 
-        /* Signal the cv's semaphore to wake up the waiting thread */
+        /* Signal the condition variable's semaphore to wake up the waiting thread */
         V(mon.conVars[cvar].semaphore);
     }
-
+    V(mon.entrySem);
 }
+
