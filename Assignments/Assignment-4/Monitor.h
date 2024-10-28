@@ -12,17 +12,26 @@
 /* Custom List Functions */
 #include <list.h>
 
-/* Number of Condition Variables */
-#define NUM_COND_VARS 10
+/* Define the number of condition variables (k) */
+#define k 10
 
 typedef struct CondVar {
     int semaphore;   /* Semaphore for the condition variable */
     LIST* waitList;  /* List of threads waiting on the condition variable */
 } CondVar;
 
+/* Struct for Entry Control */
+typedef struct EntryControl {
+    LIST* urgentWaitList;    /* List of threads with urgent priority */
+    LIST* entryWaitList;     /* List of threads waiting to enter */
+    int entryWaitSem;        /* Semaphore for accessing entryWaitList */
+    int urgentWaitSem;       /* Semaphore for urgent waiting threads */
+} EntryControl;
+
 typedef struct Monitor {
     int lock;                 /* Semaphore used as the monitor lock */
-    CondVar condVars[NUM_COND_VARS]; 
+    CondVar condVars[k];      /* Array of condition variables */
+    EntryControl entryCtrl;   /* Entry control for the monitor */
 } Monitor;
 
 /* Function Declarations */
