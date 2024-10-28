@@ -1,3 +1,9 @@
+/*
+ * Shruti Kaur
+ * ich524
+ * 11339265
+ */
+
 #ifndef MONITOR_H 
 #define MONITOR_H
 
