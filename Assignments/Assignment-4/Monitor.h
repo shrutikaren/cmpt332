@@ -14,13 +14,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <string.h>
 
 /* UBC Threads */
 #include <os.h>
 
 /* Our List functions */
 #include <list.h>
-
 
 /* Define the number of condition variables (k) */
 #define k 10
@@ -31,10 +31,13 @@ typedef struct CondVar {
 } CondVar;
 
 typedef struct Monitor {
-    int lock; /* semaphore used as the monitor lock */
+    int lock;        /* semaphore used as the monitor lock */
+    int entrySem;    /* semaphore used to access entry */
+    LIST* entryList; /* threads waiting to enter the monitor */
     CondVar conVars[k]; 
 } Monitor;
 
+/* Monitor Function Declarations */
 void MonInit();
 void MonEnter();
 void MonLeave();
