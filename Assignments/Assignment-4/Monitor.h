@@ -6,7 +6,9 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+#define NO_CVS 7
 
+<<<<<<< HEAD
 /* UBC Threads */
 #include <os.h>
 
@@ -32,9 +34,11 @@ typedef struct Monitor {
 
 /* Monitor Function Declarations */
 void MonInit();
+=======
+>>>>>>> refs/remotes/origin/main
 void MonEnter(void);
 void MonLeave(void);
-void MonWait(int cv);
-void MonSignal(int cv);
-
+void MonWait(int);
+void MonSignal(int);
+void MonInit(void);
 #endif /* MONITOR_H */
