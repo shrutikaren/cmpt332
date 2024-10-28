@@ -171,9 +171,8 @@ $U/_uthread: $U/uthread.o $U/uthread_switch.o $(ULIB)
 	$U/produce-consumer.o $U/uthread.o $U/uthread_switch.o $(ULIB)
 #	$(OBJDUMP) -S $U/_produce-consumer > $U/produce-consumer.asm
 
-# Corrected and uncommented produce-consumer rules
 $(U)/produce-consumer.o: $(U)/produce-consumer.c  
-	$(CC) $(CFLAGS) -DPRODUCE_CONSUMER -c -o $(U)/produce-consumer.o $(U)/produce-consumer.c
+	$(CC) $(CFLAGS) -c -o $(U)/produce-consumer.o $(U)/produce-consumer.c
 
 $(U)/_produce-consumer: $(U)/produce-consumer.o $(U)/uthread.o $(U)/uthread_switch.o $(ULIB)
 	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $(U)/_produce-consumer \
