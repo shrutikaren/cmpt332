@@ -5,18 +5,10 @@
  */
 
 #include <Monitor.h>
-#include <list.h>
 
 static Monitor mon;
 
-/* Queues and Semaphores for Monitor Entry and Urgent Signals */
-static LIST* urgentQueue;
-static LIST* enterQueue;
-static int enterQueueSem;
-static int urgentSem;
-
-/* Initialize the monitor */
-void MonInit(void) {
+void MonInit() {
     int i;
 
     /* Initialize the monitor lock semaphore to 1 (unlocked) */ 
@@ -25,74 +17,71 @@ void MonInit(void) {
         LOG_ERROR("Failed to create monitor lock in MonInit.");
     }
 
-    /* Initialize queues for entering the monitor and urgent signals */
-    urgentQueue = ListCreate();
-    if (!urgentQueue) {
-        LOG_ERROR("Failed to create urgentQueue in MonInit.");
+    /* Initialize entry control variables */
+    mon.entryCtrl.urgentWaitList = ListCreate();
+    if (!mon.entryCtrl.urgentWaitList) {
+        LOG_ERROR("Failed to create urgentWaitList in MonInit.");
     }
 
-    enterQueue = ListCreate();
-    if (!enterQueue) {
-        LOG_ERROR("Failed to create enterQueue in MonInit.");
+    mon.entryCtrl.entryWaitList = ListCreate();
+    if (!mon.entryCtrl.entryWaitList) {
+        LOG_ERROR("Failed to create entryWaitList in MonInit.");
     }
 
-    /* Initialize semaphores */
-    urgentSem = NewSem(0);
-    if (urgentSem < 0) {
-        LOG_ERROR("Failed to create urgentSem in MonInit.");
+    mon.entryCtrl.urgentWaitSem = NewSem(0);
+    if (mon.entryCtrl.urgentWaitSem < 0) {
+        LOG_ERROR("Failed to create urgentWaitSem in MonInit.");
     }
 
-    enterQueueSem = NewSem(1);
-    if (enterQueueSem < 0) {
-        LOG_ERROR("Failed to create enterQueueSem in MonInit.");
+    mon.entryCtrl.entryWaitSem = NewSem(1);
+    if (mon.entryCtrl.entryWaitSem < 0) {
+        LOG_ERROR("Failed to create entryWaitSem in MonInit.");
     }
 
     /* Initialize all condition variables */
-    for (i = 0; i < NUM_COND_VARS; i++) {
+    for (i = 0; i < k; i++) {
         mon.condVars[i].waitList = ListCreate();
         if (!mon.condVars[i].waitList) {
-            LOG_ERROR("Failed to create waitList for condition variable %d in MonInit.");
+            LOG_ERROR("Failed to create waitList for condition variable in MonInit.");
         }
 
         mon.condVars[i].semaphore = NewSem(0);
         if (mon.condVars[i].semaphore < 0) {
-            LOG_ERROR("Failed to create semaphore for condition variable %d in MonInit.");
+            LOG_ERROR("Failed to create semaphore for condition variable in MonInit.");
         }
     }
 }
 
-/* Enter the monitor */
-void MonEnter(void) {
+void MonEnter() {
     PID* myPid = malloc(sizeof(PID));
     if (!myPid) {
         LOG_ERROR("Failed to allocate memory for PID in MonEnter.");
     }
     *myPid = MyPid();
 
-    /* Add the thread to the enterQueue */
-    P(enterQueueSem);
-    ListPrepend(enterQueue, myPid);
-    V(enterQueueSem);
+    /* Add the thread to the entryWaitList */
+    P(mon.entryCtrl.entryWaitSem);
+    ListPrepend(mon.entryCtrl.entryWaitList, myPid);
+    V(mon.entryCtrl.entryWaitSem);
 
     /* Acquire the monitor lock */
     P(mon.lock);
 }
 
-/* Leave the monitor */
-void MonLeave(void) {
+void MonLeave() {
     PID* pid;
 
-    /* Give priority to threads in the urgentQueue */
-    if (ListCount(urgentQueue) > 0) {
-        pid = (PID*)ListTrim(urgentQueue);
+    /* Give priority to threads in the urgentWaitList */
+    if (ListCount(mon.entryCtrl.urgentWaitList) > 0) {
+        pid = (PID*)ListTrim(mon.entryCtrl.urgentWaitList);
         if (pid) {
             free(pid);
-            V(urgentSem);
+            V(mon.entryCtrl.urgentWaitSem);
         }
     }
-    /* Otherwise, allow a thread from the enterQueue to enter */
-    else if (ListCount(enterQueue) > 0) {
-        pid = (PID*)ListTrim(enterQueue);
+    /* Otherwise, allow a thread from the entryWaitList to enter */
+    else if (ListCount(mon.entryCtrl.entryWaitList) > 0) {
+        pid = (PID*)ListTrim(mon.entryCtrl.entryWaitList);
         if (pid) {
             free(pid);
             V(mon.lock);
@@ -101,11 +90,10 @@ void MonLeave(void) {
     /* No threads are waiting; monitor remains unlocked */
 }
 
-/* Wait on a condition variable */
 void MonWait(int cvar) {
     PID* myPid;
 
-    if (cvar < 0 || cvar >= NUM_COND_VARS) {
+    if (cvar < 0 || cvar >= k) {
         LOG_ERROR("Invalid condition variable ID in MonWait.");
     }
 
@@ -119,14 +107,14 @@ void MonWait(int cvar) {
     ListPrepend(mon.condVars[cvar].waitList, myPid);
 
     /* Allow another thread to enter the monitor */
-    if (ListCount(urgentQueue) > 0) {
-        PID* pid = (PID*)ListTrim(urgentQueue);
+    if (ListCount(mon.entryCtrl.urgentWaitList) > 0) {
+        PID* pid = (PID*)ListTrim(mon.entryCtrl.urgentWaitList);
         if (pid) {
             free(pid);
-            V(urgentSem);
+            V(mon.entryCtrl.urgentWaitSem);
         }
-    } else if (ListCount(enterQueue) > 0) {
-        PID* pid = (PID*)ListTrim(enterQueue);
+    } else if (ListCount(mon.entryCtrl.entryWaitList) > 0) {
+        PID* pid = (PID*)ListTrim(mon.entryCtrl.entryWaitList);
         if (pid) {
             free(pid);
             V(mon.lock);
@@ -143,12 +131,11 @@ void MonWait(int cvar) {
     P(mon.lock);
 }
 
-/* Signal a condition variable */
 void MonSignal(int cvar) {
     PID* myPid;
     PID* waitingPid;
 
-    if (cvar < 0 || cvar >= NUM_COND_VARS) {
+    if (cvar < 0 || cvar >= k) {
         LOG_ERROR("Invalid condition variable ID in MonSignal.");
     }
 
@@ -160,8 +147,8 @@ void MonSignal(int cvar) {
         }
         *myPid = MyPid();
 
-        /* Add the signaling thread to the urgentQueue for priority */
-        ListPrepend(urgentQueue, myPid);
+        /* Add the signaling thread to the urgentWaitList for priority */
+        ListPrepend(mon.entryCtrl.urgentWaitList, myPid);
 
         /* Remove a waiting thread from the condition variable's wait list */
         waitingPid = (PID*)ListTrim(mon.condVars[cvar].waitList);
@@ -170,9 +157,10 @@ void MonSignal(int cvar) {
             free(waitingPid);
 
             /* Wait until the monitor is available again */
-            P(urgentSem);
+            P(mon.entryCtrl.urgentWaitSem);
         } else {
             free(myPid);
         }
     }
 }
+
