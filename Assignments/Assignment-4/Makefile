@@ -7,7 +7,7 @@ CFLAGS = -g
 CPPFLAGS = -Wall -pedantic -I. -std=gnu90 -Wextra  
 LDFLAGS = -L/usr/local/include -L. 
 INC = -I. 
-CURRENT_DIR = ./ #IMPORTANT TO LINK LOCAL HEADER FILES
+CURRENT_DIR = ./ 
 
 ARCH = $(shell uname -m)
 OS := $(shell uname -s)
