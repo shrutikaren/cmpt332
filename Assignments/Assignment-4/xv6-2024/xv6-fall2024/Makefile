@@ -154,26 +154,23 @@ UPROGS=\
 ULIB = $(U)/ulib.o $(U)/usys.o $(U)/printf.o $(U)/umalloc.o
 
 $(U)/uthread.o: $(U)/uthread.c
-    $(CC) $(CFLAGS) -DUTTHREAD_LIBRARY -c -o $(U)/uthread.o $(U)/uthread.c
+	$(CC) $(CFLAGS) -DUTTHREAD_LIBRARY -c -o $(U)/uthread.o $(U)/uthread.c
 
 $(U)/uthread_switch.o: $(U)/uthread_switch.S
-    $(CC) $(CFLAGS) -c -o $(U)/uthread_switch.o $(U)/uthread_switch.S
-
-$(U)/threads.o: $(U)/threads.c
-    $(CC) $(CFLAGS) -c -o $(U)/threads.o $(U)/threads.c
+	$(CC) $(CFLAGS) -c -o $(U)/uthread_switch.o $(U)/uthread_switch.S
 
 $(U)/produce-consumer.o: $(U)/produce-consumer.c
-    $(CC) $(CFLAGS) -c -o $(U)/produce-consumer.o $(U)/produce-consumer.c
+	$(CC) $(CFLAGS) -c -o $(U)/produce-consumer.o $(U)/produce-consumer.c
 
-$(U)/_uthread: $(U)/threads.o $(U)/uthread.o $(U)/uthread_switch.o $(ULIB)
-    $(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $(U)/_uthread $(U)/threads.o $(U)/uthread.o \
-    $(U)/uthread_switch.o $(ULIB)
-    $(OBJDUMP) -S $(U)/_uthread > $(U)/uthread.asm
+$(U)/_uthread: $(U)/threads.o $(U)/uthread_switch.o $(ULIB)
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $(U)/_uthread $(U)/uthread.o \
+	$(U)/uthread_switch.o $(ULIB)
+	$(OBJDUMP) -S $(U)/_uthread > $(U)/uthread.asm
 
 $(U)/_produce-consumer: $(U)/produce-consumer.o $(U)/uthread.o $(U)/uthread_switch.o $(ULIB)
-    $(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $(U)/_produce-consumer \
-    $(U)/produce-consumer.o $(U)/uthread.o $(U)/uthread_switch.o $(ULIB)
-    $(OBJDUMP) -S $(U)/_produce-consumer > $(U)/produce-consumer.asm
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $(U)/_produce-consumer \
+	$(U)/produce-consumer.o $(U)/uthread.o $(U)/uthread_switch.o $(ULIB)
+	$(OBJDUMP) -S $(U)/_produce-consumer > $(U)/produce-consumer.asm
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
