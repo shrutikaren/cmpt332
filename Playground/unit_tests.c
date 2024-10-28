@@ -987,11 +987,10 @@ void test_stress_test() {
 
 void test_monitor_prep(){
     
-    /* Test variables */
     LIST *list;
     int *item;
     int itemCount = 100000;  // Large data test with 100,000 items
-    int count;
+    int count, i;
 
     /* Test ListCreate */
     list = ListCreate();
@@ -1001,7 +1000,7 @@ void test_monitor_prep(){
 
     /* Test ListPrepend with large data */
     printf("Starting ListPrepend with %d items...\n", itemCount);
-    for (int i = 0; i < itemCount; i++) {
+    for (i = 0; i < itemCount; i++) {
         item = malloc(sizeof(int));
         if (item == NULL) {
             fprintf(stderr, "Memory allocation failed at iteration %d\n", i);
@@ -1025,7 +1024,7 @@ void test_monitor_prep(){
 
     /* Test ListTrim and verify count decreases */
     printf("Starting ListTrim...\n");
-    for (int i = itemCount - 1; i >= 0; i--) {
+    for (i = 0; i < itemCount; i++) {
         item = ListTrim(list);
         if (item == NULL) {
             fprintf(stderr, "ListTrim returned NULL at iteration %d\n", i);
@@ -1034,12 +1033,12 @@ void test_monitor_prep(){
         /* Verify the item value */
         assert(*item == i);
         free(item);  // Free the allocated memory
-        if (ListCount(list) != i) {
+        if (ListCount(list) != itemCount - i - 1) {
             fprintf(stderr, "ListCount mismatch at iteration %d\n", i);
             exit(EXIT_FAILURE);
         }
-        if (i % 10000 == 0) {
-            printf("ListTrim: Removed item %d, remaining count %d\n", i, i);
+        if ((i + 1) % 10000 == 0) {
+            printf("ListTrim: Removed item %d, remaining count %d\n", *item, ListCount(list));
         }
     }
     printf("ListTrim: Successfully removed all items\n");
@@ -1050,11 +1049,10 @@ void test_monitor_prep(){
     printf("ListCount after trimming all items: %d\n", count);
 
     /* Clean up */
-    ListFree(list, free);
+    ListFree(list, NULL);  // Items are already freed
     ListDispose();
 
     printf("All tests passed successfully.\n");
-
 }
 
 int main() {

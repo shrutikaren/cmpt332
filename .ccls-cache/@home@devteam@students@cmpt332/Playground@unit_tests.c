@@ -985,8 +985,78 @@ void test_stress_test() {
     printf("Test 5 Passed.\n\n");
 }
 
-int main() {
+void test_monitor_prep(){
+    
+    LIST *list;
+    int *item;
+    int itemCount = 100000;  // Large data test with 100,000 items
+    int count, i;
 
+    /* Test ListCreate */
+    list = ListCreate();
+    assert(list != NULL);
+    assert(ListCount(list) == 0);
+    printf("ListCreate: Success\n");
+
+    /* Test ListPrepend with large data */
+    printf("Starting ListPrepend with %d items...\n", itemCount);
+    for (i = 0; i < itemCount; i++) {
+        item = malloc(sizeof(int));
+        if (item == NULL) {
+            fprintf(stderr, "Memory allocation failed at iteration %d\n", i);
+            exit(EXIT_FAILURE);
+        }
+        *item = i;
+        if (ListPrepend(list, item) != EXIT_SUCCESS) {
+            fprintf(stderr, "ListPrepend failed at iteration %d\n", i);
+            exit(EXIT_FAILURE);
+        }
+        if ((i + 1) % 10000 == 0) {
+            printf("ListPrepend: Added %d items\n", i + 1);
+        }
+    }
+    printf("ListPrepend: Successfully added %d items\n", itemCount);
+
+    /* Test ListCount */
+    count = ListCount(list);
+    assert(count == itemCount);
+    printf("ListCount: Count is %d, expected %d\n", count, itemCount);
+
+    /* Test ListTrim and verify count decreases */
+    printf("Starting ListTrim...\n");
+    for (i = 0; i < itemCount; i++) {
+        item = ListTrim(list);
+        if (item == NULL) {
+            fprintf(stderr, "ListTrim returned NULL at iteration %d\n", i);
+            exit(EXIT_FAILURE);
+        }
+        /* Verify the item value */
+        assert(*item == i);
+        free(item);  // Free the allocated memory
+        if (ListCount(list) != itemCount - i - 1) {
+            fprintf(stderr, "ListCount mismatch at iteration %d\n", i);
+            exit(EXIT_FAILURE);
+        }
+        if ((i + 1) % 10000 == 0) {
+            printf("ListTrim: Removed item %d, remaining count %d\n", *item, ListCount(list));
+        }
+    }
+    printf("ListTrim: Successfully removed all items\n");
+
+    /* Final ListCount check */
+    count = ListCount(list);
+    assert(count == 0);
+    printf("ListCount after trimming all items: %d\n", count);
+
+    /* Clean up */
+    ListFree(list, NULL);  // Items are already freed
+    ListDispose();
+
+    printf("All tests passed successfully.\n");
+}
+
+int main() {
+    
     test_basic_operations();
     test_edge_cases();
     test_large_data_random_operations();
@@ -1040,7 +1110,7 @@ int main() {
     test_ListInsertNullItem();
     test_ListRemoveFromEmpty();
     test_ListTrimFromEmpty();
-    ListDispose();
+    test_monitor_prep();
 
     printf("All tests passed successfully.\n");
     return EXIT_SUCCESS;

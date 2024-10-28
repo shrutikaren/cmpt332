@@ -1,52 +1,58 @@
-[39mt[39me[39ms[39mt[39ms[12D[24m[32m.[24m[32m/[32mu[32mn[32mi[32mt[32m_[32mt[32me[32ms[32mt[32ms[39m[32mt[39m[39m [11D[39m[4m.[39m[4m/[39m[4mu[39m[4mn[39m[4mi[39m[4mt[39m[4m_[39m[4mt[39m[4me[39m[4ms[39m[4mt[24m[90ms[39m[4ms[24m[24m [39m [90mts[39m[4me[24m[24m [39m [39m [90msts[39m[4mt[24m[24m [39m [39m [39m [90mests[39m[4m_[24m[24m [39m [39m [39m [39m [90mtests[39m[4mt[24m[24m [39m [39m [39m [39m [39m [90m_tests[39m[4mi[24m[24m [39m [39m [39m [39m [39m [39m [90mt_tests[39m[4mn[24m[24m [39m [39m [39m [39m [39m [39m [39m [8D[90mit_tests[39m[8D[4mu[24m[24m [39m [39m [39m [39m [39m [39m [39m [39m [9D[90mnit_tests[39m[9D[4m.[4m/[24m[24m [39m [39m [39m [39m [39m [39m [39m [39m [39m [10D[4m[32m.[4m[32m/[24m[39m[90munit_tests[39m[10D[4m[32m.[24m[39m[24m[39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [11D[24m[32m.[39m[32m.[39m[90m/unit_tests[39m[11D[39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [12Dv[1m[31mv[0m[39m[1m[31mv[0m[39m[90mim TESTVAL[39m[10D[1m[31mv[1m[31ma[0m[39m[39m [39m [39m [39m [39m [39m [39m [39m [39m [9D[90mlgrind ./unit_tests > TESTVAL[39m[29D[1m[31mv[1m[31ma[1m[31ml[0m[39m[39mg[39mr[39mi[39mn[39md[39m [39m.[39m/[39mu[39mn[39mi[39mt[39m_[39mt[39me[39ms[39mt[39ms[39m [39m>[39m [39mT[39mE[39mS[39mT[39mV[39mA[39mL[31D[0m[32mv[0m[32ma[0m[32ml[32mg[32mr[32mi[32mn[32md[39m [4m.[4m/[4mu[4mn[4mi[4mt[4m_[4mt[4me[4ms[4mt[4ms[24m [33m>[39m [4mT[4mE[4mS[4mT[4mV[4mA[4mL[24m[?1l>[?2004l
-]2;valgrind ./unit_tests > TESTVAL]1;valgrind==929692== Memcheck, a memory error detector
-==929692== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==929692== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==929692== Command: ./unit_tests
-==929692== 
-==929692== Warning: client switching stacks?  SP change: 0x1ffefffc30 --> 0x1ffe85ea30
-==929692==          to suppress, use: --max-stackframe=8000000 or greater
-==929692== Invalid write of size 8
-==929692==    at 0x410D6C: test9_ListInsert (unit_tests.c:178)
-==929692==    by 0x41376F: main (unit_tests.c:1006)
-==929692==  Address 0x1ffe85ea30 is on thread 1's stack
-==929692==  in frame #0, created by test9_ListInsert (unit_tests.c:170)
-==929692== 
-==929692== Invalid read of size 8
-==929692==    at 0x410D78: test9_ListInsert (unit_tests.c:179)
-==929692==    by 0x41376F: main (unit_tests.c:1006)
-==929692==  Address 0x1ffe85ea30 is on thread 1's stack
-==929692==  in frame #0, created by test9_ListInsert (unit_tests.c:170)
-==929692== 
-==929692== Invalid read of size 8
-==929692==    at 0x410D8C: test9_ListInsert (unit_tests.c:180)
-==929692==    by 0x41376F: main (unit_tests.c:1006)
-==929692==  Address 0x1ffe85ea30 is on thread 1's stack
-==929692==  in frame #0, created by test9_ListInsert (unit_tests.c:170)
-==929692== 
-==929692== Warning: client switching stacks?  SP change: 0x1ffe85ea30 --> 0x1ffefffc30
-==929692==          to suppress, use: --max-stackframe=8000000 or greater
-==929692== 
-==929692== HEAP SUMMARY:
-==929692==     in use at exit: 4 bytes in 1 blocks
-==929692==   total heap usage: 2,060,366 allocs, 2,060,365 frees, 73,779,668 bytes allocated
-==929692== 
-==929692== LEAK SUMMARY:
-==929692==    definitely lost: 4 bytes in 1 blocks
-==929692==    indirectly lost: 0 bytes in 0 blocks
-==929692==      possibly lost: 0 bytes in 0 blocks
-==929692==    still reachable: 0 bytes in 0 blocks
-==929692==         suppressed: 0 bytes in 0 blocks
-==929692== Rerun with --leak-check=full to see details of leaked memory
-==929692== 
-==929692== For lists of detected and suppressed errors, rerun with: -s
-==929692== ERROR SUMMARY: 3000000 errors from 3 contexts (suppressed: 0 from 0)
-[1m[7m%[27m[1m[0m                                                                                                                                                                                              ]2;devteam@jaxdev:~/students/cmpt332/Playground]1;..32/Playground]7;file://jaxdev/home/devteam/students/cmpt332/Playground\[0m[27m[24m[J
-[1;36mcmpt332/Playground[0m  [35m [0m[35mmain[0m [38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m41%[0m[1;2;37m | [0m[1;2;37m3GiB/7GiB[0m
-[32m   100%[0m [38;2;191;204;227m| [0m[38;2;191;204;227m01:17:46[0m[38;2;191;204;227m [0m [34m🗸[0m [1;32m ➜[0m [K[?1h=[?2004hf[1m[31mf[0m[39m[1m[31mf[0m[39m[90mg[39m[1m[31mf[1m[31mr[0m[39m[90mom Crypto.Util.Padding import pad[39m[33D[1m[31mf[1m[31mr[1m[31me[0m[39m[39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [32D[1m[31me[1m[31me[0m[39m[0m[32mf[0m[32mr[0m[32me[0m[32me[39m[32me[39m[39m [1m[31mf[1m[31mr[1m[31me[0m[39m[1m[31mf[1m[31mr[0m[39m[0m[39m [90mom Crypto.Util.Padding import pad[39m[33D[1m[31mf[0m[39m[0m[39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [34D[1m[31mf[0m[39m[90mg[39m[0m[39m [39m e[1m[31me[0m[39m[1m[31me[0m[39m[90mxit[39m[1m[31me[1m[31mc[0m[39m[39m [39m [90mho $OSTYPE[39m[10D[1m[31me[1m[31mc[1m[31mi[0m[39m[39m [39m [39m [39m [39m [39m [39m [39m [39m [9D[1m[31mi[1m[31mt[0m[39m[?1l>[?2004l
-]2;ecit]1;ecitzsh: command not found: ecit
-[1m[7m%[27m[1m[0m                                                                                                                                                                                              ]2;devteam@jaxdev:~/students/cmpt332/Playground]1;..32/Playground]7;file://jaxdev/home/devteam/students/cmpt332/Playground\[0m[27m[24m[J
-[1;36mcmpt332/Playground[0m  [35m [0m[35mmain[0m [38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[38;2;46;222;216m [0m[38;2;46;222;216m[0m[38;2;46;222;216m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m [0m[1;2;37m41%[0m[1;2;37m | [0m[1;2;37m3GiB/7GiB[0m
-[32m   100%[0m [38;2;191;204;227m| [0m[38;2;191;204;227m01:17:52[0m[38;2;191;204;227m [0m [34m🗸[0m [1;31m ✖[0m [K[?1h=[?2004he[1m[31me[0m[39m[1m[31me[0m[39m[90mcit[39m[1m[31me[1m[31mx[0m[39m[39m [39m [0m[32me[0m[32mx[39m[90mit[39m[32me[32mx[32mi[39m[1m[31me[1m[31mx[1m[31mi[0m[39m[1m[31mi[1m[31mt[0m[39m[0m[32me[0m[32mx[0m[32mi[0m[32mt[39m[?1l>[?2004l
-]2;exit]1;exit
-Script done on 2024-10-22 01:17:54-04:00 [COMMAND_EXIT_CODE="127"]
+Running Test 1: Basic Operations...
+test 30Test 1 Passed.
+
+Running Test 2: Edge Cases...
+Test 2 Passed.
+
+Running Test 3: Large Data with Random Operations...
+Test 3 Passed.
+
+Running Test 5: Stress Test with Extensive Random Operations...
+Final count after stress test: 25586
+Test 5 Passed.
+
+test_ListCreate passed.
+test_ListAdd passed.
+test2_ListAdd passed.
+test3_ListAdd passed.
+test4_ListAdd passed.
+test5_ListAdd passed.
+test6_ListAdd passed.
+test7_ListInsert passed.
+test8_ListInsert passed.
+test9_ListInsert passed.
+test10_ListPrepend passed.
+test11_ListConcat passed.
+test13_ListFirst passed.
+test_ListAppend passed.
+test_ListPrepend passed.
+test_ListRemove passed.
+test_ListTrim passed.
+test_ListSearch passed.
+test_ListNext passed.
+test_ListPrev passed.
+test_ListCount passed.
+test_ListCurr_Null passed.
+test_ListFirst_Null passed.
+test_ListLast_Null passed.
+test_ListRemove_Null passed.
+test_ListTrim_Null passed.
+test_ListAdd_NullList passed.
+test_ListInsert_NullList passed.
+test_ListAppend_NullList passed.
+test_ListPrepend_NullList passed.
+test_ListSearch_NullComparator passed.
+test_ListConcat_NullLists passed.
+test_ListFree_NullList passed.
+test_MultipleLists passed.
+test_ListOperationsAfterFree passed.
+test_ExhaustNodePool passed.
+test_ListAddAfterRemoveAll passed.
+test_ListSearchNotFound passed.
+test_ListNextBeyondEnd passed.
+test_ListPrevBeyondStart passed.
+test_ListAddNullItem passed.
+test_ListInsertNullItem passed.
+test_ListRemoveFromEmpty passed.
+test_ListTrimFromEmpty passed.
+All tests passed successfully.
