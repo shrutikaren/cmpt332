@@ -8,13 +8,6 @@
 #include <stdlib.h>
 
 static Monitor mon;
-#define s 10 /*picked a random number*/
-
-
-#include "Monitor.h"
-
-/* Static Monitor instance */
-static Monitor mon;
 
 /**
  * Initialize the monitor.
@@ -67,16 +60,17 @@ void MonWait(int cvar) {
     }
     *myPid = MyPid();
 
-    ListPrepend(mon.conVars[cvar].waitList, (void*)myPid);
+    /* Use ListAppend to add to the end of the list */
+    ListAppend(mon.conVars[cvar].waitList, (void*)myPid);
 
     /* Release the monitor lock before waiting */
-    V(mon.lock);
+    MonLeave();
 
     /* Wait on the condition variable's semaphore */
     P(mon.conVars[cvar].semaphore);
 
     /* Re-acquire the monitor lock after being signaled */
-    P(mon.lock);
+    MonEnter();
 }
 
 void MonSignal(int cvar) {
@@ -88,10 +82,13 @@ void MonSignal(int cvar) {
 
     /* Check if there are threads waiting on the condition variable */
     if (ListCount(mon.conVars[cvar].waitList) > 0) {
-        /* Remove the first thread from the condition variable's waitList */ 
-        waitingPid = (PID*)ListTrim(mon.conVars[cvar].waitList);
+        /* Set current to the first item */
+        ListFirst(mon.conVars[cvar].waitList);
+
+        /* Remove the first thread from the condition variable's waitList */
+        waitingPid = (PID*)ListRemove(mon.conVars[cvar].waitList);
         if (waitingPid == NULL) {
-            LOG_ERROR("Failed to trim from condition variable in MonSignal.");
+            LOG_ERROR("Failed to remove from condition variable in MonSignal.");
         }
 
         /* Signal the cv's semaphore to wake up the waiting thread */
@@ -101,3 +98,4 @@ void MonSignal(int cvar) {
         free(waitingPid);
     }
 }
+
