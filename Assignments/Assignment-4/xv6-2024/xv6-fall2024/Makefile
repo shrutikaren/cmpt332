@@ -175,9 +175,15 @@ $U/uthread.o: $U/uthread.c
 	$(CC) $(CFLAGS) -c -o $U/uthread.o $U/uthread.c
 
 $U/_produce-consumer: $U/produce-consumer.o $U/uthread.o $U/uthread_switch.o $(ULIB)
+<<<<<<< HEAD
 	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_produce-consumer \
 	$U/produce-consumer.o $U/uthread.o $U/uthread_switch.o $(ULIB)
 	$(OBJDUMP) -S $U/_produce-consumer > $U/produce-consumer.asm
+=======
+    $(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_produce-consumer \
+    $U/produce-consumer.o  $(ULIB)
+    $(OBJDUMP) -S $U/_produce-consumer > $U/produce-consumer.asm
+>>>>>>> refs/remotes/origin/main
 
 
 fs.img: mkfs/mkfs README $(UPROGS)
