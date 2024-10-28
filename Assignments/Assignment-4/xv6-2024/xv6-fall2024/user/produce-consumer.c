@@ -50,12 +50,3 @@ void V(void){
 	thread_yield(); /* Put it into the RUNNABLE queue*/
 }
 
-#ifdef PRODUCE_CONSUMER
-int main(int argc, char *argv[]){
-	mutex_id = mtx_create(0);
-	thread_init();
-	thread_create(P);
-	thread_create(V);
-	return 0;
-}
-#endif

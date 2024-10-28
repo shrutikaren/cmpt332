@@ -222,9 +222,8 @@ int main(int argc, char *argv[])
   mutex_id = mtx_create(0);
   thread_init();
   thread_create(P);
-  thread_create(V);
-  return 0;
-  
+  thread_create(V); 
   #endif  
+
   exit(0);
 }

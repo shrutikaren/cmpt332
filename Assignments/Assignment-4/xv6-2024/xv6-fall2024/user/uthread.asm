@@ -584,13 +584,14 @@ int mtx_unlock(int lock_id){
 
 0000000000000414 <main>:
 
-#ifdef UTHREAD
+
 int main(int argc, char *argv[]) 
 {
  414:	1141                	add	sp,sp,-16
  416:	e406                	sd	ra,8(sp)
  418:	e022                	sd	s0,0(sp)
  41a:	0800                	add	s0,sp,16
+  #ifdef UTHREAD
   a_started = b_started = c_started = 0;
  41c:	00001797          	auipc	a5,0x1
  420:	aa07a023          	sw	zero,-1376(a5) # ebc <c_started>
@@ -626,6 +627,11 @@ int main(int argc, char *argv[])
   thread_schedule();
  484:	00000097          	auipc	ra,0x0
  488:	ba2080e7          	jalr	-1118(ra) # 26 <thread_schedule>
+  thread_create(P);
+  thread_create(V);
+  return 0;
+  
+  #endif  
   exit(0);
  48c:	4501                	li	a0,0
  48e:	00000097          	auipc	ra,0x0
