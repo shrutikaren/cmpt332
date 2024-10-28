@@ -5,7 +5,8 @@
 CC = gcc
 CFLAGS = -g
 CPPFLAGS = -Wall -pedantic -I. -std=gnu90 -Wextra  
-LDFLAGS = -L/usr/local/include -L. \ 
+LDFLAGS = -L/usr/local/include -L. \
+	  -L$(UBC_PTHREAD_DIR)  
 INC = -I. 
 CURRENT_DIR = ./ #IMPORTANT TO LINK LOCAL HEADER FILES
 
@@ -121,10 +122,12 @@ $(BIN_DIR)/reader_writer_test : \
 	$(LIB_DIR)/libMonitor.a $(UBC_PTHREAD_DIR)/libpthreads.a \
 	$(OBJ_DIR)/reader_writer_monitor.o $(OBJ_DIR)/Monitor.o | $(BIN_DIR)
 	$(CC) $(CFLAGS) $(UBC_COMPILER_FLAG) \
-	$(OBJ_DIR)/reader_writer.o  \
-	 $(OBJ_DIR)/Monitor.o $(OBJ_DIR)/reader_writer_monitor.o \
-		$(LDFLAGS)  -L$(UBC_PTHREAD_DIR) -L$(LIB_DIR) -llist -lMonitor \
-		 -lpthreads -o $(BIN_DIR)/reader_writer_test
+	$(OBJ_DIR)/reader_writer.o  $(OBJ_DIR)/Monitor.o \ 
+		$(OBJ_DIR)/reader_writer_monitor.o \
+		$(LDFLAGS) -L/$(UBC_PTHREAD_DIR) -L/$(LIB_DIR) \
+		-L/$(LIB_DIR)/liblist.a -L/$(LIB_DIR)/libMonitor.a \
+		-llist -lMonitor -lpthreads \
+		-o $(BIN_DIR)/reader_writer_test
 
 # link executable for the s-chat
 $(BIN_DIR)/s-chat: $(OBJ_DIR)/s-chat.o | $(BIN_DIR)

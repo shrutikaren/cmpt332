@@ -68,14 +68,14 @@ void MonEnter(){
 
     *currentPid = MyPid();
 
-    /* TODO: Add the thread to the entryList */
+    /*   Add the thread to the entryList */
     P(mon.entrySem);
     ListPrepend(mon.entryList, (void*)currentPid);
     V(mon.entrySem);
     
-    /* TODO: Acquire the mutex */
+    /*   Acquire the mutex */
     P(mon.lock);
-    /* TODO: Reove self from the entryList */
+    /*   Reove self from the entryList */
     P(mon.entrySem);
     trimmedPid = ListTrim(mon.entryList);
     if (trimmedPid != NULL) {
@@ -88,7 +88,7 @@ void MonEnter(){
 
 void MonLeave(){
     void* trimmedPid;
-    /* TODO: Check if there are threads waiting in the entery List */
+    /*   Check if there are threads waiting in the entery List */
     P(mon.entrySem);
     
     if (ListCount(mon.entryList) > 0) {
