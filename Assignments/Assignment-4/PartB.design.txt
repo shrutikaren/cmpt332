@@ -24,7 +24,6 @@ Two data structures will be introduced:
 
 *******************************  MONITOR_C ************************************
 Functions that is involved inside Monitor.c are: 
-	1) void MonInit()
 	
 1. MONITOR INITIALIZATION
 
