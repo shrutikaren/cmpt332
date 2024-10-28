@@ -1,12 +1,3 @@
-/*
- * Shruti Kaur
- * ich524
- * 11339265
- */
-
-/* CMPT 332 GROUP 34 Change, Fall 2024 */
-/* Phase 1 */
-
 #ifndef MONITOR_H 
 #define MONITOR_H
 
@@ -25,23 +16,25 @@
 /* Define the number of condition variables (k) */
 #define k 10
 
-typedef struct CondVar {
-    int semaphore; /* semaphore for condition variable */
-    LIST* waitList; /* list of threads waiting */
-} CondVar;
+typedef struct CV {
+    int sem;           /* semaphore for condition variable */
+    LIST* wait_queue;  /* list of threads waiting */
+} CV;
 
 typedef struct Monitor {
-    int lock;        /* semaphore used as the monitor lock */
-    int entrySem;    /* semaphore used to access entry */
-    LIST* entryList; /* threads waiting to enter the monitor */
-    CondVar conVars[k]; 
+    CV cond_vars[k];          /* array of condition variables */
+    int enter_mtx;            /* semaphore for entering monitor */
+    int urgent_sem;           /* semaphore for urgent threads */
+    int enter_queue_sem;      /* semaphore for accessing enter_queue */
+    LIST* urgent_queue;       /* prioritized queue */
+    LIST* enter_queue;        /* queue for monitor entry */
 } Monitor;
 
 /* Monitor Function Declarations */
-void MonInit();
-void MonEnter();
-void MonLeave();
-void MonWait(int);
-void MonSignal(int);
+void MonInit(void);
+void MonEnter(void);
+void MonLeave(void);
+void MonWait(int cv);
+void MonSignal(int cv);
 
 #endif /* MONITOR_H */
