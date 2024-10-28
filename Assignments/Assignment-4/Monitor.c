@@ -52,12 +52,12 @@ void MonInit(void) {
     for (i = 0; i < NUM_COND_VARS; i++) {
         mon.condVars[i].waitList = ListCreate();
         if (!mon.condVars[i].waitList) {
-            LOG_ERROR("Failed to create waitList for condition variable %d in MonInit.", i);
+            LOG_ERROR("Failed to create waitList for condition variable %d in MonInit.");
         }
 
         mon.condVars[i].semaphore = NewSem(0);
         if (mon.condVars[i].semaphore < 0) {
-            LOG_ERROR("Failed to create semaphore for condition variable %d in MonInit.", i);
+            LOG_ERROR("Failed to create semaphore for condition variable %d in MonInit.");
         }
     }
 }
