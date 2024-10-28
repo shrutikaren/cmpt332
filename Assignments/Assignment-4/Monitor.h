@@ -6,13 +6,6 @@
 #include <stdlib.h>
 #include <errno.h>
 
-<<<<<<< HEAD
-void MonEnter(void);
-void MonLeave(void);
-void MonWait(int);
-void MonSignal(int);
-void MonInit();
-=======
 /* UBC Threads */
 #include <os.h>
 
@@ -39,5 +32,4 @@ void MonLeave();
 void MonWait(int cvar);
 void MonSignal(int cvar);
 
->>>>>>> refs/remotes/origin/main
 #endif /* MONITOR_H */
