@@ -1,3 +1,7 @@
+Shruti Kaur, 
+ICH524
+11339265 
+
 **************All of the work will be done inside xv6-fall-2024****************
 1. uthread.c
 	= Data structure for thread: include the return address, stack pointer, 
@@ -16,7 +20,13 @@
 
 	= Our thread_switch function is being implemented inside the assembly
 	file by working around with our registers. This part will be discussed
-	inside uthread_switch.S. 
+	inside uthread_switch.S. In our C file, the two arguments that
+	thread_switch takes is: the current_thread and the next_thread. Both
+	of them will be casted into uint64. The reason why we pick uint64 
+	as our data type specifically is because this function is interacting
+	with machine registers and by passing arguments as 64-bit values, we are
+	ensuring that they are correctly stored inside our registers without any
+	kind of truncation.
 
 	= When working inside the thread_schedule function. We would want to 
 	switch our threads whenever the current_thread is not equal to the 
@@ -36,10 +46,71 @@
 	"saved register" and the stack pointer as well. We don't need to save 
 	the "temporary registers" because those are always caller saved anyway. 
 	Caller saved means that they are saved before the call and restored 
-	aifkter the call so we don't need to spend our resources to worry about 
+	after the call so we don't need to spend our resources to worry about 
 	them. Since the saved registers are callee saved, those needs to be 
 	saved before our context switches. This is an important part of the 
 	process when we work with our registers. 
 
+	= Just thinking about it a bit more and testing a few times. It seems
+	that only thread_a functions when I utilized stack pointer and it could
+	be an issue with the way I was designing this. Instead, I am taking a0
+	and I am storing the values into a0. Then, I utilize a1 to load my 
+	registers. Since the data type is uint64, we will use ld and sd 
+	instruction words to be able to handle these 64-bits with double words.
+
 3. produce-consumer.c
+	= Intention would be to have two separate functions called P() and V(). 
+	P(void) and V(void) would produce an item inside the buffer and consume
+	an item respectively. Inside P(), we will use mtx_lock() and
+	mtx_unlock() to work around our critical section. Once it is unlocked,
+	we will take our thread and put it into the RUNNABLE queue afterwards to
+	indicate that now, it can be processed by the CPU when it is its turn. 
+
+	= V(void) also utilizes mtx_lock() and mtx_unlock() to work with the 
+	critical section. The only difference between the two is that during 
+	P()'s critical section, we are increasing the buffer_count while in
+	V()'s critical section, we are decreasing the buffer_count. 
 	
+	= ifdef and endif statements are going to be added around main() to
+	ensure that this main function is only executed when we want to run
+	our produce-consumer. This can be ensured by having our 
+	-DPRODUCE_CONSUMER when compiling our object files. 
+
+	= To test, we will add some print statements inside our P() and V()
+	to ensure that it is running 
+
+4. Makefile 
+	= For our uthread.c and uthread_switch.S to be able to compile, we have 
+	done the following statements as the assignment asked us to do so. The
+	exact changes can be seen inside xv6-synch.diff. Since we had to create 
+	a test file to check our work with the produce-consumer, we have added
+	it inside the user/ folder. A header file uthread.h will also be 
+	created. The logic for this is because the functions inside the 
+	uthread.c will also be used inside produce-consumer.c so I have included
+	it inside it. 
+
+	While looking into the files, it was realized that both uthread.c and 
+	produce-consumer.c would have a main() function. In that case, flags
+	-D[name_of_executable] will be added into the Makefile. I will then add
+	#ifdef and #endif statements around my Makefile to ensure that those 
+	Makefiles are only executed when a specific executable is being called
+	during the run time. 
+
+	produce-consumer would be added inside UPROGS to be able to function and
+	the plan would be to use the following two lines to ensure that the 
+	test file program will run: 
+
+	# CMPT 332 GROUP 01, FALL 2024 CHANGE
+	$U/produce-consumer.o: $U/produce-consumer.c 
+		$(CC) $(CFLAGS) -DPRODUCE_CONSUMER -c -o \
+		$U/produce-consumer.o $U/produce-consumer.c
+
+	$U/_produce-consumer: $U/produce-consumer.o $U/uthread.o \
+	$U/uthread_switch.o $(ULIB)
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_produce-consumer \
+	$U/produce-consumer.o $U/uthread.o $U/uthread_switch.o $(ULIB)
+	$(OBJDUMP) -S $U/_produce-consumer > $U/produce-consumer.asm
+
+	
+To test this, we will make clean --> make qemu --> uthread --> obtain output
+again with produce-consumer --> obtain output
