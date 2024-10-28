@@ -155,8 +155,8 @@ UPROGS=\
 $U/uthread_switch.o : $U/uthread_switch.S
 	$(CC) $(CFLAGS) -c -o $U/uthread_switch.o $U/uthread_switch.S
 
-#$U/uthread.o: $U/uthread.c
-#	$(CC) $(CFLAGS) -c -o $U/uthread.o $U/uthread.c
+$U/uthread.o: $U/uthread.c
+	$(CC) $(CFLAGS) -c -o $U/uthread.o $U/uthread.c
 
 # CMPT 332 GROUP 01, FALL 2024 CHANGE
 $U/_uthread: $U/uthread.o $U/uthread_switch.o $(ULIB)
