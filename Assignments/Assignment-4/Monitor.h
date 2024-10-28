@@ -26,9 +26,9 @@ typedef struct Monitor {
 } Monitor;
 
 /* Function Declarations */
-void MonInit(void);
-void MonEnter(void);
-void MonLeave(void);
+void MonInit();
+void MonEnter();
+void MonLeave();
 void MonWait(int cvar);
 void MonSignal(int cvar);
 
