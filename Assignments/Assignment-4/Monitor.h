@@ -31,7 +31,7 @@ typedef struct Monitor {
 } Monitor;
 
 /* Monitor Function Declarations */
-void MonInit(void);
+void MonInit();
 void MonEnter(void);
 void MonLeave(void);
 void MonWait(int cv);

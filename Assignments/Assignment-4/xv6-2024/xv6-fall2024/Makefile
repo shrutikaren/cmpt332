@@ -75,6 +75,8 @@ CFLAGS += -fno-builtin-free
 CFLAGS += -fno-builtin-memcpy -Wno-main
 CFLAGS += -fno-builtin-printf -fno-builtin-fprintf -fno-builtin-vprintf
 CFLAGS += -I.
+#CMPT 332 GROUP 01, FALL 2024
+CPFLAGS += -Wl, -z, now -Wl
 CFLAGS += $(shell $(CC) -fno-stack-protector -E -x c /dev/null >/dev/null 2>&1 && echo -fno-stack-protector)
 # CMPT 332 GROUP 01, FALL 2024
 CFLAGS += -mno-relax
