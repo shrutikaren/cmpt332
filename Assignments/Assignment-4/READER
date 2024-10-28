@@ -1,0 +1,373 @@
+/* CMPT 332 GROUP 34 Change, Fall 2024 */
+/* Phase 1 */
+
+#ifndef MONITOR_H 
+#define MONITOR_H
+
+/* Default C-Library */
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+
+/* UBC Threads */
+#include <os.h>
+
+/* Our List functions */
+#include <list.h>
+
+/* Loggin Errors in our code. */
+
+#define LOG_ERROR(msg) do {                             \
+    fprintf(stderr, "Log [Error] - %s: %s at %s:%d\n",  \
+        msg, strerror(errno), __FILE__, __LINE__);      \
+    exit(EXIT_FAILURE);                                 \
+}while(0)
+
+/* Define the number of condition variables (k) */
+#define k 10
+
+typedef struct CondVar{
+    int semaphore; /* int to control access */
+    LIST* waitList; /* list of threads waiting */
+} CondVar;
+
+typedef struct Monitor{
+    int lock; /* used to access shared resources */
+    int entrySem; /* used to access entry */
+    LIST* entryList; /* threads to enter into the list */
+    CondVar conVars[k]; 
+} Monitor;
+
+void MonInit();
+void MonEnter();
+void MonLeave();
+void MonWait(int);
+void MonSignal(int);
+
+#endif /* MONITOR_H */
+
+#include <Monitor.h>
+#include <stdlib.h>
+
+static Monitor mon;
+#define s 10 /*picked a random number*/
+
+
+/* CMPT 332 GROUP  Change, Fall 2024 */
+/* Phase 1 */
+
+/**
+ *  Initialize the monitor.
+ */ 
+void MonInit(){
+
+    int i;
+
+    /* Initialize the mutex semaphore to 1 (unlock) */ 
+    mon.lock = NewSem(1);
+    if(mon.lock < 0){
+        LOG_ERROR("Failed to create lock mutex in MonInit.");
+    }
+    
+    /* Initialize the enter queue and its semaphore */  
+    mon.entryList = ListCreate();
+    if(mon.entryList == 0){
+        LOG_ERROR("Failed to create entry queue in MonInit.");
+    }
+
+    /* Initialize the enterSem. */
+    mon.entrySem = NewSem(1);
+    if(mon.entrySem < 0){
+        LOG_ERROR("Failed to create entry semaphore in MonInit.");
+    }
+
+    /* Initialize all conditional variables */
+    for(i = 0; i < k; i++){
+	
+	/* Initializing the waitList */
+        mon.conVars[i].waitList = ListCreate();
+        if(mon.conVars[i].waitList == 0){
+            LOG_ERROR("Failed to create waitList for cv MonInit.");
+        }
+
+        mon.conVars[i].semaphore = NewSem(0);
+        if(mon.conVars[i].semaphore == -1){
+            LOG_ERROR("Failed to create semaphore for cv's MonInit.");
+        }
+    }
+
+}
+
+void MonEnter(){
+
+    PID* currentPid;
+    void* trimmedPid;
+    currentPid = (PID*)malloc(sizeof(PID));
+
+    if(currentPid == NULL){
+        LOG_ERROR("Failed to allocate memory for PID in MonEnter.");
+    }
+
+    *currentPid = MyPid();
+
+    /*   Add the thread to the entryList */
+    P(mon.entrySem);
+    ListPrepend(mon.entryList, currentPid);
+    V(mon.entrySem);
+    
+    /*   Acquire the mutex */
+    P(mon.lock);
+    /*   Reove self from the entryList */
+    P(mon.entrySem);
+    trimmedPid = ListTrim(mon.entryList);
+    if (trimmedPid != NULL) {
+        free(trimmedPid); 
+    } else {
+        LOG_ERROR("Failed to trim from entryList in MonEnter.");
+    }
+    V(mon.entrySem);
+}
+
+void MonLeave(){
+    void* trimmedPid;
+    /*   Check if there are threads waiting in the entery List */
+    P(mon.entrySem);
+    
+    if (ListCount(mon.entryList) > 0) {
+        /* Signal the next thread waiting to enter the monitor */
+        trimmedPid = ListTrim(mon.entryList);
+        if (trimmedPid != NULL) {
+            free(trimmedPid); 
+            V(mon.lock);      
+        } else {
+            LOG_ERROR("Failed to trim from entryList in MonLeave.");
+        }
+    } else {
+        /* If threads waiting to enter release the mutex */
+        V(mon.lock);
+    }
+    V(mon.entrySem);
+    
+}
+
+void MonWait(int cvar){
+    PID* myPid;
+    if(cvar < 0 || cvar >= k){
+        LOG_ERROR("Invalid condition variable ID in MonWait");
+    }
+
+    /* Add the thread to the condition variable's wait queue */
+    myPid = (PID*)malloc(sizeof(PID));
+    if (myPid == NULL) {
+        LOG_ERROR("Failed to allocate memory for PID in MonWait");
+    }
+    *myPid = MyPid();
+
+    ListPrepend(mon.conVars[cvar].waitList, (void*)myPid);
+
+    /* Release the mutex before waiting */
+    MonLeave();
+
+    /* Wait on the condition variable's semaphore */
+    P(mon.conVars[cvar].semaphore);
+
+    /* Re-acquire the mutex after being signaled */
+    MonEnter();
+
+}
+
+void MonSignal(int cvar){
+    PID* waitingPid;
+    if(cvar < 0 || cvar >= k){
+        LOG_ERROR("Invalid condition variable ID in MonWait");
+    }
+
+    /* Check if there are threads waiting on the condition varaible. */
+    if (ListCount(mon.conVars[cvar].waitList) > 0) {
+        /* Remove the first thread from the condition variable's waitList. */ 
+        waitingPid = (PID*)ListTrim(mon.conVars[cvar].waitList);
+        if (waitingPid == NULL) {
+            LOG_ERROR("Failed to trim from condition variable in MonSignal.");
+        }
+
+        /* Signal the cv's semaphore to wake up the waiting thread */
+        V(mon.conVars[cvar].semaphore);
+    }
+
+}
+
+/* CMPT 332 GROUP Change, Fall 2024 */
+/* Phase 1 */
+
+#ifndef READER_WRITER_MONITOR_H
+#define READER_WRITER_MONITOR_H
+
+void Initialize(void);
+void StartRead();
+void StopRead();
+void StartWrite();
+void StopWrite();
+
+#endif /* READER_WRITER_MONITOR_H */
+
+#include <stdio.h>
+
+
+#include <Monitor.h>
+
+/* INITIALIZATION CODE */
+#define OKtoWrite 1
+#define OKtoRead  0
+#define numConds  2
+
+
+static int numReaders = 0;
+static int busyWriting =0;
+
+/* MONITOR PROCEDURES */
+void Initialize(void)
+{
+      MonInit(numConds);
+}
+
+void StartRead()
+{
+  MonEnter();
+
+  /* if there is a writer */
+  if (busyWriting)
+    {
+      MonWait(OKtoRead);
+    }
+  /* once we are signaled, we can continue.
+   * There will be at least one reader, so we can be assured
+   * that no writers will get to go. No other readers will get
+   * to go if we do not signal the rest of the readers, so each
+   * reader that wakes up does a signal on OKtoRead. This will be OK
+   * since the last signal will have no effect on a late-coming
+   * reader.
+   */
+  numReaders++;
+  printf("starting value of numReaders = %d\n", numReaders);
+  
+  MonSignal(OKtoRead);
+  
+  MonLeave();
+
+}
+
+void StopRead()
+{
+  MonEnter();
+  numReaders--;
+  printf("stopping value of numReaders = %d\n", numReaders);
+  /* Only signal the writer when all readers have gone */
+  if (numReaders == 0) MonSignal(OKtoWrite);
+  MonLeave();
+  
+  
+}
+
+void StartWrite()
+{
+  MonEnter(); 
+
+  /* if there are any readers or a writer */
+  if ((numReaders !=0) || busyWriting)
+    MonWait(OKtoWrite);
+  busyWriting = 1;
+  MonLeave();
+}
+
+void StopWrite()
+{
+  MonEnter();
+
+  busyWriting = 0;
+
+  /* wake up any waiting readers */
+  /* this gives priority to readers */
+  /* could be a signal to the next writer, if there is one, but
+   * then we'd need a mechanism to eventually signal a reader.
+   * We couldn't signal a writer and then immediately signal a reader.
+  */
+  MonSignal(OKtoRead);
+
+  MonLeave();
+
+}
+
+
+#include <stdio.h>
+
+#include <os.h>
+#include <standards.h>
+
+/* CMPT 332 GROUP Change, Fall 2024 */
+/* Phase 1 */
+#include <reader_writer_monitor.h>
+
+#define SLEEPMAX 20
+
+PID reader(void *arg)
+{
+  long myId;
+  
+  myId = (long) arg;
+  
+  for(;;)
+    {
+      printf("%ld start read\n", myId);
+      StartRead();
+      printf("%ld Reading\n", myId);
+      Sleep((int) (rand() % SLEEPMAX));
+      StopRead();
+      printf("%ld stop read\n", myId);
+      Sleep((int) (rand() % SLEEPMAX));
+    }
+}
+
+PID writer(void *arg)
+{
+  long myId;
+  myId = (long) arg;
+  
+  for(;;)
+    {
+      printf("%ld start write\n", myId);
+      StartWrite();
+      printf("%ld writing\n", myId);
+      Sleep((int) (rand() % SLEEPMAX*5));
+      StopWrite();
+      printf("%ld stop write\n", myId);
+      Sleep((int) (rand() % SLEEPMAX*6));
+    }
+  
+}
+
+int mainp()
+{
+    PID tempPid, temp2, temp3;
+    setbuf(stdout, 0);
+
+    srand(71);
+
+    tempPid = Create(	(void(*)()) reader, 16000, "R1", (void *) 1000, 
+		      NORM, USR );
+    if (tempPid == PNUL) perror("Create");
+    temp2 = Create(  (void(*)()) writer, 16000, "W1", (void *) 500, 
+		       NORM, USR );
+    if (temp2 == PNUL) perror("Create");
+    temp3 = Create(  (void(*)()) reader, 16000, "R2", (void *) 1001,
+		       NORM, USR );
+    if (temp3 == PNUL) perror("Create");
+    temp3 = Create(  (void(*)()) reader, 16000, "R3", (void *) 1002, 
+		       NORM, USR );
+    if (temp3 == PNUL) perror("Create");
+    temp3 = Create(  (void(*)()) writer, 16000, "W2", (void *) 501, 
+		       NORM, USR );
+    if (temp3 == PNUL) perror("Create");
+    printf("Reader and Writer processes created\n");
+    
+    return(0);
+}
