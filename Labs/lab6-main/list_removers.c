@@ -1,3 +1,8 @@
+/*
+ * Name: KAUR Shruti
+ * NSID: ICH524
+ * Student Number: 11339265
+ * */
 #define LIST_IMPLEMENTATION
 #include <stdlib.h>
 #include <list.h>
