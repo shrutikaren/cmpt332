@@ -10,4 +10,13 @@ UBC_PTHREAD_INCLUDE_DIR = /student/cmpt332/pthreads
 UBC_PTHREAD_DIR = /student/cmpt332/pthreads/lib/$(OS)$(ARCH)
 UBC_COMPILER_FLAG = -DUSE_UBC_THREADS
 
+In our BestFit.c, I have added the required macros: 
+#define maxSleepTime 2
+	For this, it seemed like good decision to limit our maxSleepTime 
+	between
+#define maxAllocation 20480
+#define freeProability 0.3
+#define numberOfIterations 1000
+#define memsize 102400
+
 

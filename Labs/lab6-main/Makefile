@@ -59,16 +59,16 @@ $(OBJ_DIR)/list_removers.o: list_removers.o | $(OBJ_DIR)
 # Compile objects for all the other 3 C files
 $(OBJ_DIR)/BestFit.o: BestFit.c | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(INC) -I$(CURRENT_DIR) \
+	-I$(UBC_PTHREAD_INCLUDE_DIR) \
 	BestFit.c -o $(OBJ_DIR)/BestFit.o
 
 $(OBJ_DIR)/BestFitMonitor.o: BestFitMonitor.c | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(INC) -I$(CURRENT_DIR) \
-	BestFitMonitor.c -o $(OBJ_DIR)/BestFitMonitor.o
+	$(CC) -c $(CPPFLAGS) $(INC) -I(UBC_PTHREAD_INCLUDE_DIR) \
+	-I$(CURRENT_DIR) BestFitMonitor.c -o $(OBJ_DIR)/BestFitMonitor.o
  
 $(OBJ_DIR)/Monitor.o: Monitor.c Monitor.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(INC) -I$(CURRENT_DIR) \
-	-I$(UBC_PTHREAD_INCLUDE_DIR) \
-	Monitor.c -o $(OBJ_DIR)/Monitor.o
+	-I$(UBC_PTHREAD_INCLUDE_DIR) Monitor.c -o $(OBJ_DIR)/Monitor.o
 
 # Archiving list objects into a liblist library
 $(LIB_DIR)/liblist.a:  $(LIST_OBJECTS) | $(LIB_DIR)
