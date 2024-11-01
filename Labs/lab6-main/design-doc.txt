@@ -13,10 +13,28 @@ UBC_COMPILER_FLAG = -DUSE_UBC_THREADS
 In our BestFit.c, I have added the required macros: 
 #define maxSleepTime 2
 	For this, it seemed like good decision to limit our maxSleepTime 
-	between
+	between 1 to 5 seconds. Hence, by selection, I decided to go ahead with 
+	2 but it could have been 3 too. - subject to change based off of the 
+	results obtained. 
+
 #define maxAllocation 20480
+	Here, we would want the value not to exceed the total memsize but we 
+	would want it large enough so that it is able to process the memory more
+	quickly. 
+
 #define freeProability 0.3
+	Ideally, I wanted to ensure that it was less than half. It could have 
+	been 0.4 or 0.3. The reason for this is that if we picked a higher 
+	frequency number such as 0.8 or 0.9, the issue with that is that there
+	would be a higher frequency of memory freeing. If we picked a smaller 
+	number, it would be an indication of allocation failure and deadlocks 
+	as well.
+	
 #define numberOfIterations 1000
+	This is to indicate the frequency of the allocation and freeing of that
+	memory.
+
 #define memsize 102400
+	This is the total memory size that all have the threads have access to.
 
 
