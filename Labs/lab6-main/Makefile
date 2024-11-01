@@ -71,11 +71,11 @@ $(OBJ_DIR)/Monitor.o: Monitor.c | $(OBJ_DIR)
 
 # Archiving list objects into a liblist library
 $(LIB_DIR)/liblist.a:  $(LIST_OBJECTS) | $(LIB_DIR)
-	ar rcs $(LIB_LIST)/liblist.a $(LIST_OBJECTS)
+	ar rcs $(LIB_DIR)/liblist.a $(LIST_OBJECTS)
 
 # Archiving Monitor objects into a libMonitor library
 $(LIB_DIR)/libMonitor.a: $(MON_OBJECTS) | $(LIB_DIR)
-	ar rcs $(LIB_LIST)/libMonitor.a $(MON_OBJECTS)
+	ar rcs $(LIB_DIR)/libMonitor.a $(MON_OBJECTS)
 
 # Put everything together for the executable 
 $(BIN_DIR)/bfit_algor: $(UBC_PTHREAD_DIR)/libpthreads.a $(LIB_DIR)/liblist.a \
