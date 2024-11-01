@@ -19,10 +19,10 @@ void* thread_creation(void* arg){
  	   XOR as my operation, every thread would be having the same
 	   random number if all the threads were generated so closely with
 	   each other. */
-	srand(time(NULL) ^ (thread_id << 16);
+	srand(time(NULL) ^ (thread_id << 16));
 	
 	for (i = 0; i < numberOfIterations; i ++){
-		
+			
 	}
 }
 
