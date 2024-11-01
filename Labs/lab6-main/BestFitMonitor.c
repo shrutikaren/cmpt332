@@ -98,6 +98,12 @@ void* BF_Allocate(int size){
 
 void BF_Free(int startAddress, int size){
 	MemSpace* newblock;
+	MemSpace* current;
+	MemSpace* previous;
+
+	current = list;
+	previous = NULL;
+
 	MonEnter();
 	
 	newblock = (MemSpace*)malloc(sizeof(MemSpace));
