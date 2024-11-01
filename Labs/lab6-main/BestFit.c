@@ -8,6 +8,7 @@
 #include <BestFitMonitor.h>
 #include <Monitor.h>
 #include <time.h>
+#include <pthread.h>
 
 static int numThreads = 5;
 void* thread_creation(void* arg){
@@ -53,6 +54,9 @@ int mainp(){
 	pthread_t* threads = (pthread_t*)malloc(sizeof(pthread_t));
 	int* threadid = (int*)malloc(sizeof(int));
 	
+	if (threads == NULL || threadid == NULL){
+		fprintf(stderr, "Memory allocation failed");
+	}
 	
 	/* We will initialize our memory space */
 	Initialize();
