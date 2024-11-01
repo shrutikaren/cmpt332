@@ -9,7 +9,7 @@
 #include <Monitor.h>
 #include <time.h>
 #include <pthread.h>
-
+#include <stdint.h>
 static int numThreads = 5;
 void* thread_creation(void* arg){
 	int rand_value, req_size, thread_id, i;
@@ -30,18 +30,18 @@ void* thread_creation(void* arg){
 		address = BF_Allocate(req_size);
 		if (address != NULL){
 			printf("Successfully went into BF_Allocate!\n");
-			Sleep(rand() % maxSleepTime);
+			Sleep((rand() % maxSleepTime));
 
 			/* The RAND_MAX is basically a macro defined in the
  			   libraries. This rand_value will give us a value
 			   between 0 and 1. */
-			rand_value = (float)rand()/RAND_MAX;
+			rand_value = (float)(rand()/RAND_MAX);
 			
 			/* We are checking if our rand_value that we obtained
  			   is less than our freeProbility and if it is then
 			   we will go ahead and BF_Free our memory block */
 			if (rand_value < freeProability){
-				BF_Free(req_size, *(int*)address);
+				BF_Free((int)(uintptr_t)address, req_size);
 				printf("Our %d of %p address is free\n", 
 				thread_id, address);
 			}
