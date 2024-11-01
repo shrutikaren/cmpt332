@@ -3,3 +3,11 @@
  * NSID: ICH524
  * Student Number: 11339265
  * */
+
+Utilizing the Monitor.c and Monitor.h that I have constructed in Assignment 2.
+The Makefile will require the code for pthreads directories: 
+UBC_PTHREAD_INCLUDE_DIR = /student/cmpt332/pthreads
+UBC_PTHREAD_DIR = /student/cmpt332/pthreads/lib/$(OS)$(ARCH)
+UBC_COMPILER_FLAG = -DUSE_UBC_THREADS
+
+

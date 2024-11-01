@@ -42,10 +42,30 @@ LIST_OBJECTS = $(OBJ_DIR)/list_adders.o $(OBJ_DIR)/list_movers.c \
 MON_OBJECTS = $(OBJ_DIR)/Monitor.o
 
 # Compile all the list objects 
+$(OBJ_DIR)/list_adders.o: list_adders.c
+	$(CC) -c $(CPPFLAGS) $(INC) -I$(CURRENT_DIR) \
+	list_adders.c -o $(OBJ_DIR)/list_adders.o
 
+$(OBJ_DIR)/list_movers.o: list_movers.c
+	$(CC) -c $(CPPFLAGS) $(INC) -I$(CURRENT_DIR) \
+	list_movers.c -o $(OBJ_DIR)/list_movers.o
+
+$(OBJ_DIR)/list_removers.o: list_removers.o 
+	$(CC) -c $(CPPFLAGS) $(INC) -I$(CURRENT_DIR) \
+	list_removers.c -o $(OBJ_DIR)/list_removers.o
 
 # Compile objects for all the other 3 C files
+$(OBJ_DIR)/BestFit.o: BestFit.c
+	$(CC) -c $(CPPFLAGS) $(INC) -I$(CURRENT_DIR) \
+	BestFit.c -o $(OBJ_DIR)/BestFit.o
 
+$(OBJ_DIR)/BestFitMonitor.o: BestFitMonitor.c
+	$(CC) -c $(CPPFLAGS) $(INC) -I$(CURRENT_DIR) \
+	BestFitMonitor.c -o $(OBJ_DIR)/BestFitMonitor.o
+
+$(OBJ_DIR)/Monitor.o: Monitor.c
+	$(CC) -c $(CPPFLAGS) $(INC) -I$(CURRENT_DIR) \
+	Monitor.c -o $(OBJ_DIR)/Monitor.o
 
 # Archiving list objects into a liblist library
 $(LIB_LIST)/liblist.a:  $(LIST_OBJECTS) | $(LIB_DIR)
