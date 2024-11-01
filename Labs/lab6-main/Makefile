@@ -63,7 +63,7 @@ $(OBJ_DIR)/BestFit.o: BestFit.c | $(OBJ_DIR)
 	BestFit.c -o $(OBJ_DIR)/BestFit.o
 
 $(OBJ_DIR)/BestFitMonitor.o: BestFitMonitor.c | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(INC) -I(UBC_PTHREAD_INCLUDE_DIR) \
+	$(CC) -c $(CPPFLAGS) $(INC) -I$(UBC_PTHREAD_INCLUDE_DIR) \
 	-I$(CURRENT_DIR) BestFitMonitor.c -o $(OBJ_DIR)/BestFitMonitor.o
  
 $(OBJ_DIR)/Monitor.o: Monitor.c Monitor.h | $(OBJ_DIR)
