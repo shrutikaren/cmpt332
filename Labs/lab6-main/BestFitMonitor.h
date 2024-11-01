@@ -23,8 +23,8 @@
 typedef struct MemSpace{
 	int size;
 	int startAddress;
-	struct Memspace* next;
-}MemSpace;
+	Memspace* next;
+} MemSpace;
 
 /*void Free(int startAddress, int size);*/
 void* BF_Allocate(int size);
