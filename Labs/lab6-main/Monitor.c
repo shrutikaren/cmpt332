@@ -54,7 +54,7 @@ void MonInit() {
 
 void MonEnter() {
     PID* myPid = malloc(sizeof(PID));
-    if (!myPid) {
+    if (myPid == NULL) {
         LOG_ERROR("Failed to allocate memory for PID in MonEnter.");
     }
     *myPid = MyPid();

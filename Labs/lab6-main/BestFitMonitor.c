@@ -49,6 +49,12 @@ void* BF_Allocate(int size){
 	previous = NULL;
 	bestfit = NULL;
 	bestfitprev = NULL;
+	
+	/* Adding this part of the code to try to resolve see fault */
+	if (current == NULL){
+		LOG_ERROR("Error: List is NULL.");
+		return NULL;
+	}	
 
 	/* Iterate through list and find the best-fit block */
 	while (current != NULL){
@@ -72,7 +78,11 @@ void* BF_Allocate(int size){
 	if (bestfit == NULL){
 		MonWait(Read);
 		MonLeave();
-		return (void*)(uintptr_t) current->startAddress;
+		/* Prevously, I was returning the startAddress of a block. 
+ 		   that is not acceptable because by this pont, we would
+		   have current as NULL so we were trying to access a
+		   NULL pointer. */
+		return NULL;
 	}
 
 	/* If a bestfit list exists, we will allocate the block */
@@ -81,7 +91,7 @@ void* BF_Allocate(int size){
 		newblock->startAddress = bestfit->startAddress + size; 
 		newblock->size = bestfit->size - size;
 		newblock->next = bestfit->next;
-		bestfit->next = newblock->next;
+		bestfit->next = newblock;
 	}
 
 	/* Upating the best-fit spacee */
