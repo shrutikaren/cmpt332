@@ -9,8 +9,10 @@
 #include <Monitor.h>
 #include <time.h>
 
+static int numThreads = 5;
 void* thread_creation(void* arg){
-	int rand_value, req_size, address, thread_id, i;
+	int rand_value, req_size, thread_id, i;
+	void* address;
 	thread_id = *(int*)arg;
 
 	/* Logic: Have time(NULL) to produce the seeconds. If I didn't use
@@ -47,11 +49,12 @@ void* thread_creation(void* arg){
 
 int mainp(){
 	/* Initialize the memory space */
+	int i;
 	pthread_t threads[numThreads];
-	int i, threadid[numThreads];
+	int threadid[numThreads];
 	
 	/* We will initialize our memory space */
-	Initialize(memSize);
+	Initialize();
 	
 	/* Create our threads to access our thread_creation function */
 	for (i = 0; i < numThreads; i ++){
@@ -65,8 +68,7 @@ int mainp(){
 	for (i = 0; i < numThreads; i ++){
 		pthread_join(threads[i], NULL);
 	}
-	printf("All the threads have been joined successfully - Completed
-	Lab 6");
+	printf("All the threads have been joined successfully - Completed Lab 6");
 	return 0;
 	
 }

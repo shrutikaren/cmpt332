@@ -29,5 +29,6 @@ typedef struct MemSpace{
 /*void Free(int startAddress, int size);*/
 void BF_Allocate(int size);
 void Initialize(void);
+void BF_Free(int startAddress, int size);
 
-#endif /* BESTFITMONIOR_H */
+#endif /* BESTFITMONITOR_H */
