@@ -3,3 +3,34 @@
  * NSID: ICH524
  * Student Number: 11339265
  * */
+
+Segmentation fault (core dumped)
+
+===============================================================================
+Note: If the output was correct, we would have obtained something like this:
+Thread 1: Successfully allocated memory!
+Thread 2: Successfully allocated memory!
+Thread 3: Successfully allocated memory!
+Thread 4: Successfully allocated memory!
+Thread 5: Successfully allocated memory!
+
+Thread 2: Freed memory at address 0x7f8b348ac000
+Thread 4: Freed memory at address 0x7f8b348ad000
+Thread 1: Freed memory at address 0x7f8b348ab000
+
+Thread 3: Successfully allocated memory!
+Thread 5: Successfully allocated memory!
+
+Thread 2: Successfully allocated memory!
+Thread 1: Successfully allocated memory!
+Thread 4: Successfully allocated memory!
+
+Thread 3: Freed memory at address 0x7f8b348ae000
+Thread 5: Freed memory at address 0x7f8b348af000
+
+Thread 1: Successfully allocated memory!
+Thread 5: Successfully allocated memory!
+
+Error: List is NULL. (Thread 4)
+Thread 2: Freed memory at address 0x7f8b348ac000
+
