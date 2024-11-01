@@ -26,7 +26,7 @@ void* thread_creation(void* arg){
  		   of maxAllocation */
 		req_size = rand() % maxAllocation;			
 		address = BF_Allocate(req_size);
-		if (address != -1){
+		if (address != NULL){
 			printf("Successfully went into BF_Allocate!\n");
 			Sleep(rand() % maxSleepTime);
 
@@ -37,7 +37,7 @@ void* thread_creation(void* arg){
 
 			if (rand_value < freeProability){
 				Free(address);
-				printf("Our %d of %d address is free\n", 
+				printf("Our %d of %p address is free\n", 
 				thread_id, address);
 			}
 		} else{

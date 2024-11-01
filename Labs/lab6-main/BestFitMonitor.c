@@ -83,7 +83,7 @@ void* BF_Allocate(int size){
 	if (bestfit == NULL){
 		MonWait(Read);
 		MonLeave();
-		return;
+		return current->startAddress;
 	}
 
 	/* If a bestfit list exists, we will allocate the block */
@@ -104,7 +104,7 @@ void* BF_Allocate(int size){
 	
 	free(bestfit);
 	MonLeave();	
-	return;
+	return current->startAddress;
 }
 
 void BF_Free(int startAddress, int size){
