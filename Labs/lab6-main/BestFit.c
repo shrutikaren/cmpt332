@@ -50,8 +50,9 @@ void* thread_creation(void* arg){
 int mainp(){
 	/* Initialize the memory space */
 	int i;
-	pthread_t threads[numThreads];
-	int threadid[numThreads];
+	pthread_t* threads = (pthread_t*)malloc(sizeof(pthread_t));
+	int* threadid = (int*)malloc(sizeof(int));
+	
 	
 	/* We will initialize our memory space */
 	Initialize();
