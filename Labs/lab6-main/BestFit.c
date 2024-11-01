@@ -37,7 +37,7 @@ void* thread_creation(void* arg){
 			rand_value = (float)rand()/RAND_MAX;
 
 			if (rand_value < freeProability){
-				Free(address);
+				BF_Free(req_size, *(int*)address);
 				printf("Our %d of %p address is free\n", 
 				thread_id, address);
 			}
