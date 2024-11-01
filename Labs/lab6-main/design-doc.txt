@@ -10,7 +10,7 @@ UBC_PTHREAD_INCLUDE_DIR = /student/cmpt332/pthreads
 UBC_PTHREAD_DIR = /student/cmpt332/pthreads/lib/$(OS)$(ARCH)
 UBC_COMPILER_FLAG = -DUSE_UBC_THREADS
 
-In our BestFit.c, I have added the required macros: 
+In my BestFitMonitor.h, I have added the required macros: 
 #define maxSleepTime 2
 	For this, it seemed like good decision to limit our maxSleepTime 
 	between 1 to 5 seconds. Hence, by selection, I decided to go ahead with 
@@ -37,4 +37,16 @@ In our BestFit.c, I have added the required macros:
 #define memsize 102400
 	This is the total memory size that all have the threads have access to.
 
+#define memAvail 102400
+	I have defined the number of available memory that we can use as 102400
+	because that is initially the total amount of memory that we can ideally
+	use. 
 
+All of these macros are then going to utilized by our BestFit.c. I have also 
+defined my functions for the BestFitMonitor.h which involves the following: 
+
+void* BF_Allocate(int size);
+void Initialize(void);
+void BF_Free(int startAddress, int size);
+
+	

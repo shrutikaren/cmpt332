@@ -18,7 +18,7 @@
 #define CondVariables 15
 #define Write 1
 #define Read 0
-#define memAvail 102400 
+#define memAvail 0 
 
 typedef struct MemSpace{
 	int size;

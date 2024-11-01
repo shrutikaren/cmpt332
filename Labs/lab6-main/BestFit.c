@@ -15,7 +15,8 @@ void* thread_creation(void* arg){
 	int rand_value, req_size, thread_id, i;
 	void* address;
 	thread_id = *(int*)arg;
-
+	
+	Initialize(); 
 	/* Logic: Have time(NULL) to produce the seeconds. If I didn't use
  	   XOR as my operation, every thread would be having the same
 	   random number if all the threads were generated so closely with
@@ -62,7 +63,7 @@ int mainp(){
 	}
 	
 	/* We will initialize our memory space */
-	Initialize();
+	/* Initialize(); */
 	
 	/* Create our threads to access our thread_creation function */
 	for (i = 0; i < numThreads; i ++){

@@ -81,7 +81,7 @@ void* BF_Allocate(int size){
 		newblock->startAddress = bestfit->startAddress + size; 
 		newblock->size = bestfit->size - size;
 		newblock->next = bestfit->next;
-		bestfit->next = newblock;
+		bestfit->next = newblock->next;
 	}
 
 	/* Upating the best-fit spacee */
@@ -142,6 +142,9 @@ void BF_Free(int startAddress, int size){
  	   current and previous blocks. We will now combine the free
 	   blocks if two blocks are close to each other. */
 	while (current != NULL && current->next != NULL){
+		/* If the starting address of where I am ending my current
+ 		   and where my current-> next starts is the same then it 
+		   means that I can free that specific block */
 		if (current->startAddress + current->size == 
 		current->next->startAddress){
 			/* To combine the blocks, only two things needs
@@ -154,6 +157,7 @@ void BF_Free(int startAddress, int size){
  		   the pointer */
 		current->next = current->next->next;
 	}
+	free(newblock);
 	MonSignal(Read);
 	MonLeave();
 }
