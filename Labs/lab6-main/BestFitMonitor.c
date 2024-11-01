@@ -53,13 +53,17 @@ void Initialize(void){
  * are trying to allocate. 
  * */
 void* BF_Allocate(int size){
-	MonEnter();
+	MemSpace* current;
+	MemSpace* previous;
+	MemSpace* bestfit;
+	MemSpace* bestfitprev;	
 	
+	MonEnter();
 	/* Creating four main spaces*/
-	MemSpace* current = list;
-	MemSpace* previous = NULL;
-	MemSpace* bestfit = NULL;
-	MemSpace* bestfitprev = NULL;
+	current = list;
+	previous = NULL;
+	bestfit = NULL;
+	bestfitprev = NULL;
 
 	/* Iterate through list and find the best-fit block */
 	while (current != NULL){
