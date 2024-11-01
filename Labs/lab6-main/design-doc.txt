@@ -57,4 +57,23 @@ get a warning of "ISO C90 forbids variablee length array 'threads'" if I don't
 utilize malloc(). I would iterate the number of threads that I have hardcoded
 under the numThreads static int variable which I plan to be 5. Then, I would 
 have a for-loop to iterate through my list and then generate the list of 
-thread and threadid for myslf. 	
+thread and threadid for myself. Since I am using Assignment 2 Monitor.c and 
+Monitor.h, I will have to make use of pthreads. Hence, some of those functions
+will include: 
+	= pthread_create(&thread[i], NULL, thread_creation, &thread_id[i])
+	= pthread_join(threads[i], NULL)
+
+In my thread_creation function, I will generate a random number utilizing the
+values of the time(NULL) which will return me seconds and the thread_id function
+By doing utilizing both, I am ensuring that I will be able to get a seed number
+that is unique. For each thread, I will be iterating it through about 1000 
+times. For every iteration, we will have a random request size to be 
+generated with the help of the rand() function and we will utilize modulo 
+maxAllocation to ensure that we don't go beyond that maxAllocation value. The
+value we obtain in here will be fed into our BF_Allocate function. The
+obtained address cannot be NULL and if it is, we will perform a MonWait(). If it
+isn't, we will let the thread Sleep() for a bit and then we will try and get a 
+random number between 0 and 1. If it is smaller than the freeProability value, 
+we will perform BF_Free. 
+
+
