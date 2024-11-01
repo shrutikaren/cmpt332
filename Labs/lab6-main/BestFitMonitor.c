@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <BestFitMonitor.h>
+#include <stdint.h>
 
 /* Variabls defined ouside the function */
 static int totalMem = memsize;
@@ -71,7 +72,7 @@ void* BF_Allocate(int size){
 	if (bestfit == NULL){
 		MonWait(Read);
 		MonLeave();
-		return current->startAddress;
+		return (void*)(uintptr_t) current->startAddress;
 	}
 
 	/* If a bestfit list exists, we will allocate the block */
@@ -92,7 +93,7 @@ void* BF_Allocate(int size){
 	
 	free(bestfit);
 	MonLeave();	
-	return current->startAddress;
+	return (void*)(uintptr_t) current->startAddress;
 }
 
 void BF_Free(int startAddress, int size){

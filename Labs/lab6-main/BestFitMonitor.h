@@ -23,7 +23,7 @@
 typedef struct MemSpace{
 	int size;
 	int startAddress;
-	Memspace* next;
+	struct MemSpace* next;
 } MemSpace;
 
 /*void Free(int startAddress, int size);*/
