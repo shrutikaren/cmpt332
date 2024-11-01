@@ -76,4 +76,6 @@ isn't, we will let the thread Sleep() for a bit and then we will try and get a
 random number between 0 and 1. If it is smaller than the freeProability value, 
 we will perform BF_Free. 
 
-
+Throughout the document, I have defined DEBUG as 1 so I can print my statements
+to figure out where the problem is. Before submitting it, I am going to have my
+DEBUG defined as 0.

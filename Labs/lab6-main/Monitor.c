@@ -57,7 +57,10 @@ void MonEnter() {
     if (myPid == NULL) {
         LOG_ERROR("Failed to allocate memory for PID in MonEnter.");
     }
+	printf("Getting pid.\n");
     *myPid = MyPid();
+	printf("Got pid.\n");
+
 
     /* Add the thread to the entryWaitList */
     P(mon.entryCtrl.entryWaitSem);

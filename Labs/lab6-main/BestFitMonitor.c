@@ -8,6 +8,8 @@
 #include <BestFitMonitor.h>
 #include <stdint.h>
 
+#define DEBUG 1
+
 /* Variabls defined ouside the function */
 static int totalMem = memsize;
 static MemSpace* list = NULL;
@@ -18,11 +20,14 @@ static MemSpace* list = NULL;
  * the data type of MemSpace.
  * */
 void Initialize(void){
+	if (DEBUG) {printf("Initializing the monitor.\n");}
+	MonInit();
+	if (DEBUG) {printf("Coming out of the monitor initialization.\n");}
 	list = (MemSpace*)malloc(sizeof(MemSpace));
 
 	/* Case One: list is empty */
 	if (list == NULL){
-		printf("Failed to allocate memory to our memory list");
+		printf("Failed to allocate memory to our memory list\n");
 		return;
 	}
 	
@@ -42,9 +47,12 @@ void* BF_Allocate(int size){
 	MemSpace* previous;
 	MemSpace* bestfit;
 	MemSpace* bestfitprev;	
-	
+		
+	if(DEBUG){ printf("Entering the monitor.\n"); }
 	MonEnter();
 	/* Creating four main spaces*/
+
+	if(DEBUG){ printf("Entered the monitor.\n"); }
 	current = list;
 	previous = NULL;
 	bestfit = NULL;
