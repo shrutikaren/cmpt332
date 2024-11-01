@@ -1,5 +1,270 @@
-/*
- * Name: KAUR Shruti
- * NSID: ICH524
- * Student Number: 11339265
- * */
+# KAUR Shruti
+# ICH524
+# 11339265 
+
+commit de8e4dd536275dfa50fcc3d4c67b648de291d9a7
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 16:49:44 2024 -0600
+
+    adding output text file
+
+commit 85f5a073a16de72463684271f3bedc94f24af2a3
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 16:47:25 2024 -0600
+
+    fixed any possible null valuees inside the thread_Create
+
+commit 9c36cedc5b14cb23deb9a255f08a3eac6be62b5e
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 16:35:58 2024 -0600
+
+    Adding all the files so far after our make clean
+
+commit 1227cbe971fbc6909dfbaefc90ae89f403206b2c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 16:32:36 2024 -0600
+
+    Added a few more changes into the code to avoid trying to access a
+ null value or pointer
+
+commit 98853088690f75ef94b1f78382b441aaf1e9ad5d
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 16:10:32 2024 -0600
+
+    added more reasoning and rationale behind my BestFit Algorithm
+
+commit 67102ccb0e19370c3071b0891dea3526bbf4fbf3
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 15:59:27 2024 -0600
+
+    continuing to write my design thoughts for my design-doc.txt
+
+commit d5e4019881ec588d5f4fd077e9eec4f63dec40bd
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 12:18:53 2024 -0600
+
+    adding all of the files aftr make clean
+
+commit 40b3f3679f2a70bb256502fdae15e59f84d72b81
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 12:18:05 2024 -0600
+
+    adding all my files
+
+commit 8b0cd2505363ee9b500e7ccbbffeed33dee39bff
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 11:50:18 2024 -0600
+
+    adding all the latest changs
+
+commit 5399e2ebab3e5266308d19c09dcefaf933a6c23a
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 11:15:43 2024 -0600
+
+    issue with Free() instead of BF_Free() and changed address from vo
+id* into int
+
+commit d3bb7339230d3c843258f486a625659f41fd0ad1
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 11:09:25 2024 -0600
+
+    everything officially compiles
+
+commit 25a2cf30320c182eda2a8c63c3436a0c58b80234
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 11:07:26 2024 -0600
+
+    utilizing uintptr_t for my address now. went back to struct MemSpa
+ce* next for the structure
+
+commit 21364d55a33aa8cdd0d506191c1c4efb075485ce
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 10:57:27 2024 -0600
+
+    when working with the elements inside MemSpace, i did current = cu
+rrent->next which is allocating MemSpace* to struct Memspace. the reas
+on for this is i did struct Memspace* next, i should not say struct ag
+ain when working with typedef and should have just done Memspace* next
+ instead
+
+commit 7e79b830ffcaf3216a1c96615a7a4c456336d952
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 10:16:01 2024 -0600
+
+    Another similar isue rsesolved - need to go for a lab sesh - will 
+come back to thsi at 11 30
+
+commit 864557082eae3830d178f49225c91f0bd8036109
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 10:14:48 2024 -0600
+
+    got rid of the initialization and code same time happenng in same 
+line. MonEnter() was being called before variables got initialzied but
+ now the issue is resolved
+
+commit f665c7bdb5a3c024e6a3b10ed86af6429de54e2f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 10:10:05 2024 -0600
+
+    missed a dollar sign in the makefile - had an isue with bestfitmon
+itor.c being compile - now it compiles proprly
+
+commit 2a233de5201a3427937eccd65de3e5ac5761c3a0
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 10:08:41 2024 -0600
+
+    fixed the issue of not recognzing pthread_create or pthread_join b
+y utilizing pthread.h header file in include
+
+commit ae99ed282856f7677786bccac16a7c571d0d6e98
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 10:05:56 2024 -0600
+
+    resolved issue warning: ISO C90 forbids variable length array ‘thr
+eads’ by utilizing malloc instead
+
+commit bfec5777e9a084967a32185d69c7e072e3878aa6
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 10:03:34 2024 -0600
+
+    changing BF_Allocate into void *
+
+commit a945a2491e5ddc1b6eb5000841224d2da3deaed6
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 08:19:37 2024 -0600
+
+    Adding all my functions in here
+
+commit 7c2719f7a836ad34a7ef9b37467ebf4402f67dbe
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 08:10:20 2024 -0600
+
+    adding all the code
+
+commit a62e4f5864bfb9b093e2a335b46e5b51f0a5e32e
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 07:43:50 2024 -0600
+
+    Was missing a bracket - added a bracket now
+
+commit 5c2b091bbbede22ef13fe6298d9e91c5a938f16f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 07:42:52 2024 -0600
+
+    adding the thread_creation function for the BestFit.c
+
+commit e11a4fa19b10c69510ca0b36d95a262788e1ffd7
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 07:23:14 2024 -0600
+
+    added a BestFitMonitor.h
+
+commit 20bbb9d0829529e12d73d39d4d5e97d942671858
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 07:17:24 2024 -0600
+
+    adding my BestFitMonitor.c
+
+commit c3df33ecbc97b907afe8b12e7486884700cdbfef
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 06:54:57 2024 -0600
+
+    removed swap file of BestFitMonitor as it was causing some issues
+
+commit ab18923bacca3801efc3b327526dde310d914a86
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 06:51:33 2024 -0600
+
+    adding all the files after doing make clean
+
+commit 7f0a852d7484da1192bbd9ec04f69fa049898107
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 06:51:07 2024 -0600
+
+    adding all files
+
+commit 00f0812b3e4fc6917a40e5338c87e4c0f1a9b6d2
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Nov 1 01:00:17 2024 -0600
+
+    added the code for BF-Allocate but haven't added it yet for the Fr
+ee() function - in progress
+
+commit 26b7baaaf715c5476dd3cb9bf0aa488f61cc2b79
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 31 23:49:02 2024 -0600
+
+    finished creating the mmory block daa strucure and the inializatio
+n function
+
+commit ca6fd26886223ac3366e565d94dcf3072cd5261b
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 31 22:15:05 2024 -0600
+
+    added explanations on the design file to indicate the reason why i
+ picked those specific macro numbers
+
+commit cbaf920505e207e8debc6aa004641bc1f6b364ac
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 31 22:09:19 2024 -0600
+
+    adding bfallocate and free() code and design doc reasoning as well
+
+commit d4d8cbdc010dc0361f20ff5d3e05f5286ea15e3f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 31 21:09:15 2024 -0600
+
+    adding the latest changes in here
+
+commit dc8273e7ca30d1d86ad2d25a771d9618460d4ca7
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 31 20:05:29 2024 -0600
+
+    makefile is able to make all the objects successfully now. i am on
+ly getting an error that says iso c forbids an empty translation unit 
+but that's okay because i haven't typed my code into that yet
+
+commit bbb3dae7c58a98bee6b412c109f0d7a85423ffde
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 31 20:00:53 2024 -0600
+
+    adding the list_list to lsit_dir for th directory - had a typo pre
+viously
+
+commit 6620397b3aaa740493f004e99ee5e9634728e13f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 31 19:59:40 2024 -0600
+
+    had an issue earlier since i was not having a currnt dircory = ./
+
+commit 3552d3e24f1b3e4558ef50b683f32c787970bfbf
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 31 19:35:09 2024 -0600
+
+    adding compilation of c files code into Makefile and wrote some th
+oughts for the design file inside the design-doc
+
+commit fe5974f6d8f6b7e9e79d99581b69dda692070932
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 31 18:51:35 2024 -0600
+
+    adding my workings for th makefile - doing it from scratch for pra
+ctice - need to write code to make the c files, mak those executables 
+and then have a symbolic link for those
+
+commit 189045bcb75ad5d26122586fcae3f6f4825955a5
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 31 06:02:09 2024 -0600
+
+    added all files with name, student number and nsid
+
+commit 502b13c064ddb88fb9f7afed32e7afde9c6a5138
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 31 05:57:38 2024 -0600
+
+    adding all my files heree
+
+commit c28363d433eaa98427f614e060d7a876c9264f4a
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 28 10:06:11 2024 -0600
+
