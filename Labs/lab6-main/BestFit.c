@@ -35,7 +35,10 @@ void* thread_creation(void* arg){
  			   libraries. This rand_value will give us a value
 			   between 0 and 1. */
 			rand_value = (float)rand()/RAND_MAX;
-
+			
+			/* We are checking if our rand_value that we obtained
+ 			   is less than our freeProbility and if it is then
+			   we will go ahead and BF_Free our memory block */
 			if (rand_value < freeProability){
 				BF_Free(req_size, *(int*)address);
 				printf("Our %d of %p address is free\n", 
@@ -73,7 +76,9 @@ int mainp(){
 	for (i = 0; i < numThreads; i ++){
 		pthread_join(threads[i], NULL);
 	}
-	printf("All the threads have been joined successfully - Completed Lab 6");
+
+	/* If everything works well then we would print off everything */
+	printf("All the threads have been joined successful-Completed Lab 6");
 	return 0;
 	
 }
