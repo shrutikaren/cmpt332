@@ -109,4 +109,10 @@ void BF-Allocate(int size){
 void Free(int startAddress, int size){
 	MonEnter();
 	
+	MemSpace* newblock = (MemSpace*)malloc(sizeof(MemSpace));
+	newblock->size = size;
+	newblock->startAddress = startAddress;
+	newblock->next = NULL;
+
+		
 }
