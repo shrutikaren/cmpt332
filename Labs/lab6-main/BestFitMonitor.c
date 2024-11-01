@@ -49,9 +49,64 @@ void Initialize(void){
 
 /*
  * BF-Allocate is responsible for allocating memory. 
- * 
+ * The parameter size is the size of the memory that we
+ * are trying to allocate. 
  * */
 void BF-Allocate(int size){
+	MonEnter();
+	
+	/* Creating four main spaces*/
+	MemSpace* current = list;
+	MemSpace* previous = NULL;
+	MemSpace* bestfit = NULL;
+	MemSpace* bestfitprev = NULL;
+
+	/* Iterate through list and find the best-fit block */
+	while (current != NULL){
+		if (current->size >= size){
+			/* Case One: bestfit block is NULL, or
+ 			   Case Two: current-> size is smaller
+			   than what we have inside our bestfit
+			   block */
+			if (bestfit == NULL || current->size < bestfit->size){
+				bestfit = current;
+				bestfitprev = prev;
+			}
+		}
+		/* Move the current block to the next block */
+		prev = current;
+		current = current->next;
+	}
+	
+	/* By now, you should either have a list or not. Now, 
+ 	   handling the case when we don't have a suitable list. */
+	if (bestfit == NULL){
+		MonWait(Read);
+		MonLeave();
+		return;
+	}
+
+	/* If a bestfit list exists, we will allocate the block */
+	if (bestfit->size > size){
+		MemSpace* newblock = (MemSpace*)malloc(sizeof(MemSpace));
+		newblock->startAddress = bestfit->startAddress + size; 
+		newblock->size = bestfit->size - size;
+		newblock->next = bestfit->next;
+		bestfit->next = newblock;
+	}
+
+	/* Upating the best-fit spacee */
+	if (bestfitprev == NULL){
+		list = bestfit->next;
+	} else{
+		bestfitprev->next = bestfit->next;
+	}
+	
+	free(bestfit);
+	MonLeave();	
 }
 
-void Free(){}
+void Free(int startAddress, int size){
+	MonEnter();
+	
+}
