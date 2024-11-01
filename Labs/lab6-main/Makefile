@@ -65,8 +65,9 @@ $(OBJ_DIR)/BestFitMonitor.o: BestFitMonitor.c | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(INC) -I$(CURRENT_DIR) \
 	BestFitMonitor.c -o $(OBJ_DIR)/BestFitMonitor.o
  
-$(OBJ_DIR)/Monitor.o: Monitor.c | $(OBJ_DIR)
+$(OBJ_DIR)/Monitor.o: Monitor.c Monitor.h | $(OBJ_DIR)
 	$(CC) -c $(CPPFLAGS) $(INC) -I$(CURRENT_DIR) \
+	-I$(UBC_PTHREAD_INCLUDE_DIR) \
 	Monitor.c -o $(OBJ_DIR)/Monitor.o
 
 # Archiving list objects into a liblist library
@@ -79,7 +80,7 @@ $(LIB_DIR)/libMonitor.a: $(MON_OBJECTS) | $(LIB_DIR)
 
 # Put everything together for the executable 
 $(BIN_DIR)/bfit_algor: $(UBC_PTHREAD_DIR)/libpthreads.a $(LIB_DIR)/liblist.a \
-	$(LIB_LIST)/libMonitor.a $(OBJ_DIR)/Monitor.o $(OBJ_DIR)/BestFit.o \
+	$(LIB_DIR)/libMonitor.a $(OBJ_DIR)/Monitor.o $(OBJ_DIR)/BestFit.o \
 	$(OBJ_DIR)/BestFitMonitor.o | $(BIN_DIR)
 	$(CC) $(CFLAGS) $(UBC_COMPILER_FLAG) $(OBJ_DIR)/Monitor.o \
 	$(OBJ_DIR)/BestFitMonitor.o $(OBJ_DIR)/BestFit.o $(LDFLAGS) \
