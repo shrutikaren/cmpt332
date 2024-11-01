@@ -49,4 +49,12 @@ void* BF_Allocate(int size);
 void Initialize(void);
 void BF_Free(int startAddress, int size);
 
-	
+In our BestFit.c, we have our implementation for the mainp() and thread_creation
+function. In our mainp() function, my intention was to have my list of threads
+and threadid. I used malloc instead of assigning it directly to a specific 
+amount of integer indexes. The reason for this is because I would probably 
+get a warning of "ISO C90 forbids variablee length array 'threads'" if I don't 
+utilize malloc(). I would iterate the number of threads that I have hardcoded
+under the numThreads static int variable which I plan to be 5. Then, I would 
+have a for-loop to iterate through my list and then generate the list of 
+thread and threadid for myslf. 	
