@@ -70,11 +70,11 @@ void BF-Allocate(int size){
 			   block */
 			if (bestfit == NULL || current->size < bestfit->size){
 				bestfit = current;
-				bestfitprev = prev;
+				bestfitprev = previous;
 			}
 		}
 		/* Move the current block to the next block */
-		prev = current;
+		previous = current;
 		current = current->next;
 	}
 	
@@ -115,6 +115,48 @@ void Free(int startAddress, int size){
 	newblock->next = NULL;
 
 	/* Insert our block into the freelist */
-	
+	if (list == NULL){
+		list = newblock;
+	}	
+	else{
+		/* Find a way to put back our block into the free
+ 		   space that we have available */
+		while (current != NULL && current->startAddress < startAddress){
+			/* Ensures that the pointers keep moving 
+ 			   continuously. By the time we get to 
+			   the end of the for-loop, current block
+			   will be right before the new block. */
+			previous = current;
+			current = current->next;
+		} 
 		
+		/* newblock can now be inserted just right between
+ 		   previous and current block */
+		newblock->next = current;
+		if (previous == NULL){
+			list = previous;
+		} else {
+			previous->next = newblock;
+		}
+
+	}
+
+	/* By now, we have successfully added our newblock between the
+ 	   current and previous blocks. We will now combine the free
+	   blocks if two blocks are close to each other. */
+	while (current != NULL && current->next != NULL){
+		if (current->startAddress + current->size == 
+		current->next->startAddress){
+			/* To combine the blocks, only two things needs
+ 			   to be done which is to increase the size and
+			   moving the pointer of current->next*/
+			current->size += current->next->size;
+			current->next = current->next->next;
+		}
+		/* Helps us to move the pointer which is necessary by
+ 		   the pointer */
+		current->next = current->next->next;
+	}
+	MonSignal(Read);
+	MonLeave();
 }
