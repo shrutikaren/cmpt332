@@ -4,15 +4,13 @@
  * Student Number: 11339265
  * */
 
-#include <os.h>
 #include <standards.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <BestFitMonitor.h>
 #include <Monitor.h>
+#include <time.h>
 
 void* thread_creation(void* arg){
-	int thread_id, seed, i;
+	int rand_value, req_size, address, thread_id, i;
 	thread_id = *(int*)arg;
 
 	/* Logic: Have time(NULL) to produce the seeconds. If I didn't use
@@ -22,14 +20,53 @@ void* thread_creation(void* arg){
 	srand(time(NULL) ^ (thread_id << 16));
 	
 	for (i = 0; i < numberOfIterations; i ++){
-			
+		/* Ensure that the req_size is always within the boundaries
+ 		   of maxAllocation */
+		req_size = rand() % maxAllocation;			
+		address = BF_Allocate(req_size);
+		if (address != -1){
+			printf("Successfully went into BF_Allocate!\n");
+			Sleep(rand() % maxSleepTime);
+
+			/* The RAND_MAX is basically a macro defined in the
+ 			   libraries. This rand_value will give us a value
+			   between 0 and 1. */
+			rand_value = (float)rand()/RAND_MAX;
+
+			if (rand_value < freeProability){
+				Free(address);
+				printf("Our %d of %d address is free\n", 
+				thread_id, address);
+			}
+		} else{
+			MonWait(memAvail);
+ 		}
 	}
+	return NULL;
 }
 
 int mainp(){
 	/* Initialize the memory space */
-	Initialize();
-		
+	pthread_t threads[numThreads];
+	int i, threadid[numThreads];
 	
+	/* We will initialize our memory space */
+	Initialize(memSize);
+	
+	/* Create our threads to access our thread_creation function */
+	for (i = 0; i < numThreads; i ++){
+		if (pthread_create(&threads[i], NULL, thread_creation, 
+		&threadid[i]) != 0){
+			perror("Failed to create a thread!");
+		}
+	}	
+
+	/* Join all our threads */
+	for (i = 0; i < numThreads; i ++){
+		pthread_join(threads[i], NULL);
+	}
+	printf("All the threads have been joined successfully - Completed
+	Lab 6");
+	return 0;
 	
 }

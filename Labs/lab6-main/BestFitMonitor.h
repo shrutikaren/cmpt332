@@ -26,8 +26,8 @@ typedef struct MemSpace{
 	struct Memspace* next;
 }MemSpace;
 
-void Free(int startAddress, int size);
-void BF-Allocate(int size);
+/*void Free(int startAddress, int size);*/
+void BF_Allocate(int size);
 void Initialize(void);
 
 #endif /* BESTFITMONIOR_H */

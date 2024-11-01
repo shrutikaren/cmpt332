@@ -52,7 +52,7 @@ void Initialize(void){
  * The parameter size is the size of the memory that we
  * are trying to allocate. 
  * */
-void BF-Allocate(int size){
+int BF_Allocate(int size){
 	MonEnter();
 	
 	/* Creating four main spaces*/
@@ -83,7 +83,7 @@ void BF-Allocate(int size){
 	if (bestfit == NULL){
 		MonWait(Read);
 		MonLeave();
-		return;
+		return -1;
 	}
 
 	/* If a bestfit list exists, we will allocate the block */
@@ -104,6 +104,7 @@ void BF-Allocate(int size){
 	
 	free(bestfit);
 	MonLeave();	
+	return 0;
 }
 
 void Free(int startAddress, int size){
