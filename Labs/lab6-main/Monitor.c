@@ -5,7 +5,7 @@
  */
 
 #include <Monitor.h>
-
+#define DEBUG 0
 static Monitor mon;
 
 void MonInit() {
@@ -15,27 +15,32 @@ void MonInit() {
     mon.lock = NewSem(1);
     if (mon.lock < 0) {
         LOG_ERROR("Failed to create monitor lock in MonInit.");
+    	return;
     }
 
     /* Initialize entry control variables */
     mon.entryCtrl.urgentWaitList = ListCreate();
     if (!mon.entryCtrl.urgentWaitList) {
         LOG_ERROR("Failed to create urgentWaitList in MonInit.");
+	return;
     }
 
     mon.entryCtrl.entryWaitList = ListCreate();
     if (!mon.entryCtrl.entryWaitList) {
         LOG_ERROR("Failed to create entryWaitList in MonInit.");
+	return;
     }
 
     mon.entryCtrl.urgentWaitSem = NewSem(0);
     if (mon.entryCtrl.urgentWaitSem < 0) {
         LOG_ERROR("Failed to create urgentWaitSem in MonInit.");
+	return;
     }
 
     mon.entryCtrl.entryWaitSem = NewSem(1);
     if (mon.entryCtrl.entryWaitSem < 0) {
         LOG_ERROR("Failed to create entryWaitSem in MonInit.");
+	return;
     }
 
     /* Initialize all condition variables */
@@ -43,28 +48,41 @@ void MonInit() {
         mon.condVars[i].waitList = ListCreate();
         if (!mon.condVars[i].waitList) {
             LOG_ERROR("Failed to create waitList for cv's in MonInit.");
+	    return;
         }
 
         mon.condVars[i].semaphore = NewSem(0);
         if (mon.condVars[i].semaphore < 0) {
             LOG_ERROR("Failed to create semaphore for cv's in MonInit.");
+	    return;
         }
     }
 }
 
 void MonEnter() {
+    int result;
     PID* myPid = malloc(sizeof(PID));
-    if (myPid == NULL) {
-        LOG_ERROR("Failed to allocate memory for PID in MonEnter.");
-    }
-	printf("Getting pid.\n");
-    *myPid = MyPid();
-	printf("Got pid.\n");
+    if (DEBUG) printf("checked that myPid is null\n");
 
+    if (myPid == NULL) {
+        LOG_ERROR("Failed to allocate memory for PID in MonEnter.\n");
+   	return;
+    }
+    
+    if (DEBUG) printf("checked that myPid is null\n");
+    *myPid = MyPid();
+    
+    if (DEBUG) printf("got my pid from here\n");
 
     /* Add the thread to the entryWaitList */
     P(mon.entryCtrl.entryWaitSem);
-    ListPrepend(mon.entryCtrl.entryWaitList, myPid);
+    result = ListPrepend(mon.entryCtrl.entryWaitList, myPid);
+    if (result != 0) { 
+        LOG_ERROR("Failed to prepend PID to the entryWaitList.");
+        free(myPid); 
+        V(mon.entryCtrl.entryWaitSem); 
+        return; 
+    }
     V(mon.entryCtrl.entryWaitSem);
 
     /* Acquire the monitor lock */
@@ -72,8 +90,7 @@ void MonEnter() {
 }
 
 void MonLeave() {
-    PID* pid;
-
+    PID* pid = malloc(sizeof(PID));
     /* Give priority to threads in the urgentWaitList */
     if (ListCount(mon.entryCtrl.urgentWaitList) > 0) {
         pid = (PID*)ListTrim(mon.entryCtrl.urgentWaitList);
@@ -95,7 +112,7 @@ void MonLeave() {
 
 void MonWait(int cvar) {
     PID* myPid;
-
+    myPid = malloc(sizeof(PID));
     if (cvar < 0 || cvar >= k) {
         LOG_ERROR("Invalid condition variable ID in MonWait.");
     }
@@ -135,8 +152,8 @@ void MonWait(int cvar) {
 }
 
 void MonSignal(int cvar) {
-    PID* myPid;
-    PID* waitingPid;
+    PID* myPid = malloc(sizeof(PID));
+    PID* waitingPid = malloc(sizeof(PID));
 
     if (cvar < 0 || cvar >= k) {
         LOG_ERROR("Invalid condition variable ID in MonSignal.");
@@ -163,6 +180,7 @@ void MonSignal(int cvar) {
             P(mon.entryCtrl.urgentWaitSem);
         } else {
             free(myPid);
+	    free(waitingPid);
         }
     }
 }

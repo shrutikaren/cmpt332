@@ -8,7 +8,7 @@
 #include <BestFitMonitor.h>
 #include <stdint.h>
 
-#define DEBUG 1
+#define DEBUG 0
 
 /* Variabls defined ouside the function */
 static int totalMem = memsize;
@@ -48,11 +48,24 @@ void* BF_Allocate(int size){
 	MemSpace* bestfit;
 	MemSpace* bestfitprev;	
 		
-	if(DEBUG){ printf("Entering the monitor.\n"); }
-	MonEnter();
-	/* Creating four main spaces*/
+	/*if(DEBUG){ printf("Initializing the monitor.\n"); }
+	MonInit();
+	if(DEBUG){ printf("Initialized the monitor.\n"); }
+	*/
 
+	if(DEBUG){ printf("Entering the monitor.\n"); }
+	
+ 	MonEnter();
+	
+	/* Creating four main spaces*/
 	if(DEBUG){ printf("Entered the monitor.\n"); }
+	
+	if (list == NULL){
+		LOG_ERROR("Error: Memory List is Null");
+		MonLeave();
+		return NULL;
+	}
+	
 	current = list;
 	previous = NULL;
 	bestfit = NULL;
@@ -60,10 +73,13 @@ void* BF_Allocate(int size){
 	
 	/* Adding this part of the code to try to resolve see fault */
 	if (current == NULL){
+		MonLeave();
 		LOG_ERROR("Error: List is NULL.");
 		return NULL;
 	}	
-
+	
+	
+	if(DEBUG){ printf("Entering the while loop.\n"); }
 	/* Iterate through list and find the best-fit block */
 	while (current != NULL){
 		if (current->size >= size){
@@ -81,6 +97,7 @@ void* BF_Allocate(int size){
 		current = current->next;
 	}
 	
+	if(DEBUG){ printf("FInished the while loop .\n"); }
 	/* By now, you should either have a list or not. Now, 
  	   handling the case when we don't have a suitable list. */
 	if (bestfit == NULL){
@@ -109,9 +126,8 @@ void* BF_Allocate(int size){
 		bestfitprev->next = bestfit->next;
 	}
 	
-	free(bestfit);
 	MonLeave();	
-	return (void*)(uintptr_t) current->startAddress;
+	return (void*)(uintptr_t) bestfit->startAddress;
 }
 
 void BF_Free(int startAddress, int size){
@@ -175,7 +191,6 @@ void BF_Free(int startAddress, int size){
  		   the pointer */
 		current->next = current->next->next;
 	}
-	free(newblock);
 	MonSignal(Read);
 	MonLeave();
 }
