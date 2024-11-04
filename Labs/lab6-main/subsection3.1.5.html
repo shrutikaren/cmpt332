@@ -1,0 +1,35 @@
+﻿<HEAD>
+<TITLE> Sleep</TITLE>
+</HEAD>
+<BODY><P>
+<BR>
+
+<H2><A NAME=SECTION0001500000000000000> Sleep</A></H2>
+<P>
+Pthreads allows processes to put themselves to sleep. It uses a hierarchical
+data structure for sleeping processes which provides O(1) timer manipulation.
+Two routines are provided for this service: <em> Sleep()</em> and <em> ReSleep()</em>.
+The headers for these routines are as follows:
+<P>
+<PRE><TT>int Sleep( int ticks )
+<P>
+int ReSleep( PID sleeper, int ticks )</TT></PRE>
+<P>
+Sleep() suspends the execution of the calling process for a duration of 
+<em> ticks</em> (the only parameter) clock ticks. The upper limit of <em> ticks</em> is
+0xffff. Any process wanting to sleep longer than this duration will have to make
+multiple calls to Sleep(). Sleep() returns 0 on success and -1 on failure (eg. 
+if ticks is out of range).
+<P>
+ReSleep() adjusts the wakeup time of a currently sleeping process. This is 
+useful for timer implementations where the sleeping process is to be kept 
+sleeping longer, or is to be woken up at once. ReSleep() requires two
+parameters: <em> sleeper</em> and <em> ticks</em>. Sleeper is the process identifier
+of the sleeping process whose waketime is to be altered. Ticks is the new
+sleep duration relative to the time of the ReSleep() call. A ticks value of 0 
+has the effect of waking the process immediately. ReSleep() returns 0 on
+success and -1 on failure (eg. if the identified process is not found to be
+sleeping, or if ticks is out of range).
+<P>
+
+</BODY>
