@@ -16,7 +16,6 @@ void* thread_creation(void* arg){
 	void* address;
 	thread_id = *(int*)arg;
 	
-	Initialize(); 
 	/* Logic: Have time(NULL) to produce the seeconds. If I didn't use
  	   XOR as my operation, every thread would be having the same
 	   random number if all the threads were generated so closely with
@@ -30,12 +29,12 @@ void* thread_creation(void* arg){
 		address = BF_Allocate(req_size);
 		if (address != NULL){
 			printf("Successfully went into BF_Allocate!\n");
-			Sleep((rand() % maxSleepTime));
+			sleep((rand() % maxSleepTime));
 
 			/* The RAND_MAX is basically a macro defined in the
  			   libraries. This rand_value will give us a value
 			   between 0 and 1. */
-			rand_value = (float)(rand()/RAND_MAX);
+			rand_value = (rand()/(float)RAND_MAX);
 			
 			/* We are checking if our rand_value that we obtained
  			   is less than our freeProbility and if it is then
@@ -55,18 +54,21 @@ void* thread_creation(void* arg){
 int mainp(){
 	/* Initialize the memory space */
 	int i;
-	pthread_t* threads = (pthread_t*)malloc(sizeof(pthread_t));
-	int* threadid = (int*)malloc(sizeof(int));
+	pthread_t* threads = (pthread_t*)malloc(sizeof(pthread_t) * numThreads);
+	int* threadid = (int*)malloc(sizeof(int) * numThreads);
 	
 	if (threads == NULL || threadid == NULL){
 		fprintf(stderr, "Memory allocation failed");
+		exit(1);
 	}
 	
 	/* We will initialize our memory space */
 	/* Initialize(); */
+	Initialize();
 	
 	/* Create our threads to access our thread_creation function */
 	for (i = 0; i < numThreads; i ++){
+		threadid[i] = i ; /*Initializing my threadid array */
 		if (pthread_create(&threads[i], NULL, thread_creation, 
 		&threadid[i]) != 0){
 			perror("Failed to create a thread!");

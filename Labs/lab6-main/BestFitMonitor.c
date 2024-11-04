@@ -165,7 +165,7 @@ void BF_Free(int startAddress, int size){
  		   previous and current block */
 		newblock->next = current;
 		if (previous == NULL){
-			list = previous;
+			list = newblock;
 		} else {
 			previous->next = newblock;
 		}
@@ -175,6 +175,7 @@ void BF_Free(int startAddress, int size){
 	/* By now, we have successfully added our newblock between the
  	   current and previous blocks. We will now combine the free
 	   blocks if two blocks are close to each other. */
+	current = list; 
 	while (current != NULL && current->next != NULL){
 		/* If the starting address of where I am ending my current
  		   and where my current-> next starts is the same then it 
@@ -189,7 +190,9 @@ void BF_Free(int startAddress, int size){
 		}
 		/* Helps us to move the pointer which is necessary by
  		   the pointer */
-		current->next = current->next->next;
+		else{
+			current = current->next;
+		}
 	}
 	MonSignal(Read);
 	MonLeave();
