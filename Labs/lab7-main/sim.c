@@ -13,7 +13,6 @@ Modified by students:  First Last
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-
 #include <math.h>
 #include <unistd.h>
 
@@ -25,14 +24,38 @@ struct page {
 
 int npages;
 int next_slot;
+int clock_hand;
 int nslots;
 struct page *slots;
 
-/* Handles a page fault via the second-chance algorithm.
+/* HaThe pagerep-sim.c depends on the math library.ndles a page fault via the second-chance algorithm.
  * Returns the pointer to the slot the victim is in. */
 struct page *find_victim_slot() {
     /* TODO: implement second chance page replacement algorithm */
-    return slots + (rand() % nslots);
+    bool found = false;
+    struct page* victim = NULL;
+
+    while (!found){
+	struct page* p = &slots[clock_hand];
+	
+	/*
+ 	Checks if the reference bit of that specific page is true. 
+	Then, we can say that the page is found. 
+	*/
+	if (!p->reference){
+		victim = p;
+		found = true;
+	}
+
+	/* Gives the second-chance */
+	else{
+		p->reference = false;		
+	}
+
+	/* Ensures that we go in a cycle */
+	clock_hand = (clock_hand + 1) % nslots;
+    }
+    return victim;
 }
 
 int main(int argc, char **argv) {
@@ -54,6 +77,7 @@ int main(int argc, char **argv) {
     }
 
     nslots = atoi(argv[2]);
+    clock_hand = 0;
     if (nslots <= 0) {
         printf("nslots must be greater than 0\n");
         exit(1);
@@ -103,8 +127,13 @@ int main(int argc, char **argv) {
                 printf(" There was a free slot!");
                 p = slots + next_slot++;
             } else {
-                printf(" The chosen victim was page %d.", p->number);
-            }
+               	if(p->dirty){
+			printf("The chosen victim was %d dirty.", p->number);
+		}
+else{
+		printf(" The chosen victim was page %d.", p->number);
+}     
+       }
             p->number = page;
             p->reference = true;
             p->dirty = write;
