@@ -1,0 +1,66 @@
+<html>
+<head>
+<title>CMPT 332 - Lab 7 - Fall 2024</title>
+</head>
+<body>
+  <img src="../splashBanner.gif" align="middle"/>
+<h1>
+  CMPT 332 - Lab 7 - Fall 2024 <br>
+  University of Saskatchewan <br>
+  Lab 7: Implement a Memory Access Simulator
+</h1>
+
+<p><b>Instructor:</b> Dwight Makaroff</p>
+<p><b>Out:</b> November 4 12th, 2024</p>
+<p><b>Due:</b> At the end of the tutorial
+  (actually by 9:00 p.m. Thursday, November 7th, 2024, final deadline).</p>
+<p>Marks: 4</p>
+
+<h2 id="provided">Provided Files</h2>
+<p>
+There is only 1 provided file for this lab <code>sim.c</code>.
+This contains a basic memory access simulator with a random page replacement
+algorithm.
+You <b>may</b> work in groups of at most 2 students. Each student must supply
+their own solution.
+</p>
+
+<p>
+The <code>pagerep-sim.c</code> depends on the math library. The simulator also has
+2 mandatory parameters and 1 optional parameter.
+The mandatory parameter are <code>npages</code> which states the number of
+pages to use and <code>nframes</code> which states the number of frames to use
+for simulating main memory. The optional parameter <code>times</code> is used to
+run the main loop for page referencing a specific number of times,
+this disables the sleeping between prints.
+</p>
+
+<h2 id="description">Description</h2>
+<p>
+In this lab, you will be implementing the second chance page replacement
+algorithm to choose the victim page for this simulator.
+The reference and dirty bits are automatically set when a page is accessed.
+You will be implementing the algorithm in <code>find_victim_slot()</code>.
+</p>
+
+
+<h2 id="deliverables">Deliverables and Grading</h2>
+<p>
+A single tar file named <code>lab7.tar</code> containing:
+</p>
+
+<ul>
+  <li><code>Makefile</code> (1 mark)</li>
+  <li><code>sim.c</code> (1 mark) modified to replace pages when memory is
+	  full, given the second chance replacement policy.
+	  </li>
+  <li><code>output.txt</code> (1 mark) log of the output of the simulator.</li>
+  <li><code>gitlog.txt</code> (1 mark)</li>
+  <li>Any other necessary source code for compilation. (0 marks)</li>
+</ul>
+
+<p>
+GENERAL: Ensure that your name, NSID, and student number are at the beginning
+of every file that you hand in.  If a lab is group work, all partners'
+information is required.
+</p>
