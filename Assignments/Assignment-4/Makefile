@@ -1,4 +1,4 @@
-# Shruti Kaur
+# Shruti Kaur, Rac
 # ich524
 # 11339265
 
