@@ -55,6 +55,11 @@ procinit(void)
       initlock(&p->lock, "proc");
       p->state = UNUSED;
       p->kstack = KSTACK((int) (p - proc));
+   
+      /* CMPT 332 Group 01 Change, Fall 2024 */
+      p->cpuShare = 0;
+      p->cpuUsage = 0;
+      p->lastRunTime = 0;
   }
 }
 
@@ -447,6 +452,15 @@ scheduler(void)
   struct proc *p;
   struct cpu *c = mycpu();
 
+   /* CMPT 332 Group 01 Change, Fall 2024 */
+  struct proc *hp; /* Highest Priority Process */ 
+  int max_priority;
+  int total_ticks;
+
+  /* CMPT 332 Group 01 Change, Fall 2024 */
+  /* initScheduler(); */
+
+
   c->proc = 0;
   for(;;){
     /* The most recent process to run may have had interrupts */
@@ -454,11 +468,22 @@ scheduler(void)
     /* processes are waiting. */
     intr_on();
 
+    /* CMPT 332 Group 01 Change, Fall 2024 */
+    hp = 0; 
+    max_priority = -1;
+
     int found = 0;
     for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
       if(p->state == RUNNABLE) {
-        /* Switch to chosen process.  It is the process's job */
+
+	/* CMPT 332 Group 01 Change, Fall 2024 */
+        if (p->priority > max_priority){
+		max_priority = p->priority;
+		hp = p;
+	}
+
+	/* Switch to chosen process.  It is the process's job */
         /* to release its lock and then reacquire it */
         /* before jumping back to us. */
         p->state = RUNNING;
@@ -470,15 +495,43 @@ scheduler(void)
         c->proc = 0;
         found = 1;
       }
+
+      /*else if (p->state == SLEEPING){
+
+      }*/
+
       release(&p->lock);
     }
-    if(found == 0) {
-      /* nothing to run; stop running on this core until an interrupt. */
+
+    /* CMPT 332 Group 01 Change, Fall 2024 */
+    if(found == 0 && hp != 0) {
+	acquire(&hp->lock);
+	hp->state = RUNNING;
+	c->proc = hp;
+
+	swtch(&c->context, &hp->context);
+	c->proc = 0;
+	release(&hp->lock);	
+    }
+  
+    else{/* nothing to run; stop running on this core until an interrupt. */
       intr_on();
       asm volatile("wfi");
     }
   }
 }
+
+/* calculate priority function */
+
+/* CMPT 332 GROUP 01 Change, Fall 2024 */
+/* Function to initialize the variables inside the proc */
+/*void initScheduler(){
+    struct proc *p;
+    p->cpuShare = 1/NPROC; 
+    p->cpuUsage = 
+    p->lastRunTime =
+}*/
+
 
 /* Switch to scheduler.  Must hold only p->lock */
 /* and have changed proc->state. Saves and restores */

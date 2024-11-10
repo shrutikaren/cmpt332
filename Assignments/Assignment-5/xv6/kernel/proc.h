@@ -91,6 +91,11 @@ struct proc {
   int killed;                  /* If non-zero, have been killed */
   int xstate;                  /* Exit status to be returned to parent's wait */
   int pid;                     /* Process ID */
+  
+  /* CMPT 332 GROUP 01 Change, Fall 2024 */
+  int cpuShare; /* Between 0 and 1 - as a percentage value */
+  int cpuUsage; /* Actual usage in quanta */
+  int lastRunTime; 
 
   /* wait_lock must be held when using this: */
   struct proc *parent;         /* Parent process */
