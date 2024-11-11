@@ -452,11 +452,6 @@ scheduler(void)
   struct proc *p;
   struct cpu *c = mycpu();
 
-   /* CMPT 332 Group 01 Change, Fall 2024 */
-  struct proc *hp; /* Highest Priority Process */ 
-  int max_priority;
-  int total_ticks;
-
   /* CMPT 332 Group 01 Change, Fall 2024 */
   /* initScheduler(); */
 
@@ -468,20 +463,10 @@ scheduler(void)
     /* processes are waiting. */
     intr_on();
 
-    /* CMPT 332 Group 01 Change, Fall 2024 */
-    hp = 0; 
-    max_priority = -1;
-
     int found = 0;
     for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
       if(p->state == RUNNABLE) {
-
-	/* CMPT 332 Group 01 Change, Fall 2024 */
-        if (p->priority > max_priority){
-		max_priority = p->priority;
-		hp = p;
-	}
 
 	/* Switch to chosen process.  It is the process's job */
         /* to release its lock and then reacquire it */
@@ -504,17 +489,7 @@ scheduler(void)
     }
 
     /* CMPT 332 Group 01 Change, Fall 2024 */
-    if(found == 0 && hp != 0) {
-	acquire(&hp->lock);
-	hp->state = RUNNING;
-	c->proc = hp;
-
-	swtch(&c->context, &hp->context);
-	c->proc = 0;
-	release(&hp->lock);	
-    }
-  
-    else{/* nothing to run; stop running on this core until an interrupt. */
+    if(found == 0) {
       intr_on();
       asm volatile("wfi");
     }

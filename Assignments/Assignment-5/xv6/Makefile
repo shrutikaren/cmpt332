@@ -30,13 +30,18 @@ OBJS = \
   $K/plic.o \
   $K/virtio_disk.o
 
+# CMPT 332 Group 01 Change, Fall 2024
+ifndef TOOLPREFIX
+TOOLPREFIX := /usr/local/riscv/bin/riscv64-unknown-elf-
+endif
+
 # riscv64-unknown-elf- or riscv64-linux-gnu-
 # perhaps in /opt/riscv/bin
 #TOOLPREFIX = 
 
 # Try to infer the correct TOOLPREFIX if not set
-ifndef TOOLPREFIX
-TOOLPREFIX := $(shell if riscv64-unknown-elf-objdump -i 2>&1 | grep 'elf64-big' >/dev/null 2>&1; \
+#ifndef TOOLPREFIX
+#TOOLPREFIX := $(shell if riscv64-unknown-elf-objdump -i 2>&1 | grep 'elf64-big' >/dev/null 2>&1; \
 	then echo 'riscv64-unknown-elf-'; \
 	elif riscv64-linux-gnu-objdump -i 2>&1 | grep 'elf64-big' >/dev/null 2>&1; \
 	then echo 'riscv64-linux-gnu-'; \
@@ -46,7 +51,7 @@ TOOLPREFIX := $(shell if riscv64-unknown-elf-objdump -i 2>&1 | grep 'elf64-big' 
 	echo "*** Error: Couldn't find a riscv64 version of GCC/binutils." 1>&2; \
 	echo "*** To turn off this error, run 'gmake TOOLPREFIX= ...'." 1>&2; \
 	echo "***" 1>&2; exit 1; fi)
-endif
+#endif
 
 QEMU = qemu-system-riscv64
 
@@ -69,6 +74,9 @@ CFLAGS += -fno-builtin-memcpy -Wno-main
 CFLAGS += -fno-builtin-printf -fno-builtin-fprintf -fno-builtin-vprintf
 CFLAGS += -I.
 CFLAGS += $(shell $(CC) -fno-stack-protector -E -x c /dev/null >/dev/null 2>&1 && echo -fno-stack-protector)
+
+# CMPT 332 Group 01 Change, Fall 2024
+CFLAGS += -mno-relax
 
 # Disable PIE when possible (for Ubuntu 16.10 toolchain)
 ifneq ($(shell $(CC) -dumpspecs 2>/dev/null | grep -e '[^f]no-pie'),)
@@ -139,6 +147,15 @@ UPROGS=\
 	$U/_grind\
 	$U/_wc\
 	$U/_zombie\
+	$U/_IntMain
+
+# CMPT 332 Group 01 Fall Change
+$(U)/IntMain.o: $(U)/IntMain.c
+	$(CC) $(CFLAGS) -c -o $(U)/IntMain.o $(U)/IntMain.c
+
+$(U)/_IntMain: $(U)/IntMain.o
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $(U)/_IntMain \
+	$(U)/IntMain.o $(ULIB)
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
