@@ -47,19 +47,19 @@ int main(){
 	int sleeping, square_limit, square_count, obtained_value;
 	int child_proc = 10; /* Randomly picked a number for the child process*/
 	int Pid;
-
+	
+	printf("We are enterring our for loop here\n");
 	/* Iterating through the number of child process */
 	for (int i = 0; i < child_proc; i++){
 		Pid = fork();
-		
 		/* If neg number, then that's a problem */
 		if (Pid < 0) {
 			printf("The obtained Pid value is invalid.\n");
 			exit(1);
 		}	
-
+		printf("We have child proceses and about to enter else if\n");
 		/* If it is 0, we have  child process */
-		else if (Pid == 0){
+		if (Pid == 0){
 			/* Using modulus because I want it to be between 0 and 
   			999 and stay within this limit */
 			sleeping = rand() % 1000;
@@ -71,7 +71,7 @@ int main(){
 				obtained_value = square(i);
 			}
 			
-			sleep(sleeping * 1000);
+			sleep(sleeping);
 			
 			printf("Child process obtained successfully with the Pid is %i and the obtained value is %i.\n", getpid(), obtained_value);
 			exit(0);
