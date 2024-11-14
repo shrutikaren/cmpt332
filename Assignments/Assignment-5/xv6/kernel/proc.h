@@ -100,6 +100,7 @@ struct proc {
   int cpuShare; /* Between 0 and 1 - as a percentage value */
   int cpuUsage; /* Actual usage in quanta */
   int lastRunTime; 
+  int priority; 
 
   /* wait_lock must be held when using this: */
   struct proc *parent;         /* Parent process */

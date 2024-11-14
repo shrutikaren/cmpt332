@@ -25,10 +25,14 @@ extern char trampoline[]; /* trampoline.S */
 /* memory model when using p->parent. */
 /* must be acquired before any p->lock. */
 struct spinlock wait_lock;
+
+/* CMPT 332 GROUP 01, FALL CHANGE */
 struct {
 	struct spinlock locking;
 	struct proc proc[NPROC];
 } processtable;
+
+int clockTicks = 0;
 
 /* Allocate a page for each process's kernel stack. */
 /* Map it high in memory, followed by an invalid */
@@ -117,7 +121,7 @@ allocpid()
 /* If there are no free procs, or a memory allocation fails, return 0. */
 static struct proc*
 allocproc(void)
-{
+
   struct proc *p;
 
   for(p = proc; p < &proc[NPROC]; p++) {
@@ -155,6 +159,10 @@ found:
   p->context.ra = (uint64)forkret;
   p->context.sp = p->kstack + PGSIZE;
 
+  /* CMPT 332 Group 01, Fall Change */
+  p->priority = 0;
+  p->clockTicks = 0;
+  p->cpuUsage = 0;
   return p;
 }
 
@@ -455,23 +463,50 @@ wait(uint64 addr)
 void
 scheduler(void)
 {
-  int i;
+  int i, processnum, leastimportant;
   struct proc *p;
   struct proc *prorityprocess[NPROC-54];/* Store only 10 processes */ 
   struct cpu *c = mycpu();
+  processnum = NPROC - 54;
+
   for(;;){
     intr_on();
     int tickingclock; 
 
+    acquire(&locking);
+    tickingclock = clockTicks; /* assigning tickingclock value */
+    release(&locking);
+
     acquire(&processtable.locking);
     /* Going through my process table */
-    for (i = 0; i != -1; i = (i + 1) % NPROC){
-	if (processtable.proc[i].state == RUNNABLE){
-		if (!priorityprocess[processtable.proc[i].priority]){
-			priorityprocess[processtable.proc[i].priority] = &processtable.proc[i];
+   	 for (i = 0; i != -1; i = (i + 1) % NPROC){
+		if (processtable.proc[i].state == RUNNABLE){
+			if (!priorityprocess[processtable.proc[i].priority]){
+				priorityprocess[processtable.proc[i].priority] = &processtable.proc[i];
+			}
+		}
+    	}
+    
+   /* Finish running through all the highest priority processees */   
+	if (leastimportant == -1){
+		leastimportant = processnum;
+	}
+	else{
+		leastimportant = processingtable.proc[i].priority;
+	}
+
+	for (i = 0; i < leastimportant; i++){
+		if (priorityprocess[i]){
+			p = priorityprocess[i];
+			break;
 		}
 	}
-    }
+
+   /* If no highest priority is received to be executed then we will do the
+      following: */
+	if (p == NULL){
+		
+	}
 
    }
    release(&processtable.locking);
