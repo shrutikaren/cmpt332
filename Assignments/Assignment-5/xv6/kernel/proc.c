@@ -463,7 +463,7 @@ wait(uint64 addr)
 void
 scheduler(void)
 {
-  int i, processnum, leastimportant;
+  int i, processnum, leastimportant, processtick;
   struct proc *p;
   struct proc *prorityprocess[NPROC-54];/* Store only 10 processes */ 
   struct cpu *c = mycpu();
@@ -505,7 +505,7 @@ scheduler(void)
    /* If no highest priority is received to be executed then we will do the
       following: */
 	if (p == NULL){
-		
+		processticks = processtable.proc[-1].clockTicks;
 	}
 
    }

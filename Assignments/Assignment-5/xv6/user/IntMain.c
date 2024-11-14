@@ -52,6 +52,7 @@ int main(){
 	/* Iterating through the number of child process */
 	for (int i = 0; i < child_proc; i++){
 		Pid = fork();
+		printf("%i\n", getpid());
 		/* If neg number, then that's a problem */
 		if (Pid < 0) {
 			printf("The obtained Pid value is invalid.\n");
