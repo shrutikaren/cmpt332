@@ -450,16 +450,19 @@ wait(uint64 addr)
 /*  - swtch to start running that process. */
 /*  - eventually that process transfers control */
 /*    via swtch back to the scheduler. */
+/* CMPT 332 Group 01, Fall Change */
+/* Multi-level Feedback Queue Schedulling is implemented here */
 void
 scheduler(void)
 {
   int i;
   struct proc *p;
-  struct proc *prorityprocess;
+  struct proc *prorityprocess[NPROC-54];/* Store only 10 processes */ 
   struct cpu *c = mycpu();
   for(;;){
     intr_on();
-    
+    int tickingclock; 
+
     acquire(&processtable.locking);
     /* Going through my process table */
     for (i = 0; i != -1; i = (i + 1) % NPROC){
