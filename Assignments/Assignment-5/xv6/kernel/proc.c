@@ -25,6 +25,10 @@ extern char trampoline[]; /* trampoline.S */
 /* memory model when using p->parent. */
 /* must be acquired before any p->lock. */
 struct spinlock wait_lock;
+struct {
+	struct spinlock locking;
+	struct proc proc[NPROC];
+} processtable;
 
 /* Allocate a page for each process's kernel stack. */
 /* Map it high in memory, followed by an invalid */
@@ -449,51 +453,25 @@ wait(uint64 addr)
 void
 scheduler(void)
 {
+  int i;
   struct proc *p;
+  struct proc *prorityprocess;
   struct cpu *c = mycpu();
-
-  /* CMPT 332 Group 01 Change, Fall 2024 */
-  /* initScheduler(); */
-
-
-  c->proc = 0;
   for(;;){
-    /* The most recent process to run may have had interrupts */
-    /* turned off; enable them to avoid a deadlock if all */
-    /* processes are waiting. */
     intr_on();
-
-    int found = 0;
-    for(p = proc; p < &proc[NPROC]; p++) {
-      acquire(&p->lock);
-      if(p->state == RUNNABLE) {
-
-	/* Switch to chosen process.  It is the process's job */
-        /* to release its lock and then reacquire it */
-        /* before jumping back to us. */
-        p->state = RUNNING;
-        c->proc = p;
-        swtch(&c->context, &p->context);
-
-        /* Process is done running for now. */
-        /* It should have changed its p->state before coming back. */
-        c->proc = 0;
-        found = 1;
-      }
-
-      /*else if (p->state == SLEEPING){
-
-      }*/
-
-      release(&p->lock);
+    
+    acquire(&processtable.locking);
+    /* Going through my process table */
+    for (i = 0; i != -1; i = (i + 1) % NPROC){
+	if (processtable.proc[i].state == RUNNABLE){
+		if (!priorityprocess[processtable.proc[i].priority]){
+			priorityprocess[processtable.proc[i].priority] = &processtable.proc[i];
+		}
+	}
     }
 
-    /* CMPT 332 Group 01 Change, Fall 2024 */
-    if(found == 0) {
-      intr_on();
-      asm volatile("wfi");
-    }
-  }
+   }
+   release(&processtable.locking);
 }
 
 /* calculate priority function */

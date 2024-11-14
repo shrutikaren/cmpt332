@@ -18,12 +18,16 @@ struct context {
   uint64 s11;
 };
 
+A
 /* Per-CPU state. */
 struct cpu {
   struct proc *proc;          /* The process running on this cpu, or null. */
   struct context context;     /* swtch() here to enter scheduler(). */
   int noff;                   /* Depth of push_off() nesting. */
   int intena;                 /* Were interrupts enabled before push_off()? */
+
+  /* CMPT 332 Group 01 Change, Fall 2024 */
+  int totalticks;
 };
 
 extern struct cpu cpus[NCPU];
