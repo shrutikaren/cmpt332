@@ -114,4 +114,11 @@ struct proc {
   struct file *ofile[NOFILE];  /* Open files */
   struct inode *cwd;           /* Current directory */
   char name[16];               /* Process name (debugging) */
+
+  /* UPDATED [2024-11-13] : 13:35:00 */
+  int priority;    /* Current priority level (MLFQ) */
+  int time_slice;  /* Remaining time slices in the current quantum */
+  int share;       /* CPU share assigned to the process */
+  int group;       /* Group ID the process belongs to */
+  struct proc *next; /* Pointer for queue linked list */
 };
