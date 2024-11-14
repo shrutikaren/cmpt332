@@ -1,5 +1,5 @@
 /* proc.c */
-/* UPDATED : hh:mm:ss */
+/* UPDATED [2024-11-13] : 13:35:00 */
 
 #include "types.h"
 #include "param.h"
@@ -28,15 +28,15 @@ extern char trampoline[]; /* trampoline.S */
 struct spinlock wait_lock;
 
 /* Ready queues for MLFQ */
-struct queue ready_queues[MAX_QUEUES]; /* UPDATED : hh:mm:ss */
+struct queue ready_queues[MAX_QUEUES]; /* UPDATED [2024-11-13] : 13:35:00 */
 
 /* Function prototypes */
-void init_ready_queues(void); /* UPDATED : hh:mm:ss */
-void enqueue_process(struct proc *p, int priority); /* UPDATED : hh:mm:ss */
-struct proc *dequeue_process(void); /* UPDATED : hh:mm:ss */
-int sys_setshare(void); /* UPDATED : hh:mm:ss */
-void scheduler(void); /* UPDATED : hh:mm:ss */
-void timer_interrupt(void); /* UPDATED : hh:mm:ss */
+void init_ready_queues(void); /* UPDATED [2024-11-13] : 13:35:00 */
+void enqueue_process(struct proc *p, int priority); /* UPDATED [2024-11-13] : 13:35:00 */
+struct proc *dequeue_process(void); /* UPDATED [2024-11-13] : 13:35:00 */
+int sys_setshare(void); /* UPDATED [2024-11-13] : 13:35:00 */
+void scheduler(void); /* UPDATED [2024-11-13] : 13:35:00 */
+void timer_interrupt(void); /* UPDATED [2024-11-13] : 13:35:00 */
 
 /* Allocate a page for each process's kernel stack */
 void
@@ -66,7 +66,7 @@ procinit(void)
       p->state = UNUSED;
       p->kstack = KSTACK((int) (p - proc));
 
-      /* UPDATED : hh:mm:ss */
+      /* UPDATED [2024-11-13] : 13:35:00 */
       p->priority = 0;      /* Initialize priority */
       p->time_slice = 10;   /* Default time slice */
       p->share = 10;        /* Default share */
@@ -75,7 +75,7 @@ procinit(void)
   }
 
   /* Initialize ready queues */
-  init_ready_queues(); /* UPDATED : hh:mm:ss */
+  init_ready_queues(); /* UPDATED [2024-11-13] : 13:35:00 */
 }
 
 
@@ -177,7 +177,7 @@ found:
 
 
 /* Initialize the ready queues */
-void init_ready_queues(void) { /* UPDATED : hh:mm:ss */
+void init_ready_queues(void) { /* UPDATED [2024-11-13] : 13:35:00 */
   for(int i = 0; i < MAX_QUEUES; i++) {
     ready_queues[i].head = 0;
     ready_queues[i].tail = 0;
@@ -185,7 +185,7 @@ void init_ready_queues(void) { /* UPDATED : hh:mm:ss */
 }
 
 /* Add a process to a specific queue based on priority */
-void enqueue_process(struct proc *p, int priority) { /* UPDATED : hh:mm:ss */
+void enqueue_process(struct proc *p, int priority) { /* UPDATED [2024-11-13] : 13:35:00 */
   p->priority = priority;
   
   /* Set the time slice based on priority level */
@@ -215,7 +215,7 @@ void enqueue_process(struct proc *p, int priority) { /* UPDATED : hh:mm:ss */
 }
 
 /* Remove and return the next process from the highest priority non-empty queue */
-struct proc *dequeue_process(void) { /* UPDATED : hh:mm:ss */
+struct proc *dequeue_process(void) { /* UPDATED [2024-11-13] : 13:35:00 */
   for(int i = 0; i < MAX_QUEUES; i++) {
     if(ready_queues[i].head) {
       struct proc *p = ready_queues[i].head;
@@ -230,7 +230,7 @@ struct proc *dequeue_process(void) { /* UPDATED : hh:mm:ss */
 }
 
 /* Adjust the priority of a process (used for aging or demotion) */
-void adjust_priority(struct proc *p) { /* UPDATED : hh:mm:ss */
+void adjust_priority(struct proc *p) { /* UPDATED [2024-11-13] : 13:35:00 */
   /* Example: Demote to lower priority if time_slice exhausted */
   if(p->priority < MAX_QUEUES -1){
     p->priority++;
@@ -255,7 +255,7 @@ void adjust_priority(struct proc *p) { /* UPDATED : hh:mm:ss */
 }
 
 /* Scheduler implementation using MLFQ */
-void scheduler(void) { /* UPDATED : hh:mm:ss */
+void scheduler(void) { /* UPDATED [2024-11-13] : 13:35:00 */
   struct proc *p;
   struct cpu *c = mycpu();
 
@@ -284,7 +284,7 @@ void scheduler(void) { /* UPDATED : hh:mm:ss */
 }
 
 /* System call to set CPU share for a process or group */
-int sys_setshare(void) { /* UPDATED : hh:mm:ss */
+int sys_setshare(void) { /* UPDATED [2024-11-13] : 13:35:00 */
   int share;
   int group;
 
@@ -293,7 +293,7 @@ int sys_setshare(void) { /* UPDATED : hh:mm:ss */
 
   struct proc *p = myproc();
 
-  if(group >=0 && group < MAX_GROUPS){ /* UPDATED : hh:mm:ss */
+  if(group >=0 && group < MAX_GROUPS){ /* UPDATED [2024-11-13] : 13:35:00 */
     /* Set share for the group */
     acquire(&wait_lock);
     for(int i =0; i < NPROC; i++){
@@ -342,7 +342,7 @@ int sys_setshare(void) { /* UPDATED : hh:mm:ss */
 }
 
 /* Timer interrupt handler to manage time slices and priority */
-void timer_interrupt(void) { /* UPDATED : hh:mm:ss */
+void timer_interrupt(void) { /* UPDATED [2024-11-13] : 13:35:00 */
   struct proc *p = myproc();
 
   if(p){
@@ -509,7 +509,7 @@ userinit(void)
   /* Initialize MLFQ fields */
   acquire(&p->lock);
   p->state = RUNNABLE;
-  enqueue_process(p, p->priority); /* UPDATED : hh:mm:ss */
+  enqueue_process(p, p->priority); /* UPDATED [2024-11-13] : 13:35:00 */
   release(&p->lock);
 }
 
@@ -584,7 +584,7 @@ fork(void)
   np->share = p->share;   /* Inherit share from parent */
   np->group = p->group;   /* Inherit group from parent */
   np->next = 0;
-  enqueue_process(np, np->priority); /* UPDATED : hh:mm:ss */
+  enqueue_process(np, np->priority); /* UPDATED [2024-11-13] : 13:35:00 */
   np->state = RUNNABLE;
   release(&np->lock);
 
@@ -765,7 +765,7 @@ yield(void)
   struct proc *p = myproc();
   acquire(&p->lock);
   p->state = RUNNABLE;
-  enqueue_process(p, p->priority); /* UPDATED : hh:mm:ss */
+  enqueue_process(p, p->priority); /* UPDATED [2024-11-13] : 13:35:00 */
   sched();
   release(&p->lock);
 }
@@ -837,7 +837,7 @@ wakeup(void *chan)
     if(p->state == SLEEPING && p->chan == chan){
       acquire(&p->lock);
       p->state = RUNNABLE;
-      enqueue_process(p, p->priority); /* UPDATED : hh:mm:ss */
+      enqueue_process(p, p->priority); /* UPDATED [2024-11-13] : 13:35:00 */
       release(&p->lock);
     }
   }
@@ -859,7 +859,7 @@ kill(int pid)
       if(p->state == SLEEPING){
         /* Wake process from sleep(). */
         p->state = RUNNABLE;
-        enqueue_process(p, p->priority); /* UPDATED : hh:mm:ss */
+        enqueue_process(p, p->priority); /* UPDATED [2024-11-13] : 13:35:00 */
       }
       release(&p->lock);
       return 0;
