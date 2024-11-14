@@ -463,7 +463,7 @@ wait(uint64 addr)
 void
 scheduler(void)
 {
-  int i, processnum, leastimportant, processtick;
+  int i, processnum, leastimportant, processtick, cutoff;
   struct proc *p;
   struct proc *prorityprocess[NPROC-54];/* Store only 10 processes */ 
   struct cpu *c = mycpu();
@@ -487,7 +487,7 @@ scheduler(void)
 		}
     	}
     
-   /* Finish running through all the highest priority processees */   
+    /* Finish running through all the highest priority processees */   
 	if (leastimportant == -1){
 		leastimportant = processnum;
 	}
@@ -502,10 +502,24 @@ scheduler(void)
 		}
 	}
 
-   /* If no highest priority is received to be executed then we will do the
+    /* If no highest priority is received to be executed then we will do the
       following: */
 	if (p == NULL){
 		processticks = processtable.proc[-1].clockTicks;
+		if (processticks % 5 == 0 && processticks != 0){
+			cutoff = -1;
+			break;
+		}
+		else if (processticks % 10 == 0 && processticks != 0){
+			cutoff = -1;
+			break;
+		}
+
+		
+		/* If the priority is less than the total amount of 10 */
+		if (processingtable.proc[-1].priority < 9){
+			processingtable.proc[-1].priority += cutoff;
+		}			
 	}
 
    }
