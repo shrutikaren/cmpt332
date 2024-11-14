@@ -1,3 +1,6 @@
+/* proc.c */
+/* UPDATED : hh:mm:ss */
+
 #include "types.h"
 #include "param.h"
 #include "memlayout.h"
@@ -6,6 +9,7 @@
 #include "proc.h"
 #include "defs.h"
 
+/* CPU and process table declarations */
 struct cpu cpus[NCPU];
 
 struct proc proc[NPROC];
@@ -20,23 +24,21 @@ static void freeproc(struct proc *p);
 
 extern char trampoline[]; /* trampoline.S */
 
-/* helps ensure that wakeups of wait()ing */
-/* parents are not lost. helps obey the */
-/* memory model when using p->parent. */
-/* must be acquired before any p->lock. */
+/* Synchronization locks */
 struct spinlock wait_lock;
 
-/* CMPT 332 GROUP 01, FALL CHANGE */
-struct {
-	struct spinlock locking;
-	struct proc proc[NPROC];
-} processtable;
+/* Ready queues for MLFQ */
+struct queue ready_queues[MAX_QUEUES]; /* UPDATED : hh:mm:ss */
 
-int clockTicks = 0;
+/* Function prototypes */
+void init_ready_queues(void); /* UPDATED : hh:mm:ss */
+void enqueue_process(struct proc *p, int priority); /* UPDATED : hh:mm:ss */
+struct proc *dequeue_process(void); /* UPDATED : hh:mm:ss */
+int sys_setshare(void); /* UPDATED : hh:mm:ss */
+void scheduler(void); /* UPDATED : hh:mm:ss */
+void timer_interrupt(void); /* UPDATED : hh:mm:ss */
 
-/* Allocate a page for each process's kernel stack. */
-/* Map it high in memory, followed by an invalid */
-/* guard page. */
+/* Allocate a page for each process's kernel stack */
 void
 proc_mapstacks(pagetable_t kpgtbl)
 {
@@ -51,7 +53,7 @@ proc_mapstacks(pagetable_t kpgtbl)
   }
 }
 
-/* initialize the proc table. */
+/* Initialize process table and ready queues */
 void
 procinit(void)
 {
@@ -63,13 +65,19 @@ procinit(void)
       initlock(&p->lock, "proc");
       p->state = UNUSED;
       p->kstack = KSTACK((int) (p - proc));
-   
-      /* CMPT 332 Group 01 Change, Fall 2024 */
-      p->cpuShare = 0;
-      p->cpuUsage = 0;
-      p->lastRunTime = 0;
+
+      /* UPDATED : hh:mm:ss */
+      p->priority = 0;      /* Initialize priority */
+      p->time_slice = 10;   /* Default time slice */
+      p->share = 10;        /* Default share */
+      p->group = 0;         /* Default group */
+      p->next = 0;          /* Initialize next pointer */
   }
+
+  /* Initialize ready queues */
+  init_ready_queues(); /* UPDATED : hh:mm:ss */
 }
+
 
 /* Must be called with interrupts disabled, */
 /* to prevent race with process being moved */
@@ -166,9 +174,241 @@ found:
   return p;
 }
 
-/* free a proc structure and the data hanging from it, */
-/* including user pages. */
-/* p->lock must be held. */
+
+
+/* Initialize the ready queues */
+void init_ready_queues(void) { /* UPDATED : hh:mm:ss */
+  for(int i = 0; i < MAX_QUEUES; i++) {
+    ready_queues[i].head = 0;
+    ready_queues[i].tail = 0;
+  }
+}
+
+/* Add a process to a specific queue based on priority */
+void enqueue_process(struct proc *p, int priority) { /* UPDATED : hh:mm:ss */
+  p->priority = priority;
+  
+  /* Set the time slice based on priority level */
+  switch(priority){
+    case 0:
+      p->time_slice = 5;  /* Example: 5 ticks for highest priority */
+      break;
+    case 1:
+      p->time_slice = 10; /* Example: 10 ticks for medium priority */
+      break;
+    case 2:
+      p->time_slice = 20; /* Example: 20 ticks for lowest priority */
+      break;
+    default:
+      p->time_slice = 20;
+      break;
+  }
+
+  p->next = 0;
+
+  if (ready_queues[priority].tail) {
+    ready_queues[priority].tail->next = p;
+    ready_queues[priority].tail = p;
+  } else {
+    ready_queues[priority].head = ready_queues[priority].tail = p;
+  }
+}
+
+/* Remove and return the next process from the highest priority non-empty queue */
+struct proc *dequeue_process(void) { /* UPDATED : hh:mm:ss */
+  for(int i = 0; i < MAX_QUEUES; i++) {
+    if(ready_queues[i].head) {
+      struct proc *p = ready_queues[i].head;
+      ready_queues[i].head = p->next;
+      if(ready_queues[i].head == 0)
+        ready_queues[i].tail = 0;
+      p->next = 0;
+      return p;
+    }
+  }
+  return 0; // No runnable process found
+}
+
+/* Adjust the priority of a process (used for aging or demotion) */
+void adjust_priority(struct proc *p) { /* UPDATED : hh:mm:ss */
+  /* Example: Demote to lower priority if time_slice exhausted */
+  if(p->priority < MAX_QUEUES -1){
+    p->priority++;
+  }
+  /* Reset time_slice based on new priority */
+  switch(p->priority){
+    case 0:
+      p->time_slice = 5;
+      break;
+    case 1:
+      p->time_slice = 10;
+      break;
+    case 2:
+      p->time_slice = 20;
+      break;
+    default:
+      p->time_slice = 20;
+      break;
+  }
+  /* Enqueue back into appropriate queue */
+  enqueue_process(p, p->priority);
+}
+
+/* Scheduler implementation using MLFQ */
+void scheduler(void) { /* UPDATED : hh:mm:ss */
+  struct proc *p;
+  struct cpu *c = mycpu();
+
+  c->proc = 0;
+  for(;;){
+    /* Enable interrupts on this processor. */
+    intr_on();
+
+    /* Acquire the process table lock */
+    acquire(&wait_lock);
+
+    /* Dequeue the next process to run based on MLFQ */
+    p = dequeue_process();
+
+    if(p){
+      /* Switch to chosen process */
+      p->state = RUNNING;
+      c->proc = p;
+      swtch(&c->context, &p->context);
+      /* Process is done running for now. */
+      c->proc = 0;
+    }
+
+    release(&wait_lock);
+  }
+}
+
+/* System call to set CPU share for a process or group */
+int sys_setshare(void) { /* UPDATED : hh:mm:ss */
+  int share;
+  int group;
+
+  if(argint(0, &share) < 0 || argint(1, &group) < 0)
+    return -1;
+
+  struct proc *p = myproc();
+
+  if(group >=0 && group < MAX_GROUPS){ /* UPDATED : hh:mm:ss */
+    /* Set share for the group */
+    acquire(&wait_lock);
+    for(int i =0; i < NPROC; i++){
+      if(proc[i].group == group){
+        acquire(&proc[i].lock);
+        proc[i].share = share;
+
+        /* Optionally adjust priority based on share */
+        /* Example: Higher share -> higher priority */
+        if(proc[i].share >= 10){
+          /* Remove from current queue if not already highest */
+          if(proc[i].priority > 0){
+            /* Remove from current queue */
+            /* Note: Implement remove_from_queue if necessary */
+            /* For simplicity, we re-enqueue which will handle duplication */
+            enqueue_process(&proc[i], 0);
+          }
+        }
+        release(&proc[i].lock);
+      }
+    }
+    release(&wait_lock);
+  }
+  else{
+    /* Set share for the current process */
+    if(share < 1){
+      /* Minimum share is 1 */
+      return -1;
+    }
+
+    acquire(&p->lock);
+    p->share = share;
+
+    /* Adjust priority based on share */
+    if(p->share >= 10 && p->priority > 0){
+      enqueue_process(p, 0);
+    }
+    else if(p->share >=5 && p->priority >1){
+      enqueue_process(p, 1);
+    }
+    /* Else, keep current priority */
+    release(&p->lock);
+  }
+
+  return 0;
+}
+
+/* Timer interrupt handler to manage time slices and priority */
+void timer_interrupt(void) { /* UPDATED : hh:mm:ss */
+  struct proc *p = myproc();
+
+  if(p){
+    p->time_slice--;
+
+    if(p->time_slice <= 0){
+      acquire(&wait_lock);
+      acquire(&p->lock);
+
+      /* Demote the process if it's not in the lowest queue */
+      if(p->priority < MAX_QUEUES - 1){
+        p->priority++;
+      }
+
+      /* Reset time_slice based on new priority */
+      switch(p->priority){
+        case 0:
+          p->time_slice = 5;
+          break;
+        case 1:
+          p->time_slice = 10;
+          break;
+        case 2:
+          p->time_slice = 20;
+          break;
+        default:
+          p->time_slice = 20;
+          break;
+      }
+
+      /* Enqueue the process back to the appropriate queue */
+      enqueue_process(p, p->priority);
+
+      p->state = RUNNABLE;
+
+      release(&p->lock);
+      release(&wait_lock);
+
+      /* Trigger scheduler */
+      yield();
+    }
+  }
+
+  /* Priority Boosting to prevent starvation */
+  static int tick_count = 0;
+  tick_count++;
+  if(tick_count >= 1000){ /* Example interval */
+    acquire(&wait_lock);
+    for(int i =0; i < NPROC; i++){
+      if(proc[i].state == RUNNABLE){
+        acquire(&proc[i].lock);
+        if(proc[i].priority != 0){
+          proc[i].priority = 0; /* Boost to highest priority */
+          enqueue_process(&proc[i], proc[i].priority);
+        }
+        release(&proc[i].lock);
+      }
+    }
+    tick_count = 0;
+    release(&wait_lock);
+  }
+}
+
+/* Free a proc structure and the data hanging from it, */
+ /* including user pages. */
+ /* p->lock must be held. */
 static void
 freeproc(struct proc *p)
 {
@@ -223,7 +463,7 @@ proc_pagetable(struct proc *p)
 }
 
 /* Free a process's page table, and free the */
-/* physical memory it refers to. */
+ /* physical memory it refers to. */
 void
 proc_freepagetable(pagetable_t pagetable, uint64 sz)
 {
@@ -254,25 +494,27 @@ userinit(void)
   p = allocproc();
   initproc = p;
   
-  /* allocate one user page and copy initcode's instructions */
+  /* Allocate one user page and copy initcode's instructions */
   /* and data into it. */
   uvmfirst(p->pagetable, initcode, sizeof(initcode));
   p->sz = PGSIZE;
 
-  /* prepare for the very first "return" from kernel to user. */
+  /* Prepare for the very first "return" from kernel to user. */
   p->trapframe->epc = 0;      /* user program counter */
   p->trapframe->sp = PGSIZE;  /* user stack pointer */
 
   safestrcpy(p->name, "initcode", sizeof(p->name));
   p->cwd = namei("/");
 
+  /* Initialize MLFQ fields */
+  acquire(&p->lock);
   p->state = RUNNABLE;
-
+  enqueue_process(p, p->priority); /* UPDATED : hh:mm:ss */
   release(&p->lock);
 }
 
 /* Grow or shrink user memory by n bytes. */
-/* Return 0 on success, -1 on failure. */
+ /* Return 0 on success, -1 on failure. */
 int
 growproc(int n)
 {
@@ -292,7 +534,7 @@ growproc(int n)
 }
 
 /* Create a new process, copying the parent. */
-/* Sets up child kernel stack to return as if from fork() system call. */
+ /* Sets up child kernel stack to return as if from fork() system call. */
 int
 fork(void)
 {
@@ -313,19 +555,19 @@ fork(void)
   }
   np->sz = p->sz;
 
-  /* copy saved user registers. */
+  /* Copy saved user registers. */
   *(np->trapframe) = *(p->trapframe);
 
   /* Cause fork to return 0 in the child. */
   np->trapframe->a0 = 0;
 
-  /* increment reference counts on open file descriptors. */
+  /* Increment reference counts on open file descriptors. */
   for(i = 0; i < NOFILE; i++)
     if(p->ofile[i])
       np->ofile[i] = filedup(p->ofile[i]);
   np->cwd = idup(p->cwd);
 
-  safestrcpy(np->name, p->name, sizeof(p->name));
+  safestrcpy(np->name, p->name, sizeof(np->name));
 
   pid = np->pid;
 
@@ -335,7 +577,14 @@ fork(void)
   np->parent = p;
   release(&wait_lock);
 
+  /* Initialize MLFQ fields for the child */
   acquire(&np->lock);
+  np->priority = 0;       /* Start at highest priority */
+  np->time_slice = 10;    /* Default time slice */
+  np->share = p->share;   /* Inherit share from parent */
+  np->group = p->group;   /* Inherit group from parent */
+  np->next = 0;
+  enqueue_process(np, np->priority); /* UPDATED : hh:mm:ss */
   np->state = RUNNABLE;
   release(&np->lock);
 
@@ -358,8 +607,8 @@ reparent(struct proc *p)
 }
 
 /* Exit the current process.  Does not return. */
-/* An exited process remains in the zombie state */
-/* until its parent calls wait(). */
+ /* An exited process remains in the zombie state */
+ /* until its parent calls wait(). */
 void
 exit(int status)
 {
@@ -403,7 +652,7 @@ exit(int status)
 }
 
 /* Wait for a child process to exit and return its pid. */
-/* Return -1 if this process has no children. */
+ /* Return -1 if this process has no children. */
 int
 wait(uint64 addr)
 {
@@ -418,7 +667,7 @@ wait(uint64 addr)
     havekids = 0;
     for(pp = proc; pp < &proc[NPROC]; pp++){
       if(pp->parent == p){
-        /* make sure the child isn't still in exit() or swtch(). */
+        /* Make sure the child isn't still in exit() or swtch(). */
         acquire(&pp->lock);
 
         havekids = 1;
@@ -451,86 +700,44 @@ wait(uint64 addr)
   }
 }
 
-/* Per-CPU process scheduler. */
-/* Each CPU calls scheduler() after setting itself up. */
-/* Scheduler never returns.  It loops, doing: */
-/*  - choose a process to run. */
-/*  - swtch to start running that process. */
-/*  - eventually that process transfers control */
-/*    via swtch back to the scheduler. */
-/* CMPT 332 Group 01, Fall Change */
-/* Multi-level Feedback Queue Schedulling is implemented here */
+/* Per-CPU process scheduler using MLFQ */
 void
 scheduler(void)
 {
-  int i, processnum, leastimportant, processtick;
   struct proc *p;
-  struct proc *prorityprocess[NPROC-54];/* Store only 10 processes */ 
   struct cpu *c = mycpu();
-  processnum = NPROC - 54;
 
+  c->proc = 0;
   for(;;){
+    /* Enable interrupts on this processor. */
     intr_on();
-    int tickingclock; 
 
-    acquire(&locking);
-    tickingclock = clockTicks; /* assigning tickingclock value */
-    release(&locking);
+    /* Acquire the process table lock */
+    acquire(&wait_lock);
 
-    acquire(&processtable.locking);
-    /* Going through my process table */
-   	 for (i = 0; i != -1; i = (i + 1) % NPROC){
-		if (processtable.proc[i].state == RUNNABLE){
-			if (!priorityprocess[processtable.proc[i].priority]){
-				priorityprocess[processtable.proc[i].priority] = &processtable.proc[i];
-			}
-		}
-    	}
-    
-   /* Finish running through all the highest priority processees */   
-	if (leastimportant == -1){
-		leastimportant = processnum;
-	}
-	else{
-		leastimportant = processingtable.proc[i].priority;
-	}
+    /* Dequeue the next process to run based on MLFQ */
+    p = dequeue_process();
 
-	for (i = 0; i < leastimportant; i++){
-		if (priorityprocess[i]){
-			p = priorityprocess[i];
-			break;
-		}
-	}
+    if(p){
+      /* Switch to chosen process */
+      p->state = RUNNING;
+      c->proc = p;
+      swtch(&c->context, &p->context);
+      /* Process is done running for now. */
+      c->proc = 0;
+    }
 
-   /* If no highest priority is received to be executed then we will do the
-      following: */
-	if (p == NULL){
-		processticks = processtable.proc[-1].clockTicks;
-	}
-
-   }
-   release(&processtable.locking);
+    release(&wait_lock);
+  }
 }
 
-/* calculate priority function */
-
-/* CMPT 332 GROUP 01 Change, Fall 2024 */
-/* Function to initialize the variables inside the proc */
-/*void initScheduler(){
-    struct proc *p;
-    p->cpuShare = 1/NPROC; 
-    p->cpuUsage = 
-    p->lastRunTime =
-}*/
-
-
 /* Switch to scheduler.  Must hold only p->lock */
-/* and have changed proc->state. Saves and restores */
-/* intena because intena is a property of this */
-/* kernel thread, not this CPU. It should */
-/* be proc->intena and proc->noff, but that would */
-/* break in the few places where a lock is held but */
-/* there's no process. */
+ /* and have changed proc->state. Saves and restores */
+ /* intena because intena is a property of this */
+ /* kernel thread, not this CPU. It should */
+ /* be proc->intena and proc->noff, but that would */
+ /* break in the few places where a lock is held but */
+ /* there's no process. */
 void
 sched(void)
 {
@@ -558,12 +765,13 @@ yield(void)
   struct proc *p = myproc();
   acquire(&p->lock);
   p->state = RUNNABLE;
+  enqueue_process(p, p->priority); /* UPDATED : hh:mm:ss */
   sched();
   release(&p->lock);
 }
 
 /* A fork child's very first scheduling by scheduler() */
-/* will swtch to forkret. */
+ /* will swtch to forkret. */
 void
 forkret(void)
 {
@@ -587,7 +795,7 @@ forkret(void)
 }
 
 /* Atomically release lock and sleep on chan. */
-/* Reacquires lock when awakened. */
+ /* Reacquires lock when awakened. */
 void
 sleep(void *chan, struct spinlock *lk)
 {
@@ -618,26 +826,27 @@ sleep(void *chan, struct spinlock *lk)
 }
 
 /* Wake up all processes sleeping on chan. */
-/* Must be called without any p->lock. */
+ /* Must be called without any p->lock. */
 void
 wakeup(void *chan)
 {
   struct proc *p;
 
+  acquire(&wait_lock);
   for(p = proc; p < &proc[NPROC]; p++) {
-    if(p != myproc()){
+    if(p->state == SLEEPING && p->chan == chan){
       acquire(&p->lock);
-      if(p->state == SLEEPING && p->chan == chan) {
-        p->state = RUNNABLE;
-      }
+      p->state = RUNNABLE;
+      enqueue_process(p, p->priority); /* UPDATED : hh:mm:ss */
       release(&p->lock);
     }
   }
+  release(&wait_lock);
 }
 
 /* Kill the process with the given pid. */
-/* The victim won't exit until it tries to return */
-/* to user space (see usertrap() in trap.c). */
+ /* The victim won't exit until it tries to return */
+ /* to user space (see usertrap() in trap.c). */
 int
 kill(int pid)
 {
@@ -650,6 +859,7 @@ kill(int pid)
       if(p->state == SLEEPING){
         /* Wake process from sleep(). */
         p->state = RUNNABLE;
+        enqueue_process(p, p->priority); /* UPDATED : hh:mm:ss */
       }
       release(&p->lock);
       return 0;
@@ -679,8 +889,8 @@ killed(struct proc *p)
 }
 
 /* Copy to either a user address, or kernel address, */
-/* depending on usr_dst. */
-/* Returns 0 on success, -1 on error. */
+ /* depending on usr_dst. */
+ /* Returns 0 on success, -1 on error. */
 int
 either_copyout(int user_dst, uint64 dst, void *src, uint64 len)
 {
@@ -694,8 +904,8 @@ either_copyout(int user_dst, uint64 dst, void *src, uint64 len)
 }
 
 /* Copy from either a user address, or kernel address, */
-/* depending on usr_src. */
-/* Returns 0 on success, -1 on error. */
+ /* depending on usr_src. */
+ /* Returns 0 on success, -1 on error. */
 int
 either_copyin(void *dst, int user_src, uint64 src, uint64 len)
 {
@@ -709,8 +919,8 @@ either_copyin(void *dst, int user_src, uint64 src, uint64 len)
 }
 
 /* Print a process listing to console.  For debugging. */
-/* Runs when user types ^P on console. */
-/* No lock to avoid wedging a stuck machine further. */
+ /* Runs when user types ^P on console. */
+ /* No lock to avoid wedging a stuck machine further. */
 void
 procdump(void)
 {
