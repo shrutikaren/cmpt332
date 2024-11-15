@@ -455,6 +455,11 @@ wait(uint64 addr)
   }
 }
 
+void enqueueprocess(struct proc *p, int priorityLevel){
+	int r = multifeedbackqueue.ending[priorityLevel];
+	multifeedbackqueue.proc[priorityLevel][r] = p;
+	multifeedbackqueue.ending[priorityLevel] = (r + 1) % NPROC;
+}
 /* Per-CPU process scheduler. */
 /* Each CPU calls scheduler() after setting itself up. */
 /* Scheduler never returns.  It loops, doing: */
@@ -473,6 +478,7 @@ scheduler(void)
 	int priorityLevel, ticksused;
 	int i, j;
 	int slicingTime; 
+	
 	ticksNum = ticks; /* utilizing ticks from trap.c */
 	/* Iterating through the our array of queues to initialize 
  	everything */
@@ -486,7 +492,7 @@ scheduler(void)
 
 	/* Iterate through the 5 levels one by one */
 	for (priorityLevel = 4; priorityLevel >= 0; priorityLevel --){
-		proc = p;
+		p = multifeedbackqueue.proc[priorityLevel][0];
 		p->state = RUNNING;
 		ticksNum = 0;
 	}
@@ -503,14 +509,16 @@ scheduler(void)
 	else if (priorityLevel == 1){
 		slicingTime = 32;
 	}
+        
+	slicingTime = 0; 
 	
 	/* Our time for running that process is less than the slicingTime and
  	the process is in the RUNNING state means that we are able to continue
 	running that specific process */
-	while (ticks - ticksNum < slicingTime && p->state == RUNNING){}
+	while (ticks - ticksNum < slicingTime && p->state == RUNNING){};
 
 	/* Once we have reached the slicingTime or exceeded the slicingTime */
-	p->ticks[priorityLevel] += ticks - ticksNum;
+	p->ticks += ticks - ticksNum;
 	ticksused = ticks - ticksNum;
 
 	/* Checks if we have exceeded our slicingTime and if we are in a
@@ -519,17 +527,12 @@ scheduler(void)
 	if (ticksused >= slicingTime && priorityLevel > 0){
 		p->priority = priorityLevel - 1;
 	}			
-	else if (priorityLevel == 0 && p->state = RUNNABLE){
+	else if (priorityLevel == 0 && p->state == RUNNABLE){
 		enqueueprocess(p, priorityLevel);
 	}
 
 }
 
-void enqueueprocess(struct proc *p, int priorityLevel){
-	int r = multifeedbackqueue.rear[priorityLevel];
-	multifeedbackqueue[priorityLevel][r] = p;
-	multifeedbackqueue.rear[priorityLevel] = (r + 1) % NPROC;
-}
 
 /* calculate priority function */
 

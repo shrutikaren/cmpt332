@@ -101,6 +101,7 @@ struct proc {
   int cpuUsage; /* Actual usage in quanta */
   int lastRunTime; 
   int priority; 
+  int ticks;
 
   /* wait_lock must be held when using this: */
   struct proc *parent;         /* Parent process */
