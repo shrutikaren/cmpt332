@@ -35,7 +35,6 @@ void init_ready_queues(void); /* UPDATED [2024-11-13] : 13:35:00 */
 void enqueue_process(struct proc *p, int priority); /* UPDATED [2024-11-13] : 13:35:00 */
 struct proc *dequeue_process(void); /* UPDATED [2024-11-13] : 13:35:00 */
 int sys_setshare(void); /* UPDATED [2024-11-13] : 13:35:00 */
-void scheduler(void); /* UPDATED [2024-11-13] : 13:35:00 */
 void timer_interrupt(void); /* UPDATED [2024-11-13] : 13:35:00 */
 
 /* Allocate a page for each process's kernel stack */
@@ -128,7 +127,7 @@ allocpid()
 /* and return with p->lock held. */
 /* If there are no free procs, or a memory allocation fails, return 0. */
 static struct proc*
-allocproc(void)
+allocproc(void){
 
   struct proc *p;
 
@@ -167,10 +166,6 @@ found:
   p->context.ra = (uint64)forkret;
   p->context.sp = p->kstack + PGSIZE;
 
-  /* CMPT 332 Group 01, Fall Change */
-  p->priority = 0;
-  p->clockTicks = 0;
-  p->cpuUsage = 0;
   return p;
 }
 
@@ -697,37 +692,6 @@ wait(uint64 addr)
     
     /* Wait for a child to exit. */
     sleep(p, &wait_lock);  /*DOC: wait-sleep */
-  }
-}
-
-/* Per-CPU process scheduler using MLFQ */
-void
-scheduler(void)
-{
-  struct proc *p;
-  struct cpu *c = mycpu();
-
-  c->proc = 0;
-  for(;;){
-    /* Enable interrupts on this processor. */
-    intr_on();
-
-    /* Acquire the process table lock */
-    acquire(&wait_lock);
-
-    /* Dequeue the next process to run based on MLFQ */
-    p = dequeue_process();
-
-    if(p){
-      /* Switch to chosen process */
-      p->state = RUNNING;
-      c->proc = p;
-      swtch(&c->context, &p->context);
-      /* Process is done running for now. */
-      c->proc = 0;
-    }
-
-    release(&wait_lock);
   }
 }
 
