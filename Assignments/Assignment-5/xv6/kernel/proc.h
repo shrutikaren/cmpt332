@@ -83,15 +83,7 @@ struct trapframe
 };
 
 // Each proc struct has a field named state, of which the values are declared in enum procstate.
-enum procstate
-{
-  UNUSED,
-  USED,
-  SLEEPING,
-  RUNNABLE,
-  RUNNING,
-  ZOMBIE
-};
+enum procstate { UNUSED, USED, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };
 
 #define MLFQ_MAX_LEVEL 10
 struct MLFQInfoReport {
