@@ -315,29 +315,6 @@ void MLFQ_scheduler(struct cpu *c)
   }
 }
 
-// Round Robin scheduler which is used when the MLFQ flag is not set. It schedules the processes in a round robin fashion. As requried by Project 1C.
-void RR_scheduler(struct cpu *c)
-{
-  struct proc *p;
-
-  for (p = proc; p < &proc[NPROC]; p++)
-  {
-    acquire(&p->lock);
-    if (p->state == RUNNABLE)
-    {
-      // Switch to chosen process. It is the process's job
-      // to release its lock and then reacquire it
-      // before jumping back to us.
-      p->state = RUNNING;
-      c->proc = p;
-      swtch(&c->context, &p->context);
-      // Process is done running for now.
-      // It should have changed its p->state before coming back.
-      c->proc = 0;
-    }
-    release(&p->lock);
-  }
-}
 
 // Commented out the original default scheduler function on line 794 below and added a new modified scheduler function to handle MLFQ scheduling. It chooses between MLFQ and RR scheduling based on the flag set.
 void scheduler(void)
@@ -349,15 +326,7 @@ void scheduler(void)
   {
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on(); // Enable interrupts.
-
-    if (mlfqFlag)
-    {
-      MLFQ_scheduler(c); // Run the MLFQ scheduler if the flag is set.
-    }
-    else
-    {
-      RR_scheduler(c); // Run the Round Robin scheduler if the flag is not set.
-    }
+    MLFQ_scheduler(c); // Run the MLFQ scheduler if the flag is set.
   }
 }
 
@@ -454,7 +423,7 @@ found:
   p->context.ra = (uint64)forkret;
   p->context.sp = p->kstack + PGSIZE;
 
-  // Project 1C
+  // ***********************
   // alloc is called when a new process is created. We need to initialize the values of the fields we added to the proc struct.
   for (int i = 0; i < MLFQ_MAX_LEVEL; i++)
   {
@@ -788,51 +757,6 @@ int wait(uint64 addr)
   }
 }
 
-// Per-CPU process scheduler.
-// Each CPU calls scheduler() after setting itself up.
-// Scheduler never returns.  It loops, doing:
-//  - choose a process to run.
-//  - swtch to start running that process.
-//  - eventually that process transfers control
-//    via swtch back to the scheduler.
-
-// implements the xv6 scheduler. Default is round robin
-// it checks the proc structs in array proc[NPROC] and picks one process that is in state RUNNABLE to run next
-// we need to increment runCount after such a process is picked and before the context switch happens in the function.
-
-// void
-// scheduler(void)
-// {
-//   struct proc *p;
-//   struct cpu *c = mycpu();
-
-//   c->proc = 0;
-//   for(;;){
-//     // Avoid deadlock by ensuring that devices can interrupt.
-//     intr_on();
-
-//     for(p = proc; p < &proc[NPROC]; p++) {
-//       acquire(&p->lock);
-//       if(p->state == RUNNABLE) {
-//         // Switch to chosen process.  It is the process's job
-//         // to release its lock and then reacquire it
-//         // before jumping back to us.
-//         p->state = RUNNING;
-//         c->proc = p;
-
-//         // increment the runcount of the proc before the switch.
-//         p->runCount++;
-
-//         swtch(&c->context, &p->context);
-
-//         // Process is done running for now.
-//         // It should have changed its p->state before coming back.
-//         c->proc = 0;
-//       }
-//       release(&p->lock);
-//     }
-//   }
-// }
 
 // Switch to scheduler.  Must hold only p->lock
 // and have changed proc->state. Saves and restores
