@@ -11,4 +11,29 @@ RUNNABLE states. If a process calls in sleep(), the process can't be stored into
 a ready queue until it has been successfully woken up. If it is created or 
 woken up, it will be added to the end of the ready queue. 
 
+=============================== TESTING FILE ==================================
+We have copied the rand() and do_rand() functions from proc.c and utilized it 
+into our files. A sqaure function was also created and in the main file, we 
+utilize fork() and the square() function to test the threads created inside the
+process. 
+
+1. int do_rand(unsigned long *ctx)
+	Purpose: Random generating numbers while ensuring that it doesn't 
+	overflow out of the 31 bits 
+
+2. int rand(void)
+	Purpose: utilizing the do_rand() function and utilzing 1 as the 
+	parameter
+
+3. int square (int value)
+	Purpose: Producing the squared number of value
+
+4. int main()
+	Purpose: We iterate through 10 to obtain 10 threads and for each of
+	the thread, we will obtain our PID. If the PID is 0, it is an 
+	indication that it is in fact our child process and we will then loop
+	to increment our obtained_value variable by getting the square of that
+	iteration value. 
+
+=============================== SCHEDULER =====================================
 
