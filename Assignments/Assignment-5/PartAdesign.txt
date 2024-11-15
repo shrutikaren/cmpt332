@@ -36,4 +36,22 @@ process.
 	iteration value. 
 
 =============================== SCHEDULER =====================================
+Inside the Makefile, I changed the CPUs to 1 so that my xv6 only runs on one
+specific CPU [CPUS:=3 was changed to CPUS:=1]. In my xv6, I am trying to execute
+a multi-level feedback queue (MLFQ). Inside my MLFQ, I am having 5 priority 
+levels ranging from 0 to 4. When I have my clock ticker as 10 which is 
+equivalently equal to 10ms, the highest priority ready process is scheduled to
+run. If on a specific level, there is more than one process then I will 
+schedule all the processes in a round robin schedulling method which is 
+abbreviated as RR. Every priority level has their own amount of clockticks
+associated to it. In our case, we will follow the following: 
+	- Priority 3: 8 clock ticks
+	- Priority 2: 16 clock ticks
+	- Priority 1: 32 clock ticks
+	- Priority 0: Executes the process until completion 
 
+When a new process arives, it should start at priority 3 as a highest priority.
+The priorities 4, 3, 2, 1, 0 will be downgraded by one priority after it 
+consumes its time-slice. To reduce the problem of starvation, I introduced a 
+priority boost and after the process has waited for some amount of time, it will
+be raised to the next highest priority. 
