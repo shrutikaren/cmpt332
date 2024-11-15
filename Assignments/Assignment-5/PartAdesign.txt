@@ -1,0 +1,14 @@
+============================= PROBLEM STATEMENT ===============================
+This is the design file to indicate the approach that was taken in order to
+perform a fair share schedulling algorithm for the xv6. There is currently an
+existing scheduler where the interrupt handler shifts to the kernel scheduler.
+It basically selects the 1st available process to run. However, with our 
+advanced scheduler being implemented, we are having fair shares of the CPU. 
+Every process has an assigned quanta that is closed to our predefined share. 
+
+Our queue that will be known as a "ready queue" will keep track of the 
+RUNNABLE states. If a process calls in sleep(), the process can't be stored into
+a ready queue until it has been successfully woken up. If it is created or 
+woken up, it will be added to the end of the ready queue. 
+
+
