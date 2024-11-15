@@ -27,6 +27,14 @@ extern char trampoline[]; /* trampoline.S */
 /* Synchronization locks */
 struct spinlock wait_lock;
 
+#define MAX_QUEUES 3
+#define MAX_GROUPS 10
+
+struct queue {
+    struct proc *head;
+    struct proc *tail;
+};
+
 /* Ready queues for MLFQ */
 struct queue ready_queues[MAX_QUEUES]; /* UPDATED [2024-11-13] : 13:35:00 */
 
