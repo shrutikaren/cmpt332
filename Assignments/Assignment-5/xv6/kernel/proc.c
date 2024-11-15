@@ -474,6 +474,7 @@ scheduler(void)
 {
 	/* Process that will be used as a placeholder */
 	struct proc *p;
+	struct cpu *c = mycpu();
 	uint ticksNum;
 	int priorityLevel, ticksused;
 	int i, j;
@@ -491,7 +492,8 @@ scheduler(void)
 		multifeedbackqueue.ending[j] = 0;
 	}
 	for (;;){
-		in
+		intr_on();
+		acquire(&wait_lock);
 		/* Iterate through the 5 levels one by one */
 		for (priorityLevel = 4; priorityLevel >= 0; priorityLevel --){
 			p = multifeedbackqueue.proc[priorityLevel][0];
@@ -513,7 +515,9 @@ scheduler(void)
 		}
         
 		slicingTime = 0; 
-	
+	/* Going through a context switch from scheulder to a process*/
+		swtch(&c->context, &p->context);	
+
 	/* Our time for running that process is less than the slicingTime and
  	the process is in the RUNNING state means that we are able to continue
 	running that specific process */
@@ -528,10 +532,12 @@ scheduler(void)
 	downwards */
 		if (ticksused >= slicingTime && priorityLevel > 0){
 			p->priority = priorityLevel - 1;
+			enqueueprocess(p, priorityLevel - 1);
 		}			
 		else if (priorityLevel == 0 && p->state == RUNNABLE){
 			enqueueprocess(p, priorityLevel);
 		}
+		release(&wait_lock);
 	}
 }
 
