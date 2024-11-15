@@ -1,6 +1,4 @@
-/* proc.c */
-/* UPDATED [2024-11-13] : 13:35:00 */
-
+// proc.c
 #include "types.h"
 #include "param.h"
 #include "memlayout.h"
@@ -9,141 +7,302 @@
 #include "proc.h"
 #include "defs.h"
 
-/* CPU and process table declarations */
+// Process table
 struct cpu cpus[NCPU];
-
 struct proc proc[NPROC];
-
 struct proc *initproc;
 
+// PID management
 int nextpid = 1;
 struct spinlock pid_lock;
 
+// External functions
 extern void forkret(void);
-static void freeproc(struct proc *p);
+extern char trampoline[]; // trampoline.S
 
-extern char trampoline[]; /* trampoline.S */
-
-/* Synchronization locks */
+// Spinlock for wait
 struct spinlock wait_lock;
 
-#define MAX_QUEUES 3
-#define MAX_GROUPS 10
+// MLFQ-related global variables
+static int mlfqFlag = 0;         // Flag to enable MLFQ scheduler
+static int levelsInMlfq = 1;     // Number of levels in MLFQ (default: 1)
+static int maxTicksAtBottom = 1; // Max ticks at bottom level (default: 1)
 
-struct queue {
-    struct proc *head;
-    struct proc *tail;
-};
+// Ready queues for each MLFQ level
+struct MLFQQueuePerLevel mlfqQueues[MLFQ_MAX_LEVEL];
 
-/* Ready queues for MLFQ */
-struct queue ready_queues[MAX_QUEUES]; /* UPDATED [2024-11-13] : 13:35:00 */
-
-/* Function prototypes */
-void init_ready_queues(void); /* UPDATED [2024-11-13] : 13:35:00 */
-void enqueue_process(struct proc *p, int priority); /* UPDATED [2024-11-13] : 13:35:00 */
-struct proc *dequeue_process(void); /* UPDATED [2024-11-13] : 13:35:00 */
-int sys_setshare(void); /* UPDATED [2024-11-13] : 13:35:00 */
-void timer_interrupt(void); /* UPDATED [2024-11-13] : 13:35:00 */
-
-/* Allocate a page for each process's kernel stack */
-void
-proc_mapstacks(pagetable_t kpgtbl)
+// Function to initialize the MLFQ scheduler
+void initialize_mlfq(void)
 {
-  struct proc *p;
-  
-  for(p = proc; p < &proc[NPROC]; p++) {
-    char *pa = kalloc();
-    if(pa == 0)
-      panic("kalloc");
-    uint64 va = KSTACK((int) (p - proc));
-    kvmmap(kpgtbl, va, (uint64)pa, PGSIZE, PTE_R | PTE_W);
+  mlfqFlag = 0; // Disabled by default
+  levelsInMlfq = 1;
+  maxTicksAtBottom = 1;
+
+  // Initialize all MLFQ queues
+  for(int i = 0; i < MLFQ_MAX_LEVEL; i++) {
+    mlfqQueues[i].head = 0;
+    mlfqQueues[i].tail = 0;
   }
 }
 
-/* Initialize process table and ready queues */
-void
-procinit(void)
+// Setter and Getter for MLFQ Flag
+void setMLFQFlag(int flag)
 {
-  struct proc *p;
-  
-  initlock(&pid_lock, "nextpid");
-  initlock(&wait_lock, "wait_lock");
-  for(p = proc; p < &proc[NPROC]; p++) {
-      initlock(&p->lock, "proc");
-      p->state = UNUSED;
-      p->kstack = KSTACK((int) (p - proc));
+  mlfqFlag = flag;
+}
 
-      /* UPDATED [2024-11-13] : 13:35:00 */
-      p->priority = 0;      /* Initialize priority */
-      p->time_slice = 10;   /* Default time slice */
-      p->share = 10;        /* Default share */
-      p->group = 0;         /* Default group */
-      p->next = 0;          /* Initialize next pointer */
+int getMLFQFlag(void)
+{
+  return mlfqFlag;
+}
+
+// Setter and Getter for Levels in MLFQ
+void setLevelsInMLFQ(int levels)
+{
+  if(levels > 0 && levels <= MLFQ_MAX_LEVEL) {
+    levelsInMlfq = levels;
+  }
+}
+
+int getLevelsInMLFQ(void)
+{
+  return levelsInMlfq;
+}
+
+// Setter and Getter for Max Ticks at Bottom Level
+void setMaxTicksAtBottom(int ticks)
+{
+  if(ticks > 0) {
+    maxTicksAtBottom = ticks;
+  }
+}
+
+int getMaxTicksAtBottom(void)
+{
+  return maxTicksAtBottom;
+}
+
+// Enqueue a process to a specific MLFQ level
+void mlfq_enqueue(int level, struct proc *p)
+{
+  if(level < 0 || level >= levelsInMlfq) {
+    panic("mlfq_enqueue: Invalid level");
   }
 
-  /* Initialize ready queues */
-  init_ready_queues(); /* UPDATED [2024-11-13] : 13:35:00 */
+  struct MLFQProcessNode *procNode = (struct MLFQProcessNode *)kalloc();
+  if(procNode == 0) {
+    panic("mlfq_enqueue: kalloc failed");
+  }
+
+  procNode->pcb = p;
+  procNode->next = 0;
+
+  struct MLFQQueuePerLevel *targetQueue = &mlfqQueues[level];
+
+  if(targetQueue->head == 0) { // Queue is empty
+    procNode->prev = 0;
+    targetQueue->head = procNode;
+    targetQueue->tail = procNode;
+  }
+  else { // Append to the tail
+    procNode->prev = targetQueue->tail;
+    targetQueue->tail->next = procNode;
+    targetQueue->tail = procNode;
+  }
+
+  p->mlfq_node = procNode;
+  p->lvl = level;
+  p->currLvlTicks = 0;
+  p->inQueue = 1;
 }
 
-
-/* Must be called with interrupts disabled, */
-/* to prevent race with process being moved */
-/* to a different CPU. */
-int
-cpuid()
+// Unlink a process node from its MLFQ queue and free memory
+void unlink_and_free(struct MLFQQueuePerLevel *queue, struct MLFQProcessNode *node)
 {
-  int id = r_tp();
-  return id;
+  if(node->prev != 0) { // Not the head
+    node->prev->next = node->next;
+  }
+  else { // Node is the head
+    queue->head = node->next;
+  }
+
+  if(node->next != 0) { // Not the tail
+    node->next->prev = node->prev;
+  }
+  else { // Node is the tail
+    queue->tail = node->prev;
+  }
+
+  kfree((void *)node);
 }
 
-/* Return this CPU's cpu struct. */
-/* Interrupts must be disabled. */
-struct cpu*
-mycpu(void)
+// Dequeue a specific process from a specific MLFQ level
+void mlfq_dequeue(int level, struct proc *p)
 {
-  int id = cpuid();
-  struct cpu *c = &cpus[id];
-  return c;
+  if(level < 0 || level >= levelsInMlfq) {
+    panic("mlfq_dequeue: Invalid level");
+  }
+
+  struct MLFQQueuePerLevel *targetQueue = &mlfqQueues[level];
+  struct MLFQProcessNode *procNode = p->mlfq_node;
+
+  if(procNode == 0) {
+    // Process is not in any queue
+    return;
+  }
+
+  unlink_and_free(targetQueue, procNode);
+
+  p->mlfq_node = 0;
+  p->inQueue = 0;
 }
 
-/* Return the current struct proc *, or zero if none. */
-struct proc*
-myproc(void)
+// Delete a process from its current MLFQ level
+void mlfq_delete(int level, struct proc *p)
 {
-  push_off();
+  mlfq_dequeue(level, p);
+}
+
+// Select the next runnable process from the MLFQ queues
+struct proc* mlfq_select_process(void)
+{
+  for(int i = 0; i < levelsInMlfq; i++) { // Start from highest priority
+    struct MLFQQueuePerLevel *currentQueue = &mlfqQueues[i];
+    struct MLFQProcessNode *node = currentQueue->head;
+
+    while(node != 0) {
+      struct proc *p = node->pcb;
+      if(p->state == RUNNABLE) {
+        mlfq_dequeue(i, p); // Remove from queue
+        return p;
+      }
+      node = node->next;
+    }
+  }
+  return 0; // No runnable process found
+}
+
+// Update a process's tick counts and handle demotion
+void mlfq_update_process(struct proc *p)
+{
+  p->currLvlTicks++;
+  p->report.tickCounts[p->lvl] = p->currLvlTicks;
+
+  if(p->currLvlTicks >= 2 * (p->lvl + 1)) { // Time quantum expired
+    if(p->lvl < levelsInMlfq - 1) { // Not at lowest level
+      mlfq_dequeue(p->lvl, p); // Remove from current queue
+      p->lvl++;                 // Demote to next lower level
+      p->currLvlTicks = 0;      // Reset ticks
+
+      mlfq_enqueue(p->lvl, p);  // Enqueue to lower level
+    }
+    else { // At lowest level, do not demote
+      p->currLvlTicks = 0; // Reset ticks
+      mlfq_enqueue(p->lvl, p); // Re-enqueue to same level
+    }
+  }
+}
+
+// Priority boost: Promote processes stuck at the lowest level to highest level
+void mlfq_priority_boost(void)
+{
+  struct MLFQQueuePerLevel *bottomQueue = &mlfqQueues[levelsInMlfq - 1];
+  struct MLFQProcessNode *node = bottomQueue->head;
+
+  while(node != 0) {
+    struct proc *p = node->pcb;
+    node = node->next; // Move to next node before potential modifications
+
+    p->maxLvlTicks++;
+    if(p->maxLvlTicks >= maxTicksAtBottom) {
+      mlfq_dequeue(levelsInMlfq - 1, p); // Remove from bottom queue
+      p->maxLvlTicks = 0;                 // Reset max level ticks
+      p->currLvlTicks = 0;                // Reset current level ticks
+      p->lvl = 0;                          // Promote to highest level
+
+      mlfq_enqueue(0, p);                  // Enqueue to top level
+    }
+  }
+}
+
+// Scheduler for MLFQ
+void MLFQ_scheduler(struct cpu *c)
+{
+  struct proc *p = mlfq_select_process();
+
+  if(p != 0) {
+    acquire(&p->lock);
+    p->state = RUNNING;
+    c->proc = p;
+
+    // Increment run count before switching
+    p->runCount++;
+
+    swtch(&c->context, &p->context); // Context switch to process
+    c->proc = 0;
+    release(&p->lock);
+
+    // After process runs, update its tick counts and handle demotion
+    mlfq_update_process(p);
+  }
+
+  // Perform priority boost if necessary
+  mlfq_priority_boost();
+}
+
+// Round Robin Scheduler
+void RR_scheduler(struct cpu *c)
+{
+  struct proc *p;
+
+  for(p = proc; p < &proc[NPROC]; p++) {
+    acquire(&p->lock);
+    if(p->state == RUNNABLE) {
+      p->state = RUNNING;
+      c->proc = p;
+
+      // Increment run count before switching
+      p->runCount++;
+
+      swtch(&c->context, &p->context); // Context switch to process
+      c->proc = 0;
+    }
+    release(&p->lock);
+  }
+}
+
+// Main scheduler function
+void scheduler(void)
+{
   struct cpu *c = mycpu();
-  struct proc *p = c->proc;
-  pop_off();
-  return p;
+  c->proc = 0;
+
+  for(;;){
+    // Avoid deadlock by ensuring that devices can interrupt.
+    intr_on();
+
+    if(getMLFQFlag()) {
+      // Run MLFQ scheduler
+      MLFQ_scheduler(c);
+    }
+    else {
+      // Run Round Robin scheduler
+      RR_scheduler(c);
+    }
+  }
 }
 
-int
-allocpid()
+// Allocate a new process
+static struct proc* allocproc(void)
 {
-  int pid;
-  
-  acquire(&pid_lock);
-  pid = nextpid;
-  nextpid = nextpid + 1;
-  release(&pid_lock);
-
-  return pid;
-}
-
-/* Look in the process table for an UNUSED proc. */
-/* If found, initialize state required to run in the kernel, */
-/* and return with p->lock held. */
-/* If there are no free procs, or a memory allocation fails, return 0. */
-static struct proc*
-allocproc(void){
-
   struct proc *p;
 
   for(p = proc; p < &proc[NPROC]; p++) {
     acquire(&p->lock);
     if(p->state == UNUSED) {
       goto found;
-    } else {
+    }
+    else {
       release(&p->lock);
     }
   }
@@ -153,14 +312,14 @@ found:
   p->pid = allocpid();
   p->state = USED;
 
-  /* Allocate a trapframe page. */
-  if((p->trapframe = (struct trapframe *)kalloc()) == 0){
+  // Allocate trapframe
+  if((p->trapframe = (struct trapframe*)kalloc()) == 0){
     freeproc(p);
     release(&p->lock);
     return 0;
   }
 
-  /* An empty user page table. */
+  // Allocate pagetable
   p->pagetable = proc_pagetable(p);
   if(p->pagetable == 0){
     freeproc(p);
@@ -168,254 +327,24 @@ found:
     return 0;
   }
 
-  /* Set up new context to start executing at forkret, */
-  /* which returns to user space. */
+  // Initialize context to forkret
   memset(&p->context, 0, sizeof(p->context));
   p->context.ra = (uint64)forkret;
   p->context.sp = p->kstack + PGSIZE;
 
+  // Initialize MLFQ-related fields
+  p->inQueue = 0;
+  p->lvl = 0;
+  p->currLvlTicks = 0;
+  p->maxLvlTicks = 0;
+  p->mlfq_node = 0;
+  memset(p->report.tickCounts, 0, sizeof(p->report.tickCounts));
+
   return p;
 }
 
-
-
-/* Initialize the ready queues */
-void init_ready_queues(void) { /* UPDATED [2024-11-13] : 13:35:00 */
-  for(int i = 0; i < MAX_QUEUES; i++) {
-    ready_queues[i].head = 0;
-    ready_queues[i].tail = 0;
-  }
-}
-
-/* Add a process to a specific queue based on priority */
-void enqueue_process(struct proc *p, int priority) { /* UPDATED [2024-11-13] : 13:35:00 */
-  p->priority = priority;
-  
-  /* Set the time slice based on priority level */
-  switch(priority){
-    case 0:
-      p->time_slice = 5;  /* Example: 5 ticks for highest priority */
-      break;
-    case 1:
-      p->time_slice = 10; /* Example: 10 ticks for medium priority */
-      break;
-    case 2:
-      p->time_slice = 20; /* Example: 20 ticks for lowest priority */
-      break;
-    default:
-      p->time_slice = 20;
-      break;
-  }
-
-  p->next = 0;
-
-  if (ready_queues[priority].tail) {
-    ready_queues[priority].tail->next = p;
-    ready_queues[priority].tail = p;
-  } else {
-    ready_queues[priority].head = ready_queues[priority].tail = p;
-  }
-}
-
-/* Remove and return the next process from the highest priority non-empty queue */
-struct proc *dequeue_process(void) { /* UPDATED [2024-11-13] : 13:35:00 */
-  for(int i = 0; i < MAX_QUEUES; i++) {
-    if(ready_queues[i].head) {
-      struct proc *p = ready_queues[i].head;
-      ready_queues[i].head = p->next;
-      if(ready_queues[i].head == 0)
-        ready_queues[i].tail = 0;
-      p->next = 0;
-      return p;
-    }
-  }
-  return 0; // No runnable process found
-}
-
-/* Adjust the priority of a process (used for aging or demotion) */
-void adjust_priority(struct proc *p) { /* UPDATED [2024-11-13] : 13:35:00 */
-  /* Example: Demote to lower priority if time_slice exhausted */
-  if(p->priority < MAX_QUEUES -1){
-    p->priority++;
-  }
-  /* Reset time_slice based on new priority */
-  switch(p->priority){
-    case 0:
-      p->time_slice = 5;
-      break;
-    case 1:
-      p->time_slice = 10;
-      break;
-    case 2:
-      p->time_slice = 20;
-      break;
-    default:
-      p->time_slice = 20;
-      break;
-  }
-  /* Enqueue back into appropriate queue */
-  enqueue_process(p, p->priority);
-}
-
-/* Scheduler implementation using MLFQ */
-void scheduler(void) { /* UPDATED [2024-11-13] : 13:35:00 */
-  struct proc *p;
-  struct cpu *c = mycpu();
-
-  c->proc = 0;
-  for(;;){
-    /* Enable interrupts on this processor. */
-    intr_on();
-
-    /* Acquire the process table lock */
-    acquire(&wait_lock);
-
-    /* Dequeue the next process to run based on MLFQ */
-    p = dequeue_process();
-
-    if(p){
-      /* Switch to chosen process */
-      p->state = RUNNING;
-      c->proc = p;
-      swtch(&c->context, &p->context);
-      /* Process is done running for now. */
-      c->proc = 0;
-    }
-
-    release(&wait_lock);
-  }
-}
-
-/* System call to set CPU share for a process or group */
-int sys_setshare(void) { /* UPDATED [2024-11-13] : 13:35:00 */
-  int share;
-  int group;
-
-  share = 0;
-  group = 0;
-  argint(0, &share);
-  argint(0, &group);
-
-  struct proc *p = myproc();
-
-  if(group >=0 && group < MAX_GROUPS){ /* UPDATED [2024-11-13] : 13:35:00 */
-    /* Set share for the group */
-    acquire(&wait_lock);
-    for(int i =0; i < NPROC; i++){
-      if(proc[i].group == group){
-        acquire(&proc[i].lock);
-        proc[i].share = share;
-
-        /* Optionally adjust priority based on share */
-        /* Example: Higher share -> higher priority */
-        if(proc[i].share >= 10){
-          /* Remove from current queue if not already highest */
-          if(proc[i].priority > 0){
-            /* Remove from current queue */
-            /* Note: Implement remove_from_queue if necessary */
-            /* For simplicity, we re-enqueue which will handle duplication */
-            enqueue_process(&proc[i], 0);
-          }
-        }
-        release(&proc[i].lock);
-      }
-    }
-    release(&wait_lock);
-  }
-  else{
-    /* Set share for the current process */
-    if(share < 1){
-      /* Minimum share is 1 */
-      return -1;
-    }
-
-    acquire(&p->lock);
-    p->share = share;
-
-    /* Adjust priority based on share */
-    if(p->share >= 10 && p->priority > 0){
-      enqueue_process(p, 0);
-    }
-    else if(p->share >=5 && p->priority >1){
-      enqueue_process(p, 1);
-    }
-    /* Else, keep current priority */
-    release(&p->lock);
-  }
-
-  return 0;
-}
-
-/* Timer interrupt handler to manage time slices and priority */
-void timer_interrupt(void) { /* UPDATED [2024-11-13] : 13:35:00 */
-  struct proc *p = myproc();
-
-  if(p){
-    p->time_slice--;
-
-    if(p->time_slice <= 0){
-      acquire(&wait_lock);
-      acquire(&p->lock);
-
-      /* Demote the process if it's not in the lowest queue */
-      if(p->priority < MAX_QUEUES - 1){
-        p->priority++;
-      }
-
-      /* Reset time_slice based on new priority */
-      switch(p->priority){
-        case 0:
-          p->time_slice = 5;
-          break;
-        case 1:
-          p->time_slice = 10;
-          break;
-        case 2:
-          p->time_slice = 20;
-          break;
-        default:
-          p->time_slice = 20;
-          break;
-      }
-
-      /* Enqueue the process back to the appropriate queue */
-      enqueue_process(p, p->priority);
-
-      p->state = RUNNABLE;
-
-      release(&p->lock);
-      release(&wait_lock);
-
-      /* Trigger scheduler */
-      yield();
-    }
-  }
-
-  /* Priority Boosting to prevent starvation */
-  static int tick_count = 0;
-  tick_count++;
-  if(tick_count >= 1000){ /* Example interval */
-    acquire(&wait_lock);
-    for(int i =0; i < NPROC; i++){
-      if(proc[i].state == RUNNABLE){
-        acquire(&proc[i].lock);
-        if(proc[i].priority != 0){
-          proc[i].priority = 0; /* Boost to highest priority */
-          enqueue_process(&proc[i], proc[i].priority);
-        }
-        release(&proc[i].lock);
-      }
-    }
-    tick_count = 0;
-    release(&wait_lock);
-  }
-}
-
-/* Free a proc structure and the data hanging from it, */
- /* including user pages. */
- /* p->lock must be held. */
-static void
-freeproc(struct proc *p)
+// Free a process structure and its associated data
+static void freeproc(struct proc *p)
 {
   if(p->trapframe)
     kfree((void*)p->trapframe);
@@ -431,34 +360,60 @@ freeproc(struct proc *p)
   p->killed = 0;
   p->xstate = 0;
   p->state = UNUSED;
+
+  // Reset system call metrics
+  p->runCount = 0;
+  p->sleepCount = 0;
+  p->systemcallCount = 0;
+  p->trapCount = 0;
+  p->interruptCount = 0;
+  p->preemptCount = 0;
+
+  // Reset MLFQ-related fields
+  p->inQueue = 0;
+  p->lvl = 0;
+  p->currLvlTicks = 0;
+  p->maxLvlTicks = 0;
+  p->mlfq_node = 0;
+  memset(p->report.tickCounts, 0, sizeof(p->report.tickCounts));
 }
 
-/* Create a user page table for a given process, with no user memory, */
-/* but with trampoline and trapframe pages. */
-pagetable_t
-proc_pagetable(struct proc *p)
+// Allocate PID
+static int allocpid(void)
+{
+  int pid;
+
+  acquire(&pid_lock);
+  pid = nextpid;
+  nextpid = nextpid + 1;
+  release(&pid_lock);
+
+  return pid;
+}
+
+// Create a user page table for a given process, with no user memory,
+// but with trampoline and trapframe pages.
+pagetable_t proc_pagetable(struct proc *p)
 {
   pagetable_t pagetable;
 
-  /* An empty page table. */
+  // An empty page table.
   pagetable = uvmcreate();
   if(pagetable == 0)
     return 0;
 
-  /* map the trampoline code (for system call return) */
-  /* at the highest user virtual address. */
-  /* only the supervisor uses it, on the way */
-  /* to/from user space, so not PTE_U. */
-  if(mappages(pagetable, TRAMPOLINE, PGSIZE,
-              (uint64)trampoline, PTE_R | PTE_X) < 0){
+  // Map the trampoline code (for system call return)
+  // at the highest user virtual address.
+  // Only the supervisor uses it, on the way to/from user space, so not PTE_U.
+  if(mappages(pagetable, TRAMPOLINE, PGSIZE, 
+             (uint64)trampoline, PTE_R | PTE_X) < 0){
     uvmfree(pagetable, 0);
     return 0;
   }
 
-  /* map the trapframe page just below the trampoline page, for */
-  /* trampoline.S. */
-  if(mappages(pagetable, TRAPFRAME, PGSIZE,
-              (uint64)(p->trapframe), PTE_R | PTE_W) < 0){
+  // Map the trapframe page just below the trampoline page, for trampoline.S.
+  if(mappages(pagetable, TRAPFRAME, PGSIZE, 
+             (uint64)(p->trapframe), PTE_R | PTE_W) < 0){
     uvmunmap(pagetable, TRAMPOLINE, 1, 0);
     uvmfree(pagetable, 0);
     return 0;
@@ -467,92 +422,74 @@ proc_pagetable(struct proc *p)
   return pagetable;
 }
 
-/* Free a process's page table, and free the */
- /* physical memory it refers to. */
-void
-proc_freepagetable(pagetable_t pagetable, uint64 sz)
+// Free a process's page table, and free the
+// physical memory it refers to.
+void proc_freepagetable(pagetable_t pagetable, uint64 sz)
 {
   uvmunmap(pagetable, TRAMPOLINE, 1, 0);
   uvmunmap(pagetable, TRAPFRAME, 1, 0);
   uvmfree(pagetable, sz);
 }
 
-/* a user program that calls exec("/init") */
-/* assembled from ../user/initcode.S */
-/* od -t xC ../user/initcode */
-uchar initcode[] = {
-  0x17, 0x05, 0x00, 0x00, 0x13, 0x05, 0x45, 0x02,
-  0x97, 0x05, 0x00, 0x00, 0x93, 0x85, 0x35, 0x02,
-  0x93, 0x08, 0x70, 0x00, 0x73, 0x00, 0x00, 0x00,
-  0x93, 0x08, 0x20, 0x00, 0x73, 0x00, 0x00, 0x00,
-  0xef, 0xf0, 0x9f, 0xff, 0x2f, 0x69, 0x6e, 0x69,
-  0x74, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00, 0x00,
-  0x00, 0x00, 0x00, 0x00
-};
-
-/* Set up first user process. */
-void
-userinit(void)
+// Initialize the first user process
+void userinit(void)
 {
   struct proc *p;
 
   p = allocproc();
   initproc = p;
-  
-  /* Allocate one user page and copy initcode's instructions */
-  /* and data into it. */
+
+  // Allocate one user page and copy initcode's instructions and data into it.
   uvmfirst(p->pagetable, initcode, sizeof(initcode));
   p->sz = PGSIZE;
 
-  /* Prepare for the very first "return" from kernel to user. */
-  p->trapframe->epc = 0;      /* user program counter */
-  p->trapframe->sp = PGSIZE;  /* user stack pointer */
+  // Prepare for the very first "return" from kernel to user.
+  p->trapframe->epc = 0;     // User program counter
+  p->trapframe->sp = PGSIZE; // User stack pointer
 
   safestrcpy(p->name, "initcode", sizeof(p->name));
   p->cwd = namei("/");
 
-  /* Initialize MLFQ fields */
-  acquire(&p->lock);
   p->state = RUNNABLE;
-  enqueue_process(p, p->priority); /* UPDATED [2024-11-13] : 13:35:00 */
+
+  // Enqueue to MLFQ if enabled
+  enqueue_if_mlfq(p);
+
   release(&p->lock);
 }
 
-/* Grow or shrink user memory by n bytes. */
- /* Return 0 on success, -1 on failure. */
-int
-growproc(int n)
+// Grow or shrink user memory by n bytes.
+// Return 0 on success, -1 on failure.
+int growproc(int n)
 {
   uint64 sz;
   struct proc *p = myproc();
 
   sz = p->sz;
   if(n > 0){
-    if((sz = uvmalloc(p->pagetable, sz, sz + n, PTE_W)) == 0) {
+    if((sz = uvmalloc(p->pagetable, sz, sz + n, PTE_W)) == 0)
       return -1;
-    }
-  } else if(n < 0){
+  }
+  else if(n < 0){
     sz = uvmdealloc(p->pagetable, sz, sz + n);
   }
   p->sz = sz;
   return 0;
 }
 
-/* Create a new process, copying the parent. */
- /* Sets up child kernel stack to return as if from fork() system call. */
-int
-fork(void)
+// Fork a new process, copying the parent.
+int fork(void)
 {
   int i, pid;
   struct proc *np;
   struct proc *p = myproc();
 
-  /* Allocate process. */
+  // Allocate process.
   if((np = allocproc()) == 0){
     return -1;
   }
 
-  /* Copy user memory from parent to child. */
+  // Copy user memory from parent to child.
   if(uvmcopy(p->pagetable, np->pagetable, p->sz) < 0){
     freeproc(np);
     release(&np->lock);
@@ -560,19 +497,19 @@ fork(void)
   }
   np->sz = p->sz;
 
-  /* Copy saved user registers. */
+  // Copy saved user registers.
   *(np->trapframe) = *(p->trapframe);
 
-  /* Cause fork to return 0 in the child. */
+  // Cause fork to return 0 in the child.
   np->trapframe->a0 = 0;
 
-  /* Increment reference counts on open file descriptors. */
+  // Increment reference counts on open file descriptors.
   for(i = 0; i < NOFILE; i++)
     if(p->ofile[i])
       np->ofile[i] = filedup(p->ofile[i]);
   np->cwd = idup(p->cwd);
 
-  safestrcpy(np->name, p->name, sizeof(np->name));
+  safestrcpy(np->name, p->name, sizeof(p->name));
 
   pid = np->pid;
 
@@ -582,28 +519,24 @@ fork(void)
   np->parent = p;
   release(&wait_lock);
 
-  /* Initialize MLFQ fields for the child */
   acquire(&np->lock);
-  np->priority = 0;       /* Start at highest priority */
-  np->time_slice = 10;    /* Default time slice */
-  np->share = p->share;   /* Inherit share from parent */
-  np->group = p->group;   /* Inherit group from parent */
-  np->next = 0;
-  enqueue_process(np, np->priority); /* UPDATED [2024-11-13] : 13:35:00 */
   np->state = RUNNABLE;
+
+  // Enqueue to MLFQ if enabled
+  enqueue_if_mlfq(np);
+
   release(&np->lock);
 
   return pid;
 }
 
-/* Pass p's abandoned children to init. */
-/* Caller must hold wait_lock. */
-void
-reparent(struct proc *p)
+// Pass p's abandoned children to init.
+// Caller must hold wait_lock.
+void reparent(struct proc *p)
 {
   struct proc *pp;
 
-  for(pp = proc; pp < &proc[NPROC]; pp++){
+  for(pp = proc; pp < &proc[NPROC]; pp++) {
     if(pp->parent == p){
       pp->parent = initproc;
       wakeup(initproc);
@@ -611,19 +544,16 @@ reparent(struct proc *p)
   }
 }
 
-/* Exit the current process.  Does not return. */
- /* An exited process remains in the zombie state */
- /* until its parent calls wait(). */
-void
-exit(int status)
+// Exit the current process. Does not return.
+void exit(int status)
 {
   struct proc *p = myproc();
 
   if(p == initproc)
     panic("init exiting");
 
-  /* Close all open files. */
-  for(int fd = 0; fd < NOFILE; fd++){
+  // Close all open files.
+  for(int fd = 0; fd < NOFILE; fd++) {
     if(p->ofile[fd]){
       struct file *f = p->ofile[fd];
       fileclose(f);
@@ -638,12 +568,12 @@ exit(int status)
 
   acquire(&wait_lock);
 
-  /* Give any children to init. */
+  // Reparent children to init.
   reparent(p);
 
-  /* Parent might be sleeping in wait(). */
+  // Wake up parent in case it's waiting.
   wakeup(p->parent);
-  
+
   acquire(&p->lock);
 
   p->xstate = status;
@@ -651,15 +581,18 @@ exit(int status)
 
   release(&wait_lock);
 
-  /* Jump into the scheduler, never to return. */
+  // Dequeue from MLFQ if enabled
+  if(getMLFQFlag() && p->inQueue) {
+    mlfq_dequeue(p->lvl, p);
+  }
+
   sched();
   panic("zombie exit");
 }
 
-/* Wait for a child process to exit and return its pid. */
- /* Return -1 if this process has no children. */
-int
-wait(uint64 addr)
+// Wait for a child process to exit and return its pid.
+// Return -1 if this process has no children.
+int wait(uint64 addr)
 {
   struct proc *pp;
   int havekids, pid;
@@ -668,19 +601,16 @@ wait(uint64 addr)
   acquire(&wait_lock);
 
   for(;;){
-    /* Scan through table looking for exited children. */
+    // Scan through table looking for exited children.
     havekids = 0;
-    for(pp = proc; pp < &proc[NPROC]; pp++){
+    for(pp = proc; pp < &proc[NPROC]; pp++) {
       if(pp->parent == p){
-        /* Make sure the child isn't still in exit() or swtch(). */
         acquire(&pp->lock);
-
         havekids = 1;
         if(pp->state == ZOMBIE){
-          /* Found one. */
+          // Found one.
           pid = pp->pid;
-          if(addr != 0 && copyout(p->pagetable, addr, (char *)&pp->xstate,
-                                  sizeof(pp->xstate)) < 0) {
+          if(addr != 0 && copyout(p->pagetable, addr, (char *)&pp->xstate, sizeof(pp->xstate)) < 0){
             release(&pp->lock);
             release(&wait_lock);
             return -1;
@@ -694,26 +624,19 @@ wait(uint64 addr)
       }
     }
 
-    /* No point waiting if we don't have any children. */
+    // No point waiting if we don't have any children.
     if(!havekids || killed(p)){
       release(&wait_lock);
       return -1;
     }
-    
-    /* Wait for a child to exit. */
-    sleep(p, &wait_lock);  /*DOC: wait-sleep */
+
+    // Wait for a child to exit.
+    sleep(p, &wait_lock); // DOC: wait-sleep
   }
 }
 
-/* Switch to scheduler.  Must hold only p->lock */
- /* and have changed proc->state. Saves and restores */
- /* intena because intena is a property of this */
- /* kernel thread, not this CPU. It should */
- /* be proc->intena and proc->noff, but that would */
- /* break in the few places where a lock is held but */
- /* there's no process. */
-void
-sched(void)
+// Schedule a process
+void sched(void)
 {
   int intena;
   struct proc *p = myproc();
@@ -732,108 +655,94 @@ sched(void)
   mycpu()->intena = intena;
 }
 
-/* Give up the CPU for one scheduling round. */
-void
-yield(void)
+// Yield the CPU for one scheduling round.
+void yield(void)
 {
   struct proc *p = myproc();
   acquire(&p->lock);
   p->state = RUNNABLE;
-  enqueue_process(p, p->priority); /* UPDATED [2024-11-13] : 13:35:00 */
+
+  if(getMLFQFlag()) {
+    mlfq_enqueue(p->lvl, p);
+  }
+
   sched();
   release(&p->lock);
 }
 
-/* A fork child's very first scheduling by scheduler() */
- /* will swtch to forkret. */
-void
-forkret(void)
+// Fork return function
+void forkret(void)
 {
   static int first = 1;
 
-  /* Still holding p->lock from scheduler. */
+  // Still holding p->lock from scheduler.
   release(&myproc()->lock);
 
-  if (first) {
-    /* File system initialization must be run in the context of a */
-    /* regular process (e.g., because it calls sleep), and thus cannot */
-    /* be run from main(). */
-    fsinit(ROOTDEV);
-
+  if(first){
+    // File system initialization must be run in the context of a
+    // regular process (e.g., because it calls sleep), and thus cannot
+    // be run from main().
     first = 0;
-    /* ensure other cores see first=0. */
-    __sync_synchronize();
+    fsinit(ROOTDEV);
   }
 
   usertrapret();
 }
 
-/* Atomically release lock and sleep on chan. */
- /* Reacquires lock when awakened. */
-void
-sleep(void *chan, struct spinlock *lk)
+// Sleep on a channel
+void sleep(void *chan, struct spinlock *lk)
 {
   struct proc *p = myproc();
-  
-  /* Must acquire p->lock in order to */
-  /* change p->state and then call sched. */
-  /* Once we hold p->lock, we can be */
-  /* guaranteed that we won't miss any wakeup */
-  /* (wakeup locks p->lock), */
-  /* so it's okay to release lk. */
 
-  acquire(&p->lock);  /*DOC: sleeplock1 */
+  acquire(&p->lock);
   release(lk);
 
-  /* Go to sleep. */
+  // Go to sleep.
   p->chan = chan;
   p->state = SLEEPING;
 
+  // Increment the sleepCount before scheduling
+  p->sleepCount++;
+
   sched();
 
-  /* Tidy up. */
+  // Tidy up.
   p->chan = 0;
 
-  /* Reacquire original lock. */
+  // Reacquire original lock.
   release(&p->lock);
   acquire(lk);
 }
 
-/* Wake up all processes sleeping on chan. */
- /* Must be called without any p->lock. */
-void
-wakeup(void *chan)
+// Wake up all processes sleeping on chan.
+void wakeup(void *chan)
 {
   struct proc *p;
 
-  acquire(&wait_lock);
   for(p = proc; p < &proc[NPROC]; p++) {
-    if(p->state == SLEEPING && p->chan == chan){
+    if(p != myproc()){
       acquire(&p->lock);
-      p->state = RUNNABLE;
-      enqueue_process(p, p->priority); /* UPDATED [2024-11-13] : 13:35:00 */
+      if(p->state == SLEEPING && p->chan == chan){
+        p->state = RUNNABLE;
+        enqueue_if_mlfq(p);
+      }
       release(&p->lock);
     }
   }
-  release(&wait_lock);
 }
 
-/* Kill the process with the given pid. */
- /* The victim won't exit until it tries to return */
- /* to user space (see usertrap() in trap.c). */
-int
-kill(int pid)
+// Kill the process with the given pid.
+int kill(int pid)
 {
   struct proc *p;
 
-  for(p = proc; p < &proc[NPROC]; p++){
+  for(p = proc; p < &proc[NPROC]; p++) {
     acquire(&p->lock);
     if(p->pid == pid){
       p->killed = 1;
       if(p->state == SLEEPING){
-        /* Wake process from sleep(). */
         p->state = RUNNABLE;
-        enqueue_process(p, p->priority); /* UPDATED [2024-11-13] : 13:35:00 */
+        enqueue_if_mlfq(p);
       }
       release(&p->lock);
       return 0;
@@ -843,74 +752,66 @@ kill(int pid)
   return -1;
 }
 
-void
-setkilled(struct proc *p)
+// Set a process as killed.
+void setkilled(struct proc *p)
 {
   acquire(&p->lock);
   p->killed = 1;
   release(&p->lock);
 }
 
-int
-killed(struct proc *p)
+// Check if a process is killed.
+int killed(struct proc *p)
 {
   int k;
-  
+
   acquire(&p->lock);
   k = p->killed;
   release(&p->lock);
   return k;
 }
 
-/* Copy to either a user address, or kernel address, */
- /* depending on usr_dst. */
- /* Returns 0 on success, -1 on error. */
-int
-either_copyout(int user_dst, uint64 dst, void *src, uint64 len)
+// Copy to either a user address or kernel address, depending on usr_dst.
+int either_copyout(int user_dst, uint64 dst, void *src, uint64 len)
 {
   struct proc *p = myproc();
   if(user_dst){
     return copyout(p->pagetable, dst, src, len);
-  } else {
+  }
+  else{
     memmove((char *)dst, src, len);
     return 0;
   }
 }
 
-/* Copy from either a user address, or kernel address, */
- /* depending on usr_src. */
- /* Returns 0 on success, -1 on error. */
-int
-either_copyin(void *dst, int user_src, uint64 src, uint64 len)
+// Copy from either a user address or kernel address, depending on usr_src.
+int either_copyin(void *dst, int user_src, uint64 src, uint64 len)
 {
   struct proc *p = myproc();
   if(user_src){
     return copyin(p->pagetable, dst, src, len);
-  } else {
-    memmove(dst, (char*)src, len);
+  }
+  else{
+    memmove(dst, (char *)src, len);
     return 0;
   }
 }
 
-/* Print a process listing to console.  For debugging. */
- /* Runs when user types ^P on console. */
- /* No lock to avoid wedging a stuck machine further. */
-void
-procdump(void)
+// Print a process listing to console. For debugging.
+void procdump(void)
 {
   static char *states[] = {
-  [UNUSED]    "unused",
-  [USED]      "used",
-  [SLEEPING]  "sleep ",
-  [RUNNABLE]  "runble",
-  [RUNNING]   "run   ",
-  [ZOMBIE]    "zombie"
-  };
+      [UNUSED] "unused",
+      [USED] "used",
+      [SLEEPING] "sleep ",
+      [RUNNABLE] "runble",
+      [RUNNING] "run   ",
+      [ZOMBIE] "zombie"};
   struct proc *p;
   char *state;
 
   printf("\n");
-  for(p = proc; p < &proc[NPROC]; p++){
+  for(p = proc; p < &proc[NPROC]; p++) {
     if(p->state == UNUSED)
       continue;
     if(p->state >= 0 && p->state < NELEM(states) && states[p->state])
@@ -919,5 +820,13 @@ procdump(void)
       state = "???";
     printf("%d %s %s", p->pid, state, p->name);
     printf("\n");
+  }
+}
+
+// Enqueue a process to MLFQ if enabled and not already in a queue
+void enqueue_if_mlfq(struct proc *p)
+{
+  if(getMLFQFlag() && p->state == RUNNABLE && p->inQueue == 0){
+    mlfq_enqueue(0, p); // Enqueue to highest priority level
   }
 }
