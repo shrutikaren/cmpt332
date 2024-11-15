@@ -125,7 +125,7 @@ allocpid()
 /* and return with p->lock held. */
 /* If there are no free procs, or a memory allocation fails, return 0. */
 static struct proc*
-allocproc(void)
+allocproc(void){
 
   struct proc *p;
 
@@ -166,7 +166,6 @@ found:
 
   /* CMPT 332 Group 01, Fall Change */
   p->priority = 0;
-  p->clockTicks = 0;
   p->cpuUsage = 0;
   return p;
 }
@@ -470,10 +469,11 @@ scheduler(void)
 {
 	/* Process that will be used as a placeholder */
 	struct proc *p;
-	int priorityLevel, ticksNum;
+	uint ticksNum;
+	int priorityLevel, ticksused;
 	int i, j;
 	int slicingTime; 
-	uint ticksNum = ticks; /* utilizing ticks from trap.c */
+	ticksNum = ticks; /* utilizing ticks from trap.c */
 	/* Iterating through the our array of queues to initialize 
  	everything */
 	for (i = 0; i < PRIQUEUES; i ++){
@@ -511,11 +511,12 @@ scheduler(void)
 
 	/* Once we have reached the slicingTime or exceeded the slicingTime */
 	p->ticks[priorityLevel] += ticks - ticksNum;
-	
+	ticksused = ticks - ticksNum;
+
 	/* Checks if we have exceeded our slicingTime and if we are in a
  	priority level queue greater than 0, we basically need to push it 
 	downwards */
-	if (ticks_used >= slicingTime && priorityLevel > 0){
+	if (ticksused >= slicingTime && priorityLevel > 0){
 		p->priority = priorityLevel - 1;
 	}			
 	else if (priorityLevel == 0 && p->state = RUNNABLE){

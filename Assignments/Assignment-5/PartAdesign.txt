@@ -45,6 +45,7 @@ run. If on a specific level, there is more than one process then I will
 schedule all the processes in a round robin schedulling method which is 
 abbreviated as RR. Every priority level has their own amount of clockticks
 associated to it. In our case, we will follow the following: 
+	- Priority 4: 4 clock ticks
 	- Priority 3: 8 clock ticks
 	- Priority 2: 16 clock ticks
 	- Priority 1: 32 clock ticks
