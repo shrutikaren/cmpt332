@@ -58,7 +58,7 @@ void procinit(void)
   }
 }
 
-// Project 1C
+// ***********************
 
 // For the MLFQ scheduler, to run, m Ready Queues should be maintained in the kernel space. Each of the queues can be implemented as a DLL where each element contains...
 struct MLFQProcessNode // this represents each process in a queue, and how they are linked to the process in front of them and behind them
