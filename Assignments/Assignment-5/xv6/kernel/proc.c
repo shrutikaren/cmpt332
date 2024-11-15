@@ -6,6 +6,9 @@
 #include "proc.h"
 #include "defs.h"
 
+/* CMPT 332 GROUP 01, Fall Change */
+#define PRIQUEUES 5
+
 struct cpu cpus[NCPU];
 
 struct proc proc[NPROC];
@@ -29,10 +32,12 @@ struct spinlock wait_lock;
 /* CMPT 332 GROUP 01, FALL CHANGE */
 struct {
 	struct spinlock locking;
-	struct proc proc[NPROC];
-} processtable;
+	struct proc *proc[PRIQUEUES][NPROC];
+	int beginning[PRIQUEUES];
+	int ending[PRIQUEUES];
+} multifeedbackqueue;
 
-int clockTicks = 0;
+
 
 /* Allocate a page for each process's kernel stack. */
 /* Map it high in memory, followed by an invalid */
@@ -463,67 +468,66 @@ wait(uint64 addr)
 void
 scheduler(void)
 {
-  int i, processnum, leastimportant, processtick, cutoff;
-  struct proc *p;
-  struct proc *prorityprocess[NPROC-54];/* Store only 10 processes */ 
-  struct cpu *c = mycpu();
-  processnum = NPROC - 54;
-
-  for(;;){
-    intr_on();
-    int tickingclock; 
-
-    acquire(&locking);
-    tickingclock = clockTicks; /* assigning tickingclock value */
-    release(&locking);
-
-    acquire(&processtable.locking);
-    /* Going through my process table */
-   	 for (i = 0; i != -1; i = (i + 1) % NPROC){
-		if (processtable.proc[i].state == RUNNABLE){
-			if (!priorityprocess[processtable.proc[i].priority]){
-				priorityprocess[processtable.proc[i].priority] = &processtable.proc[i];
-			}
+	/* Process that will be used as a placeholder */
+	struct proc *p;
+	int priorityLevel, ticksNum;
+	int i, j;
+	int slicingTime; 
+	uint ticksNum = ticks; /* utilizing ticks from trap.c */
+	/* Iterating through the our array of queues to initialize 
+ 	everything */
+	for (i = 0; i < PRIQUEUES; i ++){
+		for (j = 0; j < NPROC; j++){
+			multifeedbackqueue.proc[i][j] = 0;
 		}
-    	}
-    
-    /* Finish running through all the highest priority processees */   
-	if (leastimportant == -1){
-		leastimportant = processnum;
-	}
-	else{
-		leastimportant = processingtable.proc[i].priority;
+		multifeedbackqueue.beginning[i] = 0;
+		multifeedbackqueue.ending[j] = 0;
 	}
 
-	for (i = 0; i < leastimportant; i++){
-		if (priorityprocess[i]){
-			p = priorityprocess[i];
-			break;
-		}
+	/* Iterate through the 5 levels one by one */
+	for (priorityLevel = 4; priorityLevel >= 0; priorityLevel --){
+		proc = p;
+		p->state = RUNNING;
+		ticksNum = 0;
 	}
 
-    /* If no highest priority is received to be executed then we will do the
-      following: */
-	if (p == NULL){
-		processticks = processtable.proc[-1].clockTicks;
-		if (processticks % 5 == 0 && processticks != 0){
-			cutoff = -1;
-			break;
-		}
-		else if (processticks % 10 == 0 && processticks != 0){
-			cutoff = -1;
-			break;
-		}
+	if (priorityLevel == 4){
+		slicingTime = 4;
+	}
+	else if (priorityLevel == 3){
+		slicingTime = 8;
+	}
+	else if (priorityLevel == 2){
+		slicingTime = 16;
+	}
+	else if (priorityLevel == 1){
+		slicingTime = 32;
+	}
+	
+	/* Our time for running that process is less than the slicingTime and
+ 	the process is in the RUNNING state means that we are able to continue
+	running that specific process */
+	while (ticks - ticksNum < slicingTime && p->state == RUNNING){}
 
-		
-		/* If the priority is less than the total amount of 10 */
-		if (processingtable.proc[-1].priority < 9){
-			processingtable.proc[-1].priority += cutoff;
-		}			
+	/* Once we have reached the slicingTime or exceeded the slicingTime */
+	p->ticks[priorityLevel] += ticks - ticksNum;
+	
+	/* Checks if we have exceeded our slicingTime and if we are in a
+ 	priority level queue greater than 0, we basically need to push it 
+	downwards */
+	if (ticks_used >= slicingTime && priorityLevel > 0){
+		p->priority = priorityLevel - 1;
+	}			
+	else if (priorityLevel == 0 && p->state = RUNNABLE){
+		enqueueprocess(p, priorityLevel);
 	}
 
-   }
-   release(&processtable.locking);
+}
+
+void enqueueprocess(struct proc *p, int priorityLevel){
+	int r = multifeedbackqueue.rear[priorityLevel];
+	multifeedbackqueue[priorityLevel][r] = p;
+	multifeedbackqueue.rear[priorityLevel] = (r + 1) % NPROC;
 }
 
 /* calculate priority function */
