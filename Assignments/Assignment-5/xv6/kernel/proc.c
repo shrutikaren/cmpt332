@@ -291,8 +291,10 @@ int sys_setshare(void) { /* UPDATED [2024-11-13] : 13:35:00 */
   int share;
   int group;
 
-  if(argint(0, &share) < 0 || argint(1, &group) < 0)
-    return -1;
+  share = 0;
+  group = 0;
+  argint(0, &share);
+  argint(0, &group);
 
   struct proc *p = myproc();
 
