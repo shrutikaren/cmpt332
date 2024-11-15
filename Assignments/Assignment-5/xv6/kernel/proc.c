@@ -491,6 +491,7 @@ scheduler(void)
 		multifeedbackqueue.ending[j] = 0;
 	}
 	for (;;){
+		in
 		/* Iterate through the 5 levels one by one */
 		for (priorityLevel = 4; priorityLevel >= 0; priorityLevel --){
 			p = multifeedbackqueue.proc[priorityLevel][0];
