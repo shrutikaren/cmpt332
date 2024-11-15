@@ -70,7 +70,7 @@ int main(){
 			obtained_value = 0;
 
 			for (int i = 0; i < square_count; i++){
-				obtained_value = square(i);
+				obtained_value += square(i);
 			}
 			
 			sleep(sleeping);
