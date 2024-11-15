@@ -455,11 +455,19 @@ wait(uint64 addr)
   }
 }
 
+/* CMPT 332 Group 01, Fall Change */
 void enqueueprocess(struct proc *p, int priorityLevel){
 	int r = multifeedbackqueue.ending[priorityLevel];
 	multifeedbackqueue.proc[priorityLevel][r] = p;
 	multifeedbackqueue.ending[priorityLevel] = (r + 1) % NPROC;
 }
+
+/* CMPT 332 Group 01, Fall Change */
+struct proc* dequeueprocess(int priorityLevel){
+	struct proc* p;
+	
+}
+
 /* Per-CPU process scheduler. */
 /* Each CPU calls scheduler() after setting itself up. */
 /* Scheduler never returns.  It loops, doing: */
@@ -475,7 +483,7 @@ scheduler(void)
 	/* Process that will be used as a placeholder */
 	struct proc *p;
 	struct cpu *c = mycpu();
-	uint ticksNum;
+	/*uint ticksNum; */
 	int priorityLevel, ticksused;
 	int i, j;
 	int slicingTime; 
@@ -491,6 +499,9 @@ scheduler(void)
 		multifeedbackqueue.beginning[i] = 0;
 		multifeedbackqueue.ending[j] = 0;
 	}
+	acquire(&multifeedbackqueue.locking);
+	/* Going into a for-loop that keeps running on and on since it is a 
+ 	scheduler */
 	for (;;){
 		intr_on();
 		acquire(&wait_lock);
@@ -501,7 +512,7 @@ scheduler(void)
 			ticksNum = 0;
 		}
 
-		if (priorityLevel == 4){
+	/*	if (priorityLevel == 4){
 			slicingTime = 4;
 		}
 		else if (priorityLevel == 3){
@@ -514,31 +525,32 @@ scheduler(void)
 			slicingTime = 32;
 		}
         
-		slicingTime = 0; 
+		slicingTime = 0;  */
 	/* Going through a context switch from scheulder to a process*/
 		swtch(&c->context, &p->context);	
 
 	/* Our time for running that process is less than the slicingTime and
  	the process is in the RUNNING state means that we are able to continue
 	running that specific process */
-		while (ticks - ticksNum < slicingTime && p->state == RUNNING){};
+	/*	while (ticks - ticksNum < slicingTime && p->state == RUNNING){}; */
 
 	/* Once we have reached the slicingTime or exceeded the slicingTime */
-		p->ticks += ticks - ticksNum;
+		/*p->ticks += ticks - ticksNum;
 		ticksused = ticks - ticksNum;
-
+*/
 	/* Checks if we have exceeded our slicingTime and if we are in a
  	priority level queue greater than 0, we basically need to push it 
 	downwards */
-		if (ticksused >= slicingTime && priorityLevel > 0){
+/*		if (ticksused >= slicingTime && priorityLevel > 0){
 			p->priority = priorityLevel - 1;
 			enqueueprocess(p, priorityLevel - 1);
 		}			
 		else if (priorityLevel == 0 && p->state == RUNNABLE){
 			enqueueprocess(p, priorityLevel);
-		}
+		}*/
 		release(&wait_lock);
 	}
+	release(&multifeedbackqueue.locking);
 }
 
 
