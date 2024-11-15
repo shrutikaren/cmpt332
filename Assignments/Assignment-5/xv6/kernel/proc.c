@@ -480,6 +480,7 @@ scheduler(void)
 	int slicingTime; 
 	
 	ticksNum = ticks; /* utilizing ticks from trap.c */
+	
 	/* Iterating through the our array of queues to initialize 
  	everything */
 	for (i = 0; i < PRIQUEUES; i ++){
@@ -489,48 +490,48 @@ scheduler(void)
 		multifeedbackqueue.beginning[i] = 0;
 		multifeedbackqueue.ending[j] = 0;
 	}
+	for (;;){
+		/* Iterate through the 5 levels one by one */
+		for (priorityLevel = 4; priorityLevel >= 0; priorityLevel --){
+			p = multifeedbackqueue.proc[priorityLevel][0];
+			p->state = RUNNING;
+			ticksNum = 0;
+		}
 
-	/* Iterate through the 5 levels one by one */
-	for (priorityLevel = 4; priorityLevel >= 0; priorityLevel --){
-		p = multifeedbackqueue.proc[priorityLevel][0];
-		p->state = RUNNING;
-		ticksNum = 0;
-	}
-
-	if (priorityLevel == 4){
-		slicingTime = 4;
-	}
-	else if (priorityLevel == 3){
-		slicingTime = 8;
-	}
-	else if (priorityLevel == 2){
-		slicingTime = 16;
-	}
-	else if (priorityLevel == 1){
-		slicingTime = 32;
-	}
+		if (priorityLevel == 4){
+			slicingTime = 4;
+		}
+		else if (priorityLevel == 3){
+			slicingTime = 8;
+		}
+		else if (priorityLevel == 2){
+			slicingTime = 16;
+		}
+		else if (priorityLevel == 1){
+			slicingTime = 32;
+		}
         
-	slicingTime = 0; 
+		slicingTime = 0; 
 	
 	/* Our time for running that process is less than the slicingTime and
  	the process is in the RUNNING state means that we are able to continue
 	running that specific process */
-	while (ticks - ticksNum < slicingTime && p->state == RUNNING){};
+		while (ticks - ticksNum < slicingTime && p->state == RUNNING){};
 
 	/* Once we have reached the slicingTime or exceeded the slicingTime */
-	p->ticks += ticks - ticksNum;
-	ticksused = ticks - ticksNum;
+		p->ticks += ticks - ticksNum;
+		ticksused = ticks - ticksNum;
 
 	/* Checks if we have exceeded our slicingTime and if we are in a
  	priority level queue greater than 0, we basically need to push it 
 	downwards */
-	if (ticksused >= slicingTime && priorityLevel > 0){
-		p->priority = priorityLevel - 1;
-	}			
-	else if (priorityLevel == 0 && p->state == RUNNABLE){
-		enqueueprocess(p, priorityLevel);
+		if (ticksused >= slicingTime && priorityLevel > 0){
+			p->priority = priorityLevel - 1;
+		}			
+		else if (priorityLevel == 0 && p->state == RUNNABLE){
+			enqueueprocess(p, priorityLevel);
+		}
 	}
-
 }
 
 

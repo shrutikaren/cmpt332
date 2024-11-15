@@ -1,7 +1,5 @@
 #include <kernel/types.h>
 #include <user/user.h>
-#include <unistd.h>
-#include <stdio.h>
 
 /* Copied from grind.c for now */
 /* from FreeBSD. */
