@@ -24,9 +24,6 @@ struct cpu {
   struct context context;     /* swtch() here to enter scheduler(). */
   int noff;                   /* Depth of push_off() nesting. */
   int intena;                 /* Were interrupts enabled before push_off()? */
-
-  /* CMPT 332 Group 01 Change, Fall 2024 */
-  int totalticks;
 };
 
 extern struct cpu cpus[NCPU];
@@ -83,36 +80,88 @@ struct trapframe {
 };
 
 enum procstate { UNUSED, USED, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };
+// Constants
+
+#define MLFQ_MAX_LEVEL 10
+#define NPROC 64 
+
+// Structure representing a node in the MLFQ queue
+struct MLFQProcessNode {
+  struct proc *pcb;                      // Pointer to the process control block
+  struct MLFQProcessNode *next;          // Next node in the queue
+  struct MLFQProcessNode *prev;          // Previous node in the queue
+};
+
+// Structure representing a single MLFQ level queue
+struct MLFQQueuePerLevel {
+  struct MLFQProcessNode *head;          // Head of the queue
+  struct MLFQProcessNode *tail;          // Tail of the queue
+};
+
+// Structure for MLFQ information report (for metrics)
+struct MLFQInfoReport {
+  int tickCounts[MLFQ_MAX_LEVEL];        // Tick counts at each priority level
+};
 
 /* Per-process state */
 struct proc {
-  struct spinlock lock;
+  struct spinlock lock;                  // Lock to protect the process's state
 
-  /* p->lock must be held when using these: */
-  enum procstate state;        /* Process state */
-  void *chan;                  /* If non-zero, sleeping on chan */
-  int killed;                  /* If non-zero, have been killed */
-  int xstate;                  /* Exit status to be returned to parent's wait */
-  int pid;                     /* Process ID */
-  
+  // P->lock must be held when using these:
+  enum procstate state;                  // Process state
+  void *chan;                            // If non-zero, sleeping on chan
+  int killed;                            // If non-zero, have been killed
+  int xstate;                            // Exit status to be returned to parent's wait
+  int pid;                               // Process ID
 
-  /* wait_lock must be held when using this: */
-  struct proc *parent;         /* Parent process */
+  // wait_lock must be held when using this:
+  struct proc *parent;                   // Parent process
 
-  /* these are private to the process, so p->lock need not be held. */
-  uint64 kstack;               /* Virtual address of kernel stack */
-  uint64 sz;                   /* Size of process memory (bytes) */
-  pagetable_t pagetable;       /* User page table */
-  struct trapframe *trapframe; /* data page for trampoline.S */
-  struct context context;      /* swtch() here to run process */
-  struct file *ofile[NOFILE];  /* Open files */
-  struct inode *cwd;           /* Current directory */
-  char name[16];               /* Process name (debugging) */
+  // Private to the process
+  uint64 kstack;                         // Virtual address of kernel stack
+  uint64 sz;                             // Size of process memory (bytes)
+  pagetable_t pagetable;                 // User page table
+  struct trapframe *trapframe;           // Data page for trampoline.S
+  struct context context;                // swtch() here to run process
+  struct file *ofile[NOFILE];            // Open files
+  struct inode *cwd;                     // Current directory
+  char name[16];                         // Process name (debugging)
 
-  /* UPDATED [2024-11-13] : 13:35:00 */
-  int priority;    /* Current priority level (MLFQ) */
-  int time_slice;  /* Remaining time slices in the current quantum */
-  int share;       /* CPU share assigned to the process */
-  int group;       /* Group ID the process belongs to */
-  struct proc *next; /* Pointer for queue linked list */
+  // Project 1B: System Call Metrics
+  int runCount;                          // Number of times scheduled to run on CPU
+  int systemcallCount;                   // Number of system calls made
+  int interruptCount;                    // Number of interrupts handled
+  int preemptCount;                      // Number of preemptions
+  int trapCount;                         // Number of traps from user to kernel
+  int sleepCount;                        // Number of times voluntarily yielded CPU
+
+  // Project 1C: MLFQ Scheduling Metrics
+  int inQueue;                           // Flag indicating if the process is in any MLFQ queue
+  int lvl;                               // Current priority level
+  int currLvlTicks;                      // Ticks run on current queue level
+  int maxLvlTicks;                       // Ticks at max priority (bottom) level
+  struct MLFQProcessNode *mlfq_node;     // Pointer to the MLFQ node in the queue
+  struct MLFQInfoReport report;          // Tick counts at each priority level
 };
+
+// External declarations
+extern struct cpu cpus[NCPU];
+extern struct proc proc[NPROC];           // Process table
+extern struct proc *initproc;              // Initial process
+
+// MLFQ-related function prototypes
+void initialize_mlfq(void);
+void setMLFQFlag(int flag);
+int getMLFQFlag(void);
+void setLevelsInMLFQ(int levels);
+int getLevelsInMLFQ(void);
+void setMaxTicksAtBottom(int ticks);
+int getMaxTicksAtBottom(void);
+void mlfq_enqueue(int level, struct proc *p);
+void mlfq_dequeue(int level, struct proc *p);
+struct proc* mlfq_select_process(void);
+void mlfq_update_process(struct proc *p);
+void mlfq_priority_boost(void);
+void mlfq_delete(int level, struct proc *p);
+void unlink_and_free(struct MLFQQueuePerLevel *queue, struct MLFQProcessNode *node);
+void enqueue_if_mlfq(struct proc *p);
