@@ -38,4 +38,4 @@ entry("sleep");
 entry("uptime");
 
 # CMPT 332 CHANGE 
-entry("sys_symlink");
+entry("symlink");

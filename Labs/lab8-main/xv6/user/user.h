@@ -24,7 +24,7 @@ int sleep(int);
 int uptime(void);
 
 /* CMPT 332 CHANGE */
-void sys_symlink(char *target, char *path); 
+void symlink(char *target, char *path); 
 
 /* ulib.c */
 int stat(const char*, struct stat*);
