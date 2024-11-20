@@ -146,9 +146,8 @@ UPROGS=\
 $(U)/symlinktest.o: $(U)/symlinktest.c 
 	$(CC) $(CFLAGS) -c -o $(U)/symlinktest.o $(U)/symlinktest.c
 
-$(U)_symlink: $(U)/symlinktest.o 
-	$(LD) $(LDFLAGS) -N -e -main -Ttext 0 -o $(U)/_symlink \
-	$(U)/symlinktest.o $(OBJDUMP) -S $(U)/_symlink > $(U)/symlink.asm
+$(U)/_symlink: $(U)/symlinktest.o 
+	$(LD) $(LDFLAGS) -N -e -main -Ttext 0 -o $(U)/_symlink $(U)/symlinktest.o $(OBJDUMP) -S $(U)/_symlink > $(U)/symlink.asm
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
