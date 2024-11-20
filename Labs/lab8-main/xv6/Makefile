@@ -32,21 +32,23 @@ OBJS = \
 
 # riscv64-unknown-elf- or riscv64-linux-gnu-
 # perhaps in /opt/riscv/bin
-#TOOLPREFIX = 
+ifndef TOOLPREFIX 
+TOOLPREFIX := /usr/local/riscv/bin/riscv64-unknown-elf-
+endif
 
 # Try to infer the correct TOOLPREFIX if not set
-ifndef TOOLPREFIX
-TOOLPREFIX := $(shell if riscv64-unknown-elf-objdump -i 2>&1 | grep 'elf64-big' >/dev/null 2>&1; \
-	then echo 'riscv64-unknown-elf-'; \
-	elif riscv64-linux-gnu-objdump -i 2>&1 | grep 'elf64-big' >/dev/null 2>&1; \
-	then echo 'riscv64-linux-gnu-'; \
-	elif riscv64-unknown-linux-gnu-objdump -i 2>&1 | grep 'elf64-big' >/dev/null 2>&1; \
-	then echo 'riscv64-unknown-linux-gnu-'; \
-	else echo "***" 1>&2; \
-	echo "*** Error: Couldn't find a riscv64 version of GCC/binutils." 1>&2; \
-	echo "*** To turn off this error, run 'gmake TOOLPREFIX= ...'." 1>&2; \
-	echo "***" 1>&2; exit 1; fi)
-endif
+# ifndef TOOLPREFIX
+# TOOLPREFIX := $(shell if riscv64-unknown-elf-objdump -i 2>&1 | grep 'elf64-big' >/dev/null 2>&1; \
+#	then echo 'riscv64-unknown-elf-'; \
+#	elif riscv64-linux-gnu-objdump -i 2>&1 | grep 'elf64-big' >/dev/null 2>&1; \
+#	then echo 'riscv64-linux-gnu-'; \
+#	elif riscv64-unknown-linux-gnu-objdump -i 2>&1 | grep 'elf64-big' >/dev/null 2>&1; \
+#	then echo 'riscv64-unknown-linux-gnu-'; \
+#	else echo "***" 1>&2; \
+#	echo "*** Error: Couldn't find a riscv64 version of GCC/binutils." 1>&2; \
+#	echo "*** To turn off this error, run 'gmake TOOLPREFIX= ...'." 1>&2; \
+#	echo "***" 1>&2; exit 1; fi)
+# endif
 
 QEMU = qemu-system-riscv64
 
@@ -139,6 +141,14 @@ UPROGS=\
 	$U/_grind\
 	$U/_wc\
 	$U/_zombie\
+	$U/_symlink\
+
+$(U)/symlinktest.o: $(U)/symlinktest.c 
+	$(CC) $(CFLAGS) -c -o $(U)/symlinktest.o $(U)/symlinktest.c
+
+$(U)_symlink: $(U)/symlinktest.o 
+	$(LD) $(LDFLAGS) -N -e -main -Ttext 0 -o $(U)/_symlink \
+	$(U)/symlinktest.o $(OBJDUMP) -S $(U)/_symlink > $(U)/symlink.asm
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
