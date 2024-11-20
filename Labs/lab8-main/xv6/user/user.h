@@ -23,6 +23,9 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 
+/* CMPT 332 CHANGE */
+void sys_symlink(char *target, char *path); 
+
 /* ulib.c */
 int stat(const char*, struct stat*);
 char* strcpy(char*, const char*);
