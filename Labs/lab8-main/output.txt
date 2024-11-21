@@ -1,3 +1,32 @@
 # Shruti Kaur
 # ICH524
 # 11339265
+
+kernel/sysproc.c: In function 'sys_symlink':
+kernel/sysproc.c:119:20: error: passing argument 1 of 'strncpy' makes 
+pointer from integer without a cast [-Werror=int-conversion]
+  119 |   strncpy(ip->addrs[0], target, DIRSIZ);
+      |           ~~~~~~~~~^~~
+      |                    |
+      |                    uint {aka unsigned int}
+In file included from kernel/sysproc.c:3:
+kernel/defs.h:134:25: note: expected 'char *' but argument is of type 
+'uint' {aka 'unsigned int'}
+  134 | char*           strncpy(char*, const char*, int);
+      |                         ^~~~~
+kernel/sysproc.c:109:7: error: 'target' is used uninitialized [-Werror
+=uninitialized]
+  109 |   if (argstr(0, target, 256) < 0 || argstr(1, path, 256) < 0){
+      |       ^~~~~~~~~~~~~~~~~~~~~~
+kernel/sysproc.c:107:9: note: 'target' was declared here
+  107 |   char *target, *path;
+      |         ^~~~~~
+kernel/sysproc.c:109:37: error: 'path' may be used uninitialized [-Wer
+ror=maybe-uninitialized]
+  109 |   if (argstr(0, target, 256) < 0 || argstr(1, path, 256) < 0){
+      |                                     ^~~~~~~~~~~~~~~~~~~~
+kernel/sysproc.c:107:18: note: 'path' was declared here
+  107 |   char *target, *path;
+      |                  ^~~~
+cc1: all warnings being treated as errors
+make: *** [<builtin>: kernel/sysproc.o] Error 1
