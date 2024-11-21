@@ -97,6 +97,6 @@ uint64 sys_symlink(void){
   target = (char*)argptr(0);
   path = (char*)argptr(1);
 
-  
+  printf("Sys_symlink called with target: %s, path %s\n", target,path); 
   return 0; 
 }
