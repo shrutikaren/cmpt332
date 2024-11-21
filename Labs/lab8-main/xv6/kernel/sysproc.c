@@ -93,5 +93,10 @@ sys_uptime(void)
 }
 
 uint64 sys_symlink(void){
-  return -1; 
+  char *target, *path;
+  target = (char*)argptr(0);
+  path = (char*)argptr(1);
+
+  
+  return 0; 
 }
