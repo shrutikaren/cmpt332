@@ -1,4 +1,6 @@
 struct stat;
+/* CMPT 332 CHANGE */
+typedef unsigned int uint; 
 
 /* system calls */
 int fork(void);

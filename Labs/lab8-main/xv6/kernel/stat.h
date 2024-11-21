@@ -1,3 +1,4 @@
+#include <stdint.h>
 #define T_DIR     1   /* Directory */
 #define T_FILE    2   /* File */
 #define T_DEVICE  3   /* Device */
@@ -8,5 +9,5 @@ struct stat {
   uint ino;    /* Inode number */
   short type;  /* Type of file */
   short nlink; /* Number of links to file */
-  uint64 size; /* Size of file in bytes */
+  uint64_t size; /* Size of file in bytes */
 };
