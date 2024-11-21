@@ -334,7 +334,17 @@ sys_open(void)
       return -1;
     }
   }
+  /* CMPT 332 CHANGE */
+  while (ip->type == T_SYMLINK && (omode & 0FOLLOW) == 0){
+	end_op();
+	return -1;
 
+	ip = namei(target);
+	if (ip == 0){
+		end_op(0);
+		return -1;
+	}
+  }
   if(ip->type == T_DEVICE && (ip->major < 0 || ip->major >= NDEV)){
     iunlockput(ip);
     end_op();

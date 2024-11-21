@@ -5,6 +5,17 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
+#include "fs.h" 
+#include "stat.h" 
+
+struct inode {
+    uint dev;           // Device number
+    uint inum;          // Inode number
+    short ref;          // Reference count
+    short type;         // File type
+    uint size;          // Size of the file
+    uint addrs[NDIRECT]; 
+};
 
 uint64
 sys_exit(void)
@@ -94,9 +105,21 @@ sys_uptime(void)
 
 uint64 sys_symlink(void){
   char *target, *path;
-  target = (char*)argptr(0);
-  path = (char*)argptr(1);
+  
+  if (argstr(0, target, 256) < 0 || argstr(1, path, 256) < 0){
+	return -1;
+  }
 
   printf("Sys_symlink called with target: %s, path %s\n", target,path); 
+  struct inode *ip = ialloc(ROOTDEV, T_SYMLINK);
+  if (ip == 0){
+	return -1;
+  }
+
+  strncpy(ip->addrs[0], target, DIRSIZ);
+  ip->size = strlen(target);
+
+  iupdate(ip);
+
   return 0; 
 }

@@ -148,7 +148,7 @@ $(U)/symlinktest.o: $(U)/symlinktest.c
 
 $(U)/_symlink: $(U)/symlinktest.o $(ULIB) 
 	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $(U)/_symlink \
-	$(U)/symlinktest.o $(ULIB) $(OBJDUMP) -S $(U)/_symlink > $(U)/symlinktest.asm
+	$(U)/symlinktest.o $(ULIB)
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)

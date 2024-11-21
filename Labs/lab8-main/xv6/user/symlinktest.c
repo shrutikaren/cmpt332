@@ -5,6 +5,7 @@
 #include "user/user.h"
 #include "kernel/stat.h"
 #include "kernel/fcntl.h"
+#include "fs.h"
 
 #undef memcpy
 #undef memmove
@@ -13,17 +14,15 @@
 #undef strchr
 #undef strlen
 
-#include <errno.h>
+#include "/usr/local/riscv/riscv64-unknown-elf/include/sys/errno.h"
 
-char *strerror(int errnum);
-
+int errno; /* Defining it globally */
 int main(){
 	symlink("targetfile", "symlinkfile");
 
 
-	if (errno != 0){
-		char *error = strerror(errno);
-		printf("Error detected with following: %s\n", error);
+	if (*__errno != EEXIST){
+		printf("Error detected with following: %d\n", *__errno);
 		exit(1);
 	}
 	printf("Successful at symbolic linking\n");
