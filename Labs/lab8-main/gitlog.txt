@@ -1,3 +1,99 @@
-# Shruti KAUR
+# Shruti Kaur
 # ICH524
-# 11339265
+# 11339265 
+
+commit 6253f3355a2c78c31c46f47767f9064ea3d2c7b8
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 21 10:07:13 2024 -0600
+
+    adjusted the open() functiona ccordinfly
+
+commit 262e8fe12ab8256c6de587ea983e1533986bd19f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 21 09:43:45 2024 -0600
+
+    continuing to add my code work here
+
+commit 9d01fb420120f2ddd16dedb96a7cf6f02991da97
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 21 09:42:54 2024 -0600
+
+    worked on: For initial debugging, have your symlink(target,path) s
+ystem call printout the values of its parameters from INSIDE the syste
+m call
+
+commit da653a3eca71735764eae3e15218070777b98863
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 21 09:19:41 2024 -0600
+
+    removed errors from the symlinktest.c file
+
+commit 470b9393568078743a01e685d9fb95ba1b008077
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 21 08:56:21 2024 -0600
+
+    call symlink function and added print statements inside my user/sy
+mlinktest.c
+
+commit 9a5e062cdc736d9029ba5513763dacbc27e23b51
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 21 08:52:28 2024 -0600
+
+    adding an empty stub into sysproc.c inside the kernel/ directory a
+nd it has the ability to return -1
+
+commit e1e6300194cf5396394f2c4f6e9e03921b302884
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 20 12:06:01 2024 -0600
+
+    adding everything for now and will come back to it
+
+commit 3151aeefc844e4c1116d281c0c32a4ee2bf99ee1
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 20 12:03:24 2024 -0600
+
+    compiling the user/symlinktest.c into the Makefile
+
+commit e2b2412b91b3cf36862df58166e2fd2e28811556
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 20 11:55:16 2024 -0600
+
+    i did o_nofollow for 0x800 to ensure that the value doesn't confli
+ct with other possible values
+
+commit c8adf7cff34ccb36a4dc86c742131b6858e37e65
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 20 11:33:32 2024 -0600
+
+    implementing an empty sys_symlink into the syscall.c
+
+commit 11cd9789dd2aeac407f56ef486a8dccd18c7a4e6
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 20 11:31:42 2024 -0600
+
+    adding the system call for symlink to be 22
+
+commit 8b97bcba3da697e027d5e04b770b3aae9d44427a
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 20 11:30:37 2024 -0600
+
+    the system call changed from sys_symlink to symlink basically
+
+commit cdfb09c7905981cd878833b8f48645de185dd0ce
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 20 11:24:14 2024 -0600
+
+    creating a new system entry to user/usys.pl, user/user.h
+
+commit c1b74a8803500c30c7ee9656049c7025402a805f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 20 11:11:22 2024 -0600
+
+    adding the text file into this directory
+
+commit 657a8c7b9c7a697250dae941bfd5cd3b700301b7
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 14 21:31:28 2024 -0600
+
+    adding
+
