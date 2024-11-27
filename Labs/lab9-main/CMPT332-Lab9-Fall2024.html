@@ -1,0 +1,168 @@
+<html>
+<head>
+<title>CMPT 332 - Lab 9 - Fall 2024</title>
+</head>
+<body>
+  <img src="../splashBanner.gif" align="middle"/>
+<h1>
+  CMPT 332 - Lab 9 - Winter 2024<br>
+  University of Saskatchewan <br>
+  Lab 9: Implement a Device Driver in a Linux VirtualBox VM
+</h1>
+
+<p><b>Instructor:</b> Dwight Makaroff/Jon Lovering</p>
+<p><b>Out:</b> November 25th, 2024</p>
+<p><b>Due:</b> At the end of the tutorial
+  (actually by 9:00 p.m. Monday, December 2nd, 2024, final deadline).</p>
+<p>Marks: 7</p>
+
+
+
+<h2 id="provided">Provided Files</h2>
+<p>
+There is one file provided for this lab (<code>vfifofum.c</code>), plus much 
+inspiration from the following website:
+<a href = "https://sysprog21.github.io/lkmpg/#character-device-drivers">
+  https://sysprog21.github.io/lkmpg/#character-device-drivers </a>. Pay
+  particular attention to the examples given in Chapter 4 and Chapter 6
+  that model what needs to be done for this lab. Modification of the
+  sample code will be sufficient, but that means you need to
+  understand what that code is doing in read/write/open/release.
+</p>
+
+<p>
+You <b>may</b> work in groups of at most 2 students. Each student must supply
+their own solution.
+</p>
+
+
+<h2 id="description">Description</h2>
+<p>
+In this lab, you will write a device driver for a simple virtual
+device: a pipe. This device will be incorporated into your Virtual Box
+VM kernel via a loadable kernel module.
+</p>
+
+<p>
+To review the ideas behind device drivers, consider the following:
+
+<ul>
+<li>Devices may use polling or interrupts.</li>
+<li>Block devices buffer entire blocks in memory, whereas character
+  devices transfer files one byte at a time to the operating
+  system.</li>
+<li>A strategy in Linux is to defer instantiating drivers from kernel
+  compile time and/or system boot time until they are used. You saw
+  some of this in Lab 1, where you could configure some parts of the
+  kernel to be <code>&ltM&gt</code>, which meant run-time loadable.</li>
+<li>All devices have major and minor device numbers, which are then
+  registered in the <code>/dev</code> file system by <code>mknod</code>. </li>
+<li> Each device driver provides a <code>file_operations</code> structure
+  that contains function pointers for the appropriate operations.</li>
+
+
+</ul>
+</p>
+
+<p>
+In addition, devices must be initialized by a
+function <code>foo_init</code> for device type <code>foo</code>. In
+there, the device will have to be registered using
+the <code>register_chrdev</code> function. When no longer needed a
+device can be unregistered. This is described in the section on
+unregistering a device, which will not be repeated here. Example code
+can be used as inspiration.
+
+
+</p>
+
+<p>To make a loadable kernel module, the associated web page
+  previously mentioned indicates how to do this
+  with  <code>insmod</code> and <code>rmmod</code>, as well
+  as <code>init_module</code> and <code>cleanup_module</code>. The
+  website has more modern ways of doing things that can be investigated.
+
+</p>
+
+<p>Your task is the following:
+    
+<ul>
+<li>Design and implement a character device driver for a virtual FIFO
+  device. This is equivalent to a pipe. Your driver should
+  implement <i>N</i> FIFO queues by implementing <i>2N</i> minor
+  device numbers. Even number devices are write-only devices and
+  odd-numbered are read-only devices. Characters written to
+  device <i>i</i> are readable from device <i>i</i> +1.
+  Start from your VM that was created in Lab 1. For the basic
+  operation of the device, let N=1. For bonus credit, handle multiple
+  FIFOs. Since this is like a pipe, each device needs 2 minor numbers,
+  one for reading and one for writing.
+  </li>
+
+<li>Use <code>mknod</code> to create a special file with the
+  name <code>/dev/fifoLK</code>, where L is a number between 100 and
+  255, and K is the minor device number (starting at 0).
+</li>
+
+<li>Reading from an empty FIFO should return an EOF if the other end
+  is not currently open.</li>
+<li>If there is no data to be read, then the <code>read</code>
+  operation should return 0.</li>
+<li>If there is no space in the FIFO buffer, the <code>write</code> operation
+  should return the number of characters that it was able to
+  write.</li>
+<li>Choose some fixed buffer size that is reasonable for this type of
+  communication. Any buffer structure is OK, but Linux ring buffers
+  may be an appropriate choice. See 
+  <a href="https://docs.kernel.org/core-api/circular-buffers.html">Circular
+    buffers</a>.
+</li>
+<li>In order to get data from/into the kernel into/from user space, the
+  functions <code>get_user</code> and <code>put_user</code>.
+</ul>
+
+<p>Note: This is a variant of the producer-consumer problem at the
+  kernel level. The code in the previous web page indicates what the
+  reader and the writer should be doing.
+</p>
+
+<p> The functions that are required for the device are the
+  following: <code>open</code>, <code>close</code>, <code>read</code>,
+  and <code>write</code>. Use the directions given in the first
+  website on creating character device drivers.
+</p>
+
+<p>Finally, write a program to test your pipe device. One process
+  writes stuff to the pipe and the second reads from the pipe. As
+  bonus, implement an actual producer-consumer program that utilizes
+  these devices by having the producer access an even-numbered device
+  and the consumer access the corresponding odd-numbered device. Start
+  with a simple program that reads/writes from the pipe, just sending
+  bytes across the pipe that are read from stdin.
+</p>
+  
+<h2 id="deliverables">Deliverables and Grading</h2>
+<p>
+A single tar file named <code>lab9.tar</code> containing:
+</p>
+
+<ul>
+  <li><code>Makefile</code> (1 mark)</li>
+  <li><code>pipe-driver.c</code> (3 marks) with module
+	  initialization/registration, etc.
+	  and the functions needed for device operation.
+
+  </li>
+  <li><code>driver-PC.c</code> (1 mark) driver test code.
+  <li><code>output.txt</code> (1 mark) log of the output of the
+  registering of the device and corresponding test code.</li>
+  <li><code>gitlog.txt</code> (1 mark)</li>
+  <li>Bonus: multiple FIFOs (1 mark)</li>
+  <li>Bonus: Actual Producer/Consumer code (1 mark)</li>
+</ul>
+
+<p>
+GENERAL: Ensure that your name, NSID, and student number are at the beginning
+of every file that you hand in.  If a lab is group work, all partners'
+information is required.
+</p>
