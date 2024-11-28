@@ -7,6 +7,10 @@ all: testdriver prodconsum
 
 .PHONY: all clean 
 
+OBJ_DIR = obj
+LIB_DIR = lib
+BIN_DIR = bin
+
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
@@ -21,11 +25,29 @@ clean:
 
 # Object file rules 
 $(OBJ_DIR)/pipe-driver.o: pipe-driver.c | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/pipe-driver.o pipe-driver.c
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) -o $(OBJ_DIR)/pipe-driver.o pipe-driver.c
 
 $(OBJ_DIR)/driver-PC.o: driver-PC.c | $(OBJ_DIR)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/driver-PC.o driver-PC.c 
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) -o $(OBJ_DIR)/driver-PC.o driver-PC.c 
 
-$(OBJ_DIR)/produc
+$(OBJ_DIR)/produceconsume.o: produceconsume.c | $(OBJ_DIR)
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) -o $(OBJ_DIR)/produceconsume.o \
+	produceconsume.c
 
+# Binary file target rule 
+$(BIN_DIR)/testdriver: $(OBJ_DIR)/pipe-driver.o $(OBJ_DIR)/driver-PC.o \
+	 | $(BIN_DIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/pipe-driver.o \
+	$(OBJ_DIR)/driver-PC.o -o $(BIN_DIR)/testdriver 
+
+$(BIN_DIR)/prodconsum: $(OBJ_DIR)/produceconsume.o | $(BIN_DIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJ_DIR)/produceconsume.o -o \
+	$(BIN_DIR)/prodconsum
+
+# Symlink rule 
+testdriver: $(BIN_DIR)/testdriver
+	ln -sf $(BIN_DIR)/testdriver testdriver 
+
+prodconsum: $(BIN_DIR)/prodconsum
+	ln -sf $(BIN_DIR)/prodconsum prodconsum
 
