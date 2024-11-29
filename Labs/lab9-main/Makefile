@@ -1,21 +1,10 @@
-obj-m += pip-driver.o
+obj-m += vfifofum.o
 
-KERNEL_BUILD := /lib/modules/$(shell uname -r)/build
+KDIR := /lib/modules/$(shell uname -r)/build
 PWD := $(shell pwd)
-KERNEL_HEADERS := $(PWD)/linux-5.15.133/usr/include
 
-CFLAGS := -I$(KERNEL_HEADERS)
-
-all: kernel_module user_programs
-
-kernel_module:
-	$(MAKE) -C $(KERNEL_BUILD) M=$(PWD) modules
-
-user_programs:
-	gcc -o driver-PC driver-PC.c $(CFLAGS)
-	gcc -o producer_consumer producer_consumer.c -lpthread $(CFLAGS)
-	gcc -o vfifofum vfifofum.c $(CFLAGS)
+all:
+	$(MAKE) -C $(KDIR) M=$(PWD) modules
 
 clean:
-	$(MAKE) -C $(KERNEL_BUILD) M=$(PWD) clean
-	rm -f driver-PC producer_consumer vfifofum
+	$(MAKE) -C $(KDIR) M=$(PWD) clean
