@@ -1,0 +1,606 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+  <meta name="GENERATOR"
+ content="Mozilla/4.76 [en] (X11; U; Linux 2.4.18-3 i686) [Netscape]">
+  <meta name="Author" content="D. Makaroff">
+  <title>Assignment 4 - CMPT332, Fall 2024</title>
+</head>
+<body  alink="#ff0000" link="#0000ee" vlink="#551a8b">
+<img src="splashBanner.gif" align="middle">
+<hr>
+<h1> Computer Science 332 FALL 2024</h1>
+<h2> Assignment #4</h2>
+<h3> Date: November 20th, 2024</h3>
+<h3> Due: December 5, 2024 18:00:00 CST</h3>
+<hr> <br>
+
+<h2> Total Marks: 90</h2>
+
+Part A (option 1, 2, or 3) is required along with Part B.
+
+<h2> PART A (option 1): File Systems Simulation/Experimentation (65 marks)</h2>
+
+<h2> PART A.1 (option 1): File Systems Simulation (40 marks)</h2>
+<p>
+For this assignment you are going to implement a File System
+simulation using UBC Pthreads or RT Threads. You will need to implement a subset of
+the file operations discussed in class.
+You will also need to use the monitor solution from Assignment 2 or Lab 4.
+
+ <p>
+ This will require 2 new C files: filesys-sim-monitor.c (which you can
+ base your code off of reader-writer-monitor.c) and filesys-sim-threads.c. 
+
+<p>What is required of the simulation:
+
+<ul>
+<li>Disk superblock. You will need to manage free space and have
+  locations of the root directory at a minimum in the superblock. Free
+  space can be managed by techniques discussed in class.
+
+<li>
+File operations to
+  implement: <tt>mkdir</tt>, <tt>cd</tt>, <tt>open</tt>, <tt>close</tt>, 
+<tt>read</tt>,  <tt>write</tt>, <tt>seek</tt>, <tt>rm</tt>
+  and <tt>rmdir</tt>.
+<br>
+  These operations must have mutually 
+  exclusive access to the file system whenever they modify actual disk
+  contents.  The file open operation will have a mode that allows a
+  file to be created if it doesn't exist. Each operation should fail
+  gracefully. You need not handle every error condition, but clearly
+  state which ones you are going to handle and why.
+<li>
+How does the simulation proceed? The simulation will have a number of
+threads that execute file operations, in a pseudo-random fashion. They
+should perform an operation, sleep for a while and then perform
+another file operation. A thread can only read and write from files
+that are opened, but if another thread has created and written to a
+file, subsequently any thread can operate on the file.
+<li>
+Concurrency issues. All operations except read and seek modify the
+disk, either an inode or a superblock. Thus they must be protected by
+putting them in the monitor. Modifying the disk for creating/deleting files and
+directories must be done simply in a mutually exclusive manner. For
+reading and writing, you will need to implement the readers/writers
+problem to allow multiple threads to have a file open for reading, but
+only one thread to have it open for writing. Thus, EACH FILE will need
+a pair condition variables in the monitor: OKTOREAD and OKTOWRITE. These had
+previously been defined these as integers, which is still the case,
+just that now each pair of integers refers to the CVs for a file
+(e.g. 0/1 refer to file 0, 2/3 refer to file 1). See the next
+paragraph for clarification on the exact meaning of file numbers. 
+
+</ul>
+
+Other restrictions/assumptions that you must make in order to have 
+the problem be tractable.
+
+<ul>
+<li>
+The disk will be a fixed number of blocks. These blocks can be
+allocated amongst the 3 types of blocks in a fixed or dynamic fashion.
+<li>
+An entire directory's contents can be held in a single disk block.
+<li>
+Files can be referred to by NUMBER as well as name. This is a little
+weird, but makes the simulation much easier. There can be a maximum
+fixed number of files in the system, implying that you need 2*numFiles
+condition variables in your monitor implementation. 
+This is something you can configure in the header file of the file-system
+source files, but also in the monitor itself. You must do this separately,
+because we don't want to have the monitor code explicitly rely on something
+from an application.
+<li>
+To facilitate this, I suggest a modification to the way open is
+implemented. Creating a file is done by opening a file with the Create
+mode bit set. As well, read, write, or read/write modes can also be
+set. That is normal. What is not normal is that the return code from
+Create will be the file number of the file in the entire system, not
+just the file descriptor for the current thread. If Create fails, it
+should return -1 and set a global ERRNO value.
+
+
+</ul>
+
+<h2> PART A.2 (option 1): Performance Experimentation (25 marks)</h2>
+
+<p>
+How will this be judged? In addition to the code and
+testing to show that the code actually works, we want to see from you a 
+<span style="font-weight: bold;">report</span> that shows and 
+discusses the results of a set of experiments that compare the
+performance of the system under different configurations. You'll have
+to use the same seed for 
+the random number generation in order to get a valid comparison
+between runs with different parameters. The choice of seed may greatly
+affect your results, so a number of experiments will need to be
+performed, and some statistical methods used to get averages, standard
+deviations, etc. from your measurements.<br> 
+
+
+<p>
+For this part, you will perform some experiments on your file
+system. The most basic performance experiment will select a single
+parameter (keeping all other possible parameters constant) and
+measuring a single performance measure. This is to be somewhat
+open-ended and you can select metrics according to your interest.
+
+ <p>
+You must compare some performance statistics on the virtual disk and
+filesystem you have created. The most obvious statistic would be the
+amount of conflict between threads when reading and writing.
+
+<p>
+Other aspects of the file system simulation may be varied as
+parameters in your experiments and you can choose which components
+will be hard coded and which will be able to be changed during the
+experiments. Parameters should be input via one of three methods: a)
+configuration file, b) command-line, or c) environment
+variables. It doesn't matter which method is used.
+
+<p>
+What components can be varied? Here are a number of suggestions, by no
+means exhaustive: 1) size of disk, 2) number of threads, 3) average
+read size, 4) number of files, 5) average time between file system
+requests (sleep time).
+
+<h2>PART A (option 2): Page Replacement Simulation/Experiementation (65 marks)</h2>
+
+<h2>PART A.1 (option 2): Page Replacement Simulation   (40 marks)</h2>
+
+<p>
+This version of the assignment requires you to simulate page
+references using RT Threads and your monitor from A2 or Lab 4 (other aspects
+can be implemented using ideas from Lab 7).
+
+<p>Page references are of the form <code>read(address, size)</code>
+and <code>write(address, size)</code>. The size is the number
+of <code>words</code> that are referenced by the operation. An example
+is read(0x456000, 5). This will translate into 5 <code>read</code>
+operations of 1 word each.
+
+<p>
+Program reference string (10 marks): You can make similar assumptions to lab
+7. The address, however, is 
+given in terms of the virtual address of the program, and must be
+converted to the page number. You should endeavour to make the
+reference string of the program somewhat realistic. Thus, it will not
+conform to a uniform distribution, but something more like a Zipf
+distribution that references addresses in the code segment, data
+segment and heap in some realistic fashion.
+
+<p>
+Page Replacement Algorithms (20 marks): Implement two algorithms for
+page replacement (Clock and Second Chance). Run the simulation for a
+given amount of physical memory and pre-determined page size. On each
+reference, the algorithm must determine whether a reference is to 
+a page currently resident or if a page fault has occurred. If a page
+fault has occurred, a victim must be chosen and the proper memory
+allocation data structure updated.
+
+<p>
+Paging Behaviour of Multiple Program Execution (10 marks): 
+Simulate multiple programs running at the same time. This would be
+done by having multiple threads executing different reference strings,
+with alternating random sleep times between accesses (call RttSleep()).
+
+
+
+
+<h2>PART A.2 (option 2): Page Replacement Performance Experimentation (25 marks)</h2>
+
+<p>
+How will this be judged? In addition to the code and
+testing to show that the code actually works, we want to see from you a 
+<span style="font-weight: bold;">report</span> that shows and 
+discusses the results of a set of experiments that compare the
+performance of the system under different configurations. You'll have
+to use the same seed for 
+the random number generation in order to get a valid comparison
+between runs with different parameters. The choice of seed may greatly
+affect your results, so a number of experiments will need to be
+performed, and some statistical methods used to get averages, standard
+deviations, etc. from your measurements.<br> 
+
+<p>
+Similar to Part A2, design a set of experiments to compare the
+performance of the 2 algorithms on the same reference strings. Define
+performance measures that you think are of interest and report them at
+the end of the simulation. At a minimum, the Page Fault Rate would be
+the most important thing to measure, but there are more that you could
+imagine. Choose parameters that may affect the performance as
+well. Three required parameters are a) Program virtual memory size, b)
+page size, and c) physical memory size.
+
+
+
+<h2>PART A (option 3): Contiguous Memory Management Simulation/Experiment (65 marks)</h2>
+
+<h2>PART A.1 (option 3): Contiguous Memory Management Simulation (40 marks)</h2>
+
+<p><br>
+For this version assignment you are going to implement a memory management
+simulation. It will be a solution to the
+general dynamic storage allocation problem. That is, you are going to
+provide the interface routines <span
+ style="font-family: courier new,courier,monospace;"><span
+ style="font-weight: bold;">MyMalloc()</span> </span>and <span
+ style="font-family: courier new,courier,monospace; font-weight: bold;">MyFree()</span>
+within the <span style="font-weight: bold;">RT Threads</span> environment
+using your Monitor solution from A2 or Lab 4.
+These should have additional parameters and the same return types as
+  malloc() and free() as described in the UNIX man pages, but slightly
+  different semantics.&nbsp;   These two routines will take an
+  additional argument (an identifier of the algorithm to be used to
+  find available memory). <code>MyMalloc()</code> is equivalent
+  to <code>BF_Allocate()</code>  from Lab 6.
+
+ Finally, you will need a procedure to show the memory allocation
+and number of operations performed (in some fashion) at any point in
+time. (<span
+ style="font-family: courier new,courier,monospace; font-weight:
+ bold;">MyMemStats()</span>).
+<span  style="font-family: courier new,courier,monospace; font-weight:
+ bold;">MyMemStats()</span> takes 3 parameters:
+an integer which identifies which algorithm you want the statistics for, an
+integer stating what type of statistic you want, and a void *pointer
+to a data structure that will contain the stats. Use your creativity
+to think of things that will be important to measure. Recall in class
+ that we discussed several methods for quantifying fragmentation.
+
+<p>
+As far as algorithms go, I'd like you to choose two (2) algorithms
+discussed in class for contiguous memory allocation and compare their
+performance in terms of efficiency, fragmentation and the
+ability to allocate the requested memory sizes. You may also use your
+creativity and come up with an efficient and elegant algorithm for
+bonus credit of up to 10% of the marks assigned for this part. One
+algorithm must be either FF, BF, WF, NF or the
+<a href =  "https://en.wikipedia.org/wiki/Buddy_memory_allocation">
+Buddy System</a>; the other can be of your own
+choosing. When a request to <code>MyMalloc()</code> is made, your
+structure will 
+need to be searched to find an address to return to the caller, and
+the data structure modified to indicate the new state of the memory
+system. When a request to MyFree() is made, the address must be
+inserted into the data structure of available positions and
+neighbouring locations must be coalesced (if appropriate). <br>
+<p>
+If you choose your own algorithm, once you start to think about it, you
+will find that this is primarily a data structure problem. The key to
+efficiency will be the data structure you choose. Be creative in your
+use of data structures to make allocation and freeing very
+efficient. Try to get as close to O(1) for allocating and freeing as
+possible. If this means an extra list or other data structure, think
+about the extra storage cost and justify your decisions.
+
+&nbsp;<br>
+There are some restrictions on this simulation.
+
+<ol type="I">
+<li>Assume a fixed size memory. It should be something reasonable for
+  a modern computer.
+<li>
+Semantics of MyMalloc() and MyFree(). If a thread requests an amount of
+memory that is unavailable, the thread should block/wait until that memory
+becomes available (that would be waiting on a condition variable in the
+monitor (e.g. FFMemAvail or something like that)). MyFree() must only coalesce
+memory spaces that are physically adjacent with respect to the semantics of
+the algorithm being used.
+<li>
+Implement the memory requesting processes as threads, which are in
+an continuous loop of freeing and allocating memory according to some
+distribution of memory request sizes and request inter-arrival times up until
+a desired maximum number of times (command-line argument).
+For example, you could have one thread
+request 10KB once a second (that would be constant size and constant
+time interval), and also periodically frees those requests that have
+been accommodated.
+That's pretty boring, so use randomly generated numbers in some
+interesting way to generate a set of requests. For free()ing the
+memory, in each iteration of the loop, randomly select a pointer to
+free with a random probability of selecting no thread at all to
+free. For a while, memory usage will build up, but once all the
+requests have been made, memory usage will reduce down to zero.
+
+<br>
+Requests rarely conform to a uniform or normal distribution.
+Common distributions observed in computer system resource access
+include the poisson, exponential, pareto, erlang, student's <span
+ style="font-style: italic;">t</span> and Chi-square distributions. For
+this assignment, the inter-arrival time can be modeled with an
+exponential distribution, and the memory size with a normal
+distribution. We're not going to deal with completely accurate models for
+request sizes. See the Appendix for a method for calculating random
+numbers from such a distribution.<br><i>You do not need an in-depth
+understanding of statistics to do this assignment. If you have any
+questions on the statistics part of it, just ask an instructor or a TA.</i>
+</p>
+<li>
+One suggestion is to simulate both algorithms simultaneously.
+That means you will
+have <i>k</i> threads for each algorithm. To keep track of allocations
+and free space, there will need to be
+an appropriate data structure for each algorithm in which to simulate
+the allocations (each algorithm assumes a separate memory space), as
+well as a set of data structures for the statistics.
+In order for the algorithms to be
+comparable, the same pseudo-random number sequence must be used. In
+mainp(), you will have to generate a sequence of random numbers for
+the allocation sizes and times and pass that to each thread for its
+use in the simulation.
+</ol>
+
+
+<h2>PART A.2 (option 3): Contiguous Memory Management Performance Experimentation (25 marks)</h2>
+
+<p>
+How will this assignment be judged? In addition to the code and
+testing to show that the code actually works, we want to see from you a 
+<span style="font-weight: bold;">report</span> that shows and 
+discusses the results of a set of experiments that compare the
+performance of the system under different configurations. You'll have
+to use the same seed for 
+the random number generation in order to get a valid comparison
+between runs with different parameters. The choice of seed may greatly
+affect your results, so a number of experiments will need to be
+performed, and some statistical methods used to get averages, standard
+deviations, etc. from your measurements.<br> 
+<p>
+Experiments to be run (you are free to add your own for bonus credit):
+
+<ul>
+<li>Determine the effect of the number of threads on your algorithms,
+  as it scales for 2 choices of number of threads per algorithm.
+<li>Determine the effect on fragmentation that varying the number of
+  allocations has on your algorithm performance. Range from 1000
+  allocations per thread to 10000 per thread at 1000 operation increments
+  The number of simulations you run will affect the precision
+  in your results and the intelligence with which you can write your
+  report.
+</ul>
+
+Minimum measurements to take (feel free to add your own for bonus credit):
+<ul>
+<li> total number of nodes searched to find a piece of memory/free a piece
+  of memory as a cumulative total for the simulation for this
+  algorithm.
+<li> number of holes in memory at any given time
+<li> one additional measure of fragmentation
+</ul>
+
+<p> The total number of bonus credit marks for this part is 20.
+</p>
+
+<h2>PART B: Big Files (25 marks)</h2>
+
+<p>In this assignment you'll increase the maximum size of an xv6
+file. Currently xv6 files are limited to 268 blocks, or 268*BSIZE
+bytes (BSIZE is 1024 in xv6). This limit comes from the fact that an
+xv6 inode contains 12 "direct" block numbers and one "singly-indirect"
+block number, which refers to a block that holds up to 256 more block
+  numbers, for a total of 12+256=268 blocks.
+
+<p>The <tt>bigfile</tt> command creates the longest file it can,
+and reports that size:
+<pre>
+$ bigfile
+..
+wrote 268 blocks
+bigfile: file is too small
+$
+</pre>
+The test fails because the longest file is only 268 blocks.
+
+<p>You'll change the xv6 file system code to support a
+"doubly-indirect" block in each inode, containing 256 addresses of
+singly-indirect blocks, each of which can contain up to 256 addresses
+of data blocks. The result will be that a file will be able to consist
+of up to 256*256+256+11 blocks (11 instead of 12, because we will
+sacrifice one of the direct block numbers for the double-indirect
+block).
+
+<h3>Preliminaries</h3>
+
+<p><tt>mkfs</tt> initializes the file system to have fewer than 2000
+free data blocks, too few to show off the changes you'll
+make. Modify <tt>kernel/param.h</tt> to change <tt>FSSIZE</tt> 
+from 2000 to 200,000:
+<pre>
+    #define FSSIZE       200000  /* size of file system in blocks */
+</pre>
+
+<p>Rebuild <tt>mkfs</tt> so that is produces a bigger disk:
+<kbd>$ rm mkfs/mkfs fs.img; make mkfs/mkfs</kbd>
+
+<h3>What to Look At</h3>
+
+The format of an on-disk inode is defined by <tt>struct dinode</tt>
+in <tt>fs.h</tt>. You're particularly interested in <tt>NDIRECT</tt>,
+<tt>NINDIRECT</tt>, <tt>MAXFILE</tt>, and the <tt>addrs[]</tt> element
+of <tt>struct dinode</tt>. Look at Figure 8.3 in the xv6 text for a
+diagram of the standard xv6 inode.
+
+<p>
+The code that finds a file's data on disk is in <tt>bmap()</tt>
+in <tt>fs.c</tt>. Have a look at it and make sure you understand
+what it's doing. <tt>bmap()</tt> is called both when reading and
+writing a file. When writing, <tt>bmap()</tt> allocates new
+blocks as needed to hold file content, as well as allocating
+an indirect block if needed to hold block addresses.
+
+<p>
+<tt>bmap()</tt> deals with two kinds of block numbers. The <tt>bn</tt>
+argument is a "logical block number" -- a block number within the file,
+relative to the start
+of the file. The block numbers in <tt>ip->addrs[]</tt>, and the
+argument to <tt>bread()</tt>, are disk block numbers.
+You can view <tt>bmap()</tt> as mapping a file's logical
+block numbers into disk block numbers.
+
+<h3>Your Job</h3>
+
+<div class="required">
+Modify <tt>bmap()</tt> so that it implements a doubly-indirect block,
+in addition to direct blocks and a singly-indirect block.  You'll have
+to have only 11 direct blocks, rather than 12, to make room for your
+new doubly-indirect block; you're not allowed to change the size of an
+on-disk inode.  The first 11 elements of <tt>ip->addrs[]</tt> should
+be direct blocks; the 12th should be a singly-indirect block (just
+like the current one); the 13th should be your new doubly-indirect
+block. You are done with this exercise when <tt>bigfile</tt> writes
+65803 blocks and <tt>usertests</tt> runs successfully:
+</div>
+
+<pre>
+$ bigfile
+..................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+wrote 65803 blocks
+done; ok
+$ usertests
+...
+ALL TESTS PASSED
+$ 
+</pre>
+
+<p>
+<tt>bigfile</tt> will take at least a minute and a half to run.
+
+<p>Hints:
+
+<ul>
+    
+<li> Make sure you understand <tt>bmap()</tt>. Write out a diagram of the
+relationships between <tt>ip->addrs[]</tt>, the indirect block, the
+doubly-indirect block and the singly-indirect blocks it points to, and
+data blocks. Make sure you understand why adding a doubly-indirect
+block increases the maximum file size by 256*256 blocks (really -1,
+since you have to decrease the number of direct blocks by one).
+
+<li>
+Think about how you'll index the doubly-indirect block, and
+the indirect blocks it points to, with the logical block
+number.
+
+<li>If you change the definition of <tt>NDIRECT</tt>, you'll
+probably have to change the declaration of <tt>addrs[]</tt>
+in <tt>struct inode</tt> in <tt>file.h</tt>. Make sure that
+<tt>struct inode</tt> and <tt>struct dinode</tt> have the
+same number of elements in their <tt>addrs[]</tt> arrays.
+
+<li>If you change the definition of <tt>NDIRECT</tt>, make sure to create a
+new <tt>fs.img</tt>, since <tt>mkfs</tt> uses <tt>NDIRECT</tt> to build the
+file system.  
+
+<li>If your file system gets into a bad state, perhaps by crashing,
+delete <tt>fs.img</tt> (do this from Unix, not xv6).  <tt>make</tt> will build a
+new clean file system image for you.
+
+<li>Don't forget to <tt>brelse()</tt> each block that you
+<tt>bread()</tt>.
+
+<li>You should allocate indirect blocks and doubly-indirect
+  blocks only as needed, like the original <tt>bmap()</tt>.
+
+<li>Make sure <tt>itrunc</tt> frees all blocks of a file, including
+  double-indirect blocks.
+
+</ul>
+
+<p>BONUS (5 marks): support triple-indirect blocks.
+
+
+
+<hr width="100%">
+<h3> Marking</h3>
+This will be handed in electronically. I'd like you to hand in the
+following items:
+<ul>
+ <li>All your source code in .c and .h files, and makefile, plus any
+ scripts for part A.1.  
+
+</li>
+<li> One set of configuration files, so the marker can execute a single
+run of your program to verify the output.
+ <li>Documentation for the data structures and algorithms you used in
+an 80-column wide UNIX text file (PartA.design.txt)
+Explanation of how to run your test programs. This is probably best done
+in a README file. It is especially important to note
+if you tried to do things that are beyond the assignment specs and how
+they work, or if they didn't quite work out, what effect that has on
+the execution of the program.</li>
+<li> Sample output of one run of the program.
+</li>
+ <li>Part A.2: Experimental design, results and analysis report. 
+This should be done in an ASCII text
+file or PDF document. <span style="font-weight: bold;">If you have
+graphs and are supplying a text document, include the graphs as PDF
+files and make reference to the file names in your report.</span></li> 
+
+  <li> a makefile that compiles and generates executable files and
+libraries as appropriate for the application in partA.
+</li>
+<li>Part B: xv6 directory and xv6-diff file. Also, provide a design
+  document for BigFile (PartB.design.txt) and output file from testing.
+  </li>
+  <li><span style="font-weight: bold;"> Do NOT</span> hand in any
+executables or .o files, or .a files. Source code only. For this
+    assignment, <b>please hand in the list files from Assignment 1, and the
+monitor files monitor.c and monitor.h from Assignment 2.
+  </b></li>
+  
+<li>Git log</li>
+</ul>
+<br>
+How do you hand it in? As follows:
+<ol>
+  <li> Place all the code and header files that you need into a
+separate directory and make a tar file. For this assignment,
+    directories are acceptable, even necessary. Put your part A source files 
+and your external documentation in the main directory. Put your reports and
+test output in subdirectories, clearly identified for the marker. Go to the
+    assignment page for Assignment 4 and submit.</li> 
+  <li> That's it - you are done.</li>
+</ol>
+<h3> Epilogue</h3>
+Don't be afraid to ask questions. Please ask questions.<br>
+<br>
+<p><b>Have fun.</b> </p>
+<p>P.S. - Ask lots of questions in the Discussion Forums!! Is that 3 times??<br>
+</p>
+<p style="font-weight: bold;">Appendix:<br>
+</p>
+<p>Generating exponentially-distributed pseudo-random numbers (where
+the mean of the distribution is <span style="font-style: italic;">a</span>):<br>
+</p>
+<ol>
+  <li>generate a uniform random number between 0 and 1</li>
+  <li>return (-a ln(u)) for the random number.<br>
+  </li>
+</ol>
+<p>Generating normally distributed pseudo-random numbers (with mean &#956;
+and standard deviation &#963;):<br>
+</p>
+<ol>
+  <li>generate 2 uniform random numbers u<sub>1</sub> and u<sub>2</sub> between
+0 and 1</li>
+  <li>Let x = -(ln(u<sub>1</sub>))</li>
+  <li>If u<sub>2</sub> &gt; e <sup>-(x-1)(x-1)</sup><sup>/2</sup>, go to
+step 1 and repeat.</li>
+  <li>Generate a third random number, u<sub>3</sub>.</li>
+  <li>If u<sub>3</sub> &gt; 0.5, return &#956; + &#963; x; otherwise return
+&#956; -
+&#963; x<br>
+  </li>
+  <li>Generate Zipf distribution: There are many websites that have
+  descriptions on how to generate numbers of zipf (and other)
+  distributions. Here is one: < a
+  href="https://cse.usf.edu/~kchriste/tools/toolpage.html"> 
+</ol>https://cse.usf.edu/~kchriste/tools/toolpage.html</a>.
+<p> </p>
+</body>
+</html>
