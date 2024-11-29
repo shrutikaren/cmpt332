@@ -70,4 +70,13 @@ static int fifo_open(struct inode* inode, struct file* flip){
 }
 
 
+static int fifo_release(struct inode* inode, struct file* flip){}
 
+static ssize_t fifo_read(struct file* flip, char __user *buffer, size_t length, loff_t *offset){}
+
+static ssize_t fifo_write(struct file* file, const char __user *buffer, size_t length, loff_t *offset){}
+
+module_init(fifo_init);
+module_exit(fifo_exit);
+
+MODULE_LICENSE("GPL");
