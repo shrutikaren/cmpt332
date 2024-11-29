@@ -14,7 +14,8 @@ kernel_module:
 user_programs:
 	gcc -o driver-PC driver-PC.c $(CFLAGS)
 	gcc -o producer_consumer producer_consumer.c -lpthread $(CFLAGS)
+	gcc -o vfifofum vfifofum.c $(CFLAGS)
 
 clean:
 	$(MAKE) -C $(KERNEL_BUILD) M=$(PWD) clean
-	rm -f driver-PC producer_consumer
+	rm -f driver-PC producer_consumer vfifofum
