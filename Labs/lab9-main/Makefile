@@ -1,11 +1,20 @@
 obj-m += pip-driver.o
-HEADER = /linux-5.15.133/usr/include/linux
-all:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
-	gcc -o driver-PC driver-PC.c
-	gcc -o producer_consumer producer_consumer.c -lpthread
-	gcc -o -I$(HEADER) vfifofum vfifofum.c
+
+KERNEL_BUILD := /lib/modules/$(shell uname -r)/build
+PWD := $(shell pwd)
+KERNEL_HEADERS := $(PWD)/linux-5.15.133/usr/include
+
+CFLAGS := -I$(KERNEL_HEADERS)
+
+all: kernel_module user_programs
+
+kernel_module:
+	$(MAKE) -C $(KERNEL_BUILD) M=$(PWD) modules
+
+user_programs:
+	gcc -o driver-PC driver-PC.c $(CFLAGS)
+	gcc -o producer_consumer producer_consumer.c -lpthread $(CFLAGS)
 
 clean:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-	rm -f driver-PC producer_consumer vfifofum
+	$(MAKE) -C $(KERNEL_BUILD) M=$(PWD) clean
+	rm -f driver-PC producer_consumer
