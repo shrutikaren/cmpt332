@@ -1,0 +1,49 @@
+Script started on 2024-12-01 17:41:59+00:00 [TERM="linux" TTY="/dev/tty1" COLUMNS="80" LINES="25"]
+k@k:~/cmpt332/Labs/lab9-main$ sudo update-grubvim /etc/default/grub[9Pmake installmodules_install[5P-j$(nproc)[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Kmake clean 
+make -C /lib/modules/5.15.133/build M=/home/k/cmpt332/Labs/lab9-main clean
+make[1]: Entering directory '/home/k/linux-5.15.133'
+  CLEAN   /home/k/cmpt332/Labs/lab9-main/Module.symvers
+make[1]: Leaving directory '/home/k/linux-5.15.133'
+rm -rf driver-PC producer_consumer
+k@k:~/cmpt332/Labs/lab9-main$ make
+make -C /lib/modules/5.15.133/build M=/home/k/cmpt332/Labs/lab9-main modules
+make[1]: Entering directory '/home/k/linux-5.15.133'
+  CC [M]  /home/k/cmpt332/Labs/lab9-main/pipe-driver.o
+[01m[K/home/k/cmpt332/Labs/lab9-main/pipe-driver.c:[m[K In function ‘[01m[Kdevice_read[m[K’:
+[01m[K/home/k/cmpt332/Labs/lab9-main/pipe-driver.c:114:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K-Wdeclaration-after-statement[m[K]
+  114 |     [01;35m[Ksize_t[m[K bytes_to_read = min(count, (size_t)fifo->count);
+      |     [01;35m[K^~~~~~[m[K
+[01m[K/home/k/cmpt332/Labs/lab9-main/pipe-driver.c:[m[K In function ‘[01m[Kdevice_write[m[K’:
+[01m[K/home/k/cmpt332/Labs/lab9-main/pipe-driver.c:174:5:[m[K [01;35m[Kwarning: [m[KISO C90 forbids mixed declarations and code [[01;35m[K-Wdeclaration-after-statement[m[K]
+  174 |     [01;35m[Ksize_t[m[K space_available = BUFFER_SIZE - fifo->count;
+      |     [01;35m[K^~~~~~[m[K
+WARNING: Symbol version dump "Module.symvers" is missing.
+         Modules may not have dependencies or modversions.
+         You may get many unresolved symbol warnings.
+  MODPOST /home/k/cmpt332/Labs/lab9-main/Module.symvers
+WARNING: modpost: "cdev_del" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
+WARNING: modpost: "class_destroy" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
+WARNING: modpost: "device_destroy" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
+WARNING: modpost: "__init_waitqueue_head" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
+WARNING: modpost: "__mutex_init" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
+WARNING: modpost: "device_create" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
+WARNING: modpost: "__class_create" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
+WARNING: modpost: "unregister_chrdev_region" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
+WARNING: modpost: "cdev_add" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
+WARNING: modpost: "cdev_init" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
+WARNING: modpost: suppressed 15 unresolved symbol warnings because there were too many)
+  CC [M]  /home/k/cmpt332/Labs/lab9-main/pipe-driver.mod.o
+  LD [M]  /home/k/cmpt332/Labs/lab9-main/pipe-driver.ko
+make[1]: Leaving directory '/home/k/linux-5.15.133'
+gcc -o driver-PC driver-PC.c 
+gcc -o produceconsume produceconsume.c -lpthread	
+[01m[Kproduceconsume.c:1:10:[m[K [01;31m[Kfatal error: [m[Klinux/circ_buf.h: No such file or directory
+    1 | #include [01;31m[K<linux/circ_buf.h>[m[K /* For circular buffers */
+      |          [01;31m[K^~~~~~~~~~~~~~~~~~[m[K
+compilation terminated.
+make: *** [Makefile:9: all] Error 1
+k@k:~/cmpt332/Labs/lab9-main$ ^C
+k@k:~/cmpt332/Labs/lab9-main$ xi[K[Kexit
+exit
+
+Script done on 2024-12-01 17:42:26+00:00 [COMMAND_EXIT_CODE="130"]
