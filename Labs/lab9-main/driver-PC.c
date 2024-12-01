@@ -9,8 +9,6 @@
 #include <sys/wait.h>
 
 #define BUFFER_SIZE 256
-#define FIFO_READ "/dev/fifo1"  /* Read end of the FIFO */
-#define FIFO_WRITE "/dev/fifo0" /* Write end of the FIFO */
 
 /* Function to handle critical errors */
 void handle_error(const char *msg) {
@@ -18,7 +16,15 @@ void handle_error(const char *msg) {
     exit(EXIT_FAILURE);
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+    if (argc != 3) {
+        fprintf(stderr, "Usage: %s <FIFO_WRITE> <FIFO_READ>\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    const char *FIFO_WRITE = argv[1];
+    const char *FIFO_READ = argv[2];
+    
     pid_t pid;
     int fd_write, fd_read;
     char write_buf[] = "Hello from the producer process!";
