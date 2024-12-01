@@ -1,4 +1,4 @@
-#include <linux/circ_buf.h> /* For circular buffers */
+#include <include/linux/circ_buf.h> /* For circular buffers */
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -30,15 +30,20 @@ static wait_queue_head_t wait_queue;
 ssize_t producer(const char *user_buffer, size_t count){
 	unsigned long flags;
 	size_t bytes_written = 0;
+	bool condition;
 	while (count > 0){
 		size_t space_remain = CIRC_SPACE(buffer.head, buffer.tail, BUF_SIZE);
 		if (space_remain == 0){
 			/* No more space remains - wait patiently */
 			spin_unlock_irqrestore(&lock_buffer, flags);
-			
+			if (CIRC_SPACEE(buffer.head, buffer.tail, BUF_SIZE) > 0){
+				condition = true;
+			} else{
+				condition = false;
+			}
 			/* Utilize wait_event_interruptible to sleep until
 			 * a condition is finally true */
-			wait_event_interruptible(wait_queue);
+			wait_event_interruptible(wait_queue, );
 		}
 	}
 }
