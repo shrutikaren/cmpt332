@@ -1,9 +1,6 @@
-#obj-m += vfifofum.o
 obj-m += pipe-driver.o
-#obj-m += produceconsume.o
-#obj-m += driver-PC.o
 HEADER = $(PWD)/linux-5.15.133/usr/include 
-#HEADER +=$(PWD)/linux-5.15.133/arch 
+
 
 KDIR := /lib/modules/$(shell uname -r)/build
 PWD := $(shell pwd)
