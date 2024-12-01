@@ -315,6 +315,4 @@ static void __exit fifo_exit(void)
 module_init(fifo_init);
 module_exit(fifo_exit);
 
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Karen");
 MODULE_DESCRIPTION("Virtual FIFO Device Driver");
