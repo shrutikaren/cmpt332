@@ -35,6 +35,8 @@ ssize_t producer(const char *user_buffer, size_t count){
 		if (space_remain == 0){
 			/* No more space remains - wait patiently */
 			spin_unlock_irqrestore(&lock_buffer, flags);
+			
+			/* Utilize wait_event_interruptible */
 		}
 	}
 }
