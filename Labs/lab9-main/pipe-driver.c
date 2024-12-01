@@ -4,7 +4,6 @@
 #include <linux/module.h> 
 #include <linux/uaccess.h>
 #include <linux/cdev.h>
-/*#include <linux/devices.h> */
 #include <linux/mutex.h>
 #include <linux/wait.h>
 #include <linux/sched.h>
