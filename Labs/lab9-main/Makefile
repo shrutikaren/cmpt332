@@ -1,14 +1,13 @@
 obj-m += pipe-driver.o
-HEADER = $(PWD)/linux-5.15.133/usr/include 
-
 
 KDIR := /lib/modules/$(shell uname -r)/build
 PWD := $(shell pwd)
 
 all:
-	$(MAKE) -I$(HEADER)-C $(KDIR) M=$(PWD) modules
-	gcc -I$(HEADER) -o driver-PC driver-PC.c 
-	gcc -I$(HEADER) -o produceconsume produceconsume.c	
+	$(MAKE) -C $(KDIR) M=$(PWD) modules
+	gcc -o driver-PC driver-PC.c 
+	gcc -o produceconsume produceconsume.c -lpthread	
 	
 clean:
 	$(MAKE) -C $(KDIR) M=$(PWD) clean
+	rm -rf driver-PC producer_consumer
