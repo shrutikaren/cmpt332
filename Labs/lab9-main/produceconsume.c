@@ -31,6 +31,7 @@ ssize_t producer(const char *user_buffer, size_t count){
 	unsigned long flags;
 	size_t bytes_written = 0;
 	bool condition;
+	size_t remaining_space, min_to_write;
 	while (count > 0){
 		size_t space_remain = CIRC_SPACE(buffer.head, buffer.tail, BUF_SIZE);
 		if (space_remain == 0){
@@ -43,9 +44,15 @@ ssize_t producer(const char *user_buffer, size_t count){
 			}
 			/* Utilize wait_event_interruptible to sleep until
 			 * a condition is finally true */
-			wait_event_interruptible(wait_queue, );
+			wait_event_interruptible(wait_queue, condition);
+			spin_lock_irqsave(&lock_buffer, flags);
 		}
+		remaining_space = CIRC_SPACE_TO_END(buffer.head, buffer.tail, BUF_SIZE);
+
+		size_t min_to_write = min(remaining_space, count);
+
 	}
+
 }
 
 
