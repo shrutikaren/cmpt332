@@ -137,7 +137,7 @@ static ssize_t device_read(
     bytes_to_read = min(count, (size_t)fifo->count);
     first_chunk = min(bytes_to_read, (size_t)(BUFFER_SIZE - fifo->read_pos));
 
-    /* Copy data to user space */
+    /* Copy data to user space (ioctl.c) */
     if (copy_to_user(buf, fifo->data + fifo->read_pos, first_chunk)) {
         ret = -EFAULT;
         goto out;
@@ -255,7 +255,7 @@ static int __init fifo_init(void){
     int i;
 
     /* Allocate device numbers */
-    ret = alloc_chrdev_region(&dev_num, 0, 2 * N, DEVICE_NAME);
+    ret = alloc_chrdev_region(&dev_num, 0, N * 2, DEVICE_NAME);
     if (ret < 0) {
         pr_alert("Failed to allocate char device region\n");
         return ret;
@@ -266,10 +266,10 @@ static int __init fifo_init(void){
     my_cdev = cdev_alloc();
     cdev_init(my_cdev, &fops);
     my_cdev->owner = THIS_MODULE;
-    ret = cdev_add(my_cdev, dev_num, 2 * N);
+    ret = cdev_add(my_cdev, dev_num, N * 2);
     if (ret < 0) {
         pr_alert("Failed to add cdev\n");
-        unregister_chrdev_region(dev_num, 2 * N);
+        unregister_chrdev_region(dev_num, N * 2);
         return ret;
     }
 
@@ -278,12 +278,12 @@ static int __init fifo_init(void){
     if (IS_ERR(cls)) {
         pr_alert("Failed to create device class\n");
         cdev_del(my_cdev);
-        unregister_chrdev_region(dev_num, 2 * N);
+        unregister_chrdev_region(dev_num, N *2);
         return PTR_ERR(cls);
     }
 
     /* Create device files */
-    for (i = 0; i < 2 * N; i++) {
+    for (i = 0; i < N * 2; i++) {
         device_create(cls, NULL, MKDEV(major, i), NULL, "fifo%d", i);
     }
 
@@ -310,7 +310,7 @@ static void __exit fifo_exit(void){
     int i;
 
     /* Destroy device files */
-    for (i = 0; i < 2 * N; i++) {
+    for (i = 0; i < N * 2; i++) {
         device_destroy(cls, MKDEV(major, i));
     }
 
@@ -321,7 +321,7 @@ static void __exit fifo_exit(void){
     cdev_del(my_cdev);
 
     /* Unregister device numbers */
-    unregister_chrdev_region(dev_num, 2 * N);
+    unregister_chrdev_region(dev_num, N * 2);
 
     pr_info("FIFO driver exited\n");
 }
