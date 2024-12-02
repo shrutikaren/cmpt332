@@ -242,12 +242,9 @@ static struct file_operations fops = {
     .write = device_write,
 };
 
-/* Module initialization function */
-static int __init fifo_init(void){
-    
+/* Setup cdev and allocate device numbers */
+static int setup_cdev(void) {
     int ret;
-    int major;
-    int i;
 
     /* Allocate device numbers */
     ret = alloc_chrdev_region(&dev_num, 0, N * 2, DEVICE_NAME);
@@ -255,7 +252,6 @@ static int __init fifo_init(void){
         pr_alert("Failed to allocate char device region\n");
         return ret;
     }
-    major = MAJOR(dev_num);
 
     /* Create cdev structure */
     my_cdev = cdev_alloc();
@@ -268,12 +264,18 @@ static int __init fifo_init(void){
         return ret;
     }
 
+    return 0;
+}
+
+/* Create device class and device files */
+static int create_device_files(void) {
+    int major = MAJOR(dev_num);
+    int i;
+
     /* Create device class */
     cls = class_create(THIS_MODULE, DEVICE_NAME);
     if (IS_ERR(cls)) {
         pr_alert("Failed to create device class\n");
-        cdev_del(my_cdev);
-        unregister_chrdev_region(dev_num, N *2);
         return PTR_ERR(cls);
     }
 
@@ -282,7 +284,13 @@ static int __init fifo_init(void){
         device_create(cls, NULL, MKDEV(major, i), NULL, "fifo%d", i);
     }
 
-    /* Initialize FIFO buffers */
+    return 0;
+}
+
+/* Initialize FIFO buffers */
+static void initialize_fifos(void) {
+    int i;
+
     for (i = 0; i < N; i++) {
         mutex_init(&fifos[i].lock);
         init_waitqueue_head(&fifos[i].read_queue);
@@ -293,6 +301,25 @@ static int __init fifo_init(void){
         fifos[i].is_open_read = 0;
         fifos[i].is_open_write = 0;
     }
+}
+
+/* Module initialization function */
+static int __init fifo_init(void) {
+    int ret;
+
+    ret = setup_cdev();
+    if (ret < 0) {
+        return ret;
+    }
+
+    ret = create_device_files();
+    if (ret < 0) {
+        cdev_del(my_cdev);
+        unregister_chrdev_region(dev_num, N * 2);
+        return ret;
+    }
+
+    initialize_fifos();
 
     pr_info("FIFO driver initialized\n");
     return 0;
