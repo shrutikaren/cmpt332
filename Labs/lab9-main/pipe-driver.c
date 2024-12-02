@@ -43,6 +43,78 @@ static struct fifo_buffer *get_fifo_buffer(int* minor, struct inode *inode) {
     return &fifos[fifo_index];
 }
 
+/* Read data from FIFO buffer */
+static ssize_t fifo_read_data(struct fifo_buffer *fifo, char __user *buf,
+                              size_t count) {
+    ssize_t ret = 0;
+    size_t bytes_to_read;
+    size_t first_chunk;
+
+    /* Determine number of bytes to read */
+    bytes_to_read = min(count, (size_t)fifo->count);
+    first_chunk = min(bytes_to_read,
+                      (size_t)(BUFFER_SIZE - fifo->read_pos));
+
+    /* Copy data to user space */
+    if (copy_to_user(buf, fifo->data + fifo->read_pos, first_chunk)) {
+        return -EFAULT;
+    }
+    fifo->read_pos = (fifo->read_pos + first_chunk) % BUFFER_SIZE;
+    fifo->count -= first_chunk;
+    ret += first_chunk;
+
+    /* Handle wrap-around */
+    if (bytes_to_read > first_chunk) {
+        size_t second_chunk = bytes_to_read - first_chunk;
+        if (copy_to_user(buf + first_chunk,
+                         fifo->data + fifo->read_pos, second_chunk)) {
+            return -EFAULT;
+        }
+        fifo->read_pos = (fifo->read_pos + second_chunk) % BUFFER_SIZE;
+        fifo->count -= second_chunk;
+        ret += second_chunk;
+    }
+
+    return ret;
+}
+
+/* Write data to FIFO buffer */
+static ssize_t fifo_write_data(struct fifo_buffer *fifo,
+                               const char __user *buf, size_t count) {
+    ssize_t ret = 0;
+    size_t space_available;
+    size_t bytes_to_write;
+    size_t first_chunk;
+
+    /* Determine number of bytes to write */
+    space_available = BUFFER_SIZE - fifo->count;
+    bytes_to_write = min(count, space_available);
+    first_chunk = min(bytes_to_write,
+                      (size_t)(BUFFER_SIZE - fifo->write_pos));
+
+    /* Copy data from user space */
+    if (copy_from_user(fifo->data + fifo->write_pos, buf, first_chunk)) {
+        return -EFAULT;
+    }
+    fifo->write_pos = (fifo->write_pos + first_chunk) % BUFFER_SIZE;
+    fifo->count += first_chunk;
+    ret += first_chunk;
+
+    /* Handle wrap-around */
+    if (bytes_to_write > first_chunk) {
+        size_t second_chunk = bytes_to_write - first_chunk;
+        if (copy_from_user(fifo->data + fifo->write_pos,
+                           buf + first_chunk, second_chunk)) {
+            return -EFAULT;
+        }
+        fifo->write_pos = (fifo->write_pos + second_chunk) % BUFFER_SIZE;
+        fifo->count += second_chunk;
+        ret += second_chunk;
+    }
+
+    return ret;
+}
+
 /* Open function */
 static int device_open(
     struct inode *inode, 
@@ -97,17 +169,11 @@ static int device_release(
 }
 
 /* Read function */
-static ssize_t device_read(
-    struct file *file, 
-    char __user *buf, 
-    size_t count, 
-    loff_t *offset
-){
-    int minor;
+static ssize_t device_read(struct file *file, char __user *buf, size_t count,
+                           loff_t *offset) {
     struct fifo_buffer *fifo;
     ssize_t ret = 0;
-    size_t bytes_to_read;
-    size_t first_chunk;
+    int minor;
 
     fifo = get_fifo_buffer(&minor, file_inode(file));;
 
@@ -125,36 +191,17 @@ static ssize_t device_read(
         }
         mutex_unlock(&fifo->lock);
         /* Wait for data or write end to close */
-        if (wait_event_interruptible(fifo->read_queue, fifo->count > 0 || !fifo->is_open_write)) {
+        if (wait_event_interruptible(fifo->read_queue,
+                                     fifo->count > 0 ||
+                                     !fifo->is_open_write)) {
             return -ERESTARTSYS; /* Interrupted by signal */
         }
         mutex_lock(&fifo->lock);
     }
 
-    /* Determine number of bytes to read */
-    bytes_to_read = min(count, (size_t)fifo->count);
-    first_chunk = min(bytes_to_read, (size_t)(BUFFER_SIZE - fifo->read_pos));
-
-    /* Copy data to user space (ioctl.c) */
-    if (copy_to_user(buf, fifo->data + fifo->read_pos, first_chunk)) {
-        ret = -EFAULT;
+    ret = fifo_read_data(fifo, buf, count);
+    if (ret < 0)
         goto out;
-    }
-    fifo->read_pos = (fifo->read_pos + first_chunk) % BUFFER_SIZE;
-    fifo->count -= first_chunk;
-    ret += first_chunk;
-
-    /* Handle wrap-around */
-    if (bytes_to_read > first_chunk) {
-        size_t second_chunk = bytes_to_read - first_chunk;
-        if (copy_to_user(buf + first_chunk, fifo->data + fifo->read_pos, second_chunk)) {
-            ret = -EFAULT;
-            goto out;
-        }
-        fifo->read_pos = (fifo->read_pos + second_chunk) % BUFFER_SIZE;
-        fifo->count -= second_chunk;
-        ret += second_chunk;
-    }
 
     wake_up_interruptible(&fifo->write_queue); /* Wake up writers */
 
@@ -164,18 +211,11 @@ out:
 }
 
 /* Write function */
-static ssize_t device_write(
-    struct file *file, 
-    const char __user *buf, 
-    size_t count, 
-    loff_t *offset
-) {
-    int minor;
+static ssize_t device_write(struct file *file, const char __user *buf,
+                            size_t count, loff_t *offset) {
     struct fifo_buffer *fifo;
     ssize_t ret = 0;
-    size_t space_available;
-    size_t bytes_to_write;
-    size_t first_chunk;
+    int minor;
 
     fifo = get_fifo_buffer(&minor, file_inode(file));;
 
@@ -193,37 +233,17 @@ static ssize_t device_write(
         }
         mutex_unlock(&fifo->lock);
         /* Wait for space or read end to close */
-        if (wait_event_interruptible(fifo->write_queue, fifo->count < BUFFER_SIZE || !fifo->is_open_read)) {
+        if (wait_event_interruptible(fifo->write_queue,
+                                     fifo->count < BUFFER_SIZE ||
+                                     !fifo->is_open_read)) {
             return -ERESTARTSYS; /* Interrupted by signal */
         }
         mutex_lock(&fifo->lock);
     }
 
-    /* Determine number of bytes to write */
-    space_available = BUFFER_SIZE - fifo->count;
-    bytes_to_write = min(count, space_available);
-    first_chunk = min(bytes_to_write, (size_t)(BUFFER_SIZE - fifo->write_pos));
-
-    /* Copy data from user space */
-    if (copy_from_user(fifo->data + fifo->write_pos, buf, first_chunk)) {
-        ret = -EFAULT;
+    ret = fifo_write_data(fifo, buf, count);
+    if (ret < 0)
         goto out;
-    }
-    fifo->write_pos = (fifo->write_pos + first_chunk) % BUFFER_SIZE;
-    fifo->count += first_chunk;
-    ret += first_chunk;
-
-    /* Handle wrap-around */
-    if (bytes_to_write > first_chunk) {
-        size_t second_chunk = bytes_to_write - first_chunk;
-        if (copy_from_user(fifo->data + fifo->write_pos, buf + first_chunk, second_chunk)) {
-            ret = -EFAULT;
-            goto out;
-        }
-        fifo->write_pos = (fifo->write_pos + second_chunk) % BUFFER_SIZE;
-        fifo->count += second_chunk;
-        ret += second_chunk;
-    }
 
     wake_up_interruptible(&fifo->read_queue); /* Wake up readers */
 
