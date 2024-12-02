@@ -37,7 +37,10 @@ static struct cdev *my_cdev; /* Character device structure */
 static struct class *cls;    /* Device class */
 
 /* Open function */
-static int device_open(struct inode *inode, struct file *file){
+static int device_open(
+    struct inode *inode, 
+    struct file *file
+){
     
     int minor;
     int fifo_index;
@@ -67,8 +70,10 @@ static int device_open(struct inode *inode, struct file *file){
 }
 
 /* Release function */
-static int device_release(struct inode *inode, struct file *file){
-    
+static int device_release(
+    struct inode *inode, 
+    struct file *file
+){    
     int minor;
     int fifo_index;
     struct fifo_buffer *fifo;
@@ -233,6 +238,7 @@ out:
 }
 
 /* File operations structure */
+/* We are required to have open, close, read, write. */
 static struct file_operations fops = {
     .owner = THIS_MODULE,
     .open = device_open,
