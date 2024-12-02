@@ -1,16 +1,16 @@
 /* pipe-driver.c - Virtual FIFO Device Driver */
 
-#include <linux/module.h>
-#include <linux/version.h>
-#include <linux/kernel.h>
-#include <linux/fs.h>
 #include <linux/cdev.h>
 #include <linux/device.h>
-#include <linux/mutex.h>
-#include <linux/uaccess.h>
-#include <linux/wait.h>
-#include <linux/sched.h>
+#include <linux/fs.h>
 #include <linux/init.h>
+#include <linux/kernel.h>
+#include <linux/version.h>
+#include <linux/module.h>
+#include <linux/uaccess.h>
+#include <linux/wait.h>     /* sleep.c */
+#include <linux/mutex.h>    /* example_mutex.c */
+#include <linux/sched.h>    /* procfs3.c */
 
 #define DEVICE_NAME "fifo" /* Device name */
 #define N 1  /* Number of FIFOs */
@@ -37,8 +37,8 @@ static struct cdev *my_cdev; /* Character device structure */
 static struct class *cls;    /* Device class */
 
 /* Open function */
-static int device_open(struct inode *inode, struct file *file)
-{
+static int device_open(struct inode *inode, struct file *file){
+    
     int minor;
     int fifo_index;
     struct fifo_buffer *fifo;
@@ -67,8 +67,8 @@ static int device_open(struct inode *inode, struct file *file)
 }
 
 /* Release function */
-static int device_release(struct inode *inode, struct file *file)
-{
+static int device_release(struct inode *inode, struct file *file){
+    
     int minor;
     int fifo_index;
     struct fifo_buffer *fifo;
@@ -91,8 +91,12 @@ static int device_release(struct inode *inode, struct file *file)
 }
 
 /* Read function */
-static ssize_t device_read(struct file *file, char __user *buf, size_t count, loff_t *offset)
-{
+static ssize_t device_read(
+    struct file *file, 
+    char __user *buf, 
+    size_t count, 
+    loff_t *offset
+){
     int minor;
     int fifo_index;
     struct fifo_buffer *fifo;
@@ -157,8 +161,12 @@ out:
 }
 
 /* Write function */
-static ssize_t device_write(struct file *file, const char __user *buf, size_t count, loff_t *offset)
-{
+static ssize_t device_write(
+    struct file *file, 
+    const char __user *buf, 
+    size_t count, 
+    loff_t *offset
+) {
     int minor;
     int fifo_index;
     struct fifo_buffer *fifo;
@@ -234,8 +242,8 @@ static struct file_operations fops = {
 };
 
 /* Module initialization function */
-static int __init fifo_init(void)
-{
+static int __init fifo_init(void){
+    
     int ret;
     int major;
     int i;
@@ -290,8 +298,8 @@ static int __init fifo_init(void)
 }
 
 /* Module exit function */
-static void __exit fifo_exit(void)
-{
+static void __exit fifo_exit(void){
+    
     int major = MAJOR(dev_num);
     int i;
 
@@ -316,5 +324,3 @@ module_init(fifo_init);
 module_exit(fifo_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Karen");
-MODULE_DESCRIPTION("Virtual FIFO Device Driver");
