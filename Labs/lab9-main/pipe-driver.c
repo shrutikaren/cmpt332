@@ -36,6 +36,13 @@ static dev_t dev_num;      /* Device number */
 static struct cdev *my_cdev; /* Character device structure */
 static struct class *cls;    /* Device class */
 
+/* Helper function to get fifo buffer based on inode */
+static struct fifo_buffer *get_fifo_buffer(int* minor, struct inode *inode) {
+    *minor = iminor(inode);               /* Get minor number */
+    int fifo_index = minor / 2;           /* Determine FIFO index */
+    return &fifos[fifo_index];
+}
+
 /* Open function */
 static int device_open(
     struct inode *inode, 
@@ -43,12 +50,9 @@ static int device_open(
 ){
     
     int minor;
-    int fifo_index;
     struct fifo_buffer *fifo;
 
-    minor = iminor(inode);           /* Get minor number */
-    fifo_index = minor / 2;          /* Determine FIFO index */
-    fifo = &fifos[fifo_index];
+    fifo = get_fifo_buffer(&minor, inode);
 
     mutex_lock(&fifo->lock);
     if (minor % 2 == 0) { /* Write end */
@@ -75,12 +79,9 @@ static int device_release(
     struct file *file
 ){    
     int minor;
-    int fifo_index;
     struct fifo_buffer *fifo;
 
-    minor = iminor(inode);           /* Get minor number */
-    fifo_index = minor / 2;          /* Determine FIFO index */
-    fifo = &fifos[fifo_index];
+    fifo = get_fifo_buffer(&minor, inode);
 
     mutex_lock(&fifo->lock);
     if (minor % 2 == 0) { /* Write end */
@@ -103,15 +104,12 @@ static ssize_t device_read(
     loff_t *offset
 ){
     int minor;
-    int fifo_index;
     struct fifo_buffer *fifo;
     ssize_t ret = 0;
     size_t bytes_to_read;
     size_t first_chunk;
 
-    minor = iminor(file_inode(file));  /* Get minor number */
-    fifo_index = minor / 2;            /* Determine FIFO index */
-    fifo = &fifos[fifo_index];
+    fifo = get_fifo_buffer(&minor, file_inode(file));;
 
     if (minor % 2 == 0) {
         /* Read operation not allowed on write end */
@@ -173,16 +171,13 @@ static ssize_t device_write(
     loff_t *offset
 ) {
     int minor;
-    int fifo_index;
     struct fifo_buffer *fifo;
     ssize_t ret = 0;
     size_t space_available;
     size_t bytes_to_write;
     size_t first_chunk;
 
-    minor = iminor(file_inode(file)); /* Get minor number */
-    fifo_index = minor / 2;           /* Determine FIFO index */
-    fifo = &fifos[fifo_index];
+    fifo = get_fifo_buffer(&minor, file_inode(file));;
 
     if (minor % 2 != 0) {
         /* Write operation not allowed on read end */
