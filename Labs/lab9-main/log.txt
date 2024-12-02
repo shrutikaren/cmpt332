@@ -1,40 +1,4314 @@
-Script started on 2024-12-01 17:50:11+00:00 [TERM="linux" TTY="/dev/tty1" COLUMNS="80" LINES="25"]
-k@k:~/cmpt332/Labs/lab9-main$ make clean 
-make -C /lib/modules/5.15.133/build M=/home/k/cmpt332/Labs/lab9-main clean
-make[1]: Entering directory '/home/k/linux-5.15.133'
-  CLEAN   /home/k/cmpt332/Labs/lab9-main/Module.symvers
-make[1]: Leaving directory '/home/k/linux-5.15.133'
-rm -rf driver-PC producer_consumer
-k@k:~/cmpt332/Labs/lab9-main$ make
-make -C /lib/modules/5.15.133/build M=/home/k/cmpt332/Labs/lab9-main modules
-make[1]: Entering directory '/home/k/linux-5.15.133'
-  CC [M]  /home/k/cmpt332/Labs/lab9-main/pipe-driver.o
-WARNING: Symbol version dump "Module.symvers" is missing.
-         Modules may not have dependencies or modversions.
-         You may get many unresolved symbol warnings.
-  MODPOST /home/k/cmpt332/Labs/lab9-main/Module.symvers
-WARNING: modpost: "class_destroy" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
-WARNING: modpost: "device_destroy" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
-WARNING: modpost: "cdev_del" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
-WARNING: modpost: "__init_waitqueue_head" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
-WARNING: modpost: "__mutex_init" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
-WARNING: modpost: "device_create" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
-WARNING: modpost: "__class_create" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
-WARNING: modpost: "unregister_chrdev_region" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
-WARNING: modpost: "cdev_add" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
-WARNING: modpost: "cdev_init" [/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko] undefined!
-WARNING: modpost: suppressed 15 unresolved symbol warnings because there were too many)
-  CC [M]  /home/k/cmpt332/Labs/lab9-main/pipe-driver.mod.o
-  LD [M]  /home/k/cmpt332/Labs/lab9-main/pipe-driver.ko
-make[1]: Leaving directory '/home/k/linux-5.15.133'
-gcc -o driver-PC driver-PC.c 
-gcc -o produceconsume produceconsume.c -lpthread	
-[01m[Kproduceconsume.c:1:10:[m[K [01;31m[Kfatal error: [m[Klinux/circ_buf.h: No such file or directory
-    1 | #include [01;31m[K<linux/circ_buf.h>[m[K /* For circular buffers */
-      |          [01;31m[K^~~~~~~~~~~~~~~~~~[m[K
-compilation terminated.
-make: *** [Makefile:9: all] Error 1
-k@k:~/cmpt332/Labs/lab9-main$ xi[K[Kexit
-exit
+commit f960ea85271820896db1571f3eafd9afe9837e8d
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Dec 2 15:59:13 2024 -0600
 
-Script done on 2024-12-01 17:50:22+00:00 [COMMAND_EXIT_CODE="2"]
+    adding my producer code
+
+commit dd599d40347f4b3ee42b80764b57480c1c78ed4a
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Dec 1 21:51:16 2024 -0500
+
+    Update pipe-driver.c
+
+commit 249efbdc8ceba93d4dcc4618f2cdb6da221caf58
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Dec 1 21:49:31 2024 -0500
+
+    Update pipe-driver.c
+
+commit 9267fbc13aa45bb567ff4cda967c8b925caa0113
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Dec 1 21:32:14 2024 -0500
+
+    Update pipe-driver.c
+
+commit 4a11d8c9cd20ce04480e65783a1e2a54c773eec7
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Dec 1 21:21:28 2024 -0500
+
+    Update pipe-driver.c
+
+commit 7527e0c0c6f79435ef062552c42f8ffde7de331b
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Dec 1 20:50:54 2024 -0500
+
+    Update pipe-driver.c
+
+commit c364d2765bdf3af3aa2e9d617e3a0d5c60bf3a59
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Dec 1 20:34:01 2024 -0500
+
+    Update pipe-driver.c
+
+commit 0680611ac2932fb45d7c9dbaa4c03f704b6cea24
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Dec 1 20:27:35 2024 -0500
+
+    Update pipe-driver.c
+
+commit b04d7c2a8d84db836c70e3c397f9bfd1de55bf1b
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Dec 1 20:23:05 2024 -0500
+
+    Update pipe-driver.c
+
+commit 04467311c997e7fab8a7859a0ac37ef4d6b833b9
+Author: Virtual-Karen <no@no.no>
+Date:   Sun Dec 1 19:02:30 2024 +0000
+
+    All my work
+
+commit a8a901aaa6341842b26c0b4b40d21b560c103523
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Dec 1 13:28:00 2024 -0500
+
+    Update driver-PC.c
+
+commit 8ddfc5ef9552220320428934f3c2ff65a6bdfe88
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Dec 1 13:27:20 2024 -0500
+
+    Create test_fifio.sh
+
+commit b16991a73f0846a459477d870f5fac2c689a9744
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Dec 1 13:15:16 2024 -0500
+
+    Update pipe-driver.c
+
+commit 100d7b58a5876df9ccb8ab42bb568fcc6f734e31
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Dec 1 13:12:45 2024 -0500
+
+    Update pipe-driver.c
+
+commit e5c05b11914cbaf34b24e0c82158aabdb0405cab
+Author: Virtual-Karen <no@no.no>
+Date:   Sun Dec 1 18:11:48 2024 +0000
+
+    pushing my work
+
+commit 1ba68099dc62e4d1ed7362ae083e320874f12a57
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Dec 1 13:00:03 2024 -0500
+
+    Update Makefile
+
+commit 88e0c14d5d291a6b51f757bb83b875e5cd171feb
+Author: Virtual-Karen <no@no.no>
+Date:   Sun Dec 1 17:59:01 2024 +0000
+
+    adding thee work
+
+commit cfffc84e2e662339c68270f6309e341612a3d061
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Dec 1 12:58:03 2024 -0500
+
+    Update driver-PC.c
+
+commit f1c9bffaa1928e1e441cd3afaf9c2dabd03153f6
+Author: Virtual-Karen <no@no.no>
+Date:   Sun Dec 1 17:50:35 2024 +0000
+
+    log fil yourrrrr waaaay
+
+commit c54d0c0d77ff014fcae054111df0a45b84f0c298
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Dec 1 12:49:21 2024 -0500
+
+    Update pipe-driver.c
+
+commit c8762578d2e579cbbbedd838d3c04214b6cec944
+Author: Virtual-Karen <no@no.no>
+Date:   Sun Dec 1 17:42:38 2024 +0000
+
+    log file
+
+commit 54a6bd5a8439e4a210993d128d73a73ea29b96b8
+Author: Virtual-Karen <no@no.no>
+Date:   Sun Dec 1 17:40:08 2024 +0000
+
+    working on prod-cosnum
+
+commit a87a1eacb41f5678cc00cc95e52946354da41d4c
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Dec 1 12:38:13 2024 -0500
+
+    Update driver-PC.c
+
+commit ccb80554aec57aefb6f3cbc7ce78a1985beaada8
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Dec 1 12:37:31 2024 -0500
+
+    Update pipe-driver.c
+
+commit aecbc738599423e4a7e78942d1a1adfd0c2fb164
+Author: Virtual-Karen <no@no.no>
+Date:   Sun Dec 1 17:36:00 2024 +0000
+
+    working on the producer consumer part of the code
+
+commit 476a60660daef45d80dfe41754c4ea240085f8aa
+Author: Virtual-Karen <no@no.no>
+Date:   Sun Dec 1 17:20:23 2024 +0000
+
+    adding the prodconsum bit
+
+commit e0609add7ab1d9e3e88e36d292caca6549bb4513
+Author: Virtual-Karen <no@no.no>
+Date:   Sun Dec 1 17:10:33 2024 +0000
+
+    adding all the work
+
+commit e938a3ec125d0328a5976e58e9c6150e0d7d7d84
+Author: Virtual-Karen <no@no.no>
+Date:   Sun Dec 1 17:02:33 2024 +0000
+
+    Adding my cd
+
+commit 77aadb8c72d91c0ff963072b73c1177518dfad31
+Author: fldev <devteam@fldev.orl>
+Date:   Sun Dec 1 11:53:26 2024 -0500
+
+    Update Repo
+
+commit ce198e8b9e573595c3a86549d71e9a9e40163587
+Author: Virtual-Karen <no@no.no>
+Date:   Sun Dec 1 16:49:25 2024 +0000
+
+    adding all fils again
+
+commit fa4de59128f337ec23b3e526a3732fc07b1a4617
+Author: Virtual-Karen <no@no.no>
+Date:   Sun Dec 1 16:39:30 2024 +0000
+
+    adding everything
+
+commit 6afd09d6e02c694fb036ee3251d58c71542dbea1
+Author: Virtual-Karen <no@no.no>
+Date:   Sun Dec 1 16:38:52 2024 +0000
+
+    adding all of the files
+
+commit 78d12f513f6ecc005377f31cc062208a7730198d
+Author: Virtual-Karen <no@no.no>
+Date:   Sun Dec 1 16:16:06 2024 +0000
+
+    pushing the makfile
+
+commit bd1c0090d9844974030f0449cb16d18f2c3962ec
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Nov 28 21:24:55 2024 -0500
+
+    Update Makefile
+
+commit 85b1cd2845d8b3bd92db736cddd7301909a97df9
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Nov 28 21:21:57 2024 -0500
+
+    Update Makefile
+
+commit e03f0c91966a19212013beae5c025ebc3f829b6a
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Nov 28 21:12:48 2024 -0500
+
+    Update Makefile
+
+commit 87dddf1a9ac78f18a29aa9b747993e03008a1a44
+Author: Virtual-Karen <no@no.no>
+Date:   Fri Nov 29 02:11:10 2024 +0000
+
+    adding the header file pathway
+
+commit 166de25bdc3511ac9c9b766a627ab0a817a4ee4c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 28 19:48:09 2024 -0600
+
+    compiling vfifofum as well into our Makefile
+
+commit 21a5b3b444f43e55eba17ac900fcec5a0fe7e722
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 28 19:21:30 2024 -0600
+
+    adding the html file
+
+commit 12f4bdb0379300d27c3a992c43487049dbde21c8
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 28 19:20:12 2024 -0600
+
+    adding an empty file
+
+commit 1cb1f3f0bf905225f68f5ac6a5b7e3cc8e578631
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 28 19:18:52 2024 -0600
+
+    adding the empty text file
+
+commit e2428aa03d882af2a02c8a3227a6bb6c58982daa
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 28 19:00:05 2024 -0600
+
+    adding my files
+
+commit 428e077ce71dd1c366c1f37d0a6cca74dbfd6ad3
+Merge: 1cd8605 da22b76
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 27 20:44:58 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 1cd8605830edc669d1832f3fd2e816ee0af69ca9
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 27 20:44:50 2024 -0600
+
+    adding after doing make clean to get the directory cleaned
+
+commit da22b76b2219ddd0935363d547a6e91f7dede6dd
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Nov 27 21:44:23 2024 -0500
+
+    Update Repo
+
+commit 68fe7ed9fd31ea12ec323efe95c82e600298bd90
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 27 20:44:04 2024 -0600
+
+    added my files and fixed the error ;Fatal error: can't create /produceconsume.o: Permission denied;
+
+commit 6a848ad2d46efcc1aa28eeb7f9397d3d485d4984
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 27 20:29:42 2024 -0600
+
+    adding my work from the makefile
+
+commit 111c5ece2b65fa74f621c08c0902576635c064a5
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 27 20:18:36 2024 -0600
+
+    adding bonus c file
+
+commit 7e1e0b2d0f1f76f936fa2ba0ebb3303a21d82b08
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 27 20:12:07 2024 -0600
+
+    adding all empty files
+
+commit 04f6bf4d0d692f27a74637ef1c0a777c215796b6
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 27 09:44:36 2024 -0600
+
+    adding files provided to me
+
+commit 928d01affd2bdbc71b5e57d9851240436bedcad7
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 27 09:40:44 2024 -0600
+
+    adding a text file to open this directoryt
+
+commit 44310b4a79607b761d5d4930367ec749788f204c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 21 10:11:56 2024 -0600
+
+    adding tar file
+
+commit 10d6f4a83472d9f3f89747845ee633dfee02e8e1
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 21 10:09:19 2024 -0600
+
+    i added make clena to xv6
+
+commit 6253f3355a2c78c31c46f47767f9064ea3d2c7b8
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 21 10:07:13 2024 -0600
+
+    adjusted the open() functiona ccordinfly
+
+commit 262e8fe12ab8256c6de587ea983e1533986bd19f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 21 09:43:45 2024 -0600
+
+    continuing to add my code work here
+
+commit 9d01fb420120f2ddd16dedb96a7cf6f02991da97
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 21 09:42:54 2024 -0600
+
+    worked on: For initial debugging, have your symlink(target,path) system call printout the values of its parameters from INSIDE the system call
+
+commit da653a3eca71735764eae3e15218070777b98863
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 21 09:19:41 2024 -0600
+
+    removed errors from the symlinktest.c file
+
+commit 470b9393568078743a01e685d9fb95ba1b008077
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 21 08:56:21 2024 -0600
+
+    call symlink function and added print statements inside my user/symlinktest.c
+
+commit 9a5e062cdc736d9029ba5513763dacbc27e23b51
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 21 08:52:28 2024 -0600
+
+    adding an empty stub into sysproc.c inside the kernel/ directory and it has the ability to return -1
+
+commit e1e6300194cf5396394f2c4f6e9e03921b302884
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 20 12:06:01 2024 -0600
+
+    adding everything for now and will come back to it
+
+commit 3151aeefc844e4c1116d281c0c32a4ee2bf99ee1
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 20 12:03:24 2024 -0600
+
+    compiling the user/symlinktest.c into the Makefile
+
+commit e2b2412b91b3cf36862df58166e2fd2e28811556
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 20 11:55:16 2024 -0600
+
+    i did o_nofollow for 0x800 to ensure that the value doesn't conflict with other possible values
+
+commit c8adf7cff34ccb36a4dc86c742131b6858e37e65
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 20 11:33:32 2024 -0600
+
+    implementing an empty sys_symlink into the syscall.c
+
+commit 11cd9789dd2aeac407f56ef486a8dccd18c7a4e6
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 20 11:31:42 2024 -0600
+
+    adding the system call for symlink to be 22
+
+commit 8b97bcba3da697e027d5e04b770b3aae9d44427a
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 20 11:30:37 2024 -0600
+
+    the system call changed from sys_symlink to symlink basically
+
+commit cdfb09c7905981cd878833b8f48645de185dd0ce
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 20 11:24:14 2024 -0600
+
+    creating a new system entry to user/usys.pl, user/user.h
+
+commit c1b74a8803500c30c7ee9656049c7025402a805f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 20 11:11:22 2024 -0600
+
+    adding the text file into this directory
+
+commit 657a8c7b9c7a697250dae941bfd5cd3b700301b7
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 14 21:31:28 2024 -0600
+
+    adding
+
+commit 3659abdc18665cf35d9ace48b2d7d7c97ad0e2c9
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 14 21:23:12 2024 -0600
+
+    adding changes
+
+commit e5931fb37aa8396b9db1d0e03ea3774bd1c128dd
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 14 20:54:06 2024 -0600
+
+    adding
+
+commit 481a27199d216d3dd4bdaa9ccd9946f6ae1953d9
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 14 20:41:23 2024 -0600
+
+    Adding
+
+commit f54cf0bf82aed896aa5b02291879278727bd1dec
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 14 20:37:49 2024 -0600
+
+    identing my code
+
+commit ddbac88016fdd22d1bdd312f8e2751bee9bab4a8
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 14 20:09:51 2024 -0600
+
+    adding this
+
+commit 21646c48912213b51e426189e1b7d508c300a7f0
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 14 19:36:22 2024 -0600
+
+    Adding
+
+commit 32d67259bf6746bf67158b823d8f82101028b651
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 14 19:28:11 2024 -0600
+
+    adding all the codes
+
+commit b5c2746f535b266c9342b5f662b3766d8595482a
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 14 18:51:03 2024 -0600
+
+    finished adding my thought process into the partadesign.txt
+
+commit 118bca093c7f1a4b7838193783c6e041209069cd
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 14 18:14:21 2024 -0600
+
+    we will add our test file comments into the parta design.txt
+
+commit 101f5128349fc0da37092e8b3d5e45663b0eaa45
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 14 18:12:51 2024 -0600
+
+    worked on test file a bitt more
+
+commit 837bb65ef867b6c2e4e652cb332c150873a72e60
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 14 18:03:36 2024 -0600
+
+    adding a problem statement into our part a design file
+
+commit af1a8e4aa68616e52816799dc01f9ad3bd44c5c3
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Nov 14 17:57:56 2024 -0600
+
+    adding unistd.h into my files to make fork() work properly
+
+commit e8d7ceb91383158a5611a0e6f577854fc3f87641
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 13 21:24:18 2024 -0600
+
+    committing the progress made so far
+
+commit d84b5d0d7e22fc7585cf0ab7bd4ca7d72e17b4be
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 13 21:02:02 2024 -0600
+
+    add
+
+commit ff25a8785a69b19c0c35103c3a526b87c6ced1cb
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 13 20:50:00 2024 -0600
+
+    adding more code and added three lines of code into allocproc() function
+
+commit 43a4325e9ba41b06331d35b65aaf4c399bc04035
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 13 20:12:17 2024 -0600
+
+    adding comments and adding tickingclock integer to my code
+
+commit df2d796de0cadaa57b0ef8b3c24b54d4982b0364
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 13 20:03:51 2024 -0600
+
+    adding
+
+commit d4f63be264555ba841c332594db6e111ad411409
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Nov 11 19:59:37 2024 -0600
+
+    Ading all
+
+commit 26edc6c45b2c9bf8137d9346d971be8abfa640a0
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Nov 10 22:07:53 2024 -0600
+
+    intmain.c finished adding the code
+
+commit a3f0b75b994f724299f0950add914c0af0d239fe
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Nov 10 17:46:04 2024 -0600
+
+    adding what i had written
+
+commit 04fe916e5e5cca972e7a730efade414602a9d8a7
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Nov 6 20:08:49 2024 -0600
+
+    Adding all th files
+
+commit 4db598d5ccc81dd092fe073227926ef783459da4
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sat Nov 2 13:36:12 2024 -0600
+
+    adding provided files and pdf file
+
+commit fe7ab519395c3b9ff40c9ae5953cf36e702c4dbe
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Nov 2 13:35:26 2024 -0600
+
+    Adding
+
+commit c28363d433eaa98427f614e060d7a876c9264f4a
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 28 10:06:11 2024 -0600
+
+    adding all the files and the commits
+
+commit 76557833176e0a943bfad9f42fdb3bd7d083f0f2
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 28 01:07:07 2024 -0600
+
+    Adding everything
+
+commit 2e998a19e4f73004248907335ee2a3083059434d
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 28 01:04:32 2024 -0600
+
+    adding
+
+commit f4d51b10e5af15b09d37857edb4c08c76f04b20f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 28 01:02:07 2024 -0600
+
+    pushing
+
+commit 8f95d727ceede16cc51552085d6f3303fdefd8aa
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 02:57:08 2024 -0400
+
+    Update Makefile
+
+commit 659e9922e630043521701ceaa6b50f6e9adc5be7
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 02:51:19 2024 -0400
+
+    Update Makefile
+
+commit b2c0c1a2dfdfd50000222a1039bcfebf1eb7384d
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 02:49:47 2024 -0400
+
+    Update Makefile
+
+commit 0db0026f879ae472d61d737dd72c9a7ee309dee1
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 02:47:42 2024 -0400
+
+    Update Makefile
+
+commit 20ced3081b85f4fe6c8e4eb53111efccfe328c98
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 02:46:29 2024 -0400
+
+    Update Makefile
+
+commit bd6af92783eef5856eb3f24f1068c2382f364852
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 02:44:18 2024 -0400
+
+    Update Makefile
+
+commit f9898180c22df41b3c22d481cfc5e69b7365f9ff
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 02:42:45 2024 -0400
+
+    Update uthread.c
+
+commit 3ee66e30f4fc901a5fab77fb986798ed6439723a
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 02:33:01 2024 -0400
+
+    Update Makefile
+
+commit d35e9f1cf93b707497ee1572f7222cd2f6c4fda8
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 28 00:31:30 2024 -0600
+
+    Script
+
+commit e3396dc1e2af4f42e80bb98b768f032c14ee1e7f
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 02:29:06 2024 -0400
+
+    Update Makefile
+
+commit 1e696f5ac965e294242bf855f4992b31c3b226f5
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 02:24:04 2024 -0400
+
+    Update Makefile
+
+commit 34e5decb492715f80955693bf6c9f031d7cc7ad3
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 02:23:48 2024 -0400
+
+    Update Makefile
+
+commit b720f937f1ef64b31e6736e39ea031f1c6577b38
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 02:13:35 2024 -0400
+
+    Update Makefile
+
+commit f9b94373c5c377260a44e3d15260a0ab6245d4af
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 02:12:27 2024 -0400
+
+    Update Makefile
+
+commit afb60d288e50f2f0d449f2560ad62564b6ba2cfd
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 02:10:40 2024 -0400
+
+    Update Makefile
+
+commit 7d564d47b34bcb777cdf9fd831e42159cd600d7e
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 02:10:08 2024 -0400
+
+    Update Makefile
+
+commit 5aa30b2b4a9e93a7b012dd5dbb6efe36697650d3
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 02:09:05 2024 -0400
+
+    Update Makefile
+
+commit fef85219a35d0e43d433429f2378157b92937943
+Merge: 3fbfc0d 8276065
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 28 00:08:36 2024 -0600
+
+    add
+
+commit 3fbfc0d13b2dc0d7463e18bf211717e50268ab55
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 28 00:08:11 2024 -0600
+
+    add
+
+commit 827606552dd4480d93d8679ba0dbed30be8d9cc1
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 02:07:19 2024 -0400
+
+    Update Makefile
+
+commit c30c1f8ae1dd0c04eaf2808ae88ce60584183da6
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 01:58:08 2024 -0400
+
+    Update Makefile
+
+commit e48643bd8efc422964693b0f44470107b1120e8e
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 01:55:21 2024 -0400
+
+    Update Makefile
+
+commit 3dbddcb579a8799f533d1956a7472f26b2aeea87
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 01:51:04 2024 -0400
+
+    Update Makefile
+
+commit 03910aaf045c40f4b5b10b8818216de03aea332b
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 01:45:25 2024 -0400
+
+    Update Makefile
+
+commit 1af42d24f2ac058fc3c78a7cdfa2db091c9ee4c0
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 01:43:29 2024 -0400
+
+    Update Makefile
+
+commit 989772dcc962769e3f05d8ffe9e9d6d58837e4b1
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 01:41:34 2024 -0400
+
+    Update Makefile
+
+commit dcc42e70a9ee7bdefdbeef47534f9d351669fdfe
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 01:40:07 2024 -0400
+
+    Update Makefile
+
+commit b9051f19b76c45416adec44307b5ca9a57766a2f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 23:30:27 2024 -0600
+
+    adding all the files
+
+commit e06bfd95563b8f405a05dbe23ef7c1e4634d1c39
+Merge: c028e86 6016fde
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 23:04:15 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 6016fde9598eb6d21f8bea4864e222c57181f239
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 01:03:57 2024 -0400
+
+    Update Monitor.c
+
+commit c028e8690a2bf315af333315b0a960f1836f3d24
+Merge: 6b39eca 0694a01
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 22:58:51 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 0694a017096a450453345ec6785987e8f29bed23
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 00:58:28 2024 -0400
+
+    Update Monitor.c
+
+commit db1943074f539c6acf1d9ac23dc66fb2802649dc
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 00:56:28 2024 -0400
+
+    Update Monitor.h
+
+commit 587c2489b63dfa0bbb6f5c59dd99c9eaffa7b210
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 00:56:05 2024 -0400
+
+    Update Monitor.h
+
+commit 6b39eca1c339b6933feea4476e0bd9b08f46bc41
+Merge: f29426f 6e71d7e
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 22:47:07 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit f29426ff4fa8e79727a645001907ee99f0a56f27
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 22:46:52 2024 -0600
+
+    adding recnt changees here
+
+commit 6e71d7ecbe18b6dc59ac50114fc4aee2d03db5a4
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 00:39:36 2024 -0400
+
+    Update Monitor.c
+
+commit 9eb70b2c09989d01b1f345cef0c86b6d77a0fada
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 00:39:26 2024 -0400
+
+    Update Monitor.c
+
+commit fd371fa50e20f42b6a379a81af9fda8a7c0525ab
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 00:38:29 2024 -0400
+
+    Update Monitor.h
+
+commit 934c47315730354a91853d4c1cb134f249bad8c3
+Merge: b4d32b4 f035f95
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 22:38:00 2024 -0600
+
+    added
+
+commit b4d32b4c9d7e2e53a5d795ca44044afca11e7ebb
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 22:37:41 2024 -0600
+
+    added
+
+commit f035f95fe872d530da9627336e4c57af7d4126a9
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 00:37:16 2024 -0400
+
+    Update Monitor.h
+
+commit 50e4a9ea302d76293bace96e44c6407efd8615c4
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 00:36:56 2024 -0400
+
+    Update Monitor.h
+
+commit 45c5cea5176e21938a8c835af1fc486d54b11125
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 00:36:35 2024 -0400
+
+    Update Monitor.c
+
+commit 264240525837e075624db55b649b40a2344568ea
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 00:28:23 2024 -0400
+
+    Update Monitor.h
+
+commit a413a306dd7195173ebeacc5e766cde060470721
+Merge: cbcb7b8 631679f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 22:27:30 2024 -0600
+
+    Adding
+
+commit cbcb7b85c64bd8a9fe7414d40cd5387f9847efe2
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 22:27:05 2024 -0600
+
+    adding files
+
+commit 631679f8c251f19146f1409c6535b638722ce305
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 00:26:35 2024 -0400
+
+    Update Monitor.h
+
+commit c40f4f11b9f4d3441069f50234185eefd97b2dd1
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 00:26:03 2024 -0400
+
+    Update Monitor.c
+
+commit 5e0ad2a7638c905f87d36f0538f45797e6f163f7
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 00:18:53 2024 -0400
+
+    Update Monitor.c
+
+commit 7141516fc7c0521d10ba6886ee662fe06b89fa1c
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 00:18:13 2024 -0400
+
+    Update Monitor.h
+
+commit 7eb3880f3ecbcc72255b0aad348d1b6662dbe622
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 00:04:02 2024 -0400
+
+    Update Monitor.h
+
+commit 5d197351fbd4e708521af1fc328786481784833f
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 28 00:03:34 2024 -0400
+
+    Update Monitor.c
+
+commit d4fd41fbfc5d35196a7da5a1d10950ddd80b1d43
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 27 23:59:50 2024 -0400
+
+    Update Monitor.c
+
+commit 2949bab71ee7064de4b9459ed58e01be61746bc7
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 21:53:50 2024 -0600
+
+    Adding the files
+
+commit 375f01f41f03e55fb335054df90bad287026b4a9
+Merge: 9b68573 6bf5006
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 21:50:50 2024 -0600
+
+    adding
+
+commit 9b6857312f57a957423dbc2f7cd7a8cf5872bc3d
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 21:50:27 2024 -0600
+
+    Adding
+
+commit 6bf5006232163d5888a3e5df75073b4fd205d287
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 27 23:49:34 2024 -0400
+
+    Update Monitor.h
+
+commit 1883542ad423b977acacdc6d86a586947c83a76f
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 27 23:49:02 2024 -0400
+
+    Update Monitor.c
+
+commit 4835cbdfc922a918121885394724e613897315bd
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 27 23:40:45 2024 -0400
+
+    Update Monitor.c
+
+commit 74f0e5c54a6005b30dbd46f372daf4c0b28962ed
+Author: fldev <devteam@fldev.orl>
+Date:   Sun Oct 27 23:22:26 2024 -0400
+
+    Update REp
+
+commit 731cfabd2326acfbe7a9c1b6fe0c3f8f3bc52fb7
+Author: fldev <devteam@fldev.orl>
+Date:   Sun Oct 27 23:19:38 2024 -0400
+
+    Update REpo
+
+commit ae6149fc913757fc2bdf5c810d47225c32cda2b1
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 27 23:06:47 2024 -0400
+
+    Update unit_tests.c
+
+commit e0cda56304d9170156fd60e66c10167e53c1a68c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 21:05:11 2024 -0600
+
+    adding all the work
+
+commit c9bf5ae15f75a82f58a4dc390062bcc7975072d6
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 27 22:42:47 2024 -0400
+
+    Update Makefile
+
+commit 4051e295e62cf57287cdc6964ba37e15c3db7444
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 27 22:42:39 2024 -0400
+
+    Update Makefile
+
+commit a540ca391d541f9623d70009b95eeda3d90ca4e9
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 20:40:55 2024 -0600
+
+    pushing
+
+commit 661e5dc542591f6a830f5efdd008c492a2321560
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 18:53:50 2024 -0600
+
+    added directories for the 3 types of architectures
+
+commit 669b44398c70d14266e4d95be7df71ae47b0c808
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 18:31:05 2024 -0600
+
+    part b design file should also be good
+
+commit 4f3bb875975aaaa8454ec491461b89c2474fe826
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 18:29:06 2024 -0600
+
+    part a design file is completed
+
+commit 17fb9dfd9f25e6c2aa3ba6c09ece0e4cc6666da2
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 18:03:09 2024 -0600
+
+    adding everyhting here gain
+
+commit dc5c9fdafeb1964f46f12f2663c90caa679d6029
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 17:43:53 2024 -0600
+
+    adding the files
+
+commit ff55f4647f87a33184a2113cd6719d25554a2022
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 17:41:59 2024 -0600
+
+    spnt a few hours figuring this out and tried ifdef and endif and -D flags but nothing seems to b working
+
+commit d925fa49280dc45faea03dc0db5f716e7b88ee8d
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 17:17:42 2024 -0600
+
+    aded my test file and it compiles fine without the label i made for the produce-consumer inside my Makefile
+
+commit 4a1e5bca3500464217477b01697791852b84b894
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 27 16:11:52 2024 -0600
+
+    keeping it with a0 and a1 for now
+
+commit 1d577216b79c15e0573089aae16b25bfab756058
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 27 00:41:55 2024 -0400
+
+    Update Monitor.c
+
+commit 7a9356bceeabace800190ac3c2ae8bfb4116e8fd
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 27 00:31:48 2024 -0400
+
+    Update Monitor.c
+
+commit 5ca25350543e264056943f1b62c50332e4aa7a0d
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Oct 26 22:00:31 2024 -0600
+
+    part a design txt
+
+commit 0b133629d05ef67f8688cae4a06444775bc55f7c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Oct 26 21:36:46 2024 -0600
+
+    addng all the files
+
+commit a881bedb801ca9004d52bfbc7924702c9fee18fd
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Oct 26 21:05:00 2024 -0600
+
+    my files
+
+commit eebb20c346ceb320f2417c260b7f5c2627b28a54
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sat Oct 26 23:02:59 2024 -0400
+
+    Update uthread_switch.S
+
+commit d38dd25c154bd83ec137405ed1e890c40a2641c6
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sat Oct 26 23:00:31 2024 -0400
+
+    Update uthread.c
+
+commit 5a0cd53bc44b07c6712b9974d0aaf83f8c0355f7
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Oct 26 20:38:38 2024 -0600
+
+    adding originals
+
+commit e316ab3ca2a8e2693aba586e85f0bd7162718874
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Oct 26 20:17:29 2024 -0600
+
+    made changes to the offsets of reg and used ld and sd
+
+commit 7771c3cd4a4f55608136f85a4361a70b0b6f21f0
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Oct 26 19:04:55 2024 -0600
+
+    pushing
+
+commit dd5d8ea1d603fc4cc1b58a250b263fa2282efd45
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Oct 26 18:49:56 2024 -0600
+
+    changed from angle brackets to quotation marks
+
+commit 80cdd103ac4fa9878d126fd71ba41f105c64633a
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Oct 26 18:43:27 2024 -0600
+
+    adding revised version of producer-consumer
+
+commit bae8ce920768b55479d7fa1352e8417ac19093f6
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Oct 26 18:38:21 2024 -0600
+
+    removed all part a comments from part a
+
+commit d41c840c24ec0957abc45f5495cfdf0d10892de4
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Oct 25 19:52:13 2024 -0600
+
+    finished my first draft of the code
+
+commit f1eeaeb25c4be4b739505c4d31195ccd636b5063
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Oct 25 19:04:20 2024 -0600
+
+    continuing to work on my code
+
+commit fa691b53594b14c75bd7a1f9f64ad97b34ec0bb4
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Oct 25 18:43:21 2024 -0600
+
+    realized we need mutex not semaphore
+
+commit 548dcaf0ac3e3a5ded182a5d81a2e6f2492f59c4
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Oct 25 14:21:43 2024 -0600
+
+    had some time so stared working on it for a bit - will come back to this afer my lab
+
+commit fa2821781dad0066f56b848891c7194dee135e6f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 23 21:23:05 2024 -0600
+
+    add the makefile
+
+commit 6405f1b69d110e585138ac26920a73cfa18ac482
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 23 20:45:35 2024 -0600
+
+    adding all the files
+
+commit e55b5166d773843ffeee72225d723c045364d380
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 23 20:12:18 2024 -0600
+
+    adding thee changes i made
+
+commit f54fa3219e1d3b4fc69b0fea4dbaa01afc98bf54
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 23 19:54:28 2024 -0600
+
+    fixed a few more errors
+
+commit ac4c2c947ccdee8c78a2150dca13dad17d26fe14
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 22 22:01:02 2024 -0600
+
+    still need to finish this
+
+commit a26f0ff3a078286e753d89429a502424ada7d919
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 22 21:56:05 2024 -0600
+
+    another error removed. wrong variable. thread should have been t
+
+commit 454d3649106f6b7369d669a0a0ecb5e568d198c6
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 22 21:54:28 2024 -0600
+
+    Removed uint64_t errors by adding stdint.h
+
+commit c6ac80a23118f5fe18ae509a64719d23b4c56d18
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 22 21:52:17 2024 -0600
+
+    adding the changes into the makefile with toolprefix
+
+commit d0d00b6416e596e75a0c5a99a7d48a52515c175f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 22 21:04:01 2024 -0600
+
+    got rid of  *** recipe commences before first target.  Stop., Error: Couldn't find a riscv64 version of GCC/binutils., and *** missing separator.  Stop.
+
+commit da3e3dad3d64828cab45fa7525ec48858197cbf2
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 22 20:34:02 2024 -0600
+
+    pushing it again
+
+commit 42a748d531c0aba75d9a40fc92678ab174ed218c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 22 20:32:53 2024 -0600
+
+    addng c files and s files
+
+commit 054b4fe935a88d3dafa5b8a354db1e75be0a05d8
+Merge: 3cd6921 8e760f2
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 22 20:31:12 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 3cd692183318ee85ab4394e2046c121fedd25b43
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 22 20:25:16 2024 -0600
+
+    going back
+
+commit 8e760f25400c2ef0c7781b751533f5540577d185
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 22 01:49:10 2024 -0400
+
+    Update Repo
+
+commit c4662eaf8568ec81153535eb561840ab707f213e
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 22 01:18:19 2024 -0400
+
+    Update REpo
+
+commit f651fe7902fd25c50e2c3b42d5631b25048180e8
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 22 01:16:39 2024 -0400
+
+    Update Repo
+
+commit 9db659bab9e01aed90b0a842ea970e7e1830c8b7
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 22 00:59:09 2024 -0400
+
+    Update
+
+commit 27108e84c7a323372c2225053ccc8e2ea87313e5
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 22 00:51:13 2024 -0400
+
+    UPdate Repo
+
+commit bc44d1338e64db951fdb451cf7900fdf8222cf31
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 22 00:50:34 2024 -0400
+
+    Update Repo
+
+commit c31d7d870b734eaa1871d2784ff5c16936c0a8b5
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 22 00:40:07 2024 -0400
+
+    Update Repo
+
+commit f867150f1a26418ab17328ff986c3605db51d88b
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 22 00:39:36 2024 -0400
+
+    Update Repo
+
+commit 2f416f034bc490ca2adce60731c1237b16a12552
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Tue Oct 22 00:27:34 2024 -0400
+
+    Update unit_tests.c
+
+commit 3c01913c6785f30d1f15d7ce05c4b1f89e4cd501
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 22 00:23:12 2024 -0400
+
+    Update Repo
+
+commit 680c3cbbaa5bc6fa9df27d160a31003f780580b2
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 22 00:22:01 2024 -0400
+
+    Update Repo
+
+commit b21e96458b1eee2dbf379b74f9a7e4df6bd527d5
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 23:47:12 2024 -0400
+
+    Update Repo
+
+commit 1917c1902448e2061f8b00266536d9c21a45cd32
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 23:46:37 2024 -0400
+
+    Update Repo
+
+commit a7dce04dcf2d8da1a8177a3780d55c313e98b095
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 23:37:35 2024 -0400
+
+    Update Repo
+
+commit 41884fbfcb7af553906d042ca04b7f5edec41bba
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 23:35:41 2024 -0400
+
+    Update Repo
+
+commit 01edbab622491d7674bc53e29b8d99633d6687b9
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 23:31:46 2024 -0400
+
+    Update Repo
+
+commit 136c3d35ad5a58665f400f29a4597e522824d06d
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 23:31:10 2024 -0400
+
+    update Repo
+
+commit 7e94aed171705d1e5f9bb10153d8d0fcfb4502e2
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 23:08:38 2024 -0400
+
+    Update Repo
+
+commit 0151ac99f1b95b4ee082b77bb316733c84aaf96c
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 23:04:10 2024 -0400
+
+    Update Repo
+
+commit e60d68cc459f8c9bfaa840e2d48c4d61c018be88
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 23:03:18 2024 -0400
+
+    Update Repo
+
+commit d00ab90dfd2e0f5bbd7e77533ff2a77b77441850
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 21:01:41 2024 -0600
+
+    removed unnecessary lines in the makefile that i was adding for part a
+
+commit b94814e24c06fbb13565474a10a136c16d9c180b
+Merge: 9940cf1 0c2b112
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 21:00:19 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 9940cf172ff6ae60f7961d0d22e82a51a736cef1
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 21:00:09 2024 -0600
+
+    added files to our makefile
+
+commit 0c2b112805cd130c7ed1b09b2fdd9adb75cfa79b
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 22:57:03 2024 -0400
+
+    Update REpo
+
+commit 4055fb0080d214e724a7d95f4a2de7a420bf8ae6
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 20:54:29 2024 -0600
+
+    added xv6 folder here
+
+commit 96b00bbb29238a37c1a413763641a72a29b76501
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 22:53:10 2024 -0400
+
+    Update Repo
+
+commit b72722c0fec086ee58c2030e4881c133ec24b382
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 22:52:33 2024 -0400
+
+    Update REpo
+
+commit 66f0f9f8cf7a9cdfbb7504b55ed8c112c49e039a
+Merge: 11c5578 e77c492
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 20:48:23 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 11c5578e371ac857cff5bffbf122fb141449d4e6
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 20:48:08 2024 -0600
+
+    adding LDFLAGS
+
+commit e77c49228c7495c0119487e4c720e73712119df9
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 21 22:45:45 2024 -0400
+
+    Update unit_tests.c
+
+commit 186dc9ca62a82f4e7c862b34ebff8d92b51a9a20
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 20:43:02 2024 -0600
+
+    learnt that LDFLAGS meant to link local libraries
+
+commit 09594eef8135e8a3b35a38a37f2f3241e34043fa
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 22:37:39 2024 -0400
+
+    Update REpo
+
+commit 534c6ed9098e6fee6b4f0b80c7d6388a2ca539a1
+Merge: c22b2c9 4ef32e7
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 22:37:01 2024 -0400
+
+    UPdate REpo
+
+commit c22b2c9d8695f7a8467cfa6aefcdb1c6f0320604
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 22:33:50 2024 -0400
+
+    Update Repo
+
+commit 6cefeae9754f2e6eb61ebdb9254f78244880e83e
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 22:28:24 2024 -0400
+
+    UPdate Repo
+
+commit 70d7cbf7cfb9ef112cc0286edeca0ec87acadb5d
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 22:24:11 2024 -0400
+
+    Update Repo
+
+commit e84e6c8bcf440e7e1468a433b8ecdef7589933fa
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 22:22:59 2024 -0400
+
+    UPdate Repo
+
+commit 1aab410b5f1156d45ca7b051b97d6d0eaa1c5fb7
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 22:20:56 2024 -0400
+
+    UPdate Repo
+
+commit 4ef32e798ca5b5e663a57600e231c6f095e97789
+Merge: bbdf36b e3a9257
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 20:19:50 2024 -0600
+
+    add
+
+commit bbdf36ba4d19a5f45e4b2101579865b575f56e52
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 20:19:30 2024 -0600
+
+    Add
+
+commit e3a9257e95f8e8b74e97ce21e4856d94824ef3e6
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 21 22:18:38 2024 -0400
+
+    Update unit_tests.c
+
+commit 5905e3ef768238e1946a0788e24a47057ee856fd
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 20:18:31 2024 -0600
+
+    adding code to compile the c file
+
+commit 2c6ac9752070eac459f91b1070780b76e55cd887
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Mon Oct 21 22:18:03 2024 -0400
+
+    Update unit_tests.c
+
+commit 0a1abea7e7c6491502b4afea9de842c6e1c09fef
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 22:11:49 2024 -0400
+
+    Update Repo
+
+commit 3a00123b29a85300fbe2bf03f58b0edd47003c84
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 22:08:02 2024 -0400
+
+    Update Repo
+
+commit daf1a88451ee911ca7324edad6114748825ef0eb
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 22:07:40 2024 -0400
+
+    Update Repo
+
+commit db395f9684c5deb009f715f503bc9ab965727745
+Merge: ebcb6f2 68550d9
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 22:07:19 2024 -0400
+
+    Merge branch 'main' of https://github.com/shrutikaren/cmpt332
+
+commit ebcb6f2a92641ccea65c5fa8f2dd9773b9ccacff
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 21 22:07:13 2024 -0400
+
+    Update Repo
+
+commit 68550d999148f8d39cebab44ca4e4cb48d69dcd4
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 20:05:49 2024 -0600
+
+    removed cflags from compiling o objects and removed cppflags when making a bianry from *.o files as mentioned in the comments from the assignment
+
+commit 2da7c00f3d833831d0885ce9ac981734add480c5
+Merge: 1827c18 0f003da
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 20:02:22 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 1827c18b1ae9b846e660ac633d65e2905ed7b713
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 20:01:48 2024 -0600
+
+    adding the makefile
+
+commit 0f003dade11bc56164d319af7a9b8c42bd3c4450
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Mon Oct 21 19:14:46 2024 -0600
+
+    adding files
+
+commit a86feb680c155123f14ef71608b0663a6ec0f22b
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 19:09:12 2024 -0600
+
+    Adding files for part a
+
+commit 6f6c3131dbc2e525b7a100328e71179bb41191b8
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 18:57:29 2024 -0600
+
+    added another tst
+
+commit 7e81d0f16c6f5b3bed8f67c7795f067d2c3d4b0f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 18:52:08 2024 -0600
+
+    test 12
+
+commit 37b8488b8facc9b30f1290da7ef359a5ade79e2d
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 18:49:29 2024 -0600
+
+    Added more test cases
+
+commit b90cb273ca2e2ba3398f70848b27abaa944af746
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 18:23:05 2024 -0600
+
+    test case for listprepend added
+
+commit 734345bc6ff74cf3ab4bfb90b999eacc2b0e9955
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 21 17:53:00 2024 -0600
+
+    cland unit_tess and added test cases
+
+commit c041c48d7e58a4ddbf8b83b6c4e3732326cff970
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sat Oct 19 19:05:26 2024 -0600
+
+    Add files via upload
+
+commit dda99467dc62be731bf8fe39114ee14e6562a97d
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Oct 18 12:03:57 2024 -0600
+
+    adding files
+
+commit 623c1e13869e2d67a7fdf6c46bb78ede15990a6e
+Merge: a40d94b 73f8981
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Oct 18 11:59:38 2024 -0600
+
+    adding the files of output'
+
+commit a40d94bd4b2c5cb48a8f4474b16c96da0a65ec51
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Oct 18 11:59:08 2024 -0600
+
+    adding the output for our files
+
+commit 73f898142b95fe47955fd13eb2217adfaa8fed01
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Oct 18 11:46:13 2024 -0600
+
+    Adding
+
+commit 9ae435824133035768c7f8a110f1d92521201a88
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Oct 18 11:37:04 2024 -0600
+
+    added names to all list files
+
+commit e5c1f9d33e9e4d0fcd4d27dcf675a8ee6aea0116
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Oct 18 11:35:58 2024 -0600
+
+    made list adders and list.h less than 80 characters
+
+commit d778d47a2a04a5dfe73be20d4080ce4196f66f97
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Oct 18 11:34:16 2024 -0600
+
+    made the make file less than 80 characters
+
+commit 8040f883f29fcd2330df2e3fb8fa0108c62d25cb
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Fri Oct 18 00:13:29 2024 -0400
+
+    Update sim.c
+
+commit 42b4e0eb0f2420786031469ecf296e726d5d6233
+Merge: cc57b93 afdc31a
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 17 22:13:10 2024 -0600
+
+    pushing
+
+commit cc57b936c4aaaa29d8ed370c22e6114e18fc3740
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 17 22:12:31 2024 -0600
+
+    pushing
+
+commit afdc31add5b219f1d6874a1859e68fddcce7bdd4
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Fri Oct 18 00:11:17 2024 -0400
+
+    Update sim.c
+
+commit 5151e8459b6657f638f7e0dda7c67783c0a11746
+Merge: 4b83f1e 501451a
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 17 22:04:52 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 4b83f1e95cc331c0ecc3780f8a844bf13cab4fb9
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 17 22:04:29 2024 -0600
+
+    added one more test case here
+
+commit 501451a820a852853709c2555a996c881df87040
+Author: fldev <devteam@fldev.orl>
+Date:   Fri Oct 18 00:03:07 2024 -0400
+
+    Update Repo
+
+commit f3d1421a3c832138973c24f462186e49aeaec099
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 23:59:38 2024 -0400
+
+    Update Repo
+
+commit 42468b2c4fd73028b016e30a1f916715a8cfec9a
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 23:58:55 2024 -0400
+
+    Update Repo
+
+commit ae3df0fbd56a287200b6c648a343bccc5a682efd
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 23:57:43 2024 -0400
+
+    Update Repo
+
+commit 796680a285373f4ec974e9560451841249f7faba
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 23:35:12 2024 -0400
+
+    Update Repo
+
+commit dbaf52f7c230e10df0e8fa2d33753d0e5125c0ca
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 23:29:25 2024 -0400
+
+    Update Repo
+
+commit 33a2870b15d2cadd58455b5f67388d30716f1016
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 23:24:36 2024 -0400
+
+    Update Repo
+
+commit 1b8adcc33d1a905217a673cb633b122b230d0a0e
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 23:23:55 2024 -0400
+
+    Update Repo
+
+commit d0b66ceba3d4d56e99d5a20f33abc8aa0bffc581
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 23:21:58 2024 -0400
+
+    Update Repo
+
+commit 7148b3b38be11ab14e311e7a38095a9912bedc7f
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 23:19:44 2024 -0400
+
+    Update Repo
+
+commit 7bfd326ade8b45d33f591ff8ebcf922b23f81dab
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 23:18:22 2024 -0400
+
+    Update Repo
+
+commit f87c4bbb9c3205865af649b00d6ddfdf073fdc62
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 23:16:42 2024 -0400
+
+    Update Repo
+
+commit 4edd938e9802836c7b10c2cb85449d999a43159d
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 23:14:41 2024 -0400
+
+    Update Repo
+
+commit cafcdf9ca48f1ed00c1d516d27ed817cb6b82a32
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 23:14:00 2024 -0400
+
+    Update Repo
+
+commit 3a107f99d12f935bbca5549d247ffb9336b6aa31
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 23:13:37 2024 -0400
+
+    Update Repo
+
+commit e22aba353d6718570efb6cfddc6a0a570670d5de
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 23:09:17 2024 -0400
+
+    Update Rep
+
+commit b0a0eee88896f2d14505fb84c10daf87c3fce6cf
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 23:01:28 2024 -0400
+
+    Update Repo
+
+commit 8827110d07e9f3bfbdd4abe0c65006505c1f276c
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 23:01:15 2024 -0400
+
+    Update Repo
+
+commit 29da28893a272bb045f6f3a849e3c903ad6fd20a
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 22:54:01 2024 -0400
+
+    Update Repo
+
+commit 544b6eef7f52799feabbac14b61b30b000f100e6
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 22:52:28 2024 -0400
+
+    Update Repo
+
+commit 8ca49c2e204528c7fd9fb5e69a79f292fd4bd0ba
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 22:43:28 2024 -0400
+
+    Update Repo
+
+commit c57fddf6271acc8eec38ae5f9b4cf3a507e60cde
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 22:40:30 2024 -0400
+
+    Update Repo
+
+commit 339c0ba85414986366d011b2683727a1c021fe57
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 22:38:11 2024 -0400
+
+    Update Repo
+
+commit 28150f595454cf2b2ddf35d7ed9ada91500ecd5a
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 22:36:47 2024 -0400
+
+    Update Repo
+
+commit 689f5b923d070d62c54a8acfe5a290fa938cc7f8
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 22:36:37 2024 -0400
+
+    Update Repo
+
+commit 95d24a106c1182513722329c8a7c5d89724b0d4a
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 17 19:57:35 2024 -0600
+
+    adding our test case
+
+commit 6152cb0de4b593ae3eb6626a918c4ebc0504799a
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 17 19:42:25 2024 -0600
+
+    another test case added
+
+commit 5a2a143dde46c185874e9fd274eef946821822f0
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 17 19:36:42 2024 -0600
+
+    another test case
+
+commit 25a9f5c5b9b45f7c96cf79ae140573223861f6ac
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 17 19:34:38 2024 -0600
+
+    adding more test cases
+
+commit 83acb73cdad0acc31f05f42acd4b74a3905effd9
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 20:57:47 2024 -0400
+
+    Update Repo
+
+commit 539dc4128b38441c8d86232530fe01852671032d
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 20:57:35 2024 -0400
+
+    Update
+
+commit 69945935dea2b02c1c03160e1ab05498ed80338e
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 20:56:38 2024 -0400
+
+    Update Repo
+
+commit 47512316f30a079ae4e5a0b585d203eb5e26c720
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 20:54:03 2024 -0400
+
+    Update Repo
+
+commit 0fd71c00165c06e65e9e3628f7a2e826db837f62
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 20:49:22 2024 -0400
+
+    Update Repo
+
+commit 8d2b303257cb6e2cea2f2917c0093f93e2cafefc
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 20:47:09 2024 -0400
+
+    Update ListAdd
+
+commit 7df1fb3ae541369f4260aa5bb688835cefddd0b6
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 20:35:20 2024 -0400
+
+    Update Repo
+
+commit 140d9dde2235d6ffff7153e71056a3400e8d1517
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 20:31:28 2024 -0400
+
+    Update Repo
+
+commit e424648a28b44f3310a7d5efb535aa44ed319dda
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 20:29:57 2024 -0400
+
+    Update Repo
+
+commit ca6899eae5cbad3e44b53f4d317a4531fc5eeb0a
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 20:24:47 2024 -0400
+
+    Update Repo
+
+commit b417f64f0971fefdf8aed038365a786d678e197b
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 20:19:41 2024 -0400
+
+    Update Repo
+
+commit b3b212b8b86754a5533d82da7a404c4a7a4ab7a2
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 20:14:12 2024 -0400
+
+    Update Repo
+
+commit 94c4884929831dc04ced06c044c0a9fa250b4f3c
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 20:13:37 2024 -0400
+
+    Update Repo
+
+commit 40a53da79665982a14936a091a95b1b452369e82
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 17 20:10:02 2024 -0400
+
+    Update list_adders.c
+
+commit 9ff5f2e024bd2097b9a7b577d7250128d22d7afb
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 17 18:02:16 2024 -0600
+
+    pushing my changes
+
+commit cfeb83d551031d8b37cd5aeaf91fab5df04ff6ba
+Merge: 9de181f 826eff2
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 17 16:50:59 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 9de181f124a6d17c6d05c6d297c35bbc8c403fd8
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 17 16:50:42 2024 -0600
+
+    fixed the makefile
+
+commit 826eff2932867487e94d3f0207871d27dcf2139f
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 00:32:27 2024 -0400
+
+    Update Repo
+
+commit d14daba5a45ffaacf217695b32b6f73df236d816
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 00:29:27 2024 -0400
+
+    Update Repo
+
+commit 6ea030a4d76e74c334747b1867e8891a6d4789bb
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 00:21:07 2024 -0400
+
+    Update Repo
+
+commit e45309b05dcd73e225b2452ba4357f4217722e26
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 00:11:48 2024 -0400
+
+    Update Repo
+
+commit 3791c654ae7aa4eb24ae5d010dfa99ba20515504
+Author: fldev <devteam@fldev.orl>
+Date:   Thu Oct 17 00:05:21 2024 -0400
+
+    Update Repo
+
+commit fd4c5a6730cbd624ad8a3071cdccc1726feac79c
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 16 23:59:04 2024 -0400
+
+    Update Repo
+
+commit aeb2a5a12357eeb6600ffda7733d28eaab4bac91
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 16 23:56:01 2024 -0400
+
+    Update list.h
+
+commit 4f3e0d61e5d04ec1c761774dc04d4c0833b0e6b2
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 16 23:53:14 2024 -0400
+
+    Update Repo
+
+commit ac5d2143dfdea0052bc15889726cc87895467ab2
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 16 23:49:32 2024 -0400
+
+    Update Repo
+
+commit a89d81ef15126c41ac4627a57fcb7a7dda7570b8
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 16 23:49:14 2024 -0400
+
+    Update list_removers.c
+
+commit 55db24352698f20b157d99cd43a747612af58adc
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 16 23:46:34 2024 -0400
+
+    Update list_movers.c
+
+commit 947625793cb94b52af7af90447ee757ce140ec0c
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 16 23:44:34 2024 -0400
+
+    Update Repo
+
+commit 909878249b35bbc450118b9de5844a2055e6598b
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 16 23:43:54 2024 -0400
+
+    Update Repo
+
+commit e526cb07acea914975b2c55dbdc4babe46c9a58c
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 16 23:38:31 2024 -0400
+
+    Update list_adders.c
+
+commit 3a09b38f189303e841794c6cecdbfd4f014a7737
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 16 23:37:26 2024 -0400
+
+    Update list_adders.c
+
+commit d7b059ea24ca4a24b3f4cdf0be03cb3fe4fa4851
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 16 23:34:41 2024 -0400
+
+    Update list.h
+
+commit 9334c7fd4978bdaf29be78313c24faefa58b970e
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 16 23:29:58 2024 -0400
+
+    Update Repo
+
+commit 20c264384f7303b1f9a7e6b4b37c9804b377ece0
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 16 23:19:23 2024 -0400
+
+    Update REpo
+
+commit 77d478eceb40af9477debc4dce5132c44cc304fb
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Oct 16 21:08:50 2024 -0600
+
+    Add files via upload
+
+commit c4dc6837681f1e80cbee545cadf1caba02da20d0
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 16 23:08:21 2024 -0400
+
+    Update Repo
+
+commit 672b9390b71bd2b97aa26b8e9a2192d0e11fd849
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 16 23:04:48 2024 -0400
+
+    Update Repo
+
+commit dab763289b3e85b89b59676c04c1a8858bc36c57
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 16 23:04:32 2024 -0400
+
+    Update Repo
+
+commit f66a949e69844846e030d9359b1da0de926ad63f
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 16 23:02:20 2024 -0400
+
+    Update Repo
+
+commit b9f30ef79b92786fbe4be824e98e1f1d011d81f1
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 16 23:00:08 2024 -0400
+
+    Update Repo
+
+commit 5625759774c7039b2426389d690ffdd0af8879c6
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 16 22:59:47 2024 -0400
+
+    Update Repo
+
+commit 45f6a1319beefc25b5f9eb8f2f6f194e54d5f6bb
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 16 22:58:10 2024 -0400
+
+    Update Repo
+
+commit 07ffff8aa193e7f9b9c1dd87fa6c437e914df664
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 16 19:50:06 2024 -0600
+
+    added more code for the makefile
+
+commit 43e4db97ed0235278c6191a9120e2c21b62a8263
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 16 11:27:16 2024 -0600
+
+    adding the tar file
+
+commit 2b9422add14bf43172d7a7ed3d53e5af2c181e7d
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 16 11:05:41 2024 -0600
+
+    learning lesson is to use ./ current directory instead of the full path name
+
+commit f1b7f63f0a79fbda8de75433596d7d583d8d67bd
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 16 10:52:05 2024 -0600
+
+    adding all the files i need
+
+commit d837c44f067d9407648090b7d234b08020ec21a6
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 15 21:48:03 2024 -0600
+
+    adding stuff
+
+commit 4d14c1281ebb6fbab08fd8334be714d8da80b2f2
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 15 19:54:48 2024 -0600
+
+    working on hte makefile first to ensure that it will compile before writng the code for monitor.c
+
+commit 523e24f3070a2b1d9955fc895557088c15f33600
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 15 19:44:12 2024 -0600
+
+    adding the list into our files
+
+commit 8d06277dd49dfe96115999a47eae83deb9471ddb
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 15 19:25:46 2024 -0600
+
+    adding all our monitor functions into our header files
+
+commit 4cd19edd82bd33f20703654445773083e8ec63c7
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 15 18:52:46 2024 -0600
+
+    added the header file
+
+commit 6adc639b800c0c7f8050127056300a41cde05b25
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 15 18:41:57 2024 -0600
+
+    extracted the tar file and simply added the header file from Assignment 1
+
+commit 899a41b58d64eed8d6060c6e9f2b7f1301af7293
+Merge: 84dc670 aaf841a
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 15 18:35:59 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 84dc6701ffc6d701a2c004215b8c95892a361663
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 15 18:35:49 2024 -0600
+
+    adding the rtt file
+
+commit aaf841aa917cca63b4f55f8bf3eedc9e33a0ab13
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Tue Oct 15 18:35:00 2024 -0600
+
+    Add files via upload
+
+commit e9a9c655c77700a769d37eb3d013a4af2b5d10c7
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 15 18:34:07 2024 -0600
+
+    adding my submission here
+
+commit ed8e1906b764ce36b73ddfd2cc0964edbbdea951
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Tue Oct 15 18:31:51 2024 -0600
+
+    Add files via upload
+
+commit 12cc1b8cce09695d6f553b6cfa247394e772dfed
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Tue Oct 15 18:31:16 2024 -0600
+
+    Add files via upload
+
+commit 7e8b6c2a867f0bba6a49b12bd5959a710f2e9828
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 15 18:28:55 2024 -0600
+
+    adding a text filee
+
+commit ecef80eda40b2ae4b954ebc60c4e41e318168d8e
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 15 18:14:18 2024 -0600
+
+    adding another lab4 directory to retry again
+
+commit 00af0421b13080e898e8defd771057312278aaf3
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 13 23:46:42 2024 -0400
+
+    Update sim.c
+
+commit 08fad3421371bf6632de591420858ca18a8d3b13
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 13 23:42:35 2024 -0400
+
+    Update sim.c
+
+commit 236f384d1206d99c7c9638a55f563afc205da5c4
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 21:41:48 2024 -0600
+
+    Update Repo
+
+commit 695078cdcca57914ae071a1347620a4456a8d1f9
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 21:33:10 2024 -0600
+
+     adding
+
+commit 1825332d09a5951e6e4a05321bcbca313ee54741
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 21:19:07 2024 -0600
+
+    Update Makefile
+
+commit 3247bf586def677d08b44af8724baa06ef9110c2
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 13 22:53:36 2024 -0400
+
+    Update sim.c
+
+commit 25090787d6046bf8459759299cd6537b3fef9e82
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 13 22:52:50 2024 -0400
+
+    Update sim.c
+
+commit 362a0b75741bbd2b52db4d34cc751f7f87718647
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 13 22:52:04 2024 -0400
+
+    Update sim.c
+
+commit 5d96edf274d1e08f1f4e152952117423bfe378a1
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 13 22:50:59 2024 -0400
+
+    Update sim.c
+
+commit 4042fbf6878ddcd4345c03f12144cad6a29780fe
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 20:42:51 2024 -0600
+
+    Update Repo
+
+commit 95e446c9572d99f6b0cab818310562e982e8134d
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 20:40:24 2024 -0600
+
+    added the indexing to the runningq - im thinking if two processes ended up taking the same pirority number then how will it proceed in plaving that process into the list considering that two items may not go inside the same index?
+
+commit 3236d6de3e1ea44988fd7384e4052f713b17fce3
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 20:37:20 2024 -0600
+
+    Update
+
+commit 35168b71f98e79655a48b76d868adc1cfbb2bcb1
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 13 22:35:19 2024 -0400
+
+    Update Makefile
+
+commit 81ad1108f178adfb595c3d8dd4b6ba1a26fb8855
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 13 22:32:52 2024 -0400
+
+    Update TEST
+
+commit 36069c56dba01bfbdb65f5ae566ba3ff81004a84
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 20:30:32 2024 -0600
+
+    Update
+
+commit f133b63c34d99274cb005b1a49d765e48415b208
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 20:28:20 2024 -0600
+
+    created a runningq inside set_state and added the state inside hte runningq
+
+commit 3d85342bfc52b949d9e19c687ced7e9fb2519000
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 20:16:03 2024 -0600
+
+    Adding files
+
+commit 4d4d72d4716e59b0e95e922e1a050a9f790e0739
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 13 22:00:27 2024 -0400
+
+    Update monitor.h
+
+commit 0baabc6fec143c56ec98d6c745b937aab58504d5
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 13 21:57:55 2024 -0400
+
+    Update monitor.c
+
+commit b4f73229c898e135434166b4ca6d3b9e1f757373
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 19:53:27 2024 -0600
+
+    forgot to link it to my liblist.a
+
+commit 282868ca5055b735ed13084015be7d44be62dec9
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 19:53:14 2024 -0600
+
+    Update Repo
+
+commit 74aad0081adf614c72e732a1bc6ace2f20dd07e5
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 19:52:33 2024 -0600
+
+    adding the ubc pthreads flag
+
+commit e145876850f63c293f1603a9b84aae5334ba9bfd
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 19:46:11 2024 -0600
+
+    adding all my files here
+
+commit 9e19e134830a599032bd20e024ceae74aa3bb6d9
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 13 21:45:50 2024 -0400
+
+    Update Makefile
+
+commit 74b27e672118185f75107ba1c2650c62f5dccb99
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 19:42:58 2024 -0600
+
+    Value
+
+commit ec1f22545b206e617a3631486bdf2604db0cdb62
+Merge: 4266a66 a171297
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 19:39:16 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit a171297981cf121ea1d04c6fb215f2d87fbbf376
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 13 21:38:44 2024 -0400
+
+    Update Makefile
+
+commit 4266a66e56913b2c5bccc18a78e63de0b0c86fa3
+Merge: 482fac3 e423a0a
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 19:33:02 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit e423a0a223c603750f0e33afbe21bcbc2be38c64
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Oct 13 21:30:24 2024 -0400
+
+    Update Makefile
+
+commit 168f152116deede67aa1f169c8841c0b39c6f482
+Author: fldev <devteam@fldev.orl>
+Date:   Sun Oct 13 21:23:58 2024 -0400
+
+    Update Repo
+
+commit 482fac36a3c847355006d19ae89ff7e1c053a0d5
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 19:23:04 2024 -0600
+
+    added my makefile with the sim executable
+
+commit 21db8e0b5122045c381987f939d6a1979190f8a8
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 19:16:38 2024 -0600
+
+    adding makfile
+
+commit 348a39b84ee756d06a4d1b37c2d16d3e191c2b4f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 19:14:29 2024 -0600
+
+     adding the right list file
+
+commit 50565897e2399880253297e6a7b695cebc6e3033
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 19:09:44 2024 -0600
+
+    adding
+
+commit 46a081c639267c239fe843a22b452d9e96f6e750
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sun Oct 13 19:06:06 2024 -0600
+
+    Add files via upload
+
+commit 6da657fd4bfd262407ff1d2119232d5ba34a0e7b
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 19:05:03 2024 -0600
+
+    addng all the files
+
+commit 8c48f6db5d1ed7e3e9bed207735047fb05b749e0
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sun Oct 13 19:03:54 2024 -0600
+
+    Add files via upload
+
+commit c91a5746609521fdf3483cec7a6d75c922d7726c
+Merge: f98da12 f89d24c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 18:53:32 2024 -0600
+
+    Merge branch 'main' of github.com:shrutikaren/cmpt332
+
+commit f98da128d1e45cc68cc757dfc521780f06aa5f86
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 18:53:24 2024 -0600
+
+    Adding list files
+
+commit f89d24c30ddc6f3d03c329fc70e0dff93ca97894
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sun Oct 13 18:49:53 2024 -0600
+
+    adding lab 5 information
+
+commit 68ea9216041a7dad4bdeda69b457a5bfc58f349c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 13 18:49:25 2024 -0600
+
+    adding my text file
+
+commit 942539d743a2ca54ae7ce78a41ed20f457adc214
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sat Oct 12 22:30:26 2024 -0400
+
+    Update Makefile
+
+commit 5fa4580aef194c01a1aba5297a8f01cf7f4664a6
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sat Oct 12 22:28:11 2024 -0400
+
+    Update Makefile
+
+commit 3c450bfb6f196b79ac946da223f6f04187e038a7
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sat Oct 12 22:27:01 2024 -0400
+
+    Update Makefile
+
+commit b7f16ca2047e47a418798d617848a2f9c7d4bbda
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sat Oct 12 22:20:40 2024 -0400
+
+    Update Makefile
+
+commit 8205e66d485313791c652e3e328aee4d84b18cbb
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Oct 12 20:20:15 2024 -0600
+
+    made it nice
+
+commit 75a1d6d8c4334140283675d4455c99813ee29aa2
+Merge: fec627a fd0f0ab
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Oct 12 20:19:24 2024 -0600
+
+    adding
+
+commit fec627a84a23110fde6920a51587c112a0c1d1ed
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Oct 12 20:17:55 2024 -0600
+
+    adding
+
+commit fd0f0ab1c4e2610b57882a356008da8ce8f8972b
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sat Oct 12 22:14:25 2024 -0400
+
+    Update Makefile
+
+commit 471d61cf63a6a38952747638d37cf88ebabfb706
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Oct 12 19:51:58 2024 -0600
+
+    Update Repo
+
+commit 91f0c52521fabe4dc3cd1a61cbcdbe604f474d36
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Oct 12 19:46:09 2024 -0600
+
+    Update Repo
+
+commit f30201fe63582ba161b6c8e303930b4a9ac687aa
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Oct 12 19:41:56 2024 -0600
+
+    Update Repo
+
+commit fdc86073fc8deb0e6249134b40aac6e06ad3e9e8
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 10 01:37:44 2024 -0400
+
+    Update monitor.h
+
+commit 4b0b8f39f94d71866f843eaaf09b147e2a1ac4f1
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 10 01:37:36 2024 -0400
+
+    Update monitor.c
+
+commit 45adfb6bd07ef36bb7346f34a7010f4343d7c1ad
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 10 01:37:06 2024 -0400
+
+    Update monitor.h
+
+commit 5cdd3f317a5ea52ed8bcba5c61bc1d0ac114f03a
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 10 01:35:41 2024 -0400
+
+    Update monitor.c
+
+commit f60cf3281deaf660171ff756c0cf8429ae8ec8fe
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 10 01:33:55 2024 -0400
+
+    Update monitor.c
+
+commit f2893b52b27d30814d138eca785f39c62f46a642
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 10 01:33:43 2024 -0400
+
+    Update monitor.h
+
+commit 698c7ed64d8b817870e4e47cc3be4537dc0b49d1
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 10 00:02:57 2024 -0400
+
+    Update monitor.c
+
+commit a7e04d28a394d69806284356ef1f9d14760bc115
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 10 00:02:03 2024 -0400
+
+    Update monitor.c
+
+commit 5a4c0827ed265229f4bed8947f8bde40ebb68c5c
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 23:59:45 2024 -0400
+
+    Update monitor.c
+
+commit cb11a5a112697f69bab9db1c656c7b9c9f1d327c
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 23:58:45 2024 -0400
+
+    Update monitor.c
+
+commit 9d6b01f3fbbef002f7790e7e25dde5b84f4b8f11
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 23:57:46 2024 -0400
+
+    Update monitor.c
+
+commit 260e55270295e228217afc876330c0e2a71ce2b7
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 23:56:37 2024 -0400
+
+    Update monitor.c
+
+commit de6b51464681160f4c0a667c8da825119345f254
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 23:53:48 2024 -0400
+
+    Update monitor.c
+
+commit 35ab4524524631bf39b01d4900214df9c384ba5e
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 23:51:08 2024 -0400
+
+    Update monitor.c
+
+commit 702206d165ece284978cebedf92bf4e46748ab84
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 23:49:49 2024 -0400
+
+    Update monitor.h
+
+commit f4e852d0a9fe68e9a6595d715a860a6f30247187
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 23:49:17 2024 -0400
+
+    Update monitor.c
+
+commit ba1428fa5de0c76f9e4549fb815516683c87779c
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 23:47:32 2024 -0400
+
+    Update monitor.h
+
+commit e95c0fec73212961bafe5388d49c76be257005b6
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 23:11:46 2024 -0400
+
+    Update Makefile
+
+commit d720b59d9648f8029a6a56647e785074ede4408b
+Merge: dc91dba 7937c40
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 21:09:53 2024 -0600
+
+    update
+
+commit dc91dba4b8481f06f777f617bf6ecbaab5b787b4
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 21:06:56 2024 -0600
+
+    Update
+
+commit 7937c4058eeda5bdbceb3f4c5bb5df8bad14386a
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 9 22:57:35 2024 -0400
+
+    Update Repo
+
+commit bba15d324e78641194912ff734009b3dbfd3a6ed
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 22:50:56 2024 -0400
+
+    Update Makefile
+
+commit 1d2d3e8047bb6e1448b43f38c6393c5ee75aa3f6
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 22:47:55 2024 -0400
+
+    Update Makefile
+
+commit 85d799400f6b4b94cea912da918fe72597c55ede
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 22:44:29 2024 -0400
+
+    Update Makefile
+
+commit 34086b38b3123cc15dac7627748f0c163e6b4516
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 22:43:22 2024 -0400
+
+    Update Makefile
+
+commit 0cabcd0c010dccfdec227b5bae28c404d87de9ba
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 22:42:19 2024 -0400
+
+    Update Makefile
+
+commit 087cf102f2f8e8b0269e59a6fc3e1f78d9ad574b
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 20:26:46 2024 -0600
+
+    adding two functions
+
+commit cb2e5ac01c3bf9eb7f67591b623d0731c4e974e7
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 20:21:43 2024 -0600
+
+    finished off the RttMonEnter() function
+
+commit 1efeecf2e608a12bb98a7b47f69589a25a75a17c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 19:56:17 2024 -0600
+
+    removing spaces
+
+commit ff6ef05a3907ab76e0d10baa16ffae222b1e1989
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 19:53:06 2024 -0600
+
+    added symbolic link
+
+commit bd208db8640f25270e425c87ccf160056b3a039c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 19:52:28 2024 -0600
+
+    adding the make file
+
+commit 911ffe21a2293cf300b40a3ac3ecfbc1480ce74c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 19:41:05 2024 -0600
+
+    adding the header file
+
+commit 30d4b36a04de7a0a8d20d4798e3c99337c4a78e6
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 19:38:59 2024 -0600
+
+    working on the makefile and removed off a  duplicated version of reader-writer.c
+
+commit e8fc07192282b25da8dcc23710e02148972796a3
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 19:15:28 2024 -0600
+
+    finished the RttMonInit() function
+
+commit 4cc1440e7e863f4d6a4a1b484f02ed68374d1fc6
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 18:54:19 2024 -0600
+
+    added the MonWait function into this
+
+commit 8ece6067f20fec3aea2f425b6fe2c96ebf66ebd7
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 18:44:00 2024 -0600
+
+    added the two queues to the monitor struct instead of the condition variable struct
+
+commit 00b80b54a377348dd11b046ed82060be3cfe66ec
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 18:40:51 2024 -0600
+
+    the header file has the struct for monitor with the enterq and urgentq
+
+commit 8e2d2a1098ad91836ec335e08ecba14f1bcec9c0
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 18:33:36 2024 -0600
+
+    adding the right files - previously had a file with underscores so I removed it to avoid any kinds of confusion
+
+commit f05bc99660efea116e53781652148e9743f94391
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 18:26:18 2024 -0600
+
+    adding functions in the c file and working my way through it
+
+commit 153e200c6db5e77803d3f97c198a247b70ea5eff
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 16:30:29 2024 -0600
+
+    finished creating the executable for s-chat.c
+
+commit cdfdd971bc1bbfdd4012fa65a3d3171d1a050396
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 16:15:21 2024 -0600
+
+    tried working on the Makefile - not sure if there is a specific compiler flag needed for the rtthreads - wasn't mentioned in the documentation either
+
+commit f4b13a9e4056bfde0241b117873946c1cea47e11
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 16:06:12 2024 -0600
+
+    added the rtthreads package and will add the code for the executable as well
+
+commit 072bc6b51be403e950daceb7b3ca5e2d182e009b
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 15:47:04 2024 -0600
+
+    cleaning the files to make it less than 80 characters
+
+commit 29e65595e354173db0ae16787b4910d3ad9c023b
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 15:39:39 2024 -0600
+
+    added the null values return for the functions
+
+commit 02ac119dd9d878c993618e17b60611269166b755
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 15:32:50 2024 -0600
+
+    cleaning the design file for part b
+
+commit 0664310cf856bc387344f8507164bdb385c7ebf4
+Merge: 5731616 450c5ef
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 15:31:13 2024 -0600
+
+    adding some changes
+
+commit 573161670792f2ce17f2d68103e2cf2271e206ef
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 9 15:30:19 2024 -0600
+
+    adding my changes
+
+commit 450c5ef31ad15d15f7a8ff792e3239c444cc6027
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 02:43:31 2024 -0400
+
+    Update PartB.design.txt
+
+commit 04540370383aab82122f4abb2b048a848e9dc58d
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 00:15:30 2024 -0400
+
+    Update PartB.design.txt
+
+commit fab507876c13797d047099ed4f0adda7e8b04c45
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 00:15:04 2024 -0400
+
+    Update PartB.design.txt
+
+commit a2670da79d5e71ef32c0df9041f19dc56b731e1b
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 00:12:50 2024 -0400
+
+    Update PartB.design.txt
+
+commit e836077cf52eef5de2f4a017a01083e18dee0098
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 00:03:42 2024 -0400
+
+    Update PartB.design.txt
+
+commit 3f082ecc9c067b7e8c2cc8696e6a7c6a5cb95e66
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 9 00:03:13 2024 -0400
+
+    Update PartB.design.txt
+
+commit 147f858f41a6c075ae375ce2e6e0abe4a9ee80b0
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Tue Oct 8 23:28:49 2024 -0400
+
+    Update s-chat.c
+
+commit 71598b987ded71f290cc3e67731d9baf49d9f80a
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Tue Oct 8 23:28:09 2024 -0400
+
+    Update s-chat.c
+
+commit eca3a769362373bbbeee8cfd1dd233ba606c0980
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Tue Oct 8 23:25:06 2024 -0400
+
+    Update s-chat.c
+
+commit 35e5cad7fad08ca0b6e0ab0b4e469a5f3fa7e90e
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Tue Oct 8 23:24:29 2024 -0400
+
+    Update s-chat.c
+
+commit 053e548c74ce59581fbfc543ae09518d4859b48f
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Tue Oct 8 23:15:54 2024 -0400
+
+    Update s-chat.c
+
+commit da40a56a05894fd0eff3de8346ab5fb1d184f83b
+Merge: e481bce 65e3f67
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 8 20:28:04 2024 -0600
+
+    rge remote-tracking branch 'refs/remotes/origin/main'
+
+commit e481bce216c190106a2c51ad802fee8e8aa2e290
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 8 20:27:44 2024 -0600
+
+    in the creation of these executables, i added the linking to the ubc_pthread_dir and added the ubc_compiler_flag
+
+commit 65e3f67030b7e8297cf29474e6699075e0abda80
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Tue Oct 8 22:19:45 2024 -0400
+
+    Update PartC.design.txt
+
+commit 574bbf5a9ee71d34e8029cfc69de59439db64750
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Tue Oct 8 22:17:34 2024 -0400
+
+    Update PartC.design.txt
+
+commit d5eb44c01f4f13713847c6f2ed58662c6bb52b15
+Merge: a7d8b87 5c5126c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 8 20:10:37 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit a7d8b8702945ba8512b8b72da6e1902d00f1e4d1
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 8 20:10:28 2024 -0600
+
+    added a change to the reader_writer.c to simply change hte hyphen to underscores
+
+commit 5c5126c4452d4f4067d3cd614792cad42632455d
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 8 22:01:07 2024 -0400
+
+    Update Repo
+
+commit 055cb8c5434a9afd1b86238a26165b8a06ff3839
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 8 22:00:15 2024 -0400
+
+    Update Repo
+
+commit 8838b7b793a93164abadddbae6395cd3f701e879
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 8 21:58:26 2024 -0400
+
+    Update Repo
+
+commit e19c262dca58ce9a3ac1a5c569268cccd6b8ab01
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 8 21:56:24 2024 -0400
+
+    Update Repo
+
+commit 452fecb6ccdba1162dc74a584134f2c4f34e32bf
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 8 21:51:27 2024 -0400
+
+    Update Repo
+
+commit 282b202ec2ddaa840493e9316ede6177b1e9d21c
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 8 21:50:20 2024 -0400
+
+    Update Repo
+
+commit 8bbcb5a0471fec8ad28ec109e800731a60ccdf3e
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 8 21:48:14 2024 -0400
+
+    Update Repo
+
+commit 5cdad3bcb90ee445dd68b033d0be1c21173a1d4f
+Merge: a28beb3 67691cd
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 8 19:47:49 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit a28beb33f25585bcf55e1d0761d9ff461ffd09cb
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 8 19:47:37 2024 -0600
+
+    finished working with the header file of monitor.h - adding the typedef structures for the condition variables and the monitor - understood the idea of mutex in monitors better now
+
+commit 67691cd38fbeb6c0c31b828c9f6a9d37085ac1a5
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 8 21:42:46 2024 -0400
+
+    Update Repo
+
+commit e488c5ffae21472ac1721ede5a4cb6379d372fd0
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 8 21:17:53 2024 -0400
+
+    Update Repo
+
+commit 0b2f7023c56eca98f5f7cb7f7173649e8d68f8dd
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 8 20:38:02 2024 -0400
+
+    Update Repo
+
+commit b742407e50506ee12b3352d2a118337387e81acf
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 21:52:19 2024 -0600
+
+    added the header guards for the reader-writer-monitor.h
+
+commit ed023fa7eceaa00fdc0a0b93da00d7cae2d27741
+Merge: 5385e62 71bd734
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 21:44:46 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 5385e620518af7570973a3a7c4da670b1d12b56e
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 21:44:34 2024 -0600
+
+    added the function prototypes here
+
+commit 71bd7340f1ae88b0778c20abbd262818c7eb96e0
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Mon Oct 7 20:51:08 2024 -0600
+
+    uploading the pdf file
+
+commit c0589a721f9e755c86ee93fb0ea22545518c01a2
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Mon Oct 7 20:45:06 2024 -0600
+
+    adding the provided files by the professor
+
+commit 4529e9f69379ac4bfeb86f794bc50084a48dbaa7
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 22:43:39 2024 -0400
+
+    Update Repo
+
+commit d5f6bcda160672b51f2ec96d5b348a841d580e06
+Merge: b614adf ff80c06
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 22:39:49 2024 -0400
+
+    Merge branch 'main' of https://github.com/shrutikaren/cmpt332
+
+commit b614adf3f7b86852e3259188d8871de7db2eda8b
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 22:39:42 2024 -0400
+
+    Upate Repo
+
+commit ff80c06c87b735b851241e47c89a824dbed5b634
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 20:38:48 2024 -0600
+
+    removed that specific directory because it didn't have the function i needed after using grep and find
+
+commit 8b30c70c72a3cadfaedafa5d2d1d0bf38495ff0b
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 22:39:22 2024 -0400
+
+    Update Repo
+
+commit d6c239a3c716d5e7363fd4f0562c3f997bf0cbd1
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 22:39:09 2024 -0400
+
+    Update LOG_ERROR
+
+commit 99d9e56b0d5ef3a19110f5f3d4cb11461e8c053a
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 22:37:52 2024 -0400
+
+    Update REpo
+
+commit 9ef368e23faa0ab701159ada4bf57e3ec56a5127
+Merge: fddf93b 9286e9d
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 22:37:21 2024 -0400
+
+    Merge branch 'main' of https://github.com/shrutikaren/cmpt332
+
+commit fddf93b09a644aa439b08e11fa55ce0b36fcc524
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 22:37:17 2024 -0400
+
+    Update Add Errors
+
+commit 9286e9dc80b18f5dd7e5ca68702d2524d0e79bf9
+Merge: 8c7af64 d2c20b1
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 20:27:20 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 8c7af64a195cf213084b5ed0f030ddb4287ff8e3
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 20:27:05 2024 -0600
+
+    added the rtt threads directory and working on the monitor.h
+
+commit d2c20b186e2f20ea94956a6509044b2c578262ca
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 22:26:50 2024 -0400
+
+    Update monitor.h and .c
+
+commit 4a76613e99aaf22cfd741e116a38a0209005479e
+Merge: 1e86c3b 600270f
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 19:59:12 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 600270ffcaa8c506978420f2d26f4734dfb991ef
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 21:55:37 2024 -0400
+
+    Update
+
+commit 43a2dd92da4637566f1b64fd19f25f12b6527356
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 21:52:37 2024 -0400
+
+    Update Repo
+
+commit 1e86c3bfafe11dc36f4bdfa8e9757fd9ff11768c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 19:32:54 2024 -0600
+
+    adding all the files and adding my name to those file
+
+commit 1dd0f276c555903b56383295a2bdfd920d8c52c9
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 19:30:00 2024 -0600
+
+    adding all my files into this directory
+
+commit cd7b20335ccdbaf6a64589dadd278d9dc4dcad5c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 19:17:45 2024 -0600
+
+    added the flag for hte libMonitor.a
+
+commit cce7e8daf538fdf01d08ffdd7495ffd7aad94d26
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 19:16:09 2024 -0600
+
+    archived the monitor.c file into the libMonitor.a
+
+commit db6ac4efedf8089969e2cf99e698aa087555b93b
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 19:12:02 2024 -0600
+
+    had an error that said that they couldn't find the target reader_writer_test but i realized that it was my fault because i didn't specify the target properly
+
+commit 3e747918bac962b13903d60460eecbc6a0e99ac4
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 18:50:06 2024 -0600
+
+    working on the makefile
+
+commit 2fc49dca2cdd9565accf88f5ee2a07db5d188618
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 20:35:11 2024 -0400
+
+    Update Monitor.h
+
+commit 398cbda81679fc71fb40ea0511426782c364b7a7
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 20:34:36 2024 -0400
+
+    Update Reader Writer Monitor
+
+commit 7015f81a7524bbf1cd37a092afd550f634f287d5
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 20:34:09 2024 -0400
+
+    Update reader_writer_monitor.c
+
+commit 287485977f6d201bb2f2bcdddc0895c68c6ada23
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 20:33:39 2024 -0400
+
+    Update reader_writer_monitor.h
+
+commit c35f675c6ba70bbb621a27840c42b9da343c9805
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 20:21:27 2024 -0400
+
+    Update Monitor.c
+
+commit 57ad433d2930b2bdbdce20603cc724635b7c6234
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 20:19:08 2024 -0400
+
+    Update Monitor.h
+
+commit 6a114b1bc9a4d8a4d13bf2385f173052e0720523
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 20:12:23 2024 -0400
+
+    Update Monitor.h
+
+commit bceb40ff8a567e137f1f054070d04f3f16ee7de5
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Oct 7 20:11:58 2024 -0400
+
+    Update Monitor.h
+
+commit 590bab583c5426bdf97c5e6e4ba5c229829bf7fc
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Mon Oct 7 17:41:57 2024 -0600
+
+    rttapi documentation from professor
+
+commit e9e1c7dd209e35a53703b67b1eecb391092de296
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 17:33:18 2024 -0600
+
+    added a few more items into the summary of work for part c
+
+commit a58e887fabbb55d167bf79fce9d9ffedd4958975
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 17:30:28 2024 -0600
+
+    working on README file
+
+commit a483ac675eab264183777916f1b38cffd3c42fdb
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 12:26:10 2024 -0600
+
+    adding my notes into the readme file and i am still in progress - not yet completed
+
+commit 2eb97727863ab09800840240f16646321d9a0a0b
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 12:17:12 2024 -0600
+
+    added a few more common lines into the vimrcs
+
+commit 2c62fb142f1a2d4ee3c0b593b226acd6fe8f4aff
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 12:09:08 2024 -0600
+
+    adding basic functions into the vimrcs
+
+commit d6d3197f5b2340f41634f36bedd4f88b93977e8b
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 06:36:10 2024 -0600
+
+    adding pthreads into here as well
+
+commit 7d47041630be767aaafd12291522652beda9311a
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 06:35:01 2024 -0600
+
+    adding all the files we need to be working on
+
+commit 3eb5149833a7bc7ce32c0bd962ce70d0b7659b5c
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Mon Oct 7 06:31:02 2024 -0600
+
+    adding the reader and writer files
+
+commit c511b56f6c9b7495d0a8c83b7836f7a3d88017bb
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Oct 7 06:29:54 2024 -0600
+
+    adding rtt directory here alongside all the list c files from assignmnt 1
+
+commit 4386980d5f3d23aecdd5c1981237b559f5122009
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 6 13:41:08 2024 -0600
+
+    Adding assignmnt file
+
+commit 48e2c2ef997237f4c005b7472b529417cef53909
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 6 13:39:34 2024 -0600
+
+    Adding the text file
+
+commit 0f387556d1eafd5873e837e528b5bd855ff702b7
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Oct 6 13:35:39 2024 -0600
+
+    Adding folder for this assgnment
+
+commit 6f2bc6fe5e2f242045229bfc020bd7a95f3b61e1
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Oct 3 13:58:17 2024 -0600
+
+    adding all the files - ensuring less than 80 characs with all names there
+
+commit 054d6979a909ffc72d12dca4bacf57b799a3f434
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 3 01:07:29 2024 -0400
+
+    Update partA2.c
+
+commit 949e0f1b32880cf89bf27c307e8e459c6d3355b2
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 3 01:06:36 2024 -0400
+
+    Update partA2.c
+
+commit 5785cae9ddb4b825ce9575e95666371ba1d0a6f3
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 3 01:01:28 2024 -0400
+
+    Update partA2.c
+
+commit 927582acb64801e8040a00bd1cb349aae7e797bb
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 3 00:51:02 2024 -0400
+
+    Update partA2.c
+
+commit efcf940e6e1b82b3873a7d3fd30a2f602e4a93b8
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 3 00:45:21 2024 -0400
+
+    Update partA2.c
+
+commit a0b999d15b0157770850f864e6daafaf0d68014d
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 3 00:34:57 2024 -0400
+
+    Update partA2.c
+
+commit fb590f21ca7daacdcc4ec103ba10380d01e4e22d
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 3 00:26:08 2024 -0400
+
+    Update partA2.c
+
+commit 79af8589fb05a90ae4cdd127d28ea9487499465c
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 3 00:19:38 2024 -0400
+
+    Update partA2.c
+
+commit ec0c09e186f3a517fe2c9830fd0a1e72da48a22e
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 3 00:18:57 2024 -0400
+
+    Update partA2.c
+
+commit 71b544aad537634012d26e4112d8431a0077d79f
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 3 00:17:53 2024 -0400
+
+    Update partA2.c
+
+commit e59aa9995919a02459260d518a001fef94a4d15d
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 3 00:05:05 2024 -0400
+
+    Update partA2.c
+
+commit 7866933b02a88f1175663950971987782591e61c
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 3 00:04:26 2024 -0400
+
+    Update partA2.c
+
+commit 8882c6c6568dbd7bd9706832c269beac8ab0d470
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Thu Oct 3 00:03:02 2024 -0400
+
+    Update partA2.c
+
+commit 91fce5d442daab619fe970fde085e1dddd3f50ed
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 2 23:59:42 2024 -0400
+
+    Update partA3.c
+
+commit 6494da47e94cc0dff0d781fee4c018e470caded7
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 2 23:58:21 2024 -0400
+
+    Update partA3.c
+
+commit 28cb8438a95cf17e0eddd4bb53b2be74babc9da8
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 2 23:47:44 2024 -0400
+
+    Update Makefile
+
+commit 5c6397fe5d379ebfd5d7de23e645fd0cc11d329e
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 2 23:46:18 2024 -0400
+
+    Update Makefile
+
+commit b1a6d4320c78816c9354d2ff3ad4f9a09bd1a1e7
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 2 23:44:30 2024 -0400
+
+    Update Makefile
+
+commit 3d84bff0a8dd3769ab7cacdfeb74667f018990cc
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 2 23:43:22 2024 -0400
+
+    Update Makefile
+
+commit adccbef83764b6633d52c4953646c1bc8673a2f2
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 2 23:39:34 2024 -0400
+
+    Update partA3.c
+
+commit da6d8b8ef9dcd5e2adb5cd3e4982a4a49f418099
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 2 23:37:24 2024 -0400
+
+    Update partA2.c
+
+commit 8753ef84d8e0a3edae1131ab5a6c3ff032bafaaf
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 2 23:35:56 2024 -0400
+
+    Update partA2.c
+
+commit 775d61b8dc24f50c6087e0a779db9d7faa32b124
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 2 23:34:09 2024 -0400
+
+    Update partA2.c
+
+commit 90afe821582cd8a7b0119fea034a9f787c85178d
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 2 23:31:04 2024 -0400
+
+    Update Makefile
+
+commit 701997bf0ab235226bee4f32d72619af9e5ceb00
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 2 22:57:32 2024 -0400
+
+    Update Makefile
+
+commit 42b4e5173a0b01b5a755b8ded738ed4b16d3e0b3
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 2 22:49:36 2024 -0400
+
+    Update partA3.c
+
+commit a6be95d68c86e484c6192c878db329643e580b64
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 2 22:48:04 2024 -0400
+
+    Update partA2.c
+
+commit 54e12bb6d935cad86ec9c4396337b8513b21c93d
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 2 12:01:45 2024 -0400
+
+    Update Repo
+
+commit 069752179a9f0e8a99b9e71b59d8b37da1700c86
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 2 11:42:20 2024 -0400
+
+    Update Repo
+
+commit fa3429001855e542f6cd29c2d23e04430d84e27b
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 2 11:29:55 2024 -0400
+
+    Update Repo
+
+commit 512ca6f6cfc94687e0add616ca922ccdbf97d7fe
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 2 11:29:39 2024 -0400
+
+    Update Repo
+
+commit ee961368133f47bc95ffae32d3f4191b32d8fbaa
+Author: fldev <devteam@fldev.orl>
+Date:   Wed Oct 2 11:26:55 2024 -0400
+
+    Update Repo
+
+commit bfdff50106fe30a7a3cf84767eb18e52f1b9d37a
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 2 08:50:34 2024 -0600
+
+    Update Repo
+
+commit 744dfbaf3fba8e399a6d5393eef77b6fc1440671
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 2 08:38:35 2024 -0600
+
+    Update Repo
+
+commit 8699392d98b27776c189efb6f956fd887fb78046
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Wed Oct 2 08:31:44 2024 -0600
+
+    Update Repo
+
+commit 94687b25b5406de3260749110c1202c6ebe17c81
+Author: karen <you@example.com>
+Date:   Wed Oct 2 08:28:39 2024 -0600
+
+    adding changes to fils
+
+commit 4ad9501ac48fbab07530e96c470262962a1c17dc
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 2 01:05:44 2024 -0400
+
+    Update square.h
+
+commit 7fc5d72cd8b3cce25f5e6694bc972b8a7fe2724f
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Wed Oct 2 01:04:21 2024 -0400
+
+    Update square.c
+
+commit 72c169842c4aeec85c455de021a0de1915b28a43
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 1 23:45:56 2024 -0400
+
+    Update Repo
+
+commit 358102fd131b1690557316bb95062b1a0b52d0ee
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 1 23:29:56 2024 -0400
+
+    Update Repo
+
+commit 9d5dac8a686b467dce47ff39c300d8e6a6c5e310
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 1 23:24:42 2024 -0400
+
+    Update Repo!
+
+commit 52c2cc1c975e9bfeda82be5494db65fe8709cb46
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 1 23:02:19 2024 -0400
+
+    Update REpo
+
+commit 3ba2120b39f81a49db0f05df4308414a90577ee4
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Tue Oct 1 21:00:59 2024 -0600
+
+    the final error
+
+commit 2bf4a0a5c12ec3b83dc40f5147c916567729ab38
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 1 22:57:00 2024 -0400
+
+    Update Repo
+
+commit 997e4d0272a03b1605e9fdade784a16d4bec1d03
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 1 22:51:24 2024 -0400
+
+    Update Repo
+
+commit c38419ff5fcee415ee41de165c82cde099781763
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 1 22:49:30 2024 -0400
+
+    Update Repo
+
+commit 404caa0e27ff2da478fd3fe8aa654ea5747e7e90
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 1 22:14:20 2024 -0400
+
+    Update Repo
+
+commit 1f9e6aa2143a250b5c80738107bdde594eb4f830
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 1 22:09:21 2024 -0400
+
+    Update Repo
+
+commit 8ce90cf941fc71dc602c0350518573adf4655d68
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 1 22:06:39 2024 -0400
+
+    Update Repo
+
+commit 34dfee907ee4c97feae45f3a015c04a369a54906
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 1 22:03:48 2024 -0400
+
+    Update Repo
+
+commit d29f3ab2bd71002f0ee9ff0a25608510612b318f
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 1 21:43:51 2024 -0400
+
+    Update Repo
+
+commit f6014f892b883540c8d258d8c7704a2eeb03c12f
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 1 21:01:51 2024 -0400
+
+    Update Repo
+
+commit 12c66dc434bf48cc785c77572fa71731155c75fc
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 1 20:54:14 2024 -0400
+
+    Update Repo
+
+commit 7b6898480d844dffde4efd32a707cf4090851501
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Oct 1 20:53:13 2024 -0400
+
+    Update Repo
+
+commit 2c5ef72b74c614bb7036ee63ba23ec8fd86dc8de
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Tue Oct 1 17:53:20 2024 -0600
+
+    adding angle brackets
+
+commit c5df03e6ad7de36f00e566d7a8df2c443ce6bb01
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Sep 30 21:17:35 2024 -0400
+
+    Update Repo
+
+commit 8310192647cefe605929e4260ce8a9f0a78b25c6
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Sep 30 19:05:22 2024 -0600
+
+    so close
+
+commit ea0fd7db5c8dc980f0b6fc61615a3a4a2e411aab
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Sep 30 18:49:33 2024 -0600
+
+    making life easir
+
+commit 086121b74cb96bfeef7be55fa30f8eaa93f3979e
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Sep 30 18:49:01 2024 -0600
+
+    first draft
+
+commit e306cd6d7c686551fc1ce41159e79af0b43f4f88
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Sep 30 20:35:34 2024 -0400
+
+    Update repo
+
+commit 07d6a7e395fdacd75042e2f4091f0920faac3ef9
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Sep 30 20:31:14 2024 -0400
+
+    Update syscall.c
+
+commit cf1a042803c2d87491a4adc403da705a111e73cd
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Sep 30 20:17:39 2024 -0400
+
+    Update Repo
+
+commit 756c190aa5f83167bb9ae193f6b183e5a4a2f0e5
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Sep 30 19:54:04 2024 -0400
+
+    Update Repo
+
+commit b0561f3c8f64994920d064e6808b9d1667150c92
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Sep 30 19:44:46 2024 -0400
+
+    Update trace in our wsys.pl
+
+commit 2b06ebc117af9adbbe7bf75505dd606533da377c
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Sep 30 19:39:09 2024 -0400
+
+    Update Repo
+
+commit 6fa82a322ed52ff521ddbbc236665a943c669529
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Sep 30 17:29:08 2024 -0600
+
+    adding the text file
+
+commit b0b3e0688dbb7317e1422035c843ffd675434ea3
+Author: fldev <devteam@fldev.orl>
+Date:   Mon Sep 30 19:05:50 2024 -0400
+
+    Update Repo
+
+commit 20e830fe45f4f937dde2a94487f9f5039bf42948
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Sep 30 17:03:05 2024 -0600
+
+    adding
+
+commit 61772d2b2b2bc4db5bac625fb30fa5dec912787c
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Sep 30 16:56:37 2024 -0600
+
+    adding our xv6
+
+commit 1785ad0f0c1dfbf94d161698e5dd20d81523608e
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sun Sep 29 17:57:29 2024 -0600
+
+    Add files via upload
+
+commit b58f882b0a1c3c22686e50762d5e35ab9bbdfa63
+Author: fldev <devteam@fldev.orl>
+Date:   Sun Sep 29 19:54:39 2024 -0400
+
+    Update repo
+
+commit ff1fc426c7442ee77f2e969d298155b90ecbbec7
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sun Sep 29 17:26:38 2024 -0600
+
+    the submission
+
+commit 2037018d8e7db250052d5f2843188dce4216ca49
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sun Sep 29 17:14:06 2024 -0600
+
+    comments for part A
+
+commit 64c8cd66aff3010d908341d341b0852f81b02c54
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 29 17:13:42 2024 -0600
+
+    adding the files into our github
+
+commit 937c474de71871ff5fdc6095713eb95a9508cc3b
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 12:27:54 2024 -0600
+
+    added part A1 and part A2 here as well
+
+commit 1e053a8a12ba70f3298fc217190de73f597ff5fb
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 21 12:25:01 2024 -0600
+
+    Adding the Makefile, part A1 executes. part A2 is having an issue with symbolic link. im still working on part A3 and A4
+
+commit 2e5806000750c099a734580ff599e2b0bdec39b8
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Sep 19 17:40:49 2024 -0600
+
+    added all my files from phase 1
+
+commit 1a02e0fd837cb9e2a5d53409cc28e6dabf8ca862
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Thu Sep 19 17:32:38 2024 -0600
+
+    adding files from phase 1
+
+commit 7b9588d627510cb6396f930c7152fe635190b30f
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Tue Sep 17 19:11:38 2024 -0600
+
+    Add files via upload
+
+commit 40857fa8a8b95703a9922a28b9015ff2df816846
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Tue Sep 17 18:51:31 2024 -0600
+
+    Add files via upload
+
+commit 91a154f8231180ed5f5227326fa3bc3e20941fe2
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Tue Sep 17 18:28:39 2024 -0600
+
+    Add files via upload
+
+commit 7e09c14720e9ef90f003bbd2e9dbd282a38085f0
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Mon Sep 16 10:59:01 2024 -0600
+
+    Add files via upload
+
+commit c142bc0bfbda12ba24ba04019fb0efb5ce9c4b66
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Mon Sep 16 10:58:40 2024 -0600
+
+    adding a text file into your git
+
+commit 810c8559bb518a0a2deb3e8a4e9d9da3171bdae3
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Sep 15 23:46:04 2024 -0400
+
+    Update gitlog.txt
+
+commit 19e96d7d397a07e66dd5270ffe7b1c2236ebaecf
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Sep 15 23:45:33 2024 -0400
+
+    Update gitlog.txt
+
+commit 74095ed01afac370e4189839fb6d0bbdd4e14e01
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Sep 15 23:37:31 2024 -0400
+
+    Update partB.bash
+
+commit 4b4ff6c4f65c59b9da09b7a9d33612eebd15b4f8
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sun Sep 15 19:36:41 2024 -0600
+
+    Update PartC.design.txt
+
+commit 64b6736a3a07f129408a496c70bb33737996c730
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sun Sep 15 19:33:48 2024 -0600
+
+    Update PartC.design.txt
+
+commit 9d2f18716cd40b609f7d73238c328e8c687b4082
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 19:01:46 2024 -0600
+
+    adding the git log file
+
+commit 442691118494fa594a3c686db189a9100a1e1973
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sun Sep 15 19:00:03 2024 -0600
+
+    Update PartA.design.txt
+
+commit d7e8f49a40bbb382a82e08da42dedd0063ab9897
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Sep 15 19:00:08 2024 -0400
+
+    Update partA1.c
+
+commit b5a2e3a26761e26255807d8daf78d6bbe1fa2c6b
+Author: fldev <devteam@fldev.orl>
+Date:   Sun Sep 15 18:34:08 2024 -0400
+
+    Update Repo
+
+commit 91fc18fab8e55700b4e4de52e2ce666c77df1a59
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Sep 15 18:32:35 2024 -0400
+
+    Update partB.bash
+
+commit 029a2cd057b6711fc8cde568866fdfc0e01c848b
+Author: fldev <devteam@fldev.orl>
+Date:   Sun Sep 15 18:30:59 2024 -0400
+
+    Update Repo
+
+commit 3e7c849136a484b969114b18bb928a7d62a066a8
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 13:29:20 2024 -0600
+
+    finished first draft of partA1
+
+commit d6cecab03705f95937e75b1db76ffff6e68c08f6
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 13:08:39 2024 -0600
+
+    adding on the design document with some changes made
+
+commit 56898408d57e2c93d7524a32a030b6f3ba6bcbba
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 12:38:09 2024 -0600
+
+    changed the keepRunning to 0
+
+commit 83572c9ccaea0f99debc31cbf24a69ee8ea7f5ad
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 12:29:24 2024 -0600
+
+    working on the partA1.c
+
+commit 8a6899f8f2cc226ac9718d7c43d68f32f1519293
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 12:19:50 2024 -0600
+
+    finished square.c
+
+commit 6845c4b0f36ac89922bf56bcb848eccc338bf257
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 12:18:04 2024 -0600
+
+    working on the square.c and fixed the parameter inside square.h
+
+commit 1ed0cc172fa8d94015106971a5b1118251c10eee
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 12:15:09 2024 -0600
+
+    adding the header descriptions in the design document
+
+commit 16059aa30e0ffb0d4f66798422d0a07478d2f190
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 11:52:23 2024 -0600
+
+    working on square.c
+
+commit fb0dea817b4235ca7e1f5d806fcc40a513b3a52e
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 11:51:28 2024 -0600
+
+    adding square.h again
+
+commit 67202e5f1b714514fd1907104ce63b39bb9c4a83
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 11:24:56 2024 -0600
+
+    working on the design document
+
+commit 20f39da147a78084454283063919213b256e3c2e
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 11:17:57 2024 -0600
+
+    renamed the file correcty
+
+commit fc518e409bfeb96a772fccc1f1adb1b7e6cfeac4
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 11:17:17 2024 -0600
+
+    adding square.c and square.h files
+
+commit 75140e17f7bf4bf8d55ba80464a9a40f295111d9
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sun Sep 15 11:11:15 2024 -0600
+
+    added the makefile
+
+commit f0bed8dd645742432c815d8e9d2a71c0ae4718f2
+Author: fldev <devteam@fldev.orl>
+Date:   Sun Sep 15 12:23:47 2024 -0400
+
+    Update Repo
+
+commit b89fe1263db7ea4d734eae7188ca02f7650538c2
+Author: fldev <devteam@fldev.orl>
+Date:   Sun Sep 15 12:22:44 2024 -0400
+
+    Update Repo
+
+commit b4c9498b2a025369562ac3a043f148682a30f22c
+Author: fldev <devteam@fldev.orl>
+Date:   Sun Sep 15 12:01:41 2024 -0400
+
+    Update Repo
+
+commit ec62b7e262f552530626593173c97e533fb9d773
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sun Sep 15 11:50:21 2024 -0400
+
+    Update 332-style-guidelines-team.txt
+
+commit a8f2054b6213efced1d088bcf06fe1c5fa5c4f7a
+Author: fldev <devteam@fldev.orl>
+Date:   Sun Sep 15 11:47:46 2024 -0400
+
+    Update Repo
+
+commit 2cb78a50626708b25b9d509e43d2e52f13ea6c08
+Author: fldev <devteam@fldev.orl>
+Date:   Sat Sep 14 20:29:25 2024 -0400
+
+    Update Readme
+
+commit aeac6cf63e33b4e98a9e2cb0f1d6f8e6fc2eef4f
+Author: fldev <devteam@fldev.orl>
+Date:   Sat Sep 14 20:28:30 2024 -0400
+
+    Update Repo
+
+commit c7d7b3d7b12488ccdae533e1305e041ec8be5f20
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sat Sep 14 17:32:12 2024 -0600
+
+    Add files via upload
+
+commit 3d75225dc4b2b686eece9d9e79ec023fae98b59e
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sat Sep 14 17:31:15 2024 -0600
+
+    Add files via upload
+
+commit 2c2b4ac88ce816b2a0eb08de58cd577730f46649
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sat Sep 14 19:28:34 2024 -0400
+
+    Rename CMPT332.a1.fall2024 (1).html to CMPT332.a1.fall2024.html
+
+commit cf560ce5a28f3d2c1ad88f8cbab80ee55e2f97de
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sat Sep 14 17:28:26 2024 -0600
+
+    Add files via upload
+
+commit 2df9d33a48d3503040211ffa8c148f8bb9f01099
+Author: fldev <devteam@fldev.orl>
+Date:   Sat Sep 14 19:27:52 2024 -0400
+
+    Update Repo
+
+commit 54c501bb23e75e634ad01e36b0f91bf0fa014854
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sat Sep 14 17:26:35 2024 -0600
+
+    Add files via upload
+
+commit 3d69281de2f3609ef5d4fb40454fef820875de28
+Author: fldev <devteam@fldev.orl>
+Date:   Sat Sep 14 19:25:34 2024 -0400
+
+    Update Repo
+
+commit dce6d36a87900525274c323df83f57b5d1cb5943
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sat Sep 14 17:05:26 2024 -0600
+
+    Add files via upload
+
+commit cbbfefc4cbeef89ed7e4ea97e39e6a6be648dd2e
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 14 17:03:02 2024 -0600
+
+    removing a file
+
+commit 0b0744553aea321fe5fca34dd28d0101f09c7eb0
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sat Sep 14 14:21:25 2024 -0600
+
+    Add files via upload
+
+commit 66a6290e61c5d4bc4a0caec65ee9bbdaa9e5ff01
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Sat Sep 14 14:20:34 2024 -0600
+
+    Adding directory
+
+commit f271d613198ae188d99042466488734321ab4fe0
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Sat Sep 14 14:17:09 2024 -0600
+
+    Create assign1
+    
+    assign1
+
+commit 6681f94a87634112c95bdcf85318b170b3acdb53
+Author: Virtual-Karen <no@no.no>
+Date:   Sat Sep 14 06:01:28 2024 +0000
+
+    Adding git log
+
+commit f535de4c3557e39dd3adbba740b5344b978148a2
+Author: Virtual-Karen <no@no.no>
+Date:   Sat Sep 14 05:50:33 2024 +0000
+
+    added completed bash file and Makefile
+
+commit 4d8403ff6f516b24c1a5a7ae6f0cbb1629be7177
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sat Sep 14 00:56:22 2024 -0400
+
+    Update Makefile
+
+commit 8999b19bef385492cfa8e623c02ba071ceed7b0d
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sat Sep 14 00:49:21 2024 -0400
+
+    Update Makefile
+
+commit 056c459ab7b6159967c79e18b0f8b55846848bfc
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Sat Sep 14 00:46:23 2024 -0400
+
+    Update Makefile
+
+commit eca8cb8652b14460249235f2cd8d90a64dc4cf15
+Author: Virtual-Karen <no@no.no>
+Date:   Sat Sep 14 04:47:47 2024 +0000
+
+    updated
+
+commit ef2e4a59bb0095b31326416e3a2b63758f6cf1b8
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Sep 13 22:39:22 2024 -0600
+
+    added libphreads into lib directory
+
+commit 4ee990d6aba0c0c52ab428fec9f00fa74e2f87b5
+Author: Virtual-Karen <no@no.no>
+Date:   Sat Sep 14 04:38:21 2024 +0000
+
+    uncommnented the sample-linux.c include comment
+
+commit 4322889a7a2fc142ae10cf8df9f51d34ab77dfa5
+Author: Shruti Kaur <ich524@usask.ca>
+Date:   Fri Sep 13 22:32:21 2024 -0600
+
+    added standards.h and os.h
+
+commit 741dd067d0d6c12426dc19a49d90f3f3a1935421
+Author: fldev <devteam@fldev.orl>
+Date:   Sat Sep 14 00:00:34 2024 -0400
+
+    Update repo
+
+commit adaad13737a9223ad5c93bde7dac5872dfbd7aeb
+Author: fldev <devteam@fldev.orl>
+Date:   Fri Sep 13 23:58:07 2024 -0400
+
+    Update Repo
+
+commit ffd2746a58027700f6763803d27a23a52c9971d8
+Author: fldev <devteam@fldev.orl>
+Date:   Fri Sep 13 23:57:47 2024 -0400
+
+    Update repo
+
+commit c827fbbb1c4e8b1208c1779c1dbb02244d0d6468
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Fri Sep 13 23:57:16 2024 -0400
+
+    Update Makefile
+
+commit 0c55f339413b85cfc3958a7a3d0256cbc1490bd6
+Author: Antonio Turley <87983870+AntonioTurley@users.noreply.github.com>
+Date:   Fri Sep 13 23:52:29 2024 -0400
+
+    Update Makefile
+
+commit 1600423b7a641053c1673f1bcebe62e279e3969c
+Author: fldev <devteam@fldev.orl>
+Date:   Fri Sep 13 23:51:26 2024 -0400
+
+    Update Repo
+
+commit fd82fd164d0d37686efdabb4555ed0d2ecfc950a
+Author: fldev <devteam@fldev.orl>
+Date:   Fri Sep 13 23:40:28 2024 -0400
+
+    Upate Repo
+
+commit 3757840ce2602cf83ff58f8dfd7a55f11a99961d
+Author: fldev <devteam@fldev.orl>
+Date:   Fri Sep 13 23:36:42 2024 -0400
+
+    Update Repo
+
+commit 724dc664257db927abae1589b35a778d3d003422
+Author: Virtual-Karen <no@no.no>
+Date:   Sat Sep 14 02:37:34 2024 +0000
+
+    adding my python.txt file into this directory. the file has the script of what I was able to run on my virtual mmachine
+
+commit 6926076e95f3d3b91f0005062f3dc80be197691f
+Author: Virtual-Karen <no@no.no>
+Date:   Sat Sep 14 02:35:58 2024 +0000
+
+    adding my python.txt file into this directory. the file has the script of what I was able to run on my virtual mmachine
+
+commit 2f1c80a1b92d209f76d319f47bc0a478fa1201db
+Author: Virtual-Karen <no@no.no>
+Date:   Sat Sep 14 01:41:48 2024 +0000
+
+    TEST
+
+commit dc0ebc1137ce93a75c38b9d5488b987e43cd0a92
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Thu Sep 12 23:46:20 2024 -0600
+
+    Adding git log file again for professors to see progress. for now, makefile and virtual machine done. only bash file and task 4 remaining.
+
+commit ceb92a30564af8f48be7615fb8d805ff2b126669
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Thu Sep 12 23:45:23 2024 -0600
+
+    working on the bash file. figuring out how many command line arguments needed per binary file
+
+commit 794b5d34286d132857874879f03159d67786eed5
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Thu Sep 12 23:38:38 2024 -0600
+
+    added another subdirectory
+
+commit 6311bb7b57c5e5c36937c15a668706ff14d815a2
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Thu Sep 12 23:28:14 2024 -0600
+
+    removed git-log.txt for now because the file was slightly old.
+
+commit 7c627f86be744028f9ca9e635db2cdfd6072cd68
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Thu Sep 12 23:27:41 2024 -0600
+
+    Adding part 3 of this lab 1 file. created the virtual machine using the instructions and rebooted it upon installing as well. log-in and used password to make use of uname -a to produce output to the text file
+
+commit abf69a1e9ded53c6dfda1175aa085db90a86d1c7
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Thu Sep 12 13:10:04 2024 -0600
+
+    git log fixed
+
+commit f3bbda6f41baea05fe50f4e6925e554254939016
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Thu Sep 12 13:09:27 2024 -0600
+
+    git log
+
+commit a3c7c89ae1b30023b94213500124ee667ac674d6
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Thu Sep 12 13:07:21 2024 -0600
+
+    git log added and done for sending
+
+commit 8eaccd32f18961b5fabdc5362eb89bbeb3c50eb2
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Thu Sep 12 12:28:27 2024 -0600
+
+    OBJ_FILES was missing some object files like sample-ppc.c and sample-raspi.c so those were added.
+
+commit c5bd065e28289931f69ca9137b07d2956d8b051c
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Thu Sep 12 12:11:08 2024 -0600
+
+    added -L and -I. directives into the Makefile
+
+commit bc65e9927a218e7d54aec5cf36af5722eb98abe1
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Thu Sep 12 00:39:06 2024 -0600
+
+    added the symbolic links to the Makefile for the executables sample-linux, sample-linux-arm, sample-linux-raspi. since i am working on a private github right now, need to go back and adjust the Makefile to 80 characters using vimrcs - and do set colorcolumn=80 - taught by TA
+
+commit b8d7e29882b87ee2ff165324fe08584604c0a375
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 19:52:22 2024 -0600
+
+    added the linked the ppc architecture object files to the ppc library and did the same for raspi. will come back to the makefile again at some point to further check on to see if any mistakes were made.
+
+commit 8411359c95900c5f44b13b5b0500a58985e93e53
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 19:39:09 2024 -0600
+
+    working on the makefile. fixing the name of the executables to sample-linux, sample-linux-arm, sample-linux-ppc and helped to convert the c files to the o files.
+
+commit d98b205a27bc1474c3dd7625cffe4a0e44a3d0ca
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 19:16:46 2024 -0600
+
+    untar the lab1 file
+
+commit 5dc5aaa9c5a566ee3cda818876bbd5f92f8e0b55
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 19:15:27 2024 -0600
+
+    Add files via upload
+
+commit 137f3ccd416965f480046386fcacb3f38648def9
+Merge: cbf5008 d7601ca
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 18:34:16 2024 -0600
+
+    Merge branch 'main' of https://github.com/shrutikaren/cmpt332
+
+commit cbf50089cffaf5e78d2596d88f44437a3708fc17
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 18:33:59 2024 -0600
+
+    added the file to help us draw a line to limit to 80 char as per the assignment
+
+commit d7601ca681645bc8273779f4ed78de026568dd18
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 18:06:24 2024 -0600
+
+    Add files via upload
+
+commit 234b21d368554e9dd24cb572e6ea6d736d719244
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 17:56:24 2024 -0600
+
+    fixed the names of executables
+
+commit 7f33d74ac4a4a5f60ef614c0ed1b7234f2adec82
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 17:45:19 2024 -0600
+
+    Added bash file
+
+commit ac3f33cca264fd5a2cb517284dc43fdcf067c7af
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 17:34:56 2024 -0600
+
+    adding files
+
+commit 090be5ce333fef06a333b8c39731d3b9f45394f2
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 11:45:29 2024 -0600
+
+    Add files via upload
+
+commit e28bf29067b44de2b7c490ad6f4b07b6e88cde85
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Wed Sep 11 02:00:52 2024 -0600
+
+    lab1 file pdf
+
+commit fd4b514428af9a8bb25f0b51dc96275854e03a7e
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Sep 10 23:28:09 2024 -0400
+
+    Update MakeFile
+
+commit bfc8e36ff2c15c817597898b48af86fa2f6859d2
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Sep 10 23:24:42 2024 -0400
+
+    Update Code
+
+commit 8e1f867f8f4628028b91e40ae43e659062e23b0b
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Sep 10 22:44:38 2024 -0400
+
+    Update Repo
+
+commit 994e91382c8fe835cd415785a656dd9ad3ccb01b
+Author: fldev <devteam@fldev.orl>
+Date:   Tue Sep 10 21:17:37 2024 -0400
+
+    Update Repo
+
+commit ccf5b0ee6e9b08cc4c4618917e9e05f3818f1133
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Tue Sep 10 19:13:19 2024 -0600
+
+    Add files via upload
+
+commit 3990696ebaec8f6e6f266e3e86b72e42f516096b
+Author: Shruti <74854887+shrutikaren@users.noreply.github.com>
+Date:   Tue Sep 10 19:12:45 2024 -0600
+
+    Initial commit
