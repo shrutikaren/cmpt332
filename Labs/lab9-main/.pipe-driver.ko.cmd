@@ -1,1 +1,0 @@
-cmd_/home/k/cmpt332/Labs/lab9-main/pipe-driver.ko := ld -r  -m elf_x86_64 -z noexecstack   --build-id=sha1  -T scripts/module.lds -o /home/k/cmpt332/Labs/lab9-main/pipe-driver.ko /home/k/cmpt332/Labs/lab9-main/pipe-driver.o /home/k/cmpt332/Labs/lab9-main/pipe-driver.mod.o;  true
