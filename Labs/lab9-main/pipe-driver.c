@@ -44,8 +44,11 @@ static struct fifo_buffer *get_fifo_buffer(int* minor, struct inode *inode) {
 }
 
 /* Read data from FIFO buffer */
-static ssize_t fifo_read_data(struct fifo_buffer *fifo, char __user *buf,
-                              size_t count) {
+static ssize_t fifo_read_data(
+    struct fifo_buffer *fifo, 
+    char __user *buf,
+    size_t count
+) {
     ssize_t ret = 0;
     size_t bytes_to_read;
     size_t first_chunk;
@@ -79,8 +82,11 @@ static ssize_t fifo_read_data(struct fifo_buffer *fifo, char __user *buf,
 }
 
 /* Write data to FIFO buffer */
-static ssize_t fifo_write_data(struct fifo_buffer *fifo,
-                               const char __user *buf, size_t count) {
+static ssize_t fifo_write_data(
+    struct fifo_buffer *fifo,
+    const char __user *buf, 
+    size_t count
+) {
     ssize_t ret = 0;
     size_t space_available;
     size_t bytes_to_write;
@@ -169,8 +175,12 @@ static int device_release(
 }
 
 /* Read function */
-static ssize_t device_read(struct file *file, char __user *buf, size_t count,
-                           loff_t *offset) {
+static ssize_t device_read(
+    struct file *file, 
+    char __user *buf, 
+    size_t count,
+    loff_t *offset
+) {
     struct fifo_buffer *fifo;
     ssize_t ret = 0;
     int minor;
@@ -211,8 +221,12 @@ out:
 }
 
 /* Write function */
-static ssize_t device_write(struct file *file, const char __user *buf,
-                            size_t count, loff_t *offset) {
+static ssize_t device_write(
+    struct file *file, 
+    const char __user *buf,
+    size_t count, 
+    loff_t *offset 
+) {
     struct fifo_buffer *fifo;
     ssize_t ret = 0;
     int minor;
