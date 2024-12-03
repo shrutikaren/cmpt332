@@ -1,2 +1,71 @@
+# Name: 
+# NSID: 
+# Student Number: 
+
 The following file contains some of the design ideas that I had while working
-through the specifications of the assignment. 
+through the specifications of the assignment. Currently, we have 12 direct
+blocks and 1 indirect block number. The indirect block number is able to hold up
+to 256 more block numbers. Hence, we have been able to hold 256 + 12 = 258. 
+Each of the blocks are 1024 in size. As of now, from kernel/fs.h, we have been 
+able to locate these. 
+
+As a diagram of the relationships between our ip->addrs[], indirect block, 
+singly-indirect block and doubly-indirect block can be thought of as follows:
+=============================================================================
+                             DIAGRAM/ RELATIONSHIP
+=============================================================================
+1. Direct Block is mainly ip->addrs[0] to ip->addrs[10] which is basically the
+   first 11 elements of our ip->addrs and each of these data elements will point
+   to a data block. 
+   +----------------------
+   ip->addrs[0]		|	-> Direct Data Blocks
+   ip->addrs[1]		|
+   ....			|
+   ip->addrs[10]	|
+   +----------------------
+
+2. Singly Indirect Block is ip->addrs[11] which is pointing to an array of 256
+   pointers. Each of these 256 pointers are in fact pointing to a data block 
+   itself. 
+   +----------------------
+   ip->addrs[11]	|	-> Indirect Data Block
+   +----------------------
+
+3. Doubly Indirect Block is ip->addrs[12] which is pointing to an array of 256
+   pointers. Each of these 256 pointers are pointing to an indirect block which
+   is in fact each are pointing to another 256 pointers that is then pointing
+   to a data block. 
+   Double Indirect Block --> 256 Pointer - Each pointing to another 256 pointers
+   +----------------------
+   ip->addrs[12]	|	-> Doubly-Indirect Data Block -> Indirect B 0
+   +----------------------				      -> Indirect B 1
+   							      ....
+							      -> Indirect B 
+									65536
+  
+               
+4. ** In this assignment, it was not done. However, to establish its relation, 
+   a Triply Indirect Block is 256 pointers of 256 pointers of 256 pointers of 
+   data blocks. (256 * 256 * 256)
+
+The changes are made as follows: 
+==============================================================================
+			       	KERNEL/ FS.H
+==============================================================================
+#define BSIZE 1024 /* Kept as unchanged */
+#define NDIRECT 11 /* Reducing 1 direct block for the double-indirect block */
+#define MAXFILE (NDIRECT + NINDIRECT + NINDIRECT * NINDIRECT)
+
+/* The change that was made here is that there are 13 entries now because we
+have 11 direct, 1 singly-indirect and 1 doubly-indirect entries */
+/* On-disk inode structure */                                                   
+struct dinode {                                                                 
+	short type;           /* File type */                                         
+	short major;          /* Major device number (T_DEVICE only) */               
+	short minor;          /* Minor device number (T_DEVICE only) */               
+	short nlink;          /* Number of links to inode in file system */           
+	uint size;            /* Size of file (bytes) */                              
+	uint addrs[NDIRECT+2];   /* Data block addresses */                           
+};   
+
+

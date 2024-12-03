@@ -34,7 +34,7 @@ exit:
 
 0000000000000024 <init>:
   24:	696e692f          	.word	0x696e692f
-  28:	Address 0x28 is out of bounds.
+  28:	           	Address 0x28 is out of bounds.
 
 
 000000000000002b <argv>:
