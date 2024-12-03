@@ -1,0 +1,2 @@
+The following file contains some of the design ideas that I had while working
+through the specifications of the assignment. 
