@@ -141,6 +141,13 @@ UPROGS=\
 	$U/_grind\
 	$U/_wc\
 	$U/_zombie\
+	$U/_bigfile\
+
+$(U)/bigfile.o: $(U)/bigfile.c
+	$(CC) $(CFLAGS) -c -o $(U)/bigfile.o $(U)/bigfile.c 
+
+$(U)/bigfile: $(U)/bigfile.o 
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $(U)/_bigfile $(U)/bigfile.o
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
