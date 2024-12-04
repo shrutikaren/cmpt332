@@ -382,84 +382,89 @@ iunlockput(struct inode *ip)
 static uint
 bmap(struct inode *ip, uint bn)
 {
-  uint addr, *a;
+  uint addr;
   struct buf *bp;
-  uint index1, index2; 
+  uint *a;
+  uint addr2;
+  struct buf *bp2;
 
   if(bn < NDIRECT){
     if((addr = ip->addrs[bn]) == 0){
-      addr = balloc(ip->dev);
-      if(addr == 0)
-        return 0;
+      if((addr = balloc(ip->dev)) == 0)
+        return 0; .
       ip->addrs[bn] = addr;
     }
     return addr;
   }
+
   bn -= NDIRECT;
 
   if(bn < NINDIRECT){
-    /* Load indirect block, allocating if necessary. */
+  
     if((addr = ip->addrs[NDIRECT]) == 0){
-      addr = balloc(ip->dev);
-      if(addr == 0)
+      if((addr = balloc(ip->dev)) == 0)
         return 0;
       ip->addrs[NDIRECT] = addr;
     }
-    bp = bread(ip->dev, addr);
+
+    bp = bread(ip->dev, ip->addrs[NDIRECT]);
     a = (uint*)bp->data;
+
     if((addr = a[bn]) == 0){
-      addr = balloc(ip->dev);
-      if(addr){
-        a[bn] = addr;
-        log_write(bp);
+      if((addr = balloc(ip->dev)) == 0){
+        brelse(bp);
+        return 0;
       }
+      a[bn] = addr;
+      log_write(bp);
     }
     brelse(bp);
     return addr;
   }
 
-  /* Attempting for the Doubly-Indirect Block */
   bn -= NINDIRECT;
-  if (bn < NINDIRECT * NINDIRECT){
-    index1 = bn / NINDIRECT;
-    index2 = bn % NINDIRECT;
-    if((addr = ip->addrs[NDIRECT+1]) == 0){
-	addr = balloc(ip->dev);
-	if (addr == 0){
-	    return 0; /* No available space in this disk block */  
-	}
-        ip->addrs[NDIRECT + 1] = addr;
+
+  if(bn < NINDIRECT * NINDIRECT){
+    uint index1 = bn / NINDIRECT;
+    uint index2 = bn % NINDIRECT;
+
+
+    if((addr = ip->addrs[NDIRECT + 1]) == 0){
+      if((addr = balloc(ip->dev)) == 0)
+        return 0;
+      ip->addrs[NDIRECT + 1] = addr;
     }
-    
-    /* Caee 1: Index 1 */
-    bp = bread(ip->dev, addr);
+
+    bp = bread(ip->dev, ip->addrs[NDIRECT + 1]);
     a = (uint*)bp->data;
-    if((addr = a[index1]) == 0){
-	addr = balloc(ip->dev);
-	if (addr){
-	    a[index1] = addr;
-	    log_write(bp);
-	}
+
+    if((addr2 = a[index1]) == 0){
+      if((addr2 = balloc(ip->dev)) == 0){
+        brelse(bp);
+        return 0;
+      }
+      a[index1] = addr2;
+      log_write(bp);
     }
     brelse(bp);
 
-    /* Case 2: Index 2 */
-    bp = bread(ip->dev, addr);
-    a = (uint*)bp->data;
+    bp2 = bread(ip->dev, addr2);
+    a = (uint*)bp2->data;
+
     if((addr = a[index2]) == 0){
-	addr = balloc(ip->dev);
-	if (addr){
-	     a[index2] = addr;
-	     log_write(bp);
-	}
+      if((addr = balloc(ip->dev)) == 0){
+        brelse(bp2);
+        return 0;
+      }
+      a[index2] = addr;
+      log_write(bp2);
     }
-    brelse(bp);
+    brelse(bp2);
     return addr;
   }
 
   panic("bmap: out of range");
 }
-
 
 /* Truncate inode (discard contents). */
 /* Caller must hold ip->lock. */
