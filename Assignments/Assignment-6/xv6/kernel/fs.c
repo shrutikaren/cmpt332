@@ -382,8 +382,8 @@ iunlockput(struct inode *ip)
 static uint
 bmap(struct inode *ip, uint bn)
 {
-  uint addr, addr2, *a;
-  struct buf *bp, *bp2;
+  uint addr, *a;
+  struct buf *bp;
   uint index1, index2; 
 
   if(bn < NDIRECT){
@@ -442,20 +442,19 @@ bmap(struct inode *ip, uint bn)
 	}
     }
     brelse(bp);
-    return addr;
 
     /* Case 2: Index 2 */
-    bp = bread(ip->dev, addr2);
+    bp = bread(ip->dev, addr);
     a = (uint*)bp->data;
-    if((addr2 = a[index2]) == 0){
-	addr2 = balloc(ip->dev);
-	if (addr2){
-	     a[index2] = addr2;
-	     log_write(bp2);
+    if((addr = a[index2]) == 0){
+	addr = balloc(ip->dev);
+	if (addr){
+	     a[index2] = addr;
+	     log_write(bp);
 	}
     }
-    brelse(bp2);
-    return addr2;
+    brelse(bp);
+    return addr;
   }
 
   panic("bmap: out of range");
